@@ -1,2 +1,2 @@
-# miniHBase
-miniHBase 仿写HBase
+# MinBase
+MinBase: 基于LSM的KV存储系统

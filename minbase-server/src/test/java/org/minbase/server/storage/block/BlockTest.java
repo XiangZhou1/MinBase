@@ -1,0 +1,64 @@
+package org.minbase.server.storage.block;
+
+
+import org.junit.Test;
+import org.minbase.server.iterator.BlockIterator;
+import org.minbase.server.op.Key;
+import org.minbase.server.op.KeyValue;
+import org.minbase.server.op.Value;
+
+
+public class BlockTest {
+    @Test
+    public void blockEndCodeDecodeTest(){
+        DataBlockBuilder blockBuilder = new DataBlockBuilder();
+        blockBuilder.add(new KeyValue(new Key("k1".getBytes(), 1), Value.Put("v1".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k2".getBytes(), 1), Value.Put("v2".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k3".getBytes(), 1), Value.Put("v3".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k4".getBytes(), 1), Value.Put("v4".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k5".getBytes(), 1), Value.Put("v5".getBytes())));
+
+        DataBlock block = blockBuilder.build();
+        System.out.println(new String(block.encode()));
+
+        DataBlock block1 = new DataBlock();
+        block1.setKeyValueNum(5);
+        block1.decode(block.encode());
+
+        int keyValueNum = block1.getKeyValueNum();
+        System.out.println(keyValueNum);
+
+        BlockIterator blockIterator = new BlockIterator(block1);
+        while (blockIterator.isValid()){
+            KeyValue value = blockIterator.value();
+            System.out.println(value);
+            blockIterator.nextKey();
+        }
+    }
+
+
+
+    @Test
+    public void blockIterTest(){
+        DataBlockBuilder blockBuilder = new DataBlockBuilder();
+        for (int i=0; i<10; i++){
+            blockBuilder.add(new KeyValue(new Key(("k"+i).getBytes(), 1), Value.Put(("v"+i).getBytes())));
+        }
+
+        DataBlock block = blockBuilder.build();
+
+        for (int i=0; i<10; i++){
+            BlockIterator blockIterator = new BlockIterator(block, Key.latestKey(("k"+i).getBytes()), null);
+            int num = 0;
+            while (blockIterator.isValid()){
+                KeyValue value = blockIterator.value();
+                num ++;
+                blockIterator.nextKey();
+            }
+            System.out.println("i=" + i + ", num=" + num);
+            assert num == 10 - i;
+        }
+    }
+
+
+}
