@@ -12,11 +12,11 @@ public class Constants {
     public static final long NO_VERSION = -1;
 
     // config 配置
-    public static final String KEY_COMPACTION_STRATEGY = "miniLsm.compaction_strategy";
-    public static final String KEY_MAX_CACHE_SIZE = "miniLsm.max_cache_size";
-    public static final String KEY_MAX_BLOCK_SIZE = "miniLsm.max_block_size";
-    public static final String KEY_DATA_DIR = "miniLsm.data_dir";
-    public static final String KEY_MAX_MEMTABLE_SIZE = "miniLsm.max_memtable_size";
-    public static final String KEY_MAX_SSTABLE_SIZE = "miniLsm.max_sstable_size";
-    public static final String KEY_WAL_SYNC_LEVEL = "miniLsm.wal_sync_level";
+    public static final String KEY_COMPACTION_STRATEGY = "minbase.compaction_strategy";
+    public static final String KEY_MAX_CACHE_SIZE = "minbase.max_cache_size";
+    public static final String KEY_MAX_BLOCK_SIZE = "minbase.max_block_size";
+    public static final String KEY_DATA_DIR = "minbase.data_dir";
+    public static final String KEY_MAX_MEMTABLE_SIZE = "minbase.max_memtable_size";
+    public static final String KEY_MAX_SSTABLE_SIZE = "minbase.max_sstable_size";
+    public static final String KEY_WAL_SYNC_LEVEL = "minbase.wal_sync_level";
 }

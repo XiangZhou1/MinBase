@@ -71,18 +71,18 @@ public class SSTable {
     private String ssTableId;
 
 
-    public SSTable() {
+    public SSTable(String ssTableId) {
+        this.ssTableId = ssTableId;
         this.bloomFilter = new BloomFilterBlock();
         this.dataBlocks = new ArrayList<>();
         this.metaBlocks = new ArrayList<>();
-        this.ssTableId = UUID.randomUUID().toString();
     }
 
-    public SSTable(BloomFilterBlock bloomFilter) {
+    public SSTable(String ssTableId, BloomFilterBlock bloomFilter) {
+        this.ssTableId = ssTableId;
         this.bloomFilter = bloomFilter;
         this.dataBlocks = new ArrayList<>();
         this.metaBlocks = new ArrayList<>();
-        this.ssTableId = UUID.randomUUID().toString();
     }
 
     public int numOfBlocks() {
@@ -108,7 +108,7 @@ public class SSTable {
     }
 
     private String getBlockId(int i) {
-        return ssTableId + "_" + (i);
+        return ssTableId + "_" + i;
     }
 
     public Key getFirstKey() {
@@ -171,6 +171,7 @@ public class SSTable {
             throw new RuntimeException("read data block fail", e);
         }
         if (cached) {
+            block.setBlockId(blockId);
             LRUBlockCache.BlockCache.put(blockId, block);
         }
         return block;
@@ -260,10 +261,58 @@ public class SSTable {
         }
     }
 
-    public boolean inRange(Key startKey, Key endKey) {
-        if (endKey.compareTo(this.firstKey) <= 0 || startKey.compareTo(this.lastKey) > 0) {
-            return false;
+
+    public boolean inRange(byte[] startKey, byte[] endKey, boolean isCloseInterval) {
+        if (isCloseInterval) {
+            return inRangeClosed(startKey, endKey);
+        } else {
+            return inRangeOpen(startKey, endKey);
         }
+    }
+
+    // [startKey, endKey)
+    // [firstKey, lastKey]
+    private boolean inRangeOpen(byte[] startKey, byte[] endKey) {
+        if (startKey == null || endKey == null) {
+            return true;
+        }
+
+        if (startKey == null && endKey != null) {
+            if ( ByteUtils.byteLessOrEqual(endKey, this.firstKey.getUserKey())) {
+                return false;
+            }
+        } else if (startKey != null && endKey == null) {
+            if(ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+                return false;
+            }
+        } else {
+            if(ByteUtils.byteLessOrEqual(endKey, this.firstKey.getUserKey()) || ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+                return false;
+            }
+        }
+        return true;
+    }
+    // [startKey, endKey]
+    // [firstKey, lastKey]
+    private boolean inRangeClosed(byte[] startKey, byte[] endKey) {
+        if (startKey == null || endKey == null) {
+            return true;
+        }
+
+        if (startKey == null && endKey != null) {
+            if ( ByteUtils.byteLess(endKey, this.firstKey.getUserKey())) {
+                return false;
+            }
+        } else if (startKey != null && endKey == null) {
+            if(ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+                return false;
+            }
+        } else {
+            if(ByteUtils.byteLess(endKey, this.firstKey.getUserKey()) || ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -272,12 +321,14 @@ public class SSTable {
     }
 
 
-    public void cacheDataBlock() {
+    public void cacheDataBlocks() {
         for (int i = 0; i < dataBlocks.size(); i++) {
             DataBlock dataBlock = dataBlocks.get(i);
             String blockId = getBlockId(i);
+            dataBlock.setBlockId(blockId);
             LRUBlockCache.BlockCache.put(blockId, dataBlock);
         }
+        dataBlocks.clear();
     }
 
     public String getFilePath() {

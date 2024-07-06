@@ -13,7 +13,7 @@ import org.minbase.server.op.Key;
 import org.minbase.server.storage.sstable.SSTBuilder;
 import org.minbase.server.storage.sstable.SSTable;
 import org.minbase.server.utils.Utils;
-import org.minbase.server.version.EditVersion;
+import org.minbase.server.storage.edit.FileEdit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,75 +27,77 @@ public class LevelCompaction implements Compaction {
      *  其余level key范围是不会重叠的
      */
 
-    private LsmStorage lsmStorage;
-
-    public LevelCompaction(LevelStorageManager storageManager, LsmStorage lsmStorage) {
+    public LevelCompaction(LevelStorageManager storageManager) {
         this.storageManager = storageManager;
-        this.lsmStorage = lsmStorage;
     }
 
     @Override
     public synchronized void compact() throws Exception {
-        EditVersion editVersion = storageManager.newEditVersion();
+        FileEdit fileEdit = storageManager.newFileEdit();
         if (shouldCompact()) {
             final List<SSTable> ssTablesL0 = storageManager.getSSTables(0);
-            compactLevel(0, ssTablesL0.get(ssTablesL0.size()-1), editVersion);
+            compactLevel(0, ssTablesL0.get(ssTablesL0.size()-1), fileEdit);
         }
 
         for (int i = 1; i < MAX_LEVEL - 1; i++) {
             List<SSTable> ssTables = storageManager.getSSTables(i);
             List<SSTable> ssTablesNextLevel = storageManager.getSSTables(i + 1);
-            if (ssTables.size() > 5 * ssTablesNextLevel.size()) {
-                compactLevel(i, ssTables.get(ssTables.size()-1), editVersion);
+            if (ssTables.size() > ssTablesNextLevel.size()) {
+                compactLevel(i, ssTables.get(ssTables.size()-1), fileEdit);
             }
         }
 
-        storageManager.applyEditVersion(editVersion);
+        storageManager.applyFileEdit(fileEdit);
     }
 
-    private void compactLevel(int level, SSTable ssTable, EditVersion editVersion) throws Exception {
+    private void compactLevel(int level, SSTable ssTable, FileEdit fileEdit) throws Exception {
         System.out.println("compactLevel:" + level);
 
         List<KeyIterator> ssTableIters = new ArrayList<>();
         SSTableIterator iterator0 = ssTable.compactionIterator();
         ssTableIters.add(iterator0);
 
-        Key startKey = ssTable.getFirstKey();
-        Key endKey = ssTable.getLastKey();
-        ArrayList<SSTable> choosedNextlevelSsTables = chooseCompactedSSTable(storageManager.getSSTables(level + 1), startKey, endKey);
-        for (SSTable ssTableTemp : choosedNextlevelSsTables) {
-            SSTableIterator iterator = ssTableTemp.compactionIterator();
-            ssTableIters.add(iterator);
-        }
+        Key firstKey = ssTable.getFirstKey();
+        Key lastKey = ssTable.getLastKey();
+        ArrayList<SSTable> choosedNextlevelSsTables = chooseCompactedSSTable(storageManager.getSSTables(level + 1), firstKey.getUserKey(), lastKey.getUserKey());
+        if (choosedNextlevelSsTables.isEmpty()) {
+            fileEdit.addSSTable(level + 1, ssTable);
+            fileEdit.removeSSTable(level, ssTable);
+        } else {
+            for (SSTable ssTableTemp : choosedNextlevelSsTables) {
+                SSTableIterator iterator = ssTableTemp.compactionIterator();
+                ssTableIters.add(iterator);
+            }
 
-        MergeIterator mergeIterator = new MergeIterator(ssTableIters);
-        SSTBuilder sstBuilder = new SSTBuilder();
-        while (mergeIterator.isValid()) {
-            sstBuilder.add(mergeIterator.value());
-            mergeIterator.nextKey();
-            if (sstBuilder.length() > MAX_SSTABLE_SIZE * (level+2)) {
+            MergeIterator mergeIterator = new MergeIterator(ssTableIters);
+            SSTBuilder sstBuilder = new SSTBuilder();
+            while (mergeIterator.isValid()) {
+                sstBuilder.add(mergeIterator.value());
+                mergeIterator.nextUserKey();
+                if (sstBuilder.length() > MAX_SSTABLE_SIZE * (level + 2)) {
+                    SSTable newSSTable = sstBuilder.build();
+                    storageManager.saveSSTableFile(newSSTable);
+                    fileEdit.addSSTable(level + 1, newSSTable);
+                    sstBuilder = new SSTBuilder();
+                }
+            }
+            if (sstBuilder.length() != 0) {
                 SSTable newSSTable = sstBuilder.build();
                 storageManager.saveSSTableFile(newSSTable);
-                editVersion.addSSTable(level + 1, newSSTable);
-                sstBuilder = new SSTBuilder();
+                fileEdit.addSSTable(level + 1, newSSTable);
             }
-        }
-        if (sstBuilder.length() != 0) {
-            SSTable newSSTable = sstBuilder.build();
-            storageManager.saveSSTableFile(newSSTable);
-            editVersion.addSSTable(level + 1, newSSTable);
-        }
 
-        editVersion.removeSSTable(level, ssTable);
-        for (SSTable nextlevelSsTable : choosedNextlevelSsTables) {
-            editVersion.removeSSTable(level+1, nextlevelSsTable);
+            fileEdit.removeSSTable(level, ssTable);
+            for (SSTable nextlevelSsTable : choosedNextlevelSsTables) {
+                fileEdit.removeSSTable(level + 1, nextlevelSsTable);
+            }
         }
     }
 
-    private ArrayList<SSTable> chooseCompactedSSTable(List<SSTable> ssTables, Key startKey, Key endKey) {
+    private ArrayList<SSTable> chooseCompactedSSTable(List<SSTable> ssTables, byte[] firstKey, byte[] lastKey) {
         ArrayList<SSTable> choosed = new ArrayList<>();
         for (SSTable ssTable : ssTables) {
-            if (ssTable.inRange(startKey, endKey)){
+            if (ssTable.inRange(firstKey, lastKey, true)){
                 choosed.add(ssTable);
             }
         }
@@ -106,6 +108,6 @@ public class LevelCompaction implements Compaction {
     public boolean shouldCompact() {
         int sizeLevel0 = storageManager.getSSTables(0).size();
         int sizeLevel1 = storageManager.getSSTables(1).size();
-        return sizeLevel0 > 5 * sizeLevel1;
+        return sizeLevel0 > sizeLevel1;
     }
 }

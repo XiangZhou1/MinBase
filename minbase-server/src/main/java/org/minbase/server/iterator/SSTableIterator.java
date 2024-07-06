@@ -96,7 +96,7 @@ public class SSTableIterator implements KeyIterator {
     public void nextUserKey() {
         Key key = key();
         blockIterator.nextUserKey();
-        while (!blockIterator.isValid()) {
+        while (blockIterator != null && !blockIterator.isValid()) {
             if (blockIndex >= ssTable.numOfBlocks() - 1) {
                 blockIndex = -1;
                 blockIterator = null;

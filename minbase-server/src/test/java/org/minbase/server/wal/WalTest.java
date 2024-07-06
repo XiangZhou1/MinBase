@@ -2,11 +2,13 @@ package org.minbase.server.wal;
 
 
 import org.junit.Test;
+import org.minbase.server.lsmStorage.LsmStorage;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
 import org.minbase.server.utils.ByteUtils;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class WalTest {
@@ -23,10 +25,17 @@ public class WalTest {
                 System.out.println(i);
             }
         }
-
         double time = (double)(System.currentTimeMillis() - startTime)/(i+1);
         System.out.println("Per wal cost time:"+time);
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
+    }
+
+
+    @Test
+    public void testRecovery() throws IOException {
+        Wal wal = new Wal(-1);
+        wal.recovery(null);
+
     }
 }

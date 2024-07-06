@@ -80,27 +80,28 @@ public class Wal {
     }
 
     public synchronized void recovery(LsmStorage lsmStorage) throws IOException {
+        long lastSequenceId = lsmStorage.getStorageManager().getLastSequenceId();
         final File[] files = listSyncWals();
         if (files == null) {
             return;
         }
         for (File file1 : files) {
-            recoveryFromFile(lsmStorage, file1);
+            recoveryFromFile(lsmStorage, lastSequenceId, file1);
         }
 
         File inProgressFile = new File(Wal_Dir + File.separator + INPROGRESS_WAL);
         if (inProgressFile.exists()) {
-            recoveryFromFile(lsmStorage, inProgressFile);
+            recoveryFromFile(lsmStorage, lastSequenceId, inProgressFile);
         }
 
     }
 
-    private void recoveryFromFile(LsmStorage lsmStorageInner, File file1) throws IOException {
-        try (RandomAccessFile raf = new RandomAccessFile(file1, "r")) {
-            byte[] buf = IOUtils.read(raf, Constants.INTEGER_LENGTH);
-            int pos = 0;
+    private void recoveryFromFile(LsmStorage lsmStorageInner, long lastSequenceId, File file1) throws IOException {
 
-            while (pos < buf.length) {
+        try (RandomAccessFile raf = new RandomAccessFile(file1, "r")) {
+            int pos = 0;
+            while (pos < raf.length()) {
+                byte[] buf = IOUtils.read(raf, Constants.INTEGER_LENGTH);
                 int logEntryLength = ByteUtils.byteArrayToInt(buf, 0);
                 pos += Constants.INTEGER_LENGTH;
 
@@ -109,8 +110,10 @@ public class Wal {
                 logEntry.decode(logEntryBuf);
                 pos += logEntryLength;
 
-                lsmStorageInner.applyWal(logEntry);
-                sequenceId = logEntry.getSequenceId();
+                if (logEntry.getSequenceId() > lastSequenceId) {
+                    lsmStorageInner.applyWal(logEntry);
+                    sequenceId = syncSequenceId = logEntry.getSequenceId();
+                }
             }
         }
     }
@@ -212,6 +215,9 @@ public class Wal {
 
     public void clearOldWal(long oldSequenceId) {
         final File[] files = listSyncWals();
+        if (files == null) {
+            return;
+        }
         for (File file1 : files) {
             long syncId = Long.parseLong(file1.getName().split("_")[1]);
             if (syncId <= oldSequenceId) {

@@ -6,7 +6,7 @@ import org.minbase.server.iterator.KeyIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.sstable.SSTable;
-import org.minbase.server.version.EditVersion;
+import org.minbase.server.storage.edit.FileEdit;
 
 import java.io.IOException;
 
@@ -29,12 +29,12 @@ public class SimpleStorageManager extends StorageManager {
     }
 
     @Override
-    public EditVersion newEditVersion() {
+    public FileEdit newFileEdit() {
         return null;
     }
 
     @Override
-    public void applyEditVersion(EditVersion editVersion) {
+    public void applyFileEdit(FileEdit fileEdit) {
 
     }
 

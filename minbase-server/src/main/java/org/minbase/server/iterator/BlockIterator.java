@@ -4,6 +4,7 @@ package org.minbase.server.iterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.block.DataBlock;
+import org.minbase.server.utils.ByteUtils;
 
 import java.util.ArrayList;
 
@@ -90,7 +91,9 @@ public class BlockIterator implements KeyIterator {
         Key key = key();
         seek(Key.maxKey(key.getUserKey()));
         if (isValid()) {
-            nextKey();
+            if (ByteUtils.byteEqual(key.getUserKey(), key().getUserKey())) {
+                nextKey();
+            }
         }
     }
 }

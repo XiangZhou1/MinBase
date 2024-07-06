@@ -18,7 +18,7 @@ public class CompactThread implements Runnable {
         while (true) {
             try {
                 if (!compaction.shouldCompact()) {
-                    Thread.sleep(3 * 1000);
+                    sleep();
                 } else {
                     compaction.compact();
                 }
@@ -28,7 +28,15 @@ public class CompactThread implements Runnable {
         }
     }
 
-    public void trigger(){
+    private void sleep() {
+        try {
+            Thread.sleep(3 * 1000);
+        } catch (InterruptedException interruptedException) {
+
+        }
+    }
+
+    public void trigger() {
         currentThread.interrupt();
     }
 

@@ -6,6 +6,7 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.utils.ByteUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class LogEntry {
     List<KeyValue> keyValues;
 
     public LogEntry() {
+        keyValues = new ArrayList<>();
     }
 
     public LogEntry(long currSequenceId, List<KeyValue> keyValues) {
@@ -30,10 +32,11 @@ public class LogEntry {
         return len;
     }
 
+
     public byte[] encode() {
-        byte[] buf = new byte[length()];
+        byte[] buf = new byte[length() + Constants.INTEGER_LENGTH];
         int pos = 0;
-        System.arraycopy(ByteUtils.intToByteArray(keyValues.size()), 0, buf, pos, Constants.INTEGER_LENGTH);
+        System.arraycopy(ByteUtils.intToByteArray(length()), 0, buf, pos, Constants.INTEGER_LENGTH);
         pos += Constants.INTEGER_LENGTH;
 
         for (KeyValue keyValue : keyValues) {
@@ -50,6 +53,7 @@ public class LogEntry {
             keyValue = new KeyValue();
             keyValue.decode(buf, pos);
             pos += keyValue.length();
+            keyValues.add(keyValue);
         }
     }
 
@@ -59,5 +63,12 @@ public class LogEntry {
 
     public List<KeyValue> getKeyValues() {
         return keyValues;
+    }
+
+    @Override
+    public String toString() {
+        return "LogEntry{" +
+                "keyValues=" + keyValues +
+                '}';
     }
 }

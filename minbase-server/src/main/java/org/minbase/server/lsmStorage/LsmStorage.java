@@ -22,16 +22,16 @@ import org.minbase.server.wal.Wal;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LsmStorage {
-    private static final int MAX_IMMEMTABLE_SIZE = 1;
+    private static final int MAX_IMMEMTABLE_SIZE = 3;
     // 内存存储结构
     private MemTable memTable;
-    private LinkedList<MemTable> immMemTables;
+    private ConcurrentLinkedDeque<MemTable> immMemTables;
     // 文件存储
     private StorageManager storageManager;
 
@@ -50,7 +50,7 @@ public class LsmStorage {
 
     public LsmStorage() throws IOException {
         this.memTable =new MemTable();
-        this.immMemTables = new LinkedList<MemTable>();
+        this.immMemTables = new ConcurrentLinkedDeque<MemTable>();
 
         this.rwLock = new ReentrantReadWriteLock();
         this.writeLock = rwLock.writeLock();
@@ -69,10 +69,10 @@ public class LsmStorage {
 
     private void initStorageManager() throws IOException {
         String compactionStrategy = Config.get(Constants.KEY_COMPACTION_STRATEGY);
-        if (CompactionStrategy.LEVEL_COMPACTION.equals(CompactionStrategy.valueOf(compactionStrategy))) {
-            this.storageManager = new LevelStorageManager(this);
+        if (CompactionStrategy.LEVEL_COMPACTION.toString().equals(compactionStrategy)) {
+            this.storageManager = new LevelStorageManager();
             this.storageManager.loadSSTables();
-            this.compaction = new LevelCompaction((LevelStorageManager)storageManager, this);
+            this.compaction = new LevelCompaction((LevelStorageManager)storageManager);
         } else {
 
         }
@@ -135,7 +135,9 @@ public class LsmStorage {
         KeyValue kv = new KeyValue(new Key(key, 0), Value.Put(value));
         wal.log(kv);
         memTable.put(kv.getKey(), kv.getValue());
-        tryFreezeMemTable();
+        if (memTable.shouldFreeze()) {
+            freezeMemTable();
+        }
     }
 
     public void put(WriteBatch writeBatch) {
@@ -143,7 +145,9 @@ public class LsmStorage {
         for (KeyValue keyValue : writeBatch.getKeyValues()) {
             memTable.put(keyValue.getKey(), keyValue.getValue());
         }
-        tryFreezeMemTable();
+        if (memTable.shouldFreeze()) {
+            freezeMemTable();
+        }
     }
 
 
@@ -161,12 +165,8 @@ public class LsmStorage {
         }
     }
 
-    private void tryFreezeMemTable() {
+    private void freezeMemTable() {
         MemTable currentMemTable = this.memTable;
-        if (!currentMemTable.shouldFreeze()) {
-            return;
-        }
-        
         writeLock();
         try {
             if (this.memTable != currentMemTable) {
@@ -191,7 +191,9 @@ public class LsmStorage {
         KeyValue kv = new KeyValue(new Key(key, 0), Value.Delete());
         wal.log(kv);
         memTable.put(kv.getKey(), kv.getValue());
-        tryFreezeMemTable();
+        if (memTable.shouldFreeze()) {
+            freezeMemTable();
+        }
     }
 
     
@@ -259,7 +261,7 @@ public class LsmStorage {
         return storageManager;
     }
 
-    public LinkedList<MemTable> getImmMemTables() {
+    public ConcurrentLinkedDeque<MemTable> getImmMemTables() {
         return immMemTables;
     }
 
@@ -267,11 +269,22 @@ public class LsmStorage {
         for (KeyValue keyValue : logEntry.getKeyValues()) {
             memTable.put(keyValue.getKey(), keyValue.getValue());
         }
-        tryFreezeMemTable();
+        if (this.memTable.shouldFreeze()) {
+            freezeMemTable();
+        }
     }
 
     public long getSnapshot() {
         return wal.getSequenceId();
+    }
+
+    public void foreFlush(){
+        freezeMemTable();
+        final FlushTask flushTask = new FlushTask(this);
+        while (!this.immMemTables.isEmpty()){
+            // 此处不能这样
+            flushTask.flush();
+        }
     }
 
 

@@ -5,6 +5,11 @@ public enum CompactionStrategy {
 
     String strategy;
 
+    @Override
+    public String toString() {
+         return strategy;
+    }
+
     CompactionStrategy(String strategy) {
         this.strategy = strategy;
     }

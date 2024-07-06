@@ -16,7 +16,7 @@ public class LRUBlockCache implements BlockCache {
     public static BlockCache BlockCache = new LRUBlockCache();
     private HashMap<String, Entry<DataBlock>> map;
     private LinkedList<DataBlock> list;
-    private long length = 0;
+    private volatile long length = 0;
     private static int MAX_CACHE_SIZE = (int) Utils.parseUnit(Config.get(Constants.KEY_MAX_CACHE_SIZE));
 
 
@@ -42,36 +42,38 @@ public class LRUBlockCache implements BlockCache {
 
     @Override
     synchronized public void put(String blockId, DataBlock block) {
-        Entry<DataBlock> blockEntry = map.get(blockId);
-        if (blockEntry != null) {
-            map.remove(blockId);
-            list.remove(blockEntry);
-        }
-        blockEntry = new Entry<>(block);
+        evict(blockId);
+
+        Entry<DataBlock> blockEntry = new Entry<>(block);
         map.put(blockId, blockEntry);
         list.add(blockEntry);
         length += block.length();
 
         while (length > MAX_CACHE_SIZE) {
+            System.out.println("put and evict");
             evict();
         }
     }
 
     @Override
     synchronized public void evict(String blockId) {
-        if (map.containsKey(blockId)) {
-            Entry<DataBlock> blockEntry = map.remove(blockId);
+        Entry<DataBlock> blockEntry = map.get(blockId);
+        if (blockEntry != null) {
+            map.remove(blockId);
             list.remove(blockEntry);
             length -= blockEntry.getValue().length();
         }
     }
 
     @Override
-    public void evict() {
+    synchronized public void evict() {
+        System.out.println("evict");
         Entry<DataBlock> last = list.last();
-        if(last != null ){
-            list.remove(last);
-            length -= last.getValue().length();
+        if (last != null) {
+            System.out.println("evit " + last.getValue().getBlockId());
+            evict(last.getValue().getBlockId());
+        }else{
+            System.out.println("null");
         }
     }
 

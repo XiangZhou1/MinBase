@@ -18,5 +18,9 @@ public interface KeyIterator {
     /// Move to the next userKey.
     void nextKey();
     void nextUserKey();
+   
+    default void close() {
+
+    }
 
 }

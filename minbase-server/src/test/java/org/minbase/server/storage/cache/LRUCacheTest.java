@@ -23,6 +23,37 @@ public class LRUCacheTest {
         System.out.println(blockCache.list());
         blockCache.evict();
         System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+        blockCache.evict();
+        System.out.println(blockCache.list());
+
+
+        for (int i = 0; i < 10; i++) {
+            String blockId = String.valueOf(i);
+            DataBlock block = new DataBlock();
+            block.setBlockId(blockId);
+            blockCache.put(blockId, block);
+        }
+        System.out.println(blockCache.list());
+
     }
 
     @Test

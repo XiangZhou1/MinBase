@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Random;
 
-public class TestLsmStorageInner {
+public class TestLsmStorage {
 
     LsmStorage lsmStorageInner;
 
@@ -38,7 +38,7 @@ public class TestLsmStorageInner {
 
     @Test
     public void test2() throws Exception {
-        for (int i = 0; i < 1000; i++) {
+        for (long i = 0; i < 1000000000; i++) {
             lsmStorageInner.put(("k" + i).getBytes(), ("v" + i).getBytes());
         }
         byte[] bytes = lsmStorageInner.get("k1".getBytes());

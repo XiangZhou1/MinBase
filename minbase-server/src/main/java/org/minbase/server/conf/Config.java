@@ -8,7 +8,7 @@ public class Config {
 
     static {
         InputStream resourceAsStream =
-                Config.class.getClassLoader().getResourceAsStream("miniLsm.conf");
+                Config.class.getClassLoader().getResourceAsStream("minbase.conf");
         try {
             //通过Properties加载配置文件
             config.load(resourceAsStream);

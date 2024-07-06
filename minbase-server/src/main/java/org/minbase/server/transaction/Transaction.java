@@ -3,14 +3,18 @@ package org.minbase.server.transaction;
 
 
 import org.minbase.server.constant.Constants;
+import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.lsmStorage.LsmStorage;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
 import org.minbase.server.transaction.lock.KeyLock;
 import org.minbase.server.transaction.writeBatch.WriteBatchTable;
+import org.minbase.server.transaction.writeBatch.WriteBatchTableIterator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Transaction {
@@ -109,5 +113,12 @@ public abstract class Transaction {
 
     protected boolean isCommit() {
         return TransactionState.Commit.equals(this.transactionState);
+    }
+
+
+    public KeyIterator scan(byte[] startKey, byte[] endKey) {
+        WriteBatchTableIterator iterator1 = new WriteBatchTableIterator(writeBatchTable, startKey, endKey);
+        KeyIterator iterator2 = lsmStorage.scan(startKey, endKey);
+        return new MergeIterator(Arrays.asList(iterator1, iterator2));
     }
 }

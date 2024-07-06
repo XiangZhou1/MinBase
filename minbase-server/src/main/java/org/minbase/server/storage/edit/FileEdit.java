@@ -1,4 +1,4 @@
-package org.minbase.server.version;
+package org.minbase.server.storage.edit;
 
 
 
@@ -10,11 +10,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Function;
 
-public class EditVersion {
+public class FileEdit {
     private SortedMap<Integer, List<SSTable>> removedSSTables;
     private SortedMap<Integer, List<SSTable>> addedSSTables;
 
-    public EditVersion() {
+    public FileEdit() {
         removedSSTables = new TreeMap<>();
         addedSSTables = new TreeMap<>();
     }

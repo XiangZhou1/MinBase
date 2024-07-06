@@ -6,10 +6,10 @@ import org.minbase.server.mem.MemTable;
 import org.minbase.server.storage.sstable.SSTBuilder;
 import org.minbase.server.storage.sstable.SSTable;
 
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class FlushTask implements Runnable{
-    LinkedList<MemTable> immMemTables;
+    ConcurrentLinkedDeque<MemTable> immMemTables;
     MemTable immMemTablesLast;
     StorageManager storageManager;
     LsmStorage lsmStorage;
@@ -21,9 +21,16 @@ public class FlushTask implements Runnable{
 
     @Override
     public void run() {
+        flush();
+    }
+
+    public void flush() {
         synchronized (FlushTask.class) {
             try {
-                this.immMemTablesLast = immMemTables.getLast();
+                if (immMemTables.isEmpty()) {
+                    return;
+                }
+                this.immMemTablesLast = immMemTables.peekLast();
 
                 SSTBuilder sstBuilder = new SSTBuilder();
                 MemTableIterator iterator = immMemTablesLast.iterator();
@@ -38,7 +45,7 @@ public class FlushTask implements Runnable{
                 storageManager.addNewSSTable(ssTable, lastSyncSequenceId);
 
                 immMemTables.removeLast();
-                ssTable.cacheDataBlock();
+                ssTable.cacheDataBlocks();
                 lsmStorage.clearOldWal(lastSyncSequenceId);
                 lsmStorage.triggerCompaction();
             } catch (Exception e) {

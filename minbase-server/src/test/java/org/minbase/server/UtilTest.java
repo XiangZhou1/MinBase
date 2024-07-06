@@ -1,7 +1,8 @@
 package org.minbase.server;
 
-import com.skyzh.minilsm.utils.ByteUtils;
+
 import org.junit.Test;
+import org.minbase.server.utils.ByteUtils;
 
 public class UtilTest {
     @Test

@@ -33,8 +33,15 @@ public class ByteUtils {
         return BYTE_ORDER_COMPARATOR.compare(key, targetKey) >= 0;
     }
 
+    public static boolean byteGreater(byte[] key, byte[] targetKey) {
+        return BYTE_ORDER_COMPARATOR.compare(key, targetKey) > 0;
+    }
+
     public static boolean byteLess(byte[] key, byte[] targetKey) {
         return BYTE_ORDER_COMPARATOR.compare(key, targetKey) < 0;
+    }
+    public static boolean byteLessOrEqual(byte[] key, byte[] targetKey) {
+        return BYTE_ORDER_COMPARATOR.compare(key, targetKey) <= 0;
     }
 
     public static byte[] shotToByteArray(short value) {

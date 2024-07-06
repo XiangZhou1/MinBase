@@ -13,7 +13,6 @@ import java.util.PriorityQueue;
 
 public class MergeIterator implements KeyIterator {
     private PriorityQueue<KeyIterator> queue;
-    private long snapshot = Constants.LATEST_VERSION;
 
     public MergeIterator(List<KeyIterator> iterators) {
         this.queue = new PriorityQueue<>(KeyUtils.KEY_ITERATOR_COMPARATOR);
@@ -52,6 +51,8 @@ public class MergeIterator implements KeyIterator {
             poll.nextKey();
             if (poll.isValid()) {
                 queue.add(poll);
+            } else {
+                poll.close();
             }
         }
     }
@@ -77,6 +78,8 @@ public class MergeIterator implements KeyIterator {
                 firstEntry.nextUserKey();
                 if (firstEntry.isValid()) {
                     queue.add(firstEntry);
+                } else {
+                    firstEntry.close();
                 }
             } else {
                 break;

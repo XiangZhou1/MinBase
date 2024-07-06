@@ -11,6 +11,8 @@ import org.minbase.server.storage.block.DataBlockBuilder;
 import org.minbase.server.storage.block.MetaBlock;
 import org.minbase.server.utils.Utils;
 
+import java.util.UUID;
+
 public class SSTBuilder {
     public int MAX_BLOCK_SIZE = (int) Utils.parseUnit(Config.get(Constants.KEY_MAX_BLOCK_SIZE));
     SSTable ssTable;
@@ -26,7 +28,7 @@ public class SSTBuilder {
     public SSTBuilder() {
         blockBuilder = new DataBlockBuilder();
         bloomFilter = new BloomFilterBlock();
-        ssTable = new SSTable(bloomFilter);
+        ssTable = new SSTable(UUID.randomUUID().toString(), bloomFilter);
     }
 
     public int length() {

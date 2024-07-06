@@ -55,6 +55,7 @@ public class DataBlock extends Block {
             keyValue.decode(bytes, pos);
             pos += keyValue.length();
             data.add(i,keyValue);
+            dataLength += keyValue.length();
         }
     }
 
