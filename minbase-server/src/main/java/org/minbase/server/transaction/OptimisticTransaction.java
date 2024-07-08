@@ -26,11 +26,12 @@ import java.util.Map;
  * 3 在本事务创建时, 已经提交的事务
  */
 public class OptimisticTransaction extends Transaction {
-    KeyLock keyLock = new OptimisticKeyLock();
-    List<Transaction> checkTransactions = new ArrayList<>();
+    List<Transaction> checkTransactions;
 
     public OptimisticTransaction(long transactionId) {
         super(transactionId);
+        this.keyLock = new OptimisticKeyLock();
+        this.checkTransactions = new ArrayList<>();
     }
 
     public KeyLock getKeyLock() {

@@ -56,21 +56,8 @@ public class MinBase {
         return lsmStorage.scan(startKey, endKey);
     }
 
-    public Transaction newTransaction() {
-        long snapShot = Constants.LATEST_VERSION;
-        if (TransactionManager.transactionLevel.equals(TransactionLevel.REPEATABLE_READ)) {
-            snapShot = lsmStorage.getSnapshot();
-        }
-        long transactionId = TransactionManager.newTransactionId();
-        Transaction transaction;
-        if (TransactionManager.transactionType.equals(TransactionType.Optimistic)) {
-            transaction = new OptimisticTransaction(transactionId);
-        } else {
-            transaction = new PessimisticTransaction(transactionId);
-        }
 
-        transaction.setLsmStorage(this.lsmStorage);
-        transaction.setSnapShot(snapShot);
-        return transaction;
+    public Transaction newTransaction() {
+        return TransactionManager.newTransaction(this.lsmStorage);
     }
 }

@@ -4,6 +4,7 @@ package org.minbase.server.transaction;
 
 import org.minbase.server.transaction.lock.LockHolder;
 import org.minbase.server.transaction.lock.PessimisticKeyLock;
+import org.minbase.server.transaction.lock.PessimisticLockManager;
 
 import java.util.Map;
 
@@ -13,11 +14,12 @@ public class PessimisticTransaction extends Transaction {
     public PessimisticTransaction(long transactionId) {
         super(transactionId);
         this.lockHolder = new LockHolder();
-        this.keyLock = PessimisticKeyLock.getInstance();
+        this.keyLock = new PessimisticKeyLock(lockHolder);
     }
 
     @Override
     protected boolean commitImpl() {
+        this.lsmStorage.put(writeBatchTable.getWriteBatch());
         this.transactionState = TransactionState.Commit;
         TransactionManager.getActiveTransactions().remove(this.transactionId);
         releaseLock();
@@ -25,14 +27,15 @@ public class PessimisticTransaction extends Transaction {
     }
 
     private void releaseLock() {
-        for (Map.Entry<byte[], PessimisticKeyLock.LockEntry> mapEntry : lockHolder.getHeldLocks().entrySet()) {
-            final PessimisticKeyLock.LockEntry entry = mapEntry.getValue();
-            if (entry.getLockType().equals(PessimisticKeyLock.LockType.WRITE)) {
-                PessimisticKeyLock.getInstance().unLockWrite(entry.getUserKey());
+        for (Map.Entry<byte[], PessimisticLockManager.LockEntry> mapEntry : lockHolder.getHeldLocks().entrySet()) {
+            final PessimisticLockManager.LockEntry entry = mapEntry.getValue();
+            if (entry.getLockType().equals(PessimisticLockManager.LockType.WRITE)) {
+                this.keyLock.unLockWrite(entry.getUserKey());
             } else {
-                PessimisticKeyLock.getInstance().unLockRead(entry.getUserKey(), lockHolder);
+                this.keyLock.unLockRead(entry.getUserKey());
             }
         }
+        lockHolder.getHeldLocks().clear();
     }
 
     @Override

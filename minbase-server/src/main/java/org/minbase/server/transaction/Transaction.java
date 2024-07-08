@@ -29,6 +29,7 @@ public abstract class Transaction {
     public Transaction(long transactionId) {
         this.transactionId = transactionId;
         this.transactionState = TransactionState.Active;
+        this.writeBatchTable = new WriteBatchTable();
     }
 
     public long getTransactionId() {

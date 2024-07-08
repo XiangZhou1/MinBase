@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.concurrent.locks.LockSupport;
 
 public class LockHolder {
-    protected Map<byte[], PessimisticKeyLock.LockEntry> heldLocks = new HashMap<>();
-    protected Map<byte[], PessimisticKeyLock.LockEntry> waitingLocks = new HashMap<>();
+    protected Map<byte[], PessimisticLockManager.LockEntry> heldLocks = new HashMap<>();
+    protected Map<byte[], PessimisticLockManager.LockEntry> waitingLocks = new HashMap<>();
 
     protected Thread currentThread;
 
@@ -14,11 +14,11 @@ public class LockHolder {
         LockSupport.unpark(currentThread);
     }
 
-    public Map<byte[], PessimisticKeyLock.LockEntry> getHeldLocks() {
+    public Map<byte[], PessimisticLockManager.LockEntry> getHeldLocks() {
         return heldLocks;
     }
 
-    public Map<byte[], PessimisticKeyLock.LockEntry> getWaitingLocks() {
+    public Map<byte[], PessimisticLockManager.LockEntry> getWaitingLocks() {
         return waitingLocks;
     }
 
@@ -27,11 +27,11 @@ public class LockHolder {
     }
 
 
-    public void setHeldLocks(Map<byte[], PessimisticKeyLock.LockEntry> heldLocks) {
+    public void setHeldLocks(Map<byte[], PessimisticLockManager.LockEntry> heldLocks) {
         this.heldLocks = heldLocks;
     }
 
-    public void setWaitingLocks(Map<byte[], PessimisticKeyLock.LockEntry> waitingLocks) {
+    public void setWaitingLocks(Map<byte[], PessimisticLockManager.LockEntry> waitingLocks) {
         this.waitingLocks = waitingLocks;
     }
 

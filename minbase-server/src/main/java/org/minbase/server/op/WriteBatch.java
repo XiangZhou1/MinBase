@@ -18,6 +18,10 @@ public class WriteBatch {
         keyValues.add(new KeyValue(new Key(key, Constants.LATEST_VERSION), Value.Put(value)));
     }
 
+    public void put(byte[] key, Value value) {
+        keyValues.add(new KeyValue(new Key(key, Constants.LATEST_VERSION), value));
+    }
+
     public void delete(byte[] key) {
         keyValues.add(new KeyValue(new Key(key, Constants.NO_VERSION), Value.Delete()));
     }

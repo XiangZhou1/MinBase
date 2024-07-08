@@ -1,11 +1,13 @@
 package org.minbase.server.transaction.lock;
 
+import org.minbase.server.utils.ByteUtils;
+
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class OptimisticKeyLock implements KeyLock {
-    Set<byte[]> readLockSet = new ConcurrentSkipListSet<>();
-    Set<byte[]> writeLockSet = new ConcurrentSkipListSet<>();
+    Set<byte[]> readLockSet = new ConcurrentSkipListSet<>(ByteUtils.BYTE_ORDER_COMPARATOR);
+    Set<byte[]> writeLockSet = new ConcurrentSkipListSet<>(ByteUtils.BYTE_ORDER_COMPARATOR);
 
     @Override
     public void readLock(byte[] userKey) {
@@ -32,15 +34,26 @@ public class OptimisticKeyLock implements KeyLock {
     public boolean checkConflict(OptimisticKeyLock keyLock2) {
         for (byte[] userKey : readLockSet) {
             if (keyLock2.readConflict(userKey)) {
-                return false;
+                return true;
             }
         }
 
         for (byte[] userKey : writeLockSet) {
             if (keyLock2.writeConflict(userKey)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+
+
+    @Override
+    public void unLockWrite(byte[] userKey) {
+
+    }
+
+    @Override
+    public void unLockRead(byte[] userKey) {
+
     }
 }
