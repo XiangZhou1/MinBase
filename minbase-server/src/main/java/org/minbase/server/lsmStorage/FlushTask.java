@@ -5,10 +5,15 @@ import org.minbase.server.iterator.MemTableIterator;
 import org.minbase.server.mem.MemTable;
 import org.minbase.server.storage.sstable.SSTBuilder;
 import org.minbase.server.storage.sstable.SSTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-public class FlushTask implements Runnable{
+public class FlushTask implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(FlushTask.class);
+
     ConcurrentLinkedDeque<MemTable> immMemTables;
     MemTable immMemTablesLast;
     StorageManager storageManager;
@@ -48,9 +53,9 @@ public class FlushTask implements Runnable{
                 ssTable.cacheDataBlocks();
                 lsmStorage.clearOldWal(lastSyncSequenceId);
                 lsmStorage.triggerCompaction();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.exit(-1);
+                logger.info("Flush immMemTable success; firstKey =%s, lastKey =%s, lastSyncSequenceId=%d", ssTable.getFirstKey(), ssTable.getLastKey(), lastSyncSequenceId);
+            } catch (IOException e) {
+                logger.error("Flush immMemTable error", e);
             }
         }
     }

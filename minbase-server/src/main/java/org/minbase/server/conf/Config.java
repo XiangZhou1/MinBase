@@ -1,9 +1,14 @@
 package org.minbase.server.conf;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.InputStream;
 import java.util.Properties;
 
+
 public class Config {
+    private static final Logger logger = LoggerFactory.getLogger(Config.class);
     private static Properties config = new Properties();
 
     static {
@@ -15,8 +20,8 @@ public class Config {
             //关闭输入流
             resourceAsStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
-            //throw new RuntimeException(e);
+            logger.error("Load config file(minbase.conf) error", e);
+            System.exit(-1);
         }
     }
 

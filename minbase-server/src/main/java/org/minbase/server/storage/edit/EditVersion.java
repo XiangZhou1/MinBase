@@ -1,6 +1,8 @@
 package org.minbase.server.storage.edit;
 
 import org.minbase.server.storage.sstable.SSTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -10,6 +12,8 @@ import java.util.concurrent.atomic.AtomicLong;
 // 读可以在历史版本进度读
 // 写需要再最新版本上写
 public class EditVersion {
+    private static final Logger logger = LoggerFactory.getLogger(EditVersion.class);
+
     EditVersion prevVersion;
     AtomicLong readReference;
 
@@ -67,7 +71,6 @@ public class EditVersion {
             for (SSTable ssTable : addedSSTablesOneLevel) {
                 ssTables.add(ssTable);
                 addedSSTableIdSet.add(ssTable.getSsTableId());
-                System.out.println("add " + ssTable.getSsTableId());
             }
         }
         // 真正删除文件
@@ -77,8 +80,9 @@ public class EditVersion {
             for (SSTable ssTable : removedSSTablesOneLevel) {
                 if (!addedSSTableIdSet.contains(ssTable.getSsTableId())) {
                     File file = new File(ssTable.getFilePath());
+                    logger.info("Delete old file, fileName=" + file.getName());
                     if (!file.delete()) {
-                        System.out.println("delete file fail, " + ssTable.getFilePath());
+                        logger.info("Delete old file fail, fileName=" + file.getName());
                     }
                 }
             }

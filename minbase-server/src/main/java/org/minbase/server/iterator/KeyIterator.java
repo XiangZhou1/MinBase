@@ -4,7 +4,7 @@ package org.minbase.server.iterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 
-public interface KeyIterator {
+public interface KeyIterator extends Iterator<Key, KeyValue> {
     KeyValue value();
 
     /// Get the current key.
@@ -23,4 +23,8 @@ public interface KeyIterator {
 
     }
 
+    @Override
+    default void next() {
+
+    }
 }

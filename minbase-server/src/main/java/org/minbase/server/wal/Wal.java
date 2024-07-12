@@ -8,6 +8,8 @@ import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.WriteBatch;
 import org.minbase.server.utils.ByteUtils;
 import org.minbase.server.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Arrays;
@@ -19,6 +21,8 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.locks.LockSupport;
 
 public class Wal {
+    private static final Logger logger = LoggerFactory.getLogger(Wal.class);
+
     private static final String Wal_Dir = Config.get(Constants.KEY_DATA_DIR) + File.separator + "wal";
     public static final int MAX_WAL_NUM = 10000;
     public static final int MAX_WAL_FILE_LENGTH = 10 * 1024 * 1024;
@@ -93,7 +97,7 @@ public class Wal {
         if (inProgressFile.exists()) {
             recoveryFromFile(lsmStorage, lastSequenceId, inProgressFile);
         }
-
+        logger.info("Wal recovery, sequenceId" + sequenceId);
     }
 
     private void recoveryFromFile(LsmStorage lsmStorageInner, long lastSequenceId, File file1) throws IOException {
@@ -222,6 +226,7 @@ public class Wal {
             long syncId = Long.parseLong(file1.getName().split("_")[1]);
             if (syncId <= oldSequenceId) {
                 file1.delete();
+                logger.info("Clear old wal, fileName=" + file1.getName());
             } else {
                 break;
             }

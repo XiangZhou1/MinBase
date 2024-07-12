@@ -56,4 +56,12 @@ public class OptimisticKeyLock implements KeyLock {
     public void unLockRead(byte[] userKey) {
 
     }
+
+    @Override
+    public String toString() {
+        return "OptimisticKeyLock{" +
+                "readLockSet=" + readLockSet +
+                ", writeLockSet=" + writeLockSet +
+                '}';
+    }
 }

@@ -1,21 +1,23 @@
 package org.minbase.server.transaction;
 
+
 import org.junit.Test;
 import org.minbase.server.MinBase;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TransactionTest {
+    private static final Logger logger = LoggerFactory.getLogger(TransactionTest.class);
     @Test
     public void test1() throws Exception{
+        logger.info("test");
         MinBase minBase = new MinBase();
         final Transaction transaction = minBase.newTransaction();
         try{
             transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
-            if (!transaction.commit()) {
-                System.out.println("commit fail");
-                transaction.rollback();
-            }
+            transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
             transaction.rollback();
@@ -33,10 +35,7 @@ public class TransactionTest {
             transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
             transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v2"));
             final KeyValue keyValue = transaction.getForUpdate("k1".getBytes());
-            if (!transaction.commit()) {
-                System.out.println("commit fail");
-                transaction.rollback();
-            }
+            transaction.commit();
             System.out.println(keyValue);
         }catch (Exception e){
             e.printStackTrace();
@@ -66,10 +65,7 @@ public class TransactionTest {
                     System.out.println("pre thread1, k2");
                     transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v2"));
                     System.out.println("thread1, k2");
-                    if (!transaction.commit()) {
-                        System.out.println("commit1 fail");
-                        transaction.rollback();
-                    }
+                    transaction.commit();
                     System.out.println("commit 1");
                 }catch (Exception e){
                     e.printStackTrace();
@@ -97,10 +93,7 @@ public class TransactionTest {
                     }
                     transaction.put(ByteUtils.toBytes("k4"), ByteUtils.toBytes("v4"));
                     System.out.println("thread2, k4");
-                    if (!transaction.commit()) {
-                        System.out.println("commit2 fail");
-                        transaction.rollback();
-                    }
+                    transaction.commit();
                     System.out.println("commit 2");
                 }catch (Exception e){
                     e.printStackTrace();
@@ -139,10 +132,7 @@ public class TransactionTest {
                     System.out.println("pre thread1, k2");
                     transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v2"));
                     System.out.println("thread1, k2");
-                    if (!transaction.commit()) {
-                        System.out.println("commit1 fail");
-                        transaction.rollback();
-                    }
+                    transaction.commit();
                     System.out.println("commit 1");
                 }catch (Exception e){
                     e.printStackTrace();
@@ -170,10 +160,7 @@ public class TransactionTest {
                     }
                     transaction.put(ByteUtils.toBytes("k3"), ByteUtils.toBytes("v1"));
                     System.out.println("thread2, k3");
-                    if (!transaction.commit()) {
-                        System.out.println("commit2 fail");
-                        transaction.rollback();
-                    }
+                    transaction.commit();
                     System.out.println("commit 2");
                 }catch (Exception e){
                     e.printStackTrace();
@@ -202,10 +189,7 @@ public class TransactionTest {
                     }
                     transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
                     System.out.println("thread2, k1");
-                    if (!transaction.commit()) {
-                        System.out.println("commit2 fail");
-                        transaction.rollback();
-                    }
+                    transaction.commit();
                     System.out.println("commit 2");
                 }catch (Exception e){
                     e.printStackTrace();

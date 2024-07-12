@@ -7,6 +7,7 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.SSTableIterator;
+import org.minbase.server.lsmStorage.FlushTask;
 import org.minbase.server.lsmStorage.LevelStorageManager;
 import org.minbase.server.lsmStorage.LsmStorage;
 import org.minbase.server.op.Key;
@@ -14,11 +15,15 @@ import org.minbase.server.storage.sstable.SSTBuilder;
 import org.minbase.server.storage.sstable.SSTable;
 import org.minbase.server.utils.Utils;
 import org.minbase.server.storage.edit.FileEdit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LevelCompaction implements Compaction {
+    private static final Logger logger = LoggerFactory.getLogger(LevelCompaction.class);
+
     private static final long MAX_SSTABLE_SIZE = Utils.parseUnit(Config.get(Constants.KEY_MAX_SSTABLE_SIZE));
     private static final int MAX_LEVEL = 4;
     private LevelStorageManager storageManager;
@@ -51,7 +56,7 @@ public class LevelCompaction implements Compaction {
     }
 
     private void compactLevel(int level, SSTable ssTable, FileEdit fileEdit) throws Exception {
-        System.out.println("compactLevel:" + level);
+        logger.info("Compacting sstable files of level " + level);
 
         List<KeyIterator> ssTableIters = new ArrayList<>();
         SSTableIterator iterator0 = ssTable.compactionIterator();

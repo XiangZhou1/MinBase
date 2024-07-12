@@ -2,6 +2,7 @@ package org.minbase.server.transaction;
 
 
 
+import org.minbase.server.exception.OptimisticConflictException;
 import org.minbase.server.transaction.lock.KeyLock;
 import org.minbase.server.transaction.lock.OptimisticKeyLock;
 
@@ -43,18 +44,18 @@ public class OptimisticTransaction extends Transaction {
     }
 
     @Override
-    protected boolean commitImpl() {
+    protected void commitImpl() {
         //1 在本事务创建时, 还活跃的事务; 在本事务提交之前, 就已经提交
         for (Transaction checkTransaction : activeTransactions) {
             if (checkTransaction.isCommit() && checkConflict(checkTransaction)) {
-                return false;
+                throw  new OptimisticConflictException("");
             }
         }
 
         // 在本事务创建时, 还未的事务; 在本事务执行时创建; 在本事务提交之前, 就已经提交
         for (Transaction checkTransaction : checkTransactions) {
             if (checkConflict(checkTransaction)) {
-                return false;
+                throw  new OptimisticConflictException("");
             }
         }
 
@@ -74,8 +75,6 @@ public class OptimisticTransaction extends Transaction {
 
         this.transactionState = TransactionState.Commit;
         TransactionManager.getActiveTransactions().remove(this.transactionId);
-
-        return true;
     }
 
     private boolean checkConflict(Transaction transaction) {

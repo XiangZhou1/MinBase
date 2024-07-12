@@ -3,6 +3,7 @@ package org.minbase.server.transaction;
 
 
 import org.minbase.server.constant.Constants;
+import org.minbase.server.exception.TransactionException;
 import org.minbase.server.iterator.KeyIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.lsmStorage.LsmStorage;
@@ -72,9 +73,9 @@ public abstract class Transaction {
         this.activeTransactions = activeTransactions;
     }
 
-    public boolean commit(){
+    public void commit() throws TransactionException {
         synchronized (Transaction.class){
-            return commitImpl();
+            commitImpl();
         }
     }
 
@@ -82,7 +83,7 @@ public abstract class Transaction {
         activeTransactions.add(transaction);
     }
 
-    protected abstract boolean commitImpl();
+    protected abstract void commitImpl();
 
     public abstract void rollback();
 
@@ -121,5 +122,15 @@ public abstract class Transaction {
         WriteBatchTableIterator iterator1 = new WriteBatchTableIterator(writeBatchTable, startKey, endKey);
         KeyIterator iterator2 = lsmStorage.scan(startKey, endKey);
         return new MergeIterator(Arrays.asList(iterator1, iterator2));
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionId=" + transactionId +
+                ", transactionState=" + transactionState +
+                ", keyLock=" + keyLock +
+                ", snapShot=" + snapShot +
+                '}';
     }
 }

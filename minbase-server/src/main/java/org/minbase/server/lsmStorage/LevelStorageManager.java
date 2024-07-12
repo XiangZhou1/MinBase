@@ -10,8 +10,9 @@ import org.minbase.server.storage.edit.EditVersion;
 import org.minbase.server.storage.edit.FileEdit;
 import org.minbase.server.storage.sstable.SSTable;
 import org.minbase.server.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 public class LevelStorageManager extends StorageManager {
+    private static final Logger logger = LoggerFactory.getLogger(LevelStorageManager.class);
+
     private volatile EditVersion editVersion;
     private Thread clearOldVersionThread;
     public LevelStorageManager() {
@@ -213,9 +216,9 @@ public class LevelStorageManager extends StorageManager {
                 }
                 while (removeVersion != null) {
                     if (removeVersion.getReadReference() == 0) {
+                        logger.info("Clear old version, delete file");
                         removeVersion.deleteFile();
                         currentVersion.setPrevVersion(removeVersion.getPrevVersion());
-                        System.out.println("ClearOldVersionTask");
                     }
                     currentVersion = removeVersion;
                     removeVersion = currentVersion.getPrevVersion();
