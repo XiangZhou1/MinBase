@@ -4,7 +4,7 @@ package org.minbase.server.transaction.writeBatch;
 
 import org.minbase.server.op.Value;
 import org.minbase.server.op.WriteBatch;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 

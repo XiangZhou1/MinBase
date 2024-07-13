@@ -6,7 +6,7 @@ import org.minbase.server.iterator.BlockIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.server.utils.Utils;
+import org.minbase.common.utils.Utils;
 
 
 public class BlockTest {

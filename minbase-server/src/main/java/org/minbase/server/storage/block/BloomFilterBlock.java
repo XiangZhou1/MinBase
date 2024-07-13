@@ -3,7 +3,7 @@ package org.minbase.server.storage.block;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

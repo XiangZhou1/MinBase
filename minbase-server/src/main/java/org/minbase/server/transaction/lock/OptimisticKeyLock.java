@@ -1,6 +1,6 @@
 package org.minbase.server.transaction.lock;
 
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;

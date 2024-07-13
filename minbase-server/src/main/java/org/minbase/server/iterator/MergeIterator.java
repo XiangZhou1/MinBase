@@ -2,10 +2,9 @@ package org.minbase.server.iterator;
 
 
 
-import org.minbase.server.constant.Constants;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 import org.minbase.server.utils.KeyUtils;
 
 import java.util.List;

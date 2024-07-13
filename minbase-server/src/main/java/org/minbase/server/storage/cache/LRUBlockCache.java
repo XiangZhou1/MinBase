@@ -5,7 +5,7 @@ package org.minbase.server.storage.cache;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.storage.block.DataBlock;
-import org.minbase.server.utils.Utils;
+import org.minbase.common.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -5,7 +5,7 @@ package org.minbase.server.iterator;
 import org.minbase.server.mem.MemTable;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.util.Iterator;
 import java.util.Map;

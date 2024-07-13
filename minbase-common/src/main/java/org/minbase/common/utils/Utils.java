@@ -1,4 +1,4 @@
-package org.minbase.server.utils;
+package org.minbase.common.utils;
 
 public class Utils {
     public static long MB = 1024 * 1024;

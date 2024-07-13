@@ -9,7 +9,7 @@ import org.minbase.server.storage.block.BloomFilterBlock;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.DataBlockBuilder;
 import org.minbase.server.storage.block.MetaBlock;
-import org.minbase.server.utils.Utils;
+import org.minbase.common.utils.Utils;
 
 import java.util.UUID;
 

@@ -2,9 +2,9 @@ package org.minbase.server.transaction;
 
 
 import org.junit.Test;
-import org.minbase.server.MinBase;
+import org.minbase.server.MinBaseServer;
 import org.minbase.server.op.KeyValue;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +13,8 @@ public class TransactionTest {
     @Test
     public void test1() throws Exception{
         logger.info("test");
-        MinBase minBase = new MinBase();
-        final Transaction transaction = minBase.newTransaction();
+        MinBaseServer minBaseServer = new MinBaseServer();
+        final Transaction transaction = minBaseServer.newTransaction();
         try{
             transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
             transaction.commit();
@@ -23,14 +23,14 @@ public class TransactionTest {
             transaction.rollback();
         }
 
-        final byte[] val = minBase.get("k1".getBytes());
+        final byte[] val = minBaseServer.get("k1".getBytes());
         System.out.println(new String(val));
     }
 
     @Test
     public void test2() throws Exception{
-        MinBase minBase = new MinBase();
-        final Transaction transaction = minBase.newTransaction();
+        MinBaseServer minBaseServer = new MinBaseServer();
+        final Transaction transaction = minBaseServer.newTransaction();
         try{
             transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
             transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v2"));
@@ -42,18 +42,18 @@ public class TransactionTest {
             transaction.rollback();
         }
 
-        final byte[] val = minBase.get("k1".getBytes());
+        final byte[] val = minBaseServer.get("k1".getBytes());
         System.out.println(new String(val));
     }
 
 
     @Test
     public void test3() throws Exception{
-        MinBase minBase = new MinBase();
+        MinBaseServer minBaseServer = new MinBaseServer();
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                final Transaction transaction = minBase.newTransaction();
+                final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
                     System.out.println("thread1, k1");
@@ -81,7 +81,7 @@ public class TransactionTest {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-                final Transaction transaction = minBase.newTransaction();
+                final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     System.out.println("pre thread1, k2");
                     transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v3"));
@@ -107,20 +107,20 @@ public class TransactionTest {
         thread1.join();
         thread2.join();
 
-        final byte[] val = minBase.get("k1".getBytes());
+        final byte[] val = minBaseServer.get("k1".getBytes());
         System.out.println(new String(val));
 
-        final byte[] val2 = minBase.get("k2".getBytes());
+        final byte[] val2 = minBaseServer.get("k2".getBytes());
         System.out.println(new String(val2));
     }
 
     @Test
     public void test4() throws Exception{
-        MinBase minBase = new MinBase();
+        MinBaseServer minBaseServer = new MinBaseServer();
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                final Transaction transaction = minBase.newTransaction();
+                final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
                     System.out.println("thread1, k1");
@@ -148,7 +148,7 @@ public class TransactionTest {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-                final Transaction transaction = minBase.newTransaction();
+                final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     System.out.println("pre thread1, k2");
                     transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v3"));
@@ -177,7 +177,7 @@ public class TransactionTest {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-                final Transaction transaction = minBase.newTransaction();
+                final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     System.out.println("pre thread1, k3");
                     transaction.put(ByteUtils.toBytes("k3"), ByteUtils.toBytes("v3"));

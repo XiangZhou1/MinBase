@@ -2,11 +2,10 @@ package org.minbase.server.wal;
 
 
 import org.junit.Test;
-import org.minbase.server.lsmStorage.LsmStorage;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.io.IOException;
 import java.util.Scanner;

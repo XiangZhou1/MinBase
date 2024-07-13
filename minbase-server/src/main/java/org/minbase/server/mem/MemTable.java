@@ -8,8 +8,8 @@ import org.minbase.server.iterator.MemTableIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.server.utils.ByteUtils;
-import org.minbase.server.utils.Utils;
+import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.Utils;
 
 import java.util.Iterator;
 import java.util.Map;

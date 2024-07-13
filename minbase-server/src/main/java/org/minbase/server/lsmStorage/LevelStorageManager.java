@@ -9,7 +9,7 @@ import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.edit.EditVersion;
 import org.minbase.server.storage.edit.FileEdit;
 import org.minbase.server.storage.sstable.SSTable;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

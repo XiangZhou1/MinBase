@@ -4,8 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.minbase.server.iterator.KeyIterator;
 import org.minbase.server.op.WriteBatch;
-import org.minbase.server.transaction.writeBatch.WriteBatchTableIterator;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.util.Scanner;
 

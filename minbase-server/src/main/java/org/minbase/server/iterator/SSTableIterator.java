@@ -7,7 +7,7 @@ import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
 import org.minbase.server.storage.sstable.SSTable;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package org.minbase.server.utils;
+package org.minbase.common.utils;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;

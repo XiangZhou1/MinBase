@@ -4,7 +4,7 @@ package org.minbase.server.wal;
 
 import org.minbase.server.constant.Constants;
 import org.minbase.server.op.KeyValue;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.util.ArrayList;
 import java.util.List;

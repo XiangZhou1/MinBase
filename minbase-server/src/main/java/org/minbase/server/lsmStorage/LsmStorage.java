@@ -16,7 +16,7 @@ import org.minbase.server.storage.compaction.CompactThread;
 import org.minbase.server.storage.compaction.Compaction;
 import org.minbase.server.storage.compaction.CompactionStrategy;
 import org.minbase.server.storage.compaction.LevelCompaction;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 import org.minbase.server.wal.LogEntry;
 import org.minbase.server.wal.Wal;
 

@@ -1,6 +1,7 @@
 package org.minbase.server;
 
 
+import org.minbase.rpc.RpcServer;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyIterator;
 import org.minbase.server.iterator.SnapshotIterator;
@@ -11,11 +12,17 @@ import org.minbase.server.transaction.*;
 
 import java.io.IOException;
 
-public class MinBase {
+public class MinBaseServer {
     private LsmStorage lsmStorage;
+    private RpcServer rpcServer;
 
-    public MinBase() throws IOException {
+    public MinBaseServer() throws IOException {
         this.lsmStorage = new LsmStorage();
+        this.rpcServer = new RpcServer(this);
+    }
+
+    public void startRpcServer() throws InterruptedException {
+        this.rpcServer.start();
     }
 
     // 当前读

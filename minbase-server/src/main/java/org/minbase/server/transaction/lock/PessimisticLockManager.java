@@ -3,13 +3,11 @@ package org.minbase.server.transaction.lock;
 
 
 import org.minbase.server.exception.DeadLockException;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class PessimisticLockManager{

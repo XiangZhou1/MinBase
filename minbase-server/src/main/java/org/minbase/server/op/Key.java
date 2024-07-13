@@ -2,7 +2,7 @@ package org.minbase.server.op;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 public class Key implements Comparable<Key>{
     private byte[] userKey;

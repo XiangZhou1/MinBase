@@ -6,8 +6,8 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.lsmStorage.LsmStorage;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.WriteBatch;
-import org.minbase.server.utils.ByteUtils;
-import org.minbase.server.utils.IOUtils;
+import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

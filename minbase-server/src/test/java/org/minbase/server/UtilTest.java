@@ -2,7 +2,7 @@ package org.minbase.server;
 
 
 import org.junit.Test;
-import org.minbase.server.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtils;
 
 public class UtilTest {
     @Test

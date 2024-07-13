@@ -1,4 +1,4 @@
-package org.minbase.server.utils;
+package org.minbase.common.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
