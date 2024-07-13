@@ -2,7 +2,7 @@ package org.minbase.server.op;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 public class Key implements Comparable<Key>{
     private byte[] userKey;
@@ -28,14 +28,14 @@ public class Key implements Comparable<Key>{
     public byte[] encode() {
         byte[] buf = new byte[length()];
         System.arraycopy(userKey, 0, buf, 0, userKey.length);
-        System.arraycopy(ByteUtils.longToByteArray(sequenceId), 0, buf, userKey.length, Constants.LONG_LENGTH);
+        System.arraycopy(ByteUtil.longToByteArray(sequenceId), 0, buf, userKey.length, Constants.LONG_LENGTH);
         return buf;
     }
 
     public void decode(byte[] buf) {
         this.userKey = new byte[buf.length - Constants.LONG_LENGTH];
         System.arraycopy(buf, 0, userKey, 0, buf.length - Constants.LONG_LENGTH);
-        this.sequenceId = ByteUtils.byteArrayToLong(buf, buf.length - Constants.LONG_LENGTH);
+        this.sequenceId = ByteUtil.byteArrayToLong(buf, buf.length - Constants.LONG_LENGTH);
     }
 
     public byte[] getUserKey() {
@@ -56,7 +56,7 @@ public class Key implements Comparable<Key>{
 
     @Override
     public int compareTo(Key o2) {
-        int result = ByteUtils.BYTE_ORDER_COMPARATOR.compare(this.userKey, o2.userKey);
+        int result = ByteUtil.BYTE_ORDER_COMPARATOR.compare(this.userKey, o2.userKey);
         if (result != 0) {
             return result;
         }

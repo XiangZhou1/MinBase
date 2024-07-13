@@ -6,8 +6,8 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.lsmStorage.LsmStorage;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.WriteBatch;
-import org.minbase.common.utils.ByteUtils;
-import org.minbase.common.utils.IOUtils;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,11 +105,11 @@ public class Wal {
         try (RandomAccessFile raf = new RandomAccessFile(file1, "r")) {
             int pos = 0;
             while (pos < raf.length()) {
-                byte[] buf = IOUtils.read(raf, Constants.INTEGER_LENGTH);
-                int logEntryLength = ByteUtils.byteArrayToInt(buf, 0);
+                byte[] buf = IOUtil.read(raf, Constants.INTEGER_LENGTH);
+                int logEntryLength = ByteUtil.byteArrayToInt(buf, 0);
                 pos += Constants.INTEGER_LENGTH;
 
-                byte[] logEntryBuf = IOUtils.read(raf, logEntryLength);
+                byte[] logEntryBuf = IOUtil.read(raf, logEntryLength);
                 LogEntry logEntry = new LogEntry();
                 logEntry.decode(logEntryBuf);
                 pos += logEntryLength;

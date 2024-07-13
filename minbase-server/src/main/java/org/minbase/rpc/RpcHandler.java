@@ -6,7 +6,7 @@ import org.minbase.common.rpc.ResponseCode;
 import org.minbase.common.rpc.RpcRequest;
 import org.minbase.common.rpc.RpcResponse;
 import org.minbase.common.rpc.service.ClientService;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.MinBaseServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,13 +48,13 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> implemen
 
     @Override
     public String get(String key) {
-        byte[] bytes = server.get(ByteUtils.toBytes(key));
+        byte[] bytes = server.get(ByteUtil.toBytes(key));
         return new String(bytes);
     }
 
     @Override
     public void put(String key, String value) {
-        server.put(ByteUtils.toBytes(key), ByteUtils.toBytes(value));
+        server.put(ByteUtil.toBytes(key), ByteUtil.toBytes(value));
     }
 
     @Override

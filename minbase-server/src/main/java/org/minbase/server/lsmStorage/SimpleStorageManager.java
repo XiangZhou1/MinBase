@@ -2,7 +2,7 @@ package org.minbase.server.lsmStorage;
 
 
 
-import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.sstable.SSTable;
@@ -39,7 +39,7 @@ public class SimpleStorageManager extends StorageManager {
     }
 
     @Override
-    public KeyIterator iterator(Key startKey, Key endKey) {
+    public KeyValueIterator iterator(Key startKey, Key endKey) {
         return null;
     }
 

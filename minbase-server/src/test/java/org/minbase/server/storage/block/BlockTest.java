@@ -6,7 +6,7 @@ import org.minbase.server.iterator.BlockIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.common.utils.Utils;
+import org.minbase.common.utils.Util;
 
 
 public class BlockTest {
@@ -33,7 +33,7 @@ public class BlockTest {
         while (blockIterator.isValid()){
             KeyValue value = blockIterator.value();
             System.out.println(value);
-            blockIterator.nextKey();
+            blockIterator.nextInnerKey();
         }
     }
 
@@ -43,20 +43,20 @@ public class BlockTest {
         int totalnum = 1000;
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
         for (int i=0; i<totalnum; i++){
-            blockBuilder.add(new KeyValue(new Key(("k"+ Utils.fillZero(i)).getBytes(), 3), Value.Put(("v"+i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k"+Utils.fillZero(i)).getBytes(), 2), Value.Put(("v"+i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k"+Utils.fillZero(i)).getBytes(), 1), Value.Put(("v"+i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k"+ Util.fillZero(i)).getBytes(), 3), Value.Put(("v"+i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k"+ Util.fillZero(i)).getBytes(), 2), Value.Put(("v"+i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k"+ Util.fillZero(i)).getBytes(), 1), Value.Put(("v"+i).getBytes())));
         }
 
         DataBlock block = blockBuilder.build();
 
         for (int i=0; i<totalnum; i++){
-            BlockIterator blockIterator = new BlockIterator(block, Key.latestKey(("k"+ Utils.fillZero(i)).getBytes()), null);
+            BlockIterator blockIterator = new BlockIterator(block, Key.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
             int num = 0;
             while (blockIterator.isValid()){
                 KeyValue value = blockIterator.value();
                 num ++;
-                blockIterator.nextKey();
+                blockIterator.nextInnerKey();
             }
             System.out.println("i=" + i + ", num=" + num);
             assert num == 3 * (totalnum - i);
@@ -70,20 +70,20 @@ public class BlockTest {
         int totalnum = 1000;
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
         for (int i=0; i<totalnum; i++){
-            blockBuilder.add(new KeyValue(new Key(("k"+ Utils.fillZero(i)).getBytes(), 3), Value.Put(("v"+i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k"+Utils.fillZero(i)).getBytes(), 2), Value.Put(("v"+i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k"+Utils.fillZero(i)).getBytes(), 1), Value.Put(("v"+i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k"+ Util.fillZero(i)).getBytes(), 3), Value.Put(("v"+i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k"+ Util.fillZero(i)).getBytes(), 2), Value.Put(("v"+i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k"+ Util.fillZero(i)).getBytes(), 1), Value.Put(("v"+i).getBytes())));
         }
 
         DataBlock block = blockBuilder.build();
 
         for (int i=0; i<totalnum; i++){
-            BlockIterator blockIterator = new BlockIterator(block, Key.latestKey(("k"+ Utils.fillZero(i)).getBytes()), null);
+            BlockIterator blockIterator = new BlockIterator(block, Key.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
             int num = 0;
             while (blockIterator.isValid()){
                 KeyValue value = blockIterator.value();
                 num ++;
-                blockIterator.nextUserKey();
+                blockIterator.next();
             }
             System.out.println("i=" + i + ", num=" + num);
             assert num == (totalnum - i);

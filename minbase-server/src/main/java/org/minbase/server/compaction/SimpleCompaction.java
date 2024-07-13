@@ -1,4 +1,4 @@
-package org.minbase.server.storage.compaction;
+package org.minbase.server.compaction;
 
 public class SimpleCompaction implements Compaction {
     @Override

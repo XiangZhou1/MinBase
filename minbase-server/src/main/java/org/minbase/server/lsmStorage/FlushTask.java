@@ -43,7 +43,7 @@ public class FlushTask implements Runnable {
                 while (iterator.isValid()) {
                     lastSyncSequenceId = Math.max(lastSyncSequenceId, iterator.key().getSequenceId()) ;
                     sstBuilder.add(iterator.value());
-                    iterator.nextUserKey();
+                    iterator.nextKey();
                 }
 
                 SSTable ssTable = sstBuilder.build();

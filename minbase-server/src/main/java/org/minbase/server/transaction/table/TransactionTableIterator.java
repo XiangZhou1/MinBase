@@ -1,22 +1,22 @@
-package org.minbase.server.transaction.writeBatch;
+package org.minbase.server.transaction.table;
 
 
-import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.Iterator;
 import java.util.Map;
 
-public class WriteBatchTableIterator implements KeyIterator {
+public class TransactionTableIterator implements KeyValueIterator {
     Iterator<Map.Entry<byte[], Value>> innerIter;
     byte[] startKey;
     byte[] endKey;
     Map.Entry<byte[], Value> entry;
 
-    public WriteBatchTableIterator(WriteBatchTable table, byte[] startKey, byte[] endkey) {
+    public TransactionTableIterator(TransactionTable table, byte[] startKey, byte[] endkey) {
         this.startKey = startKey;
         this.endKey = endkey;
         this.innerIter = table.table.entrySet().iterator();
@@ -39,8 +39,8 @@ public class WriteBatchTableIterator implements KeyIterator {
 
     @Override
     public void seek(Key key) {
-        while (isValid() && ByteUtils.byteLess(entry.getKey(), key.getUserKey())) {
-            nextKey();
+        while (isValid() && ByteUtil.byteLess(entry.getKey(), key.getUserKey())) {
+            nextInnerKey();
         }
     }
 
@@ -50,10 +50,10 @@ public class WriteBatchTableIterator implements KeyIterator {
     }
 
     @Override
-    public void nextKey() {
+    public void nextInnerKey() {
         if (innerIter.hasNext()) {
             entry = innerIter.next();
-            if (!ByteUtils.byteLess(entry.getKey(), endKey)) {
+            if (!ByteUtil.byteLess(entry.getKey(), endKey)) {
                 entry = null;
             }
         } else {
@@ -62,7 +62,7 @@ public class WriteBatchTableIterator implements KeyIterator {
     }
 
     @Override
-    public void nextUserKey() {
-        nextKey();
+    public void next() {
+        nextInnerKey();
     }
 }

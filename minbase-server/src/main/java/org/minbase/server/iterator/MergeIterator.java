@@ -4,19 +4,19 @@ package org.minbase.server.iterator;
 
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
-import org.minbase.common.utils.ByteUtils;
-import org.minbase.server.utils.KeyUtils;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.utils.KeyUtil;
 
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class MergeIterator implements KeyIterator {
-    private PriorityQueue<KeyIterator> queue;
+public class MergeIterator implements KeyValueIterator {
+    private PriorityQueue<KeyValueIterator> queue;
 
-    public MergeIterator(List<KeyIterator> iterators) {
-        this.queue = new PriorityQueue<>(KeyUtils.KEY_ITERATOR_COMPARATOR);
+    public MergeIterator(List<KeyValueIterator> iterators) {
+        this.queue = new PriorityQueue<>(KeyUtil.KEY_ITERATOR_COMPARATOR);
 
-        for (KeyIterator iterator : iterators) {
+        for (KeyValueIterator iterator : iterators) {
             if (iterator.isValid()) {
                 queue.add(iterator);
             }
@@ -42,12 +42,12 @@ public class MergeIterator implements KeyIterator {
     }
 
     @Override
-    public void nextKey() {
+    public void nextInnerKey() {
         if (isValid()) {
-            KeyIterator poll = queue.poll();
+            KeyValueIterator poll = queue.poll();
 
             // 将新poll出来的迭代器在加进去
-            poll.nextKey();
+            poll.nextInnerKey();
             if (poll.isValid()) {
                 queue.add(poll);
             } else {
@@ -60,21 +60,21 @@ public class MergeIterator implements KeyIterator {
     @Override
     public void seek(Key key) {
         while (isValid() && key().compareTo(key) < 0) {
-            nextKey();
+            nextInnerKey();
         }
     }
 
     // 跳到下一个userKey
     @Override
-    public void nextUserKey() {
+    public void next() {
         Key key = key();
 
         while (!queue.isEmpty()) {
-            KeyIterator firstEntry = queue.peek();
-            if (ByteUtils.byteEqual(firstEntry.key().getUserKey(), key.getUserKey())) {
+            KeyValueIterator firstEntry = queue.peek();
+            if (ByteUtil.byteEqual(firstEntry.key().getUserKey(), key.getUserKey())) {
                 queue.poll();
                 // 将新poll出来的迭代器在加进去
-                firstEntry.nextUserKey();
+                firstEntry.next();
                 if (firstEntry.isValid()) {
                     queue.add(firstEntry);
                 } else {

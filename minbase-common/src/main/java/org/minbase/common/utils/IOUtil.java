@@ -3,7 +3,7 @@ package org.minbase.common.utils;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class IOUtils {
+public class IOUtil {
 
     public static byte[] read(RandomAccessFile randomAccessFile, long bufSize) throws IOException {
         byte[] buf = new byte[(int)bufSize];

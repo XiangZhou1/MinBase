@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -17,8 +17,8 @@ public class WalTest {
         long i = 0;
         final long startTime = System.currentTimeMillis();
         for (; i < 10 * 100000; i++) {
-            Key key = new Key(ByteUtils.toBytes("k" + i), i);
-            Value value = Value.Put(ByteUtils.toBytes("v" + i));
+            Key key = new Key(ByteUtil.toBytes("k" + i), i);
+            Value value = Value.Put(ByteUtil.toBytes("v" + i));
             wal.log(new KeyValue(key, value));
             if (i % 1000 == 0) {
                 System.out.println(i);

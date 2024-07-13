@@ -8,8 +8,8 @@ import org.minbase.server.iterator.MemTableIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.common.utils.ByteUtils;
-import org.minbase.common.utils.Utils;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.Util;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -19,12 +19,12 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
 
 public class MemTable {
-    private static long MAX_MEMTABLE_SIZE = Utils.parseUnit(Config.get(Constants.KEY_MAX_MEMTABLE_SIZE));
+    private static long MAX_MEMTABLE_SIZE = Util.parseUnit(Config.get(Constants.KEY_MAX_MEMTABLE_SIZE));
     private ConcurrentSkipListMap<byte[], ConcurrentSkipListMap<Key, KeyValue>> map;
     private long dataLength = 0;
 
     public MemTable() {
-        this.map = new ConcurrentSkipListMap<>(ByteUtils.BYTE_ORDER_COMPARATOR);
+        this.map = new ConcurrentSkipListMap<>(ByteUtil.BYTE_ORDER_COMPARATOR);
     }
 
     public void put(Key key, Value value) {

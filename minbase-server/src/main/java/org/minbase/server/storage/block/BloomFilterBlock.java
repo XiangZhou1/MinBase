@@ -3,7 +3,7 @@ package org.minbase.server.storage.block;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -60,11 +60,11 @@ public class BloomFilterBlock extends Block {
     }
 
     public byte[] encode() {
-        return ByteUtils.longToByteArray(bitSet);
+        return ByteUtil.longToByteArray(bitSet);
     }
 
     public void decode(byte[] buf) {
-        this.bitSet = ByteUtils.byteArrayToLong(buf, 0);
+        this.bitSet = ByteUtil.byteArrayToLong(buf, 0);
     }
 
     @Override

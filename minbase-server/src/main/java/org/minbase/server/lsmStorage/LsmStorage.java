@@ -1,22 +1,22 @@
 package org.minbase.server.lsmStorage;
 
 
+import org.minbase.server.compaction.level.LevelStorageManager;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MemTableIterator;
 import org.minbase.server.iterator.MergeIterator;
-import org.minbase.server.iterator.SnapshotIterator;
 import org.minbase.server.mem.MemTable;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
 import org.minbase.server.op.WriteBatch;
-import org.minbase.server.storage.compaction.CompactThread;
-import org.minbase.server.storage.compaction.Compaction;
-import org.minbase.server.storage.compaction.CompactionStrategy;
-import org.minbase.server.storage.compaction.LevelCompaction;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.server.compaction.CompactThread;
+import org.minbase.server.compaction.Compaction;
+import org.minbase.server.compaction.CompactionStrategy;
+import org.minbase.server.compaction.level.LevelCompaction;
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.wal.LogEntry;
 import org.minbase.server.wal.Wal;
 
@@ -93,18 +93,6 @@ public class LsmStorage {
         return null;
     }
 
-    public byte[] get(Key key) {
-        KeyValue kv = getInner(key);
-        if (kv == null) {
-            return null;
-        }
-        Value value = kv.getValue();
-        if (value != null) {
-            return value.isDeleteOP() ? null : value.value();
-        }
-        return null;
-    }
-
     public KeyValue getInner(Key key) {
         readLock();
         try {
@@ -155,7 +143,7 @@ public class LsmStorage {
         writeLock();
         try {
             final byte[] bytes = get(checkKey);
-            if (!ByteUtils.byteEqual(bytes, checkValue)) {
+            if (!ByteUtil.byteEqual(bytes, checkValue)) {
                 return false;
             }
             put(key, value);
@@ -198,12 +186,12 @@ public class LsmStorage {
 
     
     // ===================================================================
-    public KeyIterator iterator(Key startKey, Key endKey) {
-        ArrayList<KeyIterator> result = new ArrayList<>();
+    public KeyValueIterator iterator(Key startKey, Key endKey) {
+        ArrayList<KeyValueIterator> result = new ArrayList<>();
         MemTableIterator iterator1 = memTable.iterator(startKey, endKey);
         result.add(iterator1);
 
-        ArrayList<KeyIterator> list1 = new ArrayList<>();
+        ArrayList<KeyValueIterator> list1 = new ArrayList<>();
         for (MemTable immMemTable : immMemTables) {
             MemTableIterator iterator = immMemTable.iterator(startKey, endKey);
             list1.add(iterator);
@@ -215,15 +203,12 @@ public class LsmStorage {
 
 
 
-    public KeyIterator iterator() {
+    public KeyValueIterator iterator() {
         return iterator(null, null);
     }
-    
-    public SnapshotIterator scan(byte[] start, byte[] end, long snapshot) {
-        return new SnapshotIterator(iterator(Key.minKey(start), Key.maxKey(end)), snapshot) ;
-    }
 
-    public KeyIterator scan(byte[] start, byte[] end) {
+
+    public KeyValueIterator scan(byte[] start, byte[] end) {
         return iterator(Key.minKey(start), Key.maxKey(end));
     }
 

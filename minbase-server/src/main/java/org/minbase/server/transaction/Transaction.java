@@ -4,15 +4,15 @@ package org.minbase.server.transaction;
 
 import org.minbase.server.constant.Constants;
 import org.minbase.server.exception.TransactionException;
-import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.lsmStorage.LsmStorage;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
 import org.minbase.server.transaction.lock.KeyLock;
-import org.minbase.server.transaction.writeBatch.WriteBatchTable;
-import org.minbase.server.transaction.writeBatch.WriteBatchTableIterator;
+import org.minbase.server.transaction.table.TransactionTable;
+import org.minbase.server.transaction.table.TransactionTableIterator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public abstract class Transaction {
     protected long transactionId;
-    protected WriteBatchTable writeBatchTable;
+    protected TransactionTable writeBatchTable;
     protected LsmStorage lsmStorage;
     protected TransactionState transactionState;
     protected KeyLock keyLock;
@@ -30,7 +30,7 @@ public abstract class Transaction {
     public Transaction(long transactionId) {
         this.transactionId = transactionId;
         this.transactionState = TransactionState.Active;
-        this.writeBatchTable = new WriteBatchTable();
+        this.writeBatchTable = new TransactionTable();
     }
 
     public long getTransactionId() {
@@ -87,7 +87,7 @@ public abstract class Transaction {
 
     public abstract void rollback();
 
-    // 快照读
+    // 当前读
     public KeyValue get(byte[] key) {
         Value value = writeBatchTable.get(key);
         if (value != null) {
@@ -105,12 +105,12 @@ public abstract class Transaction {
 
     public void put(byte[] key, byte[] value) {
         keyLock.writeLock(key);
-        writeBatchTable.put(key, Value.Put(value));
+        writeBatchTable.put(key, value);
     }
 
     public void delete(byte[] key) {
         keyLock.writeLock(key);
-        writeBatchTable.put(key, Value.Delete());
+        writeBatchTable.delete(key);
     }
 
     protected boolean isCommit() {
@@ -118,9 +118,9 @@ public abstract class Transaction {
     }
 
 
-    public KeyIterator scan(byte[] startKey, byte[] endKey) {
-        WriteBatchTableIterator iterator1 = new WriteBatchTableIterator(writeBatchTable, startKey, endKey);
-        KeyIterator iterator2 = lsmStorage.scan(startKey, endKey);
+    public KeyValueIterator scan(byte[] startKey, byte[] endKey) {
+        TransactionTableIterator iterator1 = new TransactionTableIterator(writeBatchTable, startKey, endKey);
+        KeyValueIterator iterator2 = lsmStorage.scan(startKey, endKey);
         return new MergeIterator(Arrays.asList(iterator1, iterator2));
     }
 

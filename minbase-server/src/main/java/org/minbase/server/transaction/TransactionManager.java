@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionManager {
-    public static TransactionLevel transactionLevel = TransactionLevel.READ_COMMIT;
     public static TransactionType transactionType = TransactionType.Pessimistic;
 
     private static AtomicLong transactionId = new AtomicLong(0);
@@ -24,9 +23,6 @@ public class TransactionManager {
 
     public static Transaction newTransaction(LsmStorage lsmStorage) {
         long snapShot = Constants.LATEST_VERSION;
-        if (TransactionManager.transactionLevel.equals(TransactionLevel.REPEATABLE_READ)) {
-            snapShot = lsmStorage.getSnapshot();
-        }
         long transactionId = TransactionManager.newTransactionId();
         Transaction transaction;
         if (TransactionManager.transactionType.equals(TransactionType.Optimistic)) {

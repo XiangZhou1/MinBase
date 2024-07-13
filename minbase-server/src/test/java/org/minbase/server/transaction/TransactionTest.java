@@ -4,7 +4,7 @@ package org.minbase.server.transaction;
 import org.junit.Test;
 import org.minbase.server.MinBaseServer;
 import org.minbase.server.op.KeyValue;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,7 @@ public class TransactionTest {
         MinBaseServer minBaseServer = new MinBaseServer();
         final Transaction transaction = minBaseServer.newTransaction();
         try{
-            transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
+            transaction.put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("v1"));
             transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
@@ -32,8 +32,8 @@ public class TransactionTest {
         MinBaseServer minBaseServer = new MinBaseServer();
         final Transaction transaction = minBaseServer.newTransaction();
         try{
-            transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
-            transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v2"));
+            transaction.put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("v1"));
+            transaction.put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("v2"));
             final KeyValue keyValue = transaction.getForUpdate("k1".getBytes());
             transaction.commit();
             System.out.println(keyValue);
@@ -55,7 +55,7 @@ public class TransactionTest {
             public void run() {
                 final Transaction transaction = minBaseServer.newTransaction();
                 try{
-                    transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
+                    transaction.put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("v1"));
                     System.out.println("thread1, k1");
                     try {
                         Thread.sleep(3000);
@@ -63,7 +63,7 @@ public class TransactionTest {
                         interruptedException.printStackTrace();
                     }
                     System.out.println("pre thread1, k2");
-                    transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v2"));
+                    transaction.put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("v2"));
                     System.out.println("thread1, k2");
                     transaction.commit();
                     System.out.println("commit 1");
@@ -84,14 +84,14 @@ public class TransactionTest {
                 final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     System.out.println("pre thread1, k2");
-                    transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v3"));
+                    transaction.put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("v3"));
                     System.out.println("thread2, k2");
                     try {
                         Thread.sleep(6000);
                     } catch (InterruptedException interruptedException) {
                         interruptedException.printStackTrace();
                     }
-                    transaction.put(ByteUtils.toBytes("k4"), ByteUtils.toBytes("v4"));
+                    transaction.put(ByteUtil.toBytes("k4"), ByteUtil.toBytes("v4"));
                     System.out.println("thread2, k4");
                     transaction.commit();
                     System.out.println("commit 2");
@@ -122,7 +122,7 @@ public class TransactionTest {
             public void run() {
                 final Transaction transaction = minBaseServer.newTransaction();
                 try{
-                    transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
+                    transaction.put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("v1"));
                     System.out.println("thread1, k1");
                     try {
                         Thread.sleep(3000);
@@ -130,7 +130,7 @@ public class TransactionTest {
                         interruptedException.printStackTrace();
                     }
                     System.out.println("pre thread1, k2");
-                    transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v2"));
+                    transaction.put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("v2"));
                     System.out.println("thread1, k2");
                     transaction.commit();
                     System.out.println("commit 1");
@@ -151,14 +151,14 @@ public class TransactionTest {
                 final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     System.out.println("pre thread1, k2");
-                    transaction.put(ByteUtils.toBytes("k2"), ByteUtils.toBytes("v3"));
+                    transaction.put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("v3"));
                     System.out.println("thread2, k2");
                     try {
                         Thread.sleep(6000);
                     } catch (InterruptedException interruptedException) {
                         interruptedException.printStackTrace();
                     }
-                    transaction.put(ByteUtils.toBytes("k3"), ByteUtils.toBytes("v1"));
+                    transaction.put(ByteUtil.toBytes("k3"), ByteUtil.toBytes("v1"));
                     System.out.println("thread2, k3");
                     transaction.commit();
                     System.out.println("commit 2");
@@ -180,14 +180,14 @@ public class TransactionTest {
                 final Transaction transaction = minBaseServer.newTransaction();
                 try{
                     System.out.println("pre thread1, k3");
-                    transaction.put(ByteUtils.toBytes("k3"), ByteUtils.toBytes("v3"));
+                    transaction.put(ByteUtil.toBytes("k3"), ByteUtil.toBytes("v3"));
                     System.out.println("thread2, k3");
                     try {
                         Thread.sleep(6000);
                     } catch (InterruptedException interruptedException) {
                         interruptedException.printStackTrace();
                     }
-                    transaction.put(ByteUtils.toBytes("k1"), ByteUtils.toBytes("v1"));
+                    transaction.put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("v1"));
                     System.out.println("thread2, k1");
                     transaction.commit();
                     System.out.println("commit 2");

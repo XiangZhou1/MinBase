@@ -1,4 +1,4 @@
-package org.minbase.server.storage.compaction;
+package org.minbase.server.compaction;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

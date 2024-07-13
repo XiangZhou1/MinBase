@@ -4,11 +4,11 @@ package org.minbase.server.iterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.block.DataBlock;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.ArrayList;
 
-public class BlockIterator implements KeyIterator {
+public class BlockIterator implements KeyValueIterator {
     DataBlock cachedBlock;
     int iterIndex = -1;
     Key startKey;
@@ -50,7 +50,7 @@ public class BlockIterator implements KeyIterator {
     }
 
     @Override
-    public void nextKey() {
+    public void nextInnerKey() {
         if (iterIndex >= cachedBlock.getKeyValueNum() - 1) {
             iterIndex = -1;
         } else {
@@ -87,13 +87,11 @@ public class BlockIterator implements KeyIterator {
 
     // 跳到下一个userKey
     @Override
-    public void nextUserKey() {
+    public void next() {
         Key key = key();
-        seek(Key.maxKey(key.getUserKey()));
-        if (isValid()) {
-            if (ByteUtils.byteEqual(key.getUserKey(), key().getUserKey())) {
-                nextKey();
-            }
+        nextInnerKey();
+        while (isValid() && ByteUtil.byteEqual(key.getUserKey(), key().getUserKey())) {
+            nextInnerKey();
         }
     }
 }

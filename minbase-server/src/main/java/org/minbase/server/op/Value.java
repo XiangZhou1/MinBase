@@ -10,6 +10,8 @@ public class Value {
     private byte operation;
     private byte[] value;
 
+    private static Value DELETE = new Value(OPERATION_DELETE, null);
+
     public Value() {
     }
 
@@ -18,7 +20,7 @@ public class Value {
     }
 
     public static Value Delete() {
-        return new Value(OPERATION_DELETE, null);
+        return DELETE;
     }
 
     private Value(byte operation, byte[] value) {

@@ -14,6 +14,5 @@ public interface Iterator <K, V>{
 
     /// Move to the next.
     void next();
-
 }
 

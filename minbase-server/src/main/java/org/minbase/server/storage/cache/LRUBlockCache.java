@@ -5,7 +5,7 @@ package org.minbase.server.storage.cache;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.storage.block.DataBlock;
-import org.minbase.common.utils.Utils;
+import org.minbase.common.utils.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class LRUBlockCache implements BlockCache {
     private HashMap<String, Entry<DataBlock>> map;
     private LinkedList<DataBlock> list;
     private volatile long length = 0;
-    private static int MAX_CACHE_SIZE = (int) Utils.parseUnit(Config.get(Constants.KEY_MAX_CACHE_SIZE));
+    private static int MAX_CACHE_SIZE = (int) Util.parseUnit(Config.get(Constants.KEY_MAX_CACHE_SIZE));
 
 
     public LRUBlockCache() {

@@ -1,15 +1,16 @@
-package org.minbase.server.lsmStorage;
+package org.minbase.server.compaction.level;
 
 
-import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StorageIterator;
+import org.minbase.server.lsmStorage.StorageManager;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.edit.EditVersion;
 import org.minbase.server.storage.edit.FileEdit;
 import org.minbase.server.storage.sstable.SSTable;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +72,7 @@ public class LevelStorageManager extends StorageManager {
 
     @Override
     public KeyValue get(Key key) {
-        ArrayList<KeyIterator> list = new ArrayList<>();
+        ArrayList<KeyValueIterator> list = new ArrayList<>();
 //        for (SSTable l0SSTable : editVersion.getSSTables(0)) {
 //            if(l0SSTable.mightContain(key.getUserKey())){
 //                list.add(l0SSTable.iterator(key,null));
@@ -92,7 +93,7 @@ public class LevelStorageManager extends StorageManager {
             mergeIterator.seek(key);
 
             if (mergeIterator.isValid()) {
-                if (ByteUtils.byteEqual(key.getUserKey(), mergeIterator.key().getUserKey())) {
+                if (ByteUtil.byteEqual(key.getUserKey(), mergeIterator.key().getUserKey())) {
                     return mergeIterator.value();
                 }
             }
@@ -116,8 +117,8 @@ public class LevelStorageManager extends StorageManager {
 
 
     @Override
-    public KeyIterator iterator(Key startKey, Key endKey) {
-        ArrayList<KeyIterator> list = new ArrayList<>();
+    public KeyValueIterator iterator(Key startKey, Key endKey) {
+        ArrayList<KeyValueIterator> list = new ArrayList<>();
 //        for (SSTable l0SSTable : l0SSTables) {
 //            if(l0SSTable.inRange(startKey == null ? null : startKey.getUserKey(), endKey == null ? null : endKey.getUserKey(), false)){
 //                list.add(l0SSTable.iterator(startKey, endKey));

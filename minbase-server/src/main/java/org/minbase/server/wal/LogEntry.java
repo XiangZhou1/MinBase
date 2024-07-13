@@ -4,7 +4,7 @@ package org.minbase.server.wal;
 
 import org.minbase.server.constant.Constants;
 import org.minbase.server.op.KeyValue;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class LogEntry {
     public byte[] encode() {
         byte[] buf = new byte[length() + Constants.INTEGER_LENGTH];
         int pos = 0;
-        System.arraycopy(ByteUtils.intToByteArray(length()), 0, buf, pos, Constants.INTEGER_LENGTH);
+        System.arraycopy(ByteUtil.intToByteArray(length()), 0, buf, pos, Constants.INTEGER_LENGTH);
         pos += Constants.INTEGER_LENGTH;
 
         for (KeyValue keyValue : keyValues) {

@@ -1,6 +1,6 @@
 package org.minbase.common.utils;
 
-public class Utils {
+public class Util {
     public static long MB = 1024 * 1024;
 
     public static long parseUnit(String val) {

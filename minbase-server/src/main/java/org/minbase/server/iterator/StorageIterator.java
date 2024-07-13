@@ -7,7 +7,7 @@ import java.util.List;
 public class StorageIterator extends MergeIterator {
     private EditVersion editVersion;
 
-    public StorageIterator(List<KeyIterator> iterators, EditVersion editVersion) {
+    public StorageIterator(List<KeyValueIterator> iterators, EditVersion editVersion) {
         super(iterators);
         this.editVersion = editVersion;
     }

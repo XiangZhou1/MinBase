@@ -5,15 +5,15 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.Arrays;
 
 public class LogEntryTest {
     @Test
     public void test1() {
-        KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtils.toBytes("k1")), Value.Put(ByteUtils.toBytes("v1")));
-        KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtils.toBytes("k2")), Value.Put(ByteUtils.toBytes("v2")));
+        KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtil.toBytes("k1")), Value.Put(ByteUtil.toBytes("v1")));
+        KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtil.toBytes("k2")), Value.Put(ByteUtil.toBytes("v2")));
 
         LogEntry logEntry = new LogEntry(1, Arrays.asList(keyValue, keyValue2));
         System.out.println(logEntry);
@@ -21,8 +21,8 @@ public class LogEntryTest {
 
     @Test
     public void test2() {
-        KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtils.toBytes("k1")), Value.Put(ByteUtils.toBytes("v1")));
-        KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtils.toBytes("k2")), Value.Put(ByteUtils.toBytes("v2")));
+        KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtil.toBytes("k1")), Value.Put(ByteUtil.toBytes("v1")));
+        KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtil.toBytes("k2")), Value.Put(ByteUtil.toBytes("v2")));
 
         LogEntry logEntry = new LogEntry(1, Arrays.asList(keyValue, keyValue2));
         byte[] buf = logEntry.encode();

@@ -2,8 +2,8 @@ package org.minbase.server.mem;
 
 
 import org.junit.Test;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MemTableIterator;
-import org.minbase.server.iterator.SnapshotIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
@@ -50,7 +50,7 @@ public class MemTableTest {
         while (iterator.isValid()){
             KeyValue value = iterator.value();
             System.out.println(value);
-            iterator.nextKey();
+            iterator.nextInnerKey();
         }
     }
 
@@ -74,7 +74,7 @@ public class MemTableTest {
         while (iterator.isValid()){
             KeyValue value = iterator.value();
             System.out.println(value);
-            iterator.nextKey();
+            iterator.nextInnerKey();
         }
     }
 
@@ -96,13 +96,13 @@ public class MemTableTest {
         MemTableIterator iterator = memTable.iterator(null, null);
         while (iterator.isValid()) {
             System.out.println(iterator.key());
-            iterator.nextKey();
+            iterator.nextInnerKey();
         }
         System.out.println("snapshot");
-        SnapshotIterator snapshotIterator = new SnapshotIterator(memTable.iterator(null, null), 3);
+        KeyValueIterator snapshotIterator = memTable.iterator(null, null);
         while (snapshotIterator.isValid()) {
             System.out.println(snapshotIterator.key());
-            snapshotIterator.nextKey();
+            snapshotIterator.nextInnerKey();
         }
     }
 }

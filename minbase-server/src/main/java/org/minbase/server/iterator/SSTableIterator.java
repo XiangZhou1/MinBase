@@ -7,11 +7,11 @@ import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
 import org.minbase.server.storage.sstable.SSTable;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.ArrayList;
 
-public class SSTableIterator implements KeyIterator {
+public class SSTableIterator implements KeyValueIterator {
     private SSTable ssTable;
     private int blockIndex = -1;
     private BlockIterator blockIterator;
@@ -72,8 +72,8 @@ public class SSTableIterator implements KeyIterator {
     }
 
     @Override
-    public void nextKey() {
-        blockIterator.nextKey();
+    public void nextInnerKey() {
+        blockIterator.nextInnerKey();
         if (!blockIterator.isValid()) {
             if (blockIndex >= ssTable.numOfBlocks() - 1) {
                 blockIndex = -1;
@@ -93,9 +93,9 @@ public class SSTableIterator implements KeyIterator {
 
     // 跳到下一个userKey
     @Override
-    public void nextUserKey() {
+    public void next() {
         Key key = key();
-        blockIterator.nextUserKey();
+        blockIterator.next();
         while (blockIterator != null && !blockIterator.isValid()) {
             if (blockIndex >= ssTable.numOfBlocks() - 1) {
                 blockIndex = -1;
@@ -105,8 +105,8 @@ public class SSTableIterator implements KeyIterator {
                 DataBlock block = ssTable.getBlock(blockIndex, cached);
                 blockIterator = new BlockIterator(block);
                 if (blockIterator.isValid()) {
-                    if (ByteUtils.byteEqual(key.getUserKey(), blockIterator.key().getUserKey())) {
-                        blockIterator.nextUserKey();
+                    if (ByteUtil.byteEqual(key.getUserKey(), blockIterator.key().getUserKey())) {
+                        blockIterator.next();
                     }
                 }
             }

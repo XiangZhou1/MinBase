@@ -3,7 +3,7 @@ package org.minbase.server.transaction.lock;
 
 
 import org.minbase.server.exception.DeadLockException;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -54,7 +54,7 @@ public class PessimisticLockManager{
         }
     }
 
-    static ConcurrentSkipListMap<byte[], LockEntry> locks = new ConcurrentSkipListMap<>(ByteUtils.BYTE_ORDER_COMPARATOR);
+    static ConcurrentSkipListMap<byte[], LockEntry> locks = new ConcurrentSkipListMap<>(ByteUtil.BYTE_ORDER_COMPARATOR);
 
 
     public static void readLock(byte[] userKey, LockHolder lockHolder) {
@@ -227,7 +227,7 @@ public class PessimisticLockManager{
     private static boolean checkDeadLock(byte[] userKey, Map<byte[], LockEntry> heldLocks, boolean wantWriteLock) {
         for (Map.Entry<byte[], LockEntry> entry : heldLocks.entrySet()) {
             LockEntry heldLock = entry.getValue();
-            if (ByteUtils.byteEqual(userKey, entry.getKey())) {
+            if (ByteUtil.byteEqual(userKey, entry.getKey())) {
                 if(heldLock.lockType.equals(LockType.WRITE) || wantWriteLock)
                 return true;
             }

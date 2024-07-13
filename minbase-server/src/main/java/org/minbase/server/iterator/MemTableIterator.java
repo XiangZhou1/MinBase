@@ -5,13 +5,13 @@ package org.minbase.server.iterator;
 import org.minbase.server.mem.MemTable;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-public class MemTableIterator implements KeyIterator {
+public class MemTableIterator implements KeyValueIterator {
     private Iterator<Map.Entry<byte[], ConcurrentSkipListMap<Key, KeyValue>>> iteratorOuter;
     private Map.Entry<byte[], ConcurrentSkipListMap<Key, KeyValue>> entryOuter;
     private Iterator<Map.Entry<Key, KeyValue>> iteratorInner;
@@ -59,7 +59,7 @@ public class MemTableIterator implements KeyIterator {
 
     @Override
     public void seek(Key key) {
-        while (isValid() && ByteUtils.byteLess(entryOuter.getKey(), key.getUserKey())) {
+        while (isValid() && ByteUtil.byteLess(entryOuter.getKey(), key.getUserKey())) {
             nextIterOuter();
         }
         while (entryInner.getKey().compareTo(key) < 0) {
@@ -83,7 +83,7 @@ public class MemTableIterator implements KeyIterator {
     }
 
     @Override
-    public void nextKey() {
+    public void nextInnerKey() {
         nextIterInner();
         checkEndKey();
         if (entryInner == null && entryOuter != null) {
@@ -109,7 +109,7 @@ public class MemTableIterator implements KeyIterator {
 
     // 跳到下一个userKey
     @Override
-    public void nextUserKey() {
+    public void next() {
         nextIterOuter();
     }
 }

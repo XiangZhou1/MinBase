@@ -1,18 +1,19 @@
-package org.minbase.server.storage.compaction;
+package org.minbase.server.compaction;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.compaction.level.LevelCompaction;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.SSTableIterator;
-import org.minbase.server.lsmStorage.LevelStorageManager;
+import org.minbase.server.compaction.level.LevelStorageManager;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
 import org.minbase.server.storage.sstable.SSTBuilder;
 import org.minbase.server.storage.sstable.SSTable;
-import org.minbase.common.utils.ByteUtils;
-import org.minbase.common.utils.Utils;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.Util;
 
 import java.io.File;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class LevelCompactionTest {
         for(int k = 0; k < 100; k++){
             final int no = random.nextInt(10);
             for (int i = 0; i < num; i++) {
-                sstBuilder.add(new KeyValue(new Key(ByteUtils.toBytes(("k" + Utils.fillZero(no+i))), sequence), Value.Put(ByteUtils.toBytes("v" + Utils.fillZero(sequence)))));
+                sstBuilder.add(new KeyValue(new Key(ByteUtil.toBytes(("k" + Util.fillZero(no+i))), sequence), Value.Put(ByteUtil.toBytes("v" + Util.fillZero(sequence)))));
                 sequence ++;
             }
             final SSTable ssTable = sstBuilder.build();
@@ -58,14 +59,14 @@ public class LevelCompactionTest {
         final SSTableIterator iterator = ssTable.iterator();
         while (iterator.isValid()){
             System.out.println(iterator.value());
-            iterator.nextUserKey();
+            iterator.next();
         }
 
 
         final SSTableIterator iterator1 = ssTable.iterator();
         while (iterator1.isValid()){
             System.out.println(iterator1.value());
-            iterator1.nextKey();
+            iterator1.nextInnerKey();
         }
 
         System.out.println("sstable2");
@@ -73,20 +74,20 @@ public class LevelCompactionTest {
         final SSTableIterator iterator2 = ssTable2.iterator();
         while (iterator2.isValid()){
             System.out.println(iterator2.value());
-            iterator2.nextUserKey();
+            iterator2.next();
         }
 
         final SSTableIterator iterator3 = ssTable2.iterator();
         while (iterator3.isValid()){
             System.out.println(iterator3.value());
-            iterator3.nextKey();
+            iterator3.nextInnerKey();
         }
 
         System.out.println("mergeIterator");
         MergeIterator mergeIterator = new MergeIterator(Arrays.asList(ssTable.iterator(), ssTable2.iterator()));
         while (mergeIterator.isValid()){
             System.out.println(mergeIterator.value());
-            mergeIterator.nextUserKey();
+            mergeIterator.next();
         }
     }
 
@@ -95,20 +96,20 @@ public class LevelCompactionTest {
     public void test1() throws Exception {
         levelStorageManager.loadSSTables();
 
-        final KeyIterator iterator = levelStorageManager.iterator(null, null);
+        final KeyValueIterator iterator = levelStorageManager.iterator(null, null);
         while (iterator.isValid()) {
             final KeyValue keyValue = iterator.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));
-            iterator.nextKey();
+            iterator.nextInnerKey();
         }
 
-        final KeyIterator iterator2 = levelStorageManager.iterator(null, null);
+        final KeyValueIterator iterator2 = levelStorageManager.iterator(null, null);
         while (iterator2.isValid()) {
             final KeyValue keyValue = iterator2.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));
-            iterator2.nextUserKey();
+            iterator2.next();
         }
 
     }
@@ -123,20 +124,20 @@ public class LevelCompactionTest {
         }
 
         System.out.println("scan");
-        final KeyIterator iterator2 = levelStorageManager.iterator(null, null);
+        final KeyValueIterator iterator2 = levelStorageManager.iterator(null, null);
         while (iterator2.isValid()) {
             final KeyValue keyValue = iterator2.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));
-            iterator2.nextKey();
+            iterator2.nextInnerKey();
         }
 
-        final KeyIterator iterator3 = levelStorageManager.iterator(null, null);
+        final KeyValueIterator iterator3 = levelStorageManager.iterator(null, null);
         while (iterator3.isValid()) {
             final KeyValue keyValue = iterator3.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));
-            iterator3.nextUserKey();
+            iterator3.next();
         }
     }
 

@@ -3,7 +3,7 @@ package org.minbase.common.utils;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 
-public class ByteUtils {
+public class ByteUtil {
     public static Comparator<byte[]> BYTE_ORDER_COMPARATOR = new Comparator<byte[]>() {
         @Override
         public int compare(byte[] o1, byte[] o2) {

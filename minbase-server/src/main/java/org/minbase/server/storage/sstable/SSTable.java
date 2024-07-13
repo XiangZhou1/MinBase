@@ -9,8 +9,8 @@ import org.minbase.server.storage.block.BloomFilterBlock;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
 import org.minbase.server.storage.cache.LRUBlockCache;
-import org.minbase.common.utils.ByteUtils;
-import org.minbase.common.utils.IOUtils;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.IOUtil;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -148,10 +148,10 @@ public class SSTable {
         System.arraycopy(bloomFilter.encode(), 0, bytes, index, Constants.LONG_LENGTH);
         index += Constants.LONG_LENGTH;
 
-        System.arraycopy(ByteUtils.longToByteArray(metaBlockOffset), 0, bytes, index, Constants.LONG_LENGTH);
+        System.arraycopy(ByteUtil.longToByteArray(metaBlockOffset), 0, bytes, index, Constants.LONG_LENGTH);
         index += Constants.LONG_LENGTH;
 
-        System.arraycopy(ByteUtils.shotToByteArray(ssTableVersion), 0, bytes, index, Constants.SHORT_LENGTH);
+        System.arraycopy(ByteUtil.shotToByteArray(ssTableVersion), 0, bytes, index, Constants.SHORT_LENGTH);
         return bytes;
     }
 
@@ -189,7 +189,7 @@ public class SSTable {
             randomAccessFile.seek(metaBlocks.get(index).getOffset());
 
             long blockSize = blockSize(index);
-            byte[] buf = IOUtils.read(randomAccessFile, blockSize);
+            byte[] buf = IOUtil.read(randomAccessFile, blockSize);
 
             DataBlock block = new DataBlock();
             block.setKeyValueNum(metaBlocks.get(index).getKeyValueNum());
@@ -217,26 +217,26 @@ public class SSTable {
 
         // 检查version
         file.seek(fileLength - Constants.SHORT_LENGTH);
-        byte[] versionBytes = IOUtils.read(file, Constants.SHORT_LENGTH);
-        if (ssTableVersion != ByteUtils.byteArrayToShort(versionBytes, 0)) {
+        byte[] versionBytes = IOUtil.read(file, Constants.SHORT_LENGTH);
+        if (ssTableVersion != ByteUtil.byteArrayToShort(versionBytes, 0)) {
             throw new RuntimeException("Wrong sstable version");
         }
 
         // 查看metaBlockOffset
         file.seek(fileLength - Constants.SHORT_LENGTH - Constants.LONG_LENGTH);
-        byte[] metaBlockOffsetBytes = IOUtils.read(file, Constants.LONG_LENGTH);
-        metaBlockOffset = ByteUtils.byteArrayToLong(metaBlockOffsetBytes, 0);
+        byte[] metaBlockOffsetBytes = IOUtil.read(file, Constants.LONG_LENGTH);
+        metaBlockOffset = ByteUtil.byteArrayToLong(metaBlockOffsetBytes, 0);
 
         // 查看bloomFilter
         file.seek(fileLength - Constants.SHORT_LENGTH - Constants.LONG_LENGTH - Constants.LONG_LENGTH);
-        byte[] bloomFilterBytes = IOUtils.read(file, Constants.LONG_LENGTH);
+        byte[] bloomFilterBytes = IOUtil.read(file, Constants.LONG_LENGTH);
         this.bloomFilter.decode(bloomFilterBytes);
 
         // 查看metaBlocks
         file.seek(metaBlockOffset);
         MetaBlock metaBlock = new MetaBlock();
         long allMetaBlocksLength = fileLength - metaBlockOffset - Constants.LONG_LENGTH * 2 - Constants.SHORT_LENGTH;
-        byte[] allMetaBlocks = IOUtils.read(file, allMetaBlocksLength);
+        byte[] allMetaBlocks = IOUtil.read(file, allMetaBlocksLength);
 
         int pos = 0;
         while (pos < allMetaBlocksLength) {
@@ -277,15 +277,15 @@ public class SSTable {
         }
 
         if (startKey == null && endKey != null) {
-            if ( ByteUtils.byteLessOrEqual(endKey, this.firstKey.getUserKey())) {
+            if ( ByteUtil.byteLessOrEqual(endKey, this.firstKey.getUserKey())) {
                 return false;
             }
         } else if (startKey != null && endKey == null) {
-            if(ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+            if(ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
                 return false;
             }
         } else {
-            if(ByteUtils.byteLessOrEqual(endKey, this.firstKey.getUserKey()) || ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+            if(ByteUtil.byteLessOrEqual(endKey, this.firstKey.getUserKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
                 return false;
             }
         }
@@ -299,15 +299,15 @@ public class SSTable {
         }
 
         if (startKey == null && endKey != null) {
-            if ( ByteUtils.byteLess(endKey, this.firstKey.getUserKey())) {
+            if ( ByteUtil.byteLess(endKey, this.firstKey.getUserKey())) {
                 return false;
             }
         } else if (startKey != null && endKey == null) {
-            if(ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+            if(ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
                 return false;
             }
         } else {
-            if(ByteUtils.byteLess(endKey, this.firstKey.getUserKey()) || ByteUtils.byteGreater(startKey, this.lastKey.getUserKey())){
+            if(ByteUtil.byteLess(endKey, this.firstKey.getUserKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
                 return false;
             }
         }

@@ -2,7 +2,7 @@ package org.minbase.server.op;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 public class KeyValue {
     private Key key;
@@ -36,13 +36,13 @@ public class KeyValue {
         byte[] buf = new byte[length()];
         int index = 0;
 
-        System.arraycopy(ByteUtils.intToByteArray(key.length()), 0, buf, index, Constants.INTEGER_LENGTH);
+        System.arraycopy(ByteUtil.intToByteArray(key.length()), 0, buf, index, Constants.INTEGER_LENGTH);
         index += Constants.INTEGER_LENGTH;
 
         System.arraycopy(key.encode(), 0, buf, index, key.length());
         index += key.length();
 
-        System.arraycopy(ByteUtils.intToByteArray(value.length()), 0, buf, index, Constants.INTEGER_LENGTH);
+        System.arraycopy(ByteUtil.intToByteArray(value.length()), 0, buf, index, Constants.INTEGER_LENGTH);
         index += Constants.INTEGER_LENGTH;
 
         System.arraycopy(value.encode(), 0, buf, index, value.length());
@@ -50,7 +50,7 @@ public class KeyValue {
     }
 
     public void decode(byte[] bytes, int pos) {
-        int keyLen = ByteUtils.byteArrayToInt(bytes, pos);
+        int keyLen = ByteUtil.byteArrayToInt(bytes, pos);
         pos += Constants.INTEGER_LENGTH;
 
         byte[] key = new byte[keyLen];
@@ -59,7 +59,7 @@ public class KeyValue {
         this.key = new Key();
         this.key.decode(key);
 
-        int valueLen = ByteUtils.byteArrayToInt(bytes, pos);
+        int valueLen = ByteUtil.byteArrayToInt(bytes, pos);
         pos += Constants.INTEGER_LENGTH;
 
         byte[] value = new byte[valueLen];

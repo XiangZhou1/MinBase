@@ -2,9 +2,9 @@ package org.minbase.server.lsmStorage;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minbase.server.iterator.KeyIterator;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.op.WriteBatch;
-import org.minbase.common.utils.ByteUtils;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.Scanner;
 
@@ -74,8 +74,8 @@ public class StorageManagerTest {
 
         for (long i = 0; i < num; i++) {
             WriteBatch writeBatch = new WriteBatch();
-            writeBatch.put(ByteUtils.toBytes("k" + i), ByteUtils.toBytes("v" + i));
-            writeBatch.put(ByteUtils.toBytes("k_" + i), ByteUtils.toBytes("v_" + i));
+            writeBatch.put(ByteUtil.toBytes("k" + i), ByteUtil.toBytes("v" + i));
+            writeBatch.put(ByteUtil.toBytes("k_" + i), ByteUtil.toBytes("v_" + i));
             lsmStorage.put(writeBatch);
             if (i % 1000 == 0) {
                 System.out.println(i);
@@ -87,10 +87,10 @@ public class StorageManagerTest {
         System.out.println("afterFlush");
         //Thread.sleep(10 * 1000);
         int totalNum = 0;
-        final KeyIterator iterator = lsmStorage.iterator();
+        final KeyValueIterator iterator = lsmStorage.iterator();
         while (iterator.isValid()){
             System.out.println(iterator.value());
-            iterator.nextUserKey();
+            iterator.next();
             totalNum ++;
         }
         iterator.close();

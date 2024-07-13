@@ -6,7 +6,7 @@ import org.minbase.server.iterator.SSTableIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.common.utils.Utils;
+import org.minbase.common.utils.Util;
 
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
@@ -18,7 +18,7 @@ public class SSTableTest {
         int totalNum = 4000;
         SSTBuilder sstBuilder = new SSTBuilder();
         for (int i = 0; i < totalNum; i++) {
-            Key key = new Key(("k" + Utils.fillZero(i)).getBytes(), 1);
+            Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             Value put = Value.Put("v1".getBytes());
             sstBuilder.add(new KeyValue(key, put));
         }
@@ -32,7 +32,7 @@ public class SSTableTest {
             KeyValue value = iterator.value();
             scanNum ++;
             System.out.println(value);
-            iterator.nextKey();
+            iterator.nextInnerKey();
         }
         assert totalNum == scanNum;
     }
@@ -42,8 +42,8 @@ public class SSTableTest {
         int totalNum = 400000;
         SSTBuilder sstBuilder = new SSTBuilder();
         for (int i = 0; i < totalNum; i++) {
-            Key key2 = new Key(("k" + Utils.fillZero(i)).getBytes(), 2);
-            Key key1 = new Key(("k" + Utils.fillZero(i)).getBytes(), 1);
+            Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
+            Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             Value put = Value.Put("v1".getBytes());
             sstBuilder.add(new KeyValue(key2, put));
             sstBuilder.add(new KeyValue(key1, put));
@@ -58,7 +58,7 @@ public class SSTableTest {
             KeyValue value = iterator.value();
             scanNum ++;
             System.out.println(value);
-            iterator.nextUserKey();
+            iterator.next();
         }
         System.out.println(scanNum);
         assert totalNum == scanNum;
@@ -68,19 +68,19 @@ public class SSTableTest {
     public void testSeek() {
         SSTBuilder sstBuilder = new SSTBuilder();
         for (int i = 0; i < 40960; i++) {
-            Key key = new Key(("k" + Utils.fillZero(i)).getBytes(), 1);
+            Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             Value put = Value.Put("v1".getBytes());
             sstBuilder.add(new KeyValue(key, put));
         }
         SSTable ssTable = sstBuilder.build();
 
         for (int i = 0; i < 40960; i++) {
-            SSTableIterator iterator = ssTable.iterator(Key.latestKey(("k" + Utils.fillZero(i)).getBytes()), null);
+            SSTableIterator iterator = ssTable.iterator(Key.latestKey(("k" + Util.fillZero(i)).getBytes()), null);
             int num = 0;
             while (iterator.isValid()) {
                 KeyValue value = iterator.value();
                 num++;
-                iterator.nextKey();
+                iterator.nextInnerKey();
             }
             System.out.println("num=" + num +", i=" + i);
             assert num == 40960 - i;
@@ -93,7 +93,7 @@ public class SSTableTest {
     public void testEncodeAndSave() throws Exception {
         SSTBuilder sstBuilder = new SSTBuilder();
         for (int i = 0; i < 4096; i++) {
-            Key key = new Key(("k" + Utils.fillZero(i)).getBytes(), 1);
+            Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             Value put = Value.Put("v1".getBytes());
             sstBuilder.add(new KeyValue(key, put));
         }
@@ -103,7 +103,7 @@ public class SSTableTest {
         while (iterator.isValid()){
             KeyValue value = iterator.value();
             //System.out.println(value);
-            iterator.nextKey();
+            iterator.nextInnerKey();
         }
 
         byte[] encode = ssTable.encode();
@@ -132,7 +132,7 @@ public class SSTableTest {
     public void testEncodeAndSave2() throws Exception {
         SSTBuilder sstBuilder = new SSTBuilder();
         for (int i = 0; i < 4096; i++) {
-            Key key = new Key(("k" + Utils.fillZero(i)).getBytes(), 1);
+            Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             Value put = Value.Put("v1".getBytes());
             sstBuilder.add(new KeyValue(key, put));
         }

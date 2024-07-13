@@ -9,7 +9,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.minbase.common.rpc.Constant;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestDecoder;
-import org.minbase.common.rpc.codec.RpcResponseDecoder;
 import org.minbase.common.rpc.codec.RpcResponseEncoder;
 import org.minbase.server.MinBaseServer;
 import org.slf4j.Logger;
