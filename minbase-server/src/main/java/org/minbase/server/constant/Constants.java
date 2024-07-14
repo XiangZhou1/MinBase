@@ -19,4 +19,5 @@ public class Constants {
     public static final String KEY_MAX_MEMTABLE_SIZE = "minbase.max_memtable_size";
     public static final String KEY_MAX_SSTABLE_SIZE = "minbase.max_sstable_size";
     public static final String KEY_WAL_SYNC_LEVEL = "minbase.wal_sync_level";
+    public static final String KEY_WAL_FILE_LENGTH_LIMIT = "minbase.wal_file_length_limit";
 }

@@ -15,7 +15,7 @@ public class LogEntryTest {
         KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtil.toBytes("k1")), Value.Put(ByteUtil.toBytes("v1")));
         KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtil.toBytes("k2")), Value.Put(ByteUtil.toBytes("v2")));
 
-        LogEntry logEntry = new LogEntry(1, Arrays.asList(keyValue, keyValue2));
+        LogEntry logEntry = new LogEntry(Arrays.asList(keyValue, keyValue2));
         System.out.println(logEntry);
     }
 
@@ -24,7 +24,7 @@ public class LogEntryTest {
         KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtil.toBytes("k1")), Value.Put(ByteUtil.toBytes("v1")));
         KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtil.toBytes("k2")), Value.Put(ByteUtil.toBytes("v2")));
 
-        LogEntry logEntry = new LogEntry(1, Arrays.asList(keyValue, keyValue2));
+        LogEntry logEntry = new LogEntry(Arrays.asList(keyValue, keyValue2));
         byte[] buf = logEntry.encode();
         byte[] buf2 = new byte[buf.length - Constants.INTEGER_LENGTH];
         System.arraycopy(buf, Constants.INTEGER_LENGTH, buf2, 0, buf2.length);

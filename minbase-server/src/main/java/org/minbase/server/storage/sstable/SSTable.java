@@ -10,7 +10,7 @@ import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
 import org.minbase.server.storage.cache.LRUBlockCache;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.common.utils.IOUtil;
+import org.minbase.common.utils.FileUtil;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -189,7 +189,7 @@ public class SSTable {
             randomAccessFile.seek(metaBlocks.get(index).getOffset());
 
             long blockSize = blockSize(index);
-            byte[] buf = IOUtil.read(randomAccessFile, blockSize);
+            byte[] buf = FileUtil.read(randomAccessFile, blockSize);
 
             DataBlock block = new DataBlock();
             block.setKeyValueNum(metaBlocks.get(index).getKeyValueNum());
@@ -217,26 +217,26 @@ public class SSTable {
 
         // 检查version
         file.seek(fileLength - Constants.SHORT_LENGTH);
-        byte[] versionBytes = IOUtil.read(file, Constants.SHORT_LENGTH);
+        byte[] versionBytes = FileUtil.read(file, Constants.SHORT_LENGTH);
         if (ssTableVersion != ByteUtil.byteArrayToShort(versionBytes, 0)) {
             throw new RuntimeException("Wrong sstable version");
         }
 
         // 查看metaBlockOffset
         file.seek(fileLength - Constants.SHORT_LENGTH - Constants.LONG_LENGTH);
-        byte[] metaBlockOffsetBytes = IOUtil.read(file, Constants.LONG_LENGTH);
+        byte[] metaBlockOffsetBytes = FileUtil.read(file, Constants.LONG_LENGTH);
         metaBlockOffset = ByteUtil.byteArrayToLong(metaBlockOffsetBytes, 0);
 
         // 查看bloomFilter
         file.seek(fileLength - Constants.SHORT_LENGTH - Constants.LONG_LENGTH - Constants.LONG_LENGTH);
-        byte[] bloomFilterBytes = IOUtil.read(file, Constants.LONG_LENGTH);
+        byte[] bloomFilterBytes = FileUtil.read(file, Constants.LONG_LENGTH);
         this.bloomFilter.decode(bloomFilterBytes);
 
         // 查看metaBlocks
         file.seek(metaBlockOffset);
         MetaBlock metaBlock = new MetaBlock();
         long allMetaBlocksLength = fileLength - metaBlockOffset - Constants.LONG_LENGTH * 2 - Constants.SHORT_LENGTH;
-        byte[] allMetaBlocks = IOUtil.read(file, allMetaBlocksLength);
+        byte[] allMetaBlocks = FileUtil.read(file, allMetaBlocksLength);
 
         int pos = 0;
         while (pos < allMetaBlocksLength) {

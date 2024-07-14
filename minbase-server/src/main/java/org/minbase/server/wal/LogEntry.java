@@ -7,31 +7,46 @@ import org.minbase.server.op.KeyValue;
 import org.minbase.common.utils.ByteUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 可以把多个KeyValue记录成一条日志, 以保证多个操作的原子性
  * |length|KV|KV|...|
  */
 public class LogEntry {
-    List<KeyValue> keyValues;
+    private List<KeyValue> keyValues;
+    private int length;
+    private long sequenceId;
 
     public LogEntry() {
-        keyValues = new ArrayList<>();
+        this.keyValues = new ArrayList<>();
     }
 
-    public LogEntry(long currSequenceId, List<KeyValue> keyValues) {
+    public LogEntry(List<KeyValue> keyValues) {
         this.keyValues = keyValues;
-        keyValues.forEach(keyValue -> keyValue.getKey().setSequenceId(currSequenceId));
+        this.length = 0;
+        keyValues.forEach(keyValue -> {
+            this.length += keyValue.length();
+        });
+    }
+
+    public LogEntry(KeyValue keyValue) {
+        this.keyValues = Arrays.asList(keyValue);
+        this.length = keyValue.length();
+    }
+
+    public void setSequenceId(long sequenceId) {
+        this.sequenceId = sequenceId;
+        keyValues.forEach(keyValue -> {
+            this.length += keyValue.length();
+            keyValue.getKey().setSequenceId(sequenceId);
+        });
     }
 
     public int length() {
-        int len = 0;
-        for (KeyValue keyValue : keyValues) {
-            len += keyValue.length();
-        }
-        return len;
+        return length;
     }
-
 
     public byte[] encode() {
         byte[] buf = new byte[length() + Constants.INTEGER_LENGTH];
@@ -55,10 +70,12 @@ public class LogEntry {
             pos += keyValue.length();
             keyValues.add(keyValue);
         }
+        length = buf.length;
+        sequenceId = keyValues.get(0).getKey().getSequenceId();
     }
 
     public long getSequenceId() {
-        return keyValues.get(0).getKey().getSequenceId();
+        return sequenceId;
     }
 
     public List<KeyValue> getKeyValues() {
@@ -69,6 +86,8 @@ public class LogEntry {
     public String toString() {
         return "LogEntry{" +
                 "keyValues=" + keyValues +
+                ", length=" + length +
+                ", sequenceId=" + sequenceId +
                 '}';
     }
 }
