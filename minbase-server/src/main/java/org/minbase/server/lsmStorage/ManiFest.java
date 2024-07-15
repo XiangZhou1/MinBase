@@ -10,7 +10,5 @@ public abstract class ManiFest {
 
     public abstract void saveManifest();
 
-    public File getManiFestFile() {
-        return new File(Data_Dir + File.separator + "level" + File.separator + manifestFileName);
-    }
+    public abstract File getManiFestFile();
 }

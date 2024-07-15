@@ -37,16 +37,12 @@ public class LevelCompaction implements Compaction {
     @Override
     public synchronized void compact() throws Exception {
         FileEdit fileEdit = storageManager.newFileEdit();
-        if (needCompact()) {
-            final List<SSTable> ssTablesL0 = storageManager.getSSTables(0);
-            compactLevel(0, ssTablesL0.get(ssTablesL0.size() - 1), fileEdit);
-        }
 
-        for (int i = 1; i < MAX_LEVEL - 1; i++) {
+        for (int i = 0; i < MAX_LEVEL - 1; i++) {
             List<SSTable> ssTables = storageManager.getSSTables(i);
-            List<SSTable> ssTablesNextLevel = storageManager.getSSTables(i + 1);
-            if (ssTables.size() > ssTablesNextLevel.size()) {
-                compactLevel(i, ssTables.get(ssTables.size()-1), fileEdit);
+            List<SSTable> ssTables2 = storageManager.getSSTables(i + 1);
+            if (ssTables.size() > 3 * ssTables2.size()) {
+                compactLevel(i, ssTables.get(ssTables.size() - 1), fileEdit);
             }
         }
 

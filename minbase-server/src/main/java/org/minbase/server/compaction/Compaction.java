@@ -4,4 +4,5 @@ public interface Compaction {
     void compact() throws Exception;
 
     boolean needCompact();
+
 }

@@ -2,6 +2,8 @@ package org.minbase.server.lsmStorage;
 
 
 import org.minbase.server.compaction.level.LevelStorageManager;
+import org.minbase.server.compaction.tiered.TieredCompaction;
+import org.minbase.server.compaction.tiered.TieredStorageManager;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyValueIterator;
@@ -72,10 +74,13 @@ public class LsmStorage {
         if (CompactionStrategy.LEVEL_COMPACTION.toString().equals(compactionStrategy)) {
             this.storageManager = new LevelStorageManager();
             this.storageManager.loadSSTables();
-            this.compaction = new LevelCompaction((LevelStorageManager)storageManager);
-        } else {
-
+            this.compaction = new LevelCompaction((LevelStorageManager) storageManager);
+        } else if (CompactionStrategy.TIERED_COMPACTION.toString().equals(compactionStrategy)) {
+            this.storageManager = new TieredStorageManager();
+            this.storageManager.loadSSTables();
+            this.compaction = new TieredCompaction((TieredStorageManager) storageManager);
         }
+
         this.compactThread = new CompactThread(this.compaction);
     }
     
