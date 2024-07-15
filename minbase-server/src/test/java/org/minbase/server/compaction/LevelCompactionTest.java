@@ -48,7 +48,7 @@ public class LevelCompactionTest {
                 sequence ++;
             }
             final SSTable ssTable = sstBuilder.build();
-            levelStorageManager.addNewSSTable(ssTable, sequence);
+            levelStorageManager.addSSTable(ssTable, sequence);
             sstBuilder = new SSTBuilder();
         }
     }
@@ -119,7 +119,7 @@ public class LevelCompactionTest {
         LevelCompaction levelCompaction = new LevelCompaction(levelStorageManager);
         levelStorageManager.loadSSTables();
 
-        while (levelCompaction.shouldCompact()) {
+        while (levelCompaction.needCompact()) {
             levelCompaction.compact();
         }
 

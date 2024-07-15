@@ -1,6 +1,11 @@
 package org.minbase.common.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Util {
+    private static final Logger logger = LoggerFactory.getLogger(Util.class);
+
     public static long MB = 1024 * 1024;
 
     public static long parseUnit(String val) {
@@ -17,5 +22,14 @@ public class Util {
             return "00000000".substring(value.length()) + value;
         }
         return value;
+    }
+
+
+    public static void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            logger.error("InterruptedException", e);
+        }
     }
 }

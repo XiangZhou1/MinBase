@@ -5,20 +5,22 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
-import org.minbase.server.storage.edit.FileEdit;
+import org.minbase.server.storage.version.EditVersion;
+import org.minbase.server.storage.version.FileEdit;
 import org.minbase.server.storage.sstable.SSTable;
 
 import java.io.IOException;
 
 public abstract class StorageManager extends ManiFest {
     public static final String Data_Dir = Config.get(Constants.KEY_DATA_DIR);
+
     protected long lastSequenceId = 0;
+
     public abstract void loadSSTables() throws IOException;
 
     public abstract KeyValue get(Key key);
 
-    public abstract void addNewSSTable(SSTable ssTable, long lastSyncSequenceId) throws IOException;
-    public abstract void saveSSTableFile(SSTable ssTable) throws IOException;
+    public abstract void addSSTable(SSTable ssTable, long lastSyncSequenceId) throws IOException;
 
     public abstract KeyValueIterator iterator(Key startKey, Key endKey);
 
@@ -30,4 +32,5 @@ public abstract class StorageManager extends ManiFest {
         return lastSequenceId;
     }
 
+    public abstract EditVersion getEditVersion();
 }

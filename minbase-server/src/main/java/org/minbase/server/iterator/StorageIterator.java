@@ -1,6 +1,6 @@
 package org.minbase.server.iterator;
 
-import org.minbase.server.storage.edit.EditVersion;
+import org.minbase.server.storage.version.EditVersion;
 
 import java.util.List;
 

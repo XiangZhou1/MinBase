@@ -1,4 +1,4 @@
-package org.minbase.server.storage.edit;
+package org.minbase.server.storage.version;
 
 import org.minbase.server.storage.sstable.SSTable;
 import org.slf4j.Logger;

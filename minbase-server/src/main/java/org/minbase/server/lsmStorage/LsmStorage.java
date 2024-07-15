@@ -233,7 +233,7 @@ public class LsmStorage {
     }
 
     public void triggerCompaction() {
-        if (compaction.shouldCompact()) {
+        if (compaction.needCompact()) {
             compactThread.trigger();
         }
     }

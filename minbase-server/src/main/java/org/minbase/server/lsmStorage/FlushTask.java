@@ -47,7 +47,7 @@ public class FlushTask implements Runnable {
                 }
 
                 SSTable ssTable = sstBuilder.build();
-                storageManager.addNewSSTable(ssTable, lastSyncSequenceId);
+                storageManager.addSSTable(ssTable, lastSyncSequenceId);
 
                 immMemTables.removeLast();
                 ssTable.cacheDataBlocks();

@@ -1,4 +1,4 @@
-package org.minbase.server.storage.edit;
+package org.minbase.server.storage.version;
 
 
 

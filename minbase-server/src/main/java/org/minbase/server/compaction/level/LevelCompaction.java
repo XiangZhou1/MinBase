@@ -12,7 +12,7 @@ import org.minbase.server.op.Key;
 import org.minbase.server.storage.sstable.SSTBuilder;
 import org.minbase.server.storage.sstable.SSTable;
 import org.minbase.common.utils.Util;
-import org.minbase.server.storage.edit.FileEdit;
+import org.minbase.server.storage.version.FileEdit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +37,9 @@ public class LevelCompaction implements Compaction {
     @Override
     public synchronized void compact() throws Exception {
         FileEdit fileEdit = storageManager.newFileEdit();
-        if (shouldCompact()) {
+        if (needCompact()) {
             final List<SSTable> ssTablesL0 = storageManager.getSSTables(0);
-            compactLevel(0, ssTablesL0.get(ssTablesL0.size()-1), fileEdit);
+            compactLevel(0, ssTablesL0.get(ssTablesL0.size() - 1), fileEdit);
         }
 
         for (int i = 1; i < MAX_LEVEL - 1; i++) {
@@ -62,12 +62,13 @@ public class LevelCompaction implements Compaction {
 
         Key firstKey = ssTable.getFirstKey();
         Key lastKey = ssTable.getLastKey();
-        ArrayList<SSTable> choosedNextlevelSsTables = chooseCompactedSSTable(storageManager.getSSTables(level + 1), firstKey.getUserKey(), lastKey.getUserKey());
-        if (choosedNextlevelSsTables.isEmpty()) {
+        ArrayList<SSTable> ssTables2 = chooseCompactSSTable(storageManager.getSSTables(level + 1), firstKey.getUserKey(), lastKey.getUserKey());
+
+        if (ssTables2.isEmpty()) {
             fileEdit.addSSTable(level + 1, ssTable);
             fileEdit.removeSSTable(level, ssTable);
         } else {
-            for (SSTable ssTableTemp : choosedNextlevelSsTables) {
+            for (SSTable ssTableTemp : ssTables2) {
                 SSTableIterator iterator = ssTableTemp.compactionIterator();
                 ssTableIters.add(iterator);
             }
@@ -91,16 +92,16 @@ public class LevelCompaction implements Compaction {
             }
 
             fileEdit.removeSSTable(level, ssTable);
-            for (SSTable nextlevelSsTable : choosedNextlevelSsTables) {
-                fileEdit.removeSSTable(level + 1, nextlevelSsTable);
+            for (SSTable removedTable : ssTables2) {
+                fileEdit.removeSSTable(level + 1, removedTable);
             }
         }
     }
 
-    private ArrayList<SSTable> chooseCompactedSSTable(List<SSTable> ssTables, byte[] firstKey, byte[] lastKey) {
+    private ArrayList<SSTable> chooseCompactSSTable(List<SSTable> ssTables, byte[] firstKey, byte[] lastKey) {
         ArrayList<SSTable> choosed = new ArrayList<>();
         for (SSTable ssTable : ssTables) {
-            if (ssTable.inRange(firstKey, lastKey, true)){
+            if (ssTable.inRange(firstKey, lastKey, true)) {
                 choosed.add(ssTable);
             }
         }
@@ -108,9 +109,14 @@ public class LevelCompaction implements Compaction {
     }
 
     @Override
-    public boolean shouldCompact() {
-        int sizeLevel0 = storageManager.getSSTables(0).size();
-        int sizeLevel1 = storageManager.getSSTables(1).size();
-        return sizeLevel0 > sizeLevel1;
+    public boolean needCompact() {
+        for (int i = 0; i < MAX_LEVEL - 1; i++) {
+            List<SSTable> ssTables = storageManager.getSSTables(i);
+            List<SSTable> ssTablesNextLevel = storageManager.getSSTables(i + 1);
+            if (ssTables.size() > 3 * ssTablesNextLevel.size()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
