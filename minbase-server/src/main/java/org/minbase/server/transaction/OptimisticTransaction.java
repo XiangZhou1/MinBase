@@ -60,7 +60,7 @@ public class OptimisticTransaction extends Transaction {
         }
 
         // 无冲突, 可以写入到其中
-        lsmStorage.put(writeBatchTable.getWriteBatch());
+        minStore.put(writeBatchTable.getWriteBatch());
 
         // 给所有在本事务创建之前已经创建的,且还在活跃的事务, 添加需要进行检查冲突的事务(自身)
         final Iterator<Map.Entry<Long, Transaction>> iterator = TransactionManager.getActiveTransactions().entrySet().iterator();

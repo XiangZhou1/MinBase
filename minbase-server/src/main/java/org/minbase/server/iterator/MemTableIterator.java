@@ -2,7 +2,7 @@ package org.minbase.server.iterator;
 
 
 
-import org.minbase.server.mem.MemTable;
+import org.minbase.server.mem.MemStore;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.common.utils.ByteUtil;
@@ -19,12 +19,12 @@ public class MemTableIterator implements KeyValueIterator {
     private Key startKey;
     private Key endKey;
 
-    public MemTableIterator(MemTable memTable) {
-        this(memTable, null, null);
+    public MemTableIterator(MemStore memStore) {
+        this(memStore, null, null);
     }
 
-    public MemTableIterator(MemTable memTable, Key startKey, Key endKey) {
-        iteratorOuter = memTable.getEntrySet().iterator();
+    public MemTableIterator(MemStore memStore, Key startKey, Key endKey) {
+        iteratorOuter = memStore.getEntrySet().iterator();
 
         this.startKey = startKey;
         this.endKey = endKey;

@@ -4,20 +4,25 @@ package org.minbase.server.op;
 import org.minbase.server.constant.Constants;
 import org.minbase.common.utils.ByteUtil;
 
-public class Key implements Comparable<Key>{
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class Key implements Comparable<Key> {
     private byte[] userKey;
+    private byte[] column;
     private long sequenceId;
 
     public Key() {
     }
 
-    public Key(byte[] userKey, long version) {
+    public Key(byte[] userKey, byte[] column, long sequenceId) {
         this.userKey = userKey;
-        this.sequenceId = version;
+        this.column = column;
+        this.sequenceId = sequenceId;
     }
 
     public static Key latestKey(byte[] userKey){
-        return new Key(userKey, Constants.LATEST_VERSION);
+        return new Key(userKey, null, Constants.LATEST_VERSION);
     }
 
     public int length() {
@@ -30,6 +35,13 @@ public class Key implements Comparable<Key>{
         System.arraycopy(userKey, 0, buf, 0, userKey.length);
         System.arraycopy(ByteUtil.longToByteArray(sequenceId), 0, buf, userKey.length, Constants.LONG_LENGTH);
         return buf;
+    }
+
+    public int encodeToFile(OutputStream outputStream) throws IOException {
+        byte[] buf = new byte[length()];
+        outputStream.write(userKey);
+        outputStream.write(ByteUtil.longToByteArray(sequenceId));
+        return length();
     }
 
     public void decode(byte[] buf) {
@@ -73,11 +85,11 @@ public class Key implements Comparable<Key>{
 
 
     public static Key minKey(byte[] userKey) {
-        return new Key(userKey, Long.MAX_VALUE);
+        return new Key(userKey, null, Long.MAX_VALUE);
     }
 
     public static Key maxKey(byte[] userKey) {
-        return new Key(userKey, Long.MIN_VALUE);
+        return new Key(userKey, null, Long.MIN_VALUE);
     }
 
     @Override

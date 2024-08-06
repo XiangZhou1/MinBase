@@ -1,24 +1,23 @@
 package org.minbase.server.storage.version;
 
 import org.minbase.common.utils.Util;
-import org.minbase.server.compaction.level.LevelStorageManager;
-import org.minbase.server.lsmStorage.StorageManager;
+import org.minbase.server.storage.storemanager.AbstractStoreManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ClearOldVersionTask implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(ClearOldVersionTask.class);
 
-    StorageManager storageManager;
+    AbstractStoreManager storeManager;
 
-    public ClearOldVersionTask(StorageManager storageManager) {
-        this.storageManager = storageManager;
+    public ClearOldVersionTask(AbstractStoreManager storeManager) {
+        this.storeManager = storeManager;
     }
 
     @Override
     public void run() {
         while (true) {
-            EditVersion currentVersion = storageManager.getEditVersion();
+            EditVersion currentVersion = storeManager.getEditVersion(false);
             EditVersion removeVersion = currentVersion.getPrevVersion();
             if (removeVersion == null) {
                 Util.sleep(10 * 1000);

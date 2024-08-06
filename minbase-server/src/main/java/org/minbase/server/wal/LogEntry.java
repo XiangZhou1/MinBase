@@ -15,6 +15,7 @@ import java.util.List;
  * |length|KV|KV|...|
  */
 public class LogEntry {
+    private String tableName;
     private List<KeyValue> keyValues;
     private int length;
     private long sequenceId;

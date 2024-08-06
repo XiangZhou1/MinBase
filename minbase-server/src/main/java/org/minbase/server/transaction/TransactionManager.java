@@ -1,8 +1,11 @@
 package org.minbase.server.transaction;
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.lsmStorage.LsmStorage;
+import org.minbase.server.minstore.MinStore;
+import org.minbase.server.table.TableImpl;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -21,7 +24,7 @@ public class TransactionManager {
         return transactionId.incrementAndGet();
     }
 
-    public static Transaction newTransaction(LsmStorage lsmStorage) {
+    public static Transaction newTransaction(Map<String, TableImpl> tables) {
         long snapShot = Constants.LATEST_VERSION;
         long transactionId = TransactionManager.newTransactionId();
         Transaction transaction;
@@ -31,7 +34,7 @@ public class TransactionManager {
             transaction = new PessimisticTransaction(transactionId);
         }
         activeTransactions.put(transactionId, transaction);
-        transaction.setLsmStorage(lsmStorage);
+        transaction.setTables(tables);
         transaction.setSnapShot(snapShot);
         return transaction;
     }

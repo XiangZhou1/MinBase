@@ -8,35 +8,41 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.concurrent.DefaultPromise;
 import io.netty.util.concurrent.Promise;
-import org.minbase.client.handler.ClientHandler;
-import org.minbase.common.rpc.RpcRequest;
-import org.minbase.common.rpc.RpcResponse;
-import org.minbase.common.rpc.codec.*;
-import org.minbase.common.rpc.service.ClientService;
-import org.minbase.common.rpc.service.Methods;
+import org.minbase.client.handler.MinClientHandler;
+import org.minbase.client.service.AdminService;
+import org.minbase.client.service.ClientService;
+import org.minbase.common.rpc.codec.RpcFrameDecoder;
+import org.minbase.common.rpc.codec.RpcRequestEncoder;
+import org.minbase.common.rpc.codec.RpcResponseDecoder;
+import org.minbase.common.rpc.proto.generated.RpcProto;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Client implements ClientService {
+public class Client {
     private final String host;
     private final int port;
     private Channel channel;
     private AtomicLong requestId;
-    private ConcurrentHashMap<Long, Promise<RpcResponse>> waitingResponses;
-    private ClientHandler clientHandler;
-    private EventLoopGroup group = new NioEventLoopGroup(); // 创建一个NioEventLoopGroup对象，它负责处理I/O操作的多线程事件循环
+    private ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses;
+    private MinClientHandler clientHandler;
+    private EventLoopGroup group; // 创建一个NioEventLoopGroup对象，它负责处理I/O操作的多线程事件循环
+    private ClientService clientService;
+    private AdminService adminService;
+
     public Client(String host, int port) {
         this.host = host;
         this.port = port;
         this.requestId = new AtomicLong(0);
         this.waitingResponses = new ConcurrentHashMap<>();
-        clientHandler = new ClientHandler(waitingResponses);
-
+        this.clientHandler = new MinClientHandler(waitingResponses);
+        this.group = new NioEventLoopGroup(1);
         // 连接服务端
         connect();
+
+        this.clientService = new ClientService(channel, requestId, waitingResponses, group);
+        this.adminService = new AdminService();
     }
 
     private void connect() {
@@ -57,47 +63,6 @@ public class Client implements ClientService {
             channel = bootstrap.connect(host, port).sync().channel(); // 使用Bootstrap连接服务器，同步连接并获取到Channel
         } catch (Exception e) {
             group.shutdownGracefully();
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    @Override
-    public String get(String key) {
-        long id = requestId.incrementAndGet();
-        RpcRequest rpcRequest = new RpcRequest(id, Methods.GET.getName(), new Object[]{key});
-        RpcResponse rpcResponse = call(rpcRequest);
-        return (String) rpcResponse.getValue();
-    }
-
-    @Override
-    public void put(String key, String value) {
-        long id = requestId.incrementAndGet();
-        final RpcRequest rpcRequest = new RpcRequest(id, Methods.PUT.getName(), new Object[]{key, value});
-        call(rpcRequest);
-    }
-
-    @Override
-    public boolean checkAndPut(String checkKey, String checkValue, String key, String value) {
-        return false;
-    }
-
-    @Override
-    public void delete(String key) {
-
-    }
-
-    private RpcResponse call(RpcRequest rpcRequest) {
-        Promise<RpcResponse> responsePromise = new DefaultPromise<>(group.next());
-        waitingResponses.put(rpcRequest.getId(), responsePromise);
-        channel.writeAndFlush(rpcRequest);
-        try {
-            final RpcResponse rpcResponse = responsePromise.get();
-            if (rpcResponse.getCode() == -1) {
-                throw new RuntimeException("rpc fail");
-            }
-            return rpcResponse;
-        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

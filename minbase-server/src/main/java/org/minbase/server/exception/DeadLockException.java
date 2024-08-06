@@ -1,6 +1,6 @@
 package org.minbase.server.exception;
 
-public class DeadLockException extends TransactionException {
+public class DeadLockException extends RuntimeException {
     public DeadLockException() {
     }
 

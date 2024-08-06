@@ -1,7 +1,6 @@
 package org.minbase.common.serialize;
 
 import org.junit.Test;
-import org.minbase.common.rpc.RpcRequest;
 
 public class SerializerTest {
     @Test

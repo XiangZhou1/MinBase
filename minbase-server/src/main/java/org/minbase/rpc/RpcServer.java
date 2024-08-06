@@ -10,25 +10,27 @@ import org.minbase.common.rpc.Constant;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestDecoder;
 import org.minbase.common.rpc.codec.RpcResponseEncoder;
+import org.minbase.common.rpc.proto.generated.ClientProto;
+import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.server.MinBaseServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class RpcServer {
+public class RpcServer implements ClientServiceGrpc.ClientServiceBlockingClient {
     private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
 
     private int port;
     private ServerBootstrap serverBootstrap;
-    private MinBaseServer minBaseServer;
+    private MinBaseServer server;
 
-    public RpcServer(MinBaseServer minBaseServer, int port) {
+    public RpcServer(MinBaseServer server, int port) {
         this.port = port;
-        this.minBaseServer = minBaseServer;
+        this.server = server;
     }
 
-    public RpcServer(MinBaseServer minBaseServer) {
-        this(minBaseServer, Constant.DEFAULT_SERVER_PORT);
+    public RpcServer(MinBaseServer server) {
+        this(server, Constant.DEFAULT_SERVER_PORT);
     }
 
     public void start() throws InterruptedException {
@@ -43,7 +45,7 @@ public class RpcServer {
                             channel.pipeline().addLast(new RpcFrameDecoder());
                             channel.pipeline().addLast(new RpcResponseEncoder());
                             channel.pipeline().addLast(new RpcRequestDecoder());
-                            channel.pipeline().addLast(new RpcHandler(minBaseServer));
+                            channel.pipeline().addLast(new RpcHandler(this));
                         }
                     });
 
@@ -55,5 +57,26 @@ public class RpcServer {
         } finally {
             eventLoopGroup.shutdownGracefully();
         }
+    }
+
+
+    @Override
+    public ClientProto.GetResponse get(ClientProto.GetRequest request) {
+        return null;
+    }
+
+    @Override
+    public ClientProto.PutResponse put(ClientProto.PutRequest request) {
+        return null;
+    }
+
+    @Override
+    public ClientProto.CheckAndPutResponse checkAndPut(ClientProto.CheckAndPutRequest request) {
+        return null;
+    }
+
+    @Override
+    public ClientProto.DeleteResponse delete(ClientProto.DeleteRequest request) {
+        return null;
     }
 }

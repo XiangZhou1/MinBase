@@ -5,13 +5,13 @@ import org.junit.Test;
 import org.minbase.server.compaction.level.LevelCompaction;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
-import org.minbase.server.iterator.SSTableIterator;
-import org.minbase.server.compaction.level.LevelStorageManager;
+import org.minbase.server.iterator.StoreFileIterator;
+import org.minbase.server.compaction.level.LevelStoreManager;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
-import org.minbase.server.storage.sstable.SSTBuilder;
-import org.minbase.server.storage.sstable.SSTable;
+import org.minbase.server.storage.store.StoreFileBuilder;
+import org.minbase.server.storage.store.StoreFile;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.Util;
 
@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class LevelCompactionTest {
 
-    LevelStorageManager levelStorageManager;
+    LevelStoreManager levelStorageManager;
 
     @Before
     public void before() throws Exception{
@@ -29,7 +29,7 @@ public class LevelCompactionTest {
 //        if(!file.delete()){
 //            throw new RuntimeException("file not delete");
 //        }
-        levelStorageManager = new LevelStorageManager();
+        levelStorageManager = new LevelStoreManager();
         //initDataFile();
     }
 
@@ -39,52 +39,52 @@ public class LevelCompactionTest {
     public void initDataFile() throws Exception {
         int num = 10;
         Random random = new Random();
-        SSTBuilder sstBuilder = new SSTBuilder();
+        StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         int sequence = 0;
         for(int k = 0; k < 100; k++){
             final int no = random.nextInt(10);
             for (int i = 0; i < num; i++) {
-                sstBuilder.add(new KeyValue(new Key(ByteUtil.toBytes(("k" + Util.fillZero(no+i))), sequence), Value.Put(ByteUtil.toBytes("v" + Util.fillZero(sequence)))));
+                storeFileBuilder.add(new KeyValue(new Key(ByteUtil.toBytes(("k" + Util.fillZero(no+i))), sequence), Value.Put(ByteUtil.toBytes("v" + Util.fillZero(sequence)))));
                 sequence ++;
             }
-            final SSTable ssTable = sstBuilder.build();
-            levelStorageManager.addSSTable(ssTable, sequence);
-            sstBuilder = new SSTBuilder();
+            final StoreFile storeFile = storeFileBuilder.build();
+            levelStorageManager.addSSTable(storeFile, sequence);
+            storeFileBuilder = new StoreFileBuilder();
         }
     }
 
     @Test
     public void testSSTableIter() throws Exception {
-        final SSTable ssTable = levelStorageManager.loadSSTable("0e15dd05-f472-4e49-8a64-dcd681fa71e9");
-        final SSTableIterator iterator = ssTable.iterator();
+        final StoreFile storeFile = levelStorageManager.loadSSTable("0e15dd05-f472-4e49-8a64-dcd681fa71e9");
+        final StoreFileIterator iterator = storeFile.iterator();
         while (iterator.isValid()){
             System.out.println(iterator.value());
             iterator.next();
         }
 
 
-        final SSTableIterator iterator1 = ssTable.iterator();
+        final StoreFileIterator iterator1 = storeFile.iterator();
         while (iterator1.isValid()){
             System.out.println(iterator1.value());
             iterator1.nextInnerKey();
         }
 
         System.out.println("sstable2");
-        final SSTable ssTable2 = levelStorageManager.loadSSTable("0e65787e-6980-444f-b643-d16607fb567a");
-        final SSTableIterator iterator2 = ssTable2.iterator();
+        final StoreFile storeFile2 = levelStorageManager.loadSSTable("0e65787e-6980-444f-b643-d16607fb567a");
+        final StoreFileIterator iterator2 = storeFile2.iterator();
         while (iterator2.isValid()){
             System.out.println(iterator2.value());
             iterator2.next();
         }
 
-        final SSTableIterator iterator3 = ssTable2.iterator();
+        final StoreFileIterator iterator3 = storeFile2.iterator();
         while (iterator3.isValid()){
             System.out.println(iterator3.value());
             iterator3.nextInnerKey();
         }
 
         System.out.println("mergeIterator");
-        MergeIterator mergeIterator = new MergeIterator(Arrays.asList(ssTable.iterator(), ssTable2.iterator()));
+        MergeIterator mergeIterator = new MergeIterator(Arrays.asList(storeFile.iterator(), storeFile2.iterator()));
         while (mergeIterator.isValid()){
             System.out.println(mergeIterator.value());
             mergeIterator.next();

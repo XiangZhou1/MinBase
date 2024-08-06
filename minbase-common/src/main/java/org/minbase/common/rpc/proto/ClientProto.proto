@@ -1,0 +1,59 @@
+syntax = "proto2";
+package org.minbase.common.rpc.proto.generated;
+
+message ColumnValue {
+  required string column = 1;
+  required string value = 2;
+}
+
+message GetRequest {
+  required string key = 1;
+  required string table = 2;
+  repeated string columns = 3;
+}
+
+message GetResponse {
+  required string key = 1;
+  repeated ColumnValue columnValues = 3;
+}
+
+message PutRequest {
+  required string key = 1;
+  required string table = 2;
+  repeated ColumnValue columnValues = 3;
+}
+
+message PutResponse {
+  required bool success = 1;
+}
+
+message CheckAndPutRequest {
+  required string checkKey = 1;
+  required string checkValue = 2;
+  required string key = 3;
+  required string table = 4;
+  repeated ColumnValue columnValues = 5;
+}
+
+message CheckAndPutResponse {
+  required bool success = 1;
+}
+
+message DeleteRequest {
+  required string key = 1;
+  required string table = 2;
+  repeated string columns = 3;
+}
+
+message DeleteResponse {
+  required bool success = 1;
+}
+
+
+service ClientService {
+  rpc get(GetRequest) returns (GetResponse);
+  rpc put(PutRequest) returns (GetResponse);
+  rpc checkAndPut(CheckAndPutRequest) returns (CheckAndPutResponse);
+  rpc delete(DeleteRequest) returns (DeleteResponse);
+}
+

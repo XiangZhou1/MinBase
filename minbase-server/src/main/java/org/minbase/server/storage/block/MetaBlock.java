@@ -5,6 +5,9 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.op.Key;
 import org.minbase.common.utils.ByteUtil;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  *  * ---------------------------
  *  *                 | firstKeyLen (Integer)
@@ -125,5 +128,27 @@ public class MetaBlock {
                 ", offset=" + offset +
                 ", keyValueNum=" + keyValueNum +
                 '}';
+    }
+
+    public int encodeToFile(OutputStream outputStream) throws IOException {
+        int index = 0;
+
+        outputStream.write(ByteUtil.intToByteArray(firstKey.length()));
+        index += Constants.INTEGER_LENGTH;
+
+        index += firstKey.encodeToFile(outputStream);
+
+        outputStream.write(ByteUtil.intToByteArray(lastKey.length()));
+        index += Constants.INTEGER_LENGTH;
+
+        index += lastKey.encodeToFile(outputStream);
+
+        outputStream.write(ByteUtil.longToByteArray(offset));
+        index += Constants.LONG_LENGTH;
+
+        outputStream.write(ByteUtil.intToByteArray(keyValueNum));
+        index += Constants.INTEGER_LENGTH;
+
+        return index;
     }
 }

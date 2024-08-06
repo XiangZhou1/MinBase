@@ -2,68 +2,58 @@ package org.minbase.rpc;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import org.minbase.common.Constants;
 import org.minbase.common.rpc.ResponseCode;
-import org.minbase.common.rpc.RpcRequest;
-import org.minbase.common.rpc.RpcResponse;
-import org.minbase.common.rpc.service.ClientService;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.MinBaseServer;
+import org.minbase.common.rpc.proto.generated.ClientProto;
+import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
+import org.minbase.common.rpc.proto.generated.RpcProto;
+import org.minbase.common.rpc.service.CallType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.minbase.common.rpc.service.Methods.GET;
-import static org.minbase.common.rpc.service.Methods.PUT;
+import java.nio.charset.StandardCharsets;
 
-public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> implements ClientService {
+public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest> {
     private static final Logger logger = LoggerFactory.getLogger(RpcHandler.class);
 
-    private MinBaseServer server;
+    private ClientServiceGrpc.ClientServiceBlockingClient service;
 
-    public RpcHandler(MinBaseServer minBaseServer) {
-        this.server = minBaseServer;
+    public RpcHandler(ClientServiceGrpc.ClientServiceBlockingClient service) {
+        this.service = service;
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, RpcRequest rpcRequest) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, RpcProto.RpcRequest rpcRequest) throws Exception {
         logger.info("RpcHandler:" + rpcRequest);
-        RpcResponse rpcResponse;
+        RpcProto.RpcResponse rpcResponse;
         try {
-            if (GET.getName().equals(rpcRequest.getMethodName())) {
-                final String bytes = get((String) rpcRequest.getArgs()[0]);
-                rpcResponse = new RpcResponse(rpcRequest.getId(), ResponseCode.SUCCESS.getCode(), bytes);
-            } else if (PUT.getName().equals(rpcRequest.getMethodName())) {
-                String key = (String) rpcRequest.getArgs()[0];
-                String value = (String) rpcRequest.getArgs()[1];
-                put(key, value);
-                rpcResponse = new RpcResponse(rpcRequest.getId(), ResponseCode.SUCCESS.getCode());
+            final int callType = rpcRequest.getCallType();
+            if (callType == CallType.CLIENT_GET.getType()) {
+                ClientProto.GetRequest getRequest = ClientProto.GetRequest.parseFrom(rpcRequest.getData().getBytes(StandardCharsets.UTF_8));
+                ClientProto.GetResponse getResponse = service.get(getRequest);
+                rpcResponse = buildRpcResponse(ResponseCode.SUCCESS.getCode(), rpcRequest.getId(), getResponse.toByteString().toStringUtf8());
+            } else if (callType == CallType.CLIENT_PUT.getType()) {
+                ClientProto.PutRequest putRequest = ClientProto.PutRequest.parseFrom(rpcRequest.getData().getBytes(StandardCharsets.UTF_8));
+                ClientProto.PutResponse putResponse = service.put(putRequest);
+                rpcResponse = buildRpcResponse(ResponseCode.SUCCESS.getCode(), rpcRequest.getId(), putResponse.toByteString().toStringUtf8());
             } else {
-                rpcResponse = new RpcResponse(rpcRequest.getId(), ResponseCode.FAIL.getCode());
+                throw new RuntimeException("");
             }
         } catch (Exception e) {
-            rpcResponse = new RpcResponse(rpcRequest.getId(), ResponseCode.FAIL.getCode());
+            rpcResponse = buildRpcResponse(ResponseCode.FAIL.getCode(), rpcRequest.getId(), "");
             logger.error("Rpc fail, rpcRequest=" + rpcRequest, e);
         }
         channelHandlerContext.writeAndFlush(rpcResponse);
     }
 
-    @Override
-    public String get(String key) {
-        byte[] bytes = server.get(ByteUtil.toBytes(key));
-        return new String(bytes);
-    }
 
-    @Override
-    public void put(String key, String value) {
-        server.put(ByteUtil.toBytes(key), ByteUtil.toBytes(value));
-    }
+    private RpcProto.RpcResponse buildRpcResponse(int code, long requestId, String data) {
+        long length = 0;
+        length += Constants.INTEGER_LENGTH;
+        length += Constants.LONG_LENGTH;
+        length += data.length();
 
-    @Override
-    public boolean checkAndPut(String checkKey, String checkValue, String key, String value) {
-        return false;
-    }
-
-    @Override
-    public void delete(String key) {
-
+        RpcProto.RpcResponse.Builder builder = RpcProto.RpcResponse.newBuilder();
+        return builder.setCode(1).setId(requestId).setValue(data).setLength(length).build();
     }
 }

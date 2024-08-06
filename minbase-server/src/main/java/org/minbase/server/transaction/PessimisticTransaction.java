@@ -19,7 +19,7 @@ public class PessimisticTransaction extends Transaction {
 
     @Override
     protected void commitImpl() {
-        this.lsmStorage.put(writeBatchTable.getWriteBatch());
+        this.minStore.put(writeBatchTable.getWriteBatch());
         this.transactionState = TransactionState.Commit;
         TransactionManager.getActiveTransactions().remove(this.transactionId);
         releaseLock();

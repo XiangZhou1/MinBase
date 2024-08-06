@@ -1,0 +1,31 @@
+syntax = "proto2";
+package org.minbase.common.rpc.proto.generated;
+
+message GetTableRequest {
+  required string tableName = 1;
+}
+
+message GetTableResponse {
+  required bool exist = 1;
+}
+
+message CreateTableRequest {
+  required string tableName = 1;
+}
+
+message CreateTableResponse {
+  required bool success = 1;
+}
+
+message DeleteTableRequest {
+  required bool success = 1;
+}
+
+message DeleteTableResponse {
+  required bool success = 1;
+}
+
+service AdminService {
+  rpc getTable(GetTableRequest) returns (GetTableResponse);
+  rpc createTable(CreateTableRequest) returns (CreateTableResponse);
+}

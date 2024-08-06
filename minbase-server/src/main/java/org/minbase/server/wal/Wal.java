@@ -2,19 +2,21 @@ package org.minbase.server.wal;
 
 
 import org.minbase.common.utils.Util;
+import org.minbase.server.MinBaseServer;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.lsmStorage.LsmStorage;
+import org.minbase.server.minstore.MinStore;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.FileUtil;
+import org.minbase.server.table.TableImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.LockSupport;
@@ -42,6 +44,9 @@ public class Wal {
     private Thread syncWalThread;
     private SyncWalTask syncWalTask;
     private ConcurrentSkipListMap<Long, Thread> waitingSyncThreads = new ConcurrentSkipListMap<>();
+
+    public Wal() {
+    }
 
     public Wal(long sequenceId) {
         final File walDir = new File(WAL_DIR);
@@ -103,27 +108,26 @@ public class Wal {
     /**
      * 从日志文件中恢复日志
      */
-    public synchronized void recovery(LsmStorage lsmStorage) throws IOException {
-        long lastSequenceId = lsmStorage.getStorageManager().getLastSequenceId();
+    public synchronized void recovery(ConcurrentHashMap<String, TableImpl> tables) throws IOException {
         final File[] files = listWalFiles();
         if (files == null) {
             return;
         }
         for (File file1 : files) {
-            recoveryFromFile(lsmStorage, lastSequenceId, file1);
+            recoveryFromFile(tables, lastSequenceId, file1);
         }
 
         File inProgressFile = new File(WAL_DIR + File.separator + INPROGRESS_WAL);
         if (inProgressFile.exists()) {
             long startId = sequenceId;
-            recoveryFromFile(lsmStorage, lastSequenceId, inProgressFile);
+            recoveryFromFile(minStore, lastSequenceId, inProgressFile);
             long endId = sequenceId;
             FileUtil.rename(inProgressFile, new File(WAL_DIR + File.separator + startId + "_" + endId));
         }
         logger.info("Wal recovery, sequenceId=" + sequenceId);
     }
 
-    private void recoveryFromFile(LsmStorage lsmStorageInner, long lastSequenceId, File file1) throws IOException {
+    private void recoveryFromFile(ConcurrentHashMap<String, TableImpl> tables, long lastSequenceId, File file1) throws IOException {
         try (RandomAccessFile raf = new RandomAccessFile(file1, "r")) {
             int pos = 0;
             while (pos < raf.length()) {
@@ -137,7 +141,7 @@ public class Wal {
                 pos += logEntryLength;
 
                 if (logEntry.getSequenceId() > lastSequenceId) {
-                    lsmStorageInner.applyWal(logEntry);
+                    minStoreInner.applyWal(logEntry);
                 }
                 sequenceId = syncSequenceId = logEntry.getSequenceId();
             }

@@ -4,6 +4,9 @@ package org.minbase.server.op;
 import org.minbase.server.constant.Constants;
 import org.minbase.common.utils.ByteUtil;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 public class KeyValue {
     private Key key;
     private Value value;
@@ -74,5 +77,19 @@ public class KeyValue {
                 "key=" + key +
                 ", value=" + value +
                 '}';
+    }
+
+    public int encodeToFile(OutputStream outputStream) throws IOException {
+        int index = 0;
+        outputStream.write(ByteUtil.intToByteArray(key.length()));
+        index += Constants.INTEGER_LENGTH;
+
+        index += key.encodeToFile(outputStream);
+
+        outputStream.write(ByteUtil.intToByteArray(value.length()));
+        index += Constants.INTEGER_LENGTH;
+
+        index += value.encodeToFile(outputStream);
+        return index;
     }
 }

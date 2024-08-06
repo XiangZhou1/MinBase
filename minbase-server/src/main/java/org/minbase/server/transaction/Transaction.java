@@ -2,43 +2,35 @@ package org.minbase.server.transaction;
 
 
 
-import org.minbase.server.constant.Constants;
-import org.minbase.server.exception.TransactionException;
-import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.iterator.MergeIterator;
-import org.minbase.server.lsmStorage.LsmStorage;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
+import org.minbase.common.exception.TransactionException;
+import org.minbase.server.minstore.MinStore;
+import org.minbase.server.table.TableImpl;
 import org.minbase.server.transaction.lock.KeyLock;
-import org.minbase.server.transaction.table.TransactionTable;
-import org.minbase.server.transaction.table.TransactionTableIterator;
+import org.minbase.server.transaction.store.TransactionStore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Transaction {
     protected long transactionId;
-    protected TransactionTable writeBatchTable;
-    protected LsmStorage lsmStorage;
+    protected TransactionStore writeBatchTable;
+
     protected TransactionState transactionState;
     protected KeyLock keyLock;
     protected long snapShot;
     protected List<Transaction> activeTransactions = new ArrayList<>();
+    protected Map<String, TableImpl> tables;
 
     public Transaction(long transactionId) {
         this.transactionId = transactionId;
         this.transactionState = TransactionState.Active;
-        this.writeBatchTable = new TransactionTable();
+        this.writeBatchTable = new TransactionStore();
     }
 
     public long getTransactionId() {
         return transactionId;
-    }
-
-    public void setLsmStorage(LsmStorage lsmStorage) {
-        this.lsmStorage = lsmStorage;
     }
 
     public TransactionState getTransactionState() {
@@ -87,42 +79,11 @@ public abstract class Transaction {
 
     public abstract void rollback();
 
-    // 当前读
-    public KeyValue get(byte[] key) {
-        Value value = writeBatchTable.get(key);
-        if (value != null) {
-            return new KeyValue(new Key(key, Constants.LATEST_VERSION), value);
-        }
-
-        return lsmStorage.getInner(new Key(key, snapShot));
-    }
-
-
-    public KeyValue getForUpdate(byte[] key) {
-        keyLock.readLock(key);
-        return get(key);
-    }
-
-    public void put(byte[] key, byte[] value) {
-        keyLock.writeLock(key);
-        writeBatchTable.put(key, value);
-    }
-
-    public void delete(byte[] key) {
-        keyLock.writeLock(key);
-        writeBatchTable.delete(key);
-    }
 
     protected boolean isCommit() {
         return TransactionState.Commit.equals(this.transactionState);
     }
 
-
-    public KeyValueIterator scan(byte[] startKey, byte[] endKey) {
-        TransactionTableIterator iterator1 = new TransactionTableIterator(writeBatchTable, startKey, endKey);
-        KeyValueIterator iterator2 = lsmStorage.scan(startKey, endKey);
-        return new MergeIterator(Arrays.asList(iterator1, iterator2));
-    }
 
     @Override
     public String toString() {
@@ -132,5 +93,9 @@ public abstract class Transaction {
                 ", keyLock=" + keyLock +
                 ", snapShot=" + snapShot +
                 '}';
+    }
+
+    public void setTables(Map<String, TableImpl> tables) {
+        this.tables = tables;
     }
 }

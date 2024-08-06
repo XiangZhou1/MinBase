@@ -2,7 +2,7 @@ package org.minbase.server.storage.version;
 
 
 
-import org.minbase.server.storage.sstable.SSTable;
+import org.minbase.server.storage.store.StoreFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,40 +11,40 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 public class FileEdit {
-    private SortedMap<Integer, List<SSTable>> removedSSTables;
-    private SortedMap<Integer, List<SSTable>> addedSSTables;
+    private SortedMap<Integer, List<StoreFile>> removedSSTables;
+    private SortedMap<Integer, List<StoreFile>> addedSSTables;
 
     public FileEdit() {
         removedSSTables = new TreeMap<>();
         addedSSTables = new TreeMap<>();
     }
 
-    public synchronized void removeSSTable(int level, SSTable ssTable){
-        List<SSTable> ssTables = removedSSTables.computeIfAbsent(level, new Function<Integer, List<SSTable>>() {
+    public synchronized void removeSSTable(int level, StoreFile storeFile) {
+        List<StoreFile> storeFiles = removedSSTables.computeIfAbsent(level, new Function<Integer, List<StoreFile>>() {
             @Override
-            public List<SSTable> apply(Integer integer) {
-                return new ArrayList<SSTable>();
+            public List<StoreFile> apply(Integer integer) {
+                return new ArrayList<StoreFile>();
             }
         });
 
-        ssTables.add(ssTable);
+        storeFiles.add(storeFile);
     }
 
-    public synchronized void addSSTable(int level, SSTable ssTable){
-        List<SSTable> ssTables = addedSSTables.computeIfAbsent(level, new Function<Integer, List<SSTable>>() {
+    public synchronized void addSSTable(int level, StoreFile storeFile) {
+        List<StoreFile> storeFiles = addedSSTables.computeIfAbsent(level, new Function<Integer, List<StoreFile>>() {
             @Override
-            public List<SSTable> apply(Integer integer) {
-                return new ArrayList<SSTable>();
+            public List<StoreFile> apply(Integer integer) {
+                return new ArrayList<StoreFile>();
             }
         });
-        ssTables.add(ssTable);
+        storeFiles.add(storeFile);
     }
 
-    public SortedMap<Integer, List<SSTable>> getRemovedSSTables() {
+    public SortedMap<Integer, List<StoreFile>> getRemovedSSTables() {
         return removedSSTables;
     }
 
-    public SortedMap<Integer, List<SSTable>> getAddedSSTables() {
+    public SortedMap<Integer, List<StoreFile>> getAddedSSTables() {
         return addedSSTables;
     }
 }

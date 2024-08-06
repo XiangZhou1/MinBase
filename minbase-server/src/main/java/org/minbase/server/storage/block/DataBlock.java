@@ -4,6 +4,8 @@ package org.minbase.server.storage.block;
 
 import org.minbase.server.op.KeyValue;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -69,6 +71,16 @@ public class DataBlock extends Block {
         }
         return bytes;
     }
+
+    public int encodeToFile(OutputStream outputStream) throws IOException {
+        int index = 0;
+        for (KeyValue entry : data) {
+            int len = entry.encodeToFile(outputStream);
+            index += len;
+        }
+        return index;
+    }
+
 
     public void clear() {
         data.clear();
