@@ -1,8 +1,10 @@
 package org.minbase.server.minstore;
 
 
+import org.minbase.common.operation.Get;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
+import org.minbase.server.op.*;
 import org.minbase.server.storage.storemanager.level.LevelStoreManager;
 import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
 import org.minbase.server.conf.Config;
@@ -11,10 +13,6 @@ import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MemTableIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.mem.MemStore;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
-import org.minbase.server.op.WriteBatch;
 import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.storage.storemanager.AbstractStoreManager;
@@ -24,7 +22,6 @@ import org.minbase.server.wal.Wal;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -79,41 +76,25 @@ public class MinStore {
             this.storeManager.loadStoreFiles();
         }
     }
-    
+
     // ======================================================
     // get函数, 拿到最新值
-    public byte[] get(byte[] userKey) {
-        KeyValue kv = getInner(Key.latestKey(userKey));
-        if (kv == null) {
-            return null;
-        }
-        Value value = kv.getValue();
-        if (value != null) {
-            return value.isDeleteOP() ? null : value.value();
-        }
-        return null;
-    }
-
-    public KeyValue getInner(Key key) {
-        readLock();
+    public KeyValue get(Get get) {
+        final byte[] userKey = get.getKey();
+        final KeyValueIterator iterator = iterator(Key.minKey(userKey), Key.maxKey(userKey));
         try {
-            KeyValue keyValue;
-            keyValue = memStore.get(key);
-            if (keyValue != null) {
-                return keyValue;
-            }
-
-            for (MemStore immMemStore : immMemStores) {
-                keyValue = immMemStore.get(key);
-                if (keyValue != null) {
-                    return keyValue;
+            RowTacker tacker = new RowTacker();
+            while (iterator.isValid()) {
+                final KeyValue keyValue = iterator.value();
+                tacker.track(keyValue);
+                if (tacker.shouldStop()) {
+                    return tacker.getKeyValue();
                 }
+                iterator.nextInnerKey();
             }
-
-            keyValue = storeManager.get(key);
-            return keyValue;
+            return tacker.getKeyValue();
         } finally {
-            readUnLock();
+            iterator.close();
         }
     }
 
@@ -121,7 +102,9 @@ public class MinStore {
     //===========================
     // put实现
     public void put(byte[] key, byte[] column, byte[] value) {
-        KeyValue kv = new KeyValue(new Key(key, column, 0), Value.Put(value));
+        final Value put = Value.Put();
+        put.addColumnValue(new ColumnValue(column, value));
+        KeyValue kv = new KeyValue(new Key(key, column, 0), put);
         wal.log(kv);
         memStore.put(kv.getKey(), kv.getValue());
         if (memStore.shouldFreeze()) {

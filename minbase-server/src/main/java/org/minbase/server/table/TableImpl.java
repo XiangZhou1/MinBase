@@ -36,15 +36,16 @@ public class TableImpl implements Table {
 
     @Override
     public ColumnValues get(Get get) {
-        minStore.get(get.getKey(), get.getColumns());
+        KeyValue keyValue = minStore.get(get);
+        return keyValue.getValue().columnValues();
     }
 
     @Override
     public void put(Put put) {
         WriteBatch writeBatch = new WriteBatch();
         for (Map.Entry<byte[], byte[]> entry : put.getColumnValues().entrySet()) {
-            Key key = new Key(put.getKey(), entry.getKey(), Constants.NO_VERSION);
-            Value value = Value.Put(entry.getValue());
+            Key key = new Key(put.getKey(), Constants.NO_VERSION);
+            Value value = Value.Put(new Coentry.getValue());
             writeBatch.add(new KeyValue(key, value));
         }
         minStore.put(writeBatch);

@@ -9,20 +9,18 @@ import java.io.OutputStream;
 
 public class Key implements Comparable<Key> {
     private byte[] userKey;
-    private byte[] column;
     private long sequenceId;
 
     public Key() {
     }
 
-    public Key(byte[] userKey, byte[] column, long sequenceId) {
+    public Key(byte[] userKey, long sequenceId) {
         this.userKey = userKey;
-        this.column = column;
         this.sequenceId = sequenceId;
     }
 
     public static Key latestKey(byte[] userKey){
-        return new Key(userKey, null, Constants.LATEST_VERSION);
+        return new Key(userKey, Constants.LATEST_VERSION);
     }
 
     public int length() {
@@ -85,11 +83,11 @@ public class Key implements Comparable<Key> {
 
 
     public static Key minKey(byte[] userKey) {
-        return new Key(userKey, null, Long.MAX_VALUE);
+        return new Key(userKey, Long.MAX_VALUE);
     }
 
     public static Key maxKey(byte[] userKey) {
-        return new Key(userKey, null, Long.MIN_VALUE);
+        return new Key(userKey, Long.MIN_VALUE);
     }
 
     @Override
