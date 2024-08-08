@@ -5,6 +5,8 @@ import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Get;
 import org.minbase.common.operation.Put;
 import org.minbase.common.operation.ColumnValues;
+import org.minbase.common.rpc.proto.generated.ClientProto;
+import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.table.*;
 import org.minbase.common.utils.ByteUtil;
 

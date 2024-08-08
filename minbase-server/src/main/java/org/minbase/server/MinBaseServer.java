@@ -64,7 +64,7 @@ public class MinBaseServer {
         File[] tableDirs = listTableDirs();
         for (File tableDir : tableDirs) {
             String tableName = tableDir.getName();
-            MinStore minStore = new MinStore(tableName, tableDir, wal, flushThread, compaction, compactThread);
+            MinStore minStore = new MinStore(tableName, tableDir, flushThread, compaction, compactThread);
             tables.put(tableDir.getName(), new TableImpl(tableDir.getName(), minStore));
         }
         wal.recovery(tables);
@@ -98,7 +98,7 @@ public class MinBaseServer {
                 throw new IOException("create table fail");
             }
         }
-        MinStore minStore = new MinStore(tableName, tableDir, wal, flushThread, compaction, compactThread);
+        MinStore minStore = new MinStore(tableName, tableDir, flushThread, compaction, compactThread);
         final TableImpl table = new TableImpl(tableName, minStore);
         tables.put(tableName, table);
         return table;
@@ -119,5 +119,6 @@ public class MinBaseServer {
             this.compaction.compact(storageManager);
         }
     }
+
 
 }

@@ -5,6 +5,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.util.concurrent.DefaultPromise;
 import io.netty.util.concurrent.Promise;
+import org.minbase.common.Constants;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +22,17 @@ public class Service {
         this.requestId = requestId;
         this.waitingResponses = waitingResponses;
         this.group = group;
+    }
+
+    protected RpcProto.RpcRequest buildRpcRequest(int type, String data) {
+        long length = 0;
+        length += data.length();
+        length += Constants.LONG_LENGTH;
+        length += Constants.INTEGER_LENGTH;
+        long id = requestId.incrementAndGet();
+
+        RpcProto.RpcRequest.Builder builder = RpcProto.RpcRequest.newBuilder();
+        return builder.setLength(length).setId(id).setCallType(type).setData(data).build();
     }
 
     protected RpcProto.RpcResponse call(RpcProto.RpcRequest rpcRequest) {

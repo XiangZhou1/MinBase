@@ -80,13 +80,8 @@ public class Wal {
 
     private void log(LogEntry logEntry) {
         try {
-            long currSequenceId;
-            synchronized (this) {
-                currSequenceId = sequenceId++;
-                logEntry.setSequenceId(currSequenceId);
-                queue.put(logEntry);
-            }
-            trySyncWal(currSequenceId);
+            queue.put(logEntry);
+            trySyncWal(logEntry.getSequenceId());
         } catch (InterruptedException e) {
             logger.error("Log fail, logEntry=" + logEntry, e);
         }

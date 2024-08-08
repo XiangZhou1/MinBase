@@ -87,6 +87,6 @@ public class TransactionTable implements Table {
     public void delete(Delete delete) {
         writeSet.add(delete.getKey());
 
-        localStore.delete();
+        //localStore.delete();
     }
 }

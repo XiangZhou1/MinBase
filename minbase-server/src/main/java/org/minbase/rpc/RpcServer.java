@@ -12,6 +12,8 @@ import org.minbase.common.rpc.Constant;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestDecoder;
 import org.minbase.common.rpc.codec.RpcResponseEncoder;
+import org.minbase.common.rpc.proto.generated.ClientProto;
+import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.table.Table;
 import org.minbase.common.utils.ProtobufUtil;
 import org.minbase.server.MinBaseServer;
@@ -19,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class RpcServer implements ClientServiceGrpc.ClientServiceBlockingClient {
+public class RpcServer {
     private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
 
     private int port;
@@ -47,7 +49,7 @@ public class RpcServer implements ClientServiceGrpc.ClientServiceBlockingClient 
                             channel.pipeline().addLast(new RpcFrameDecoder());
                             channel.pipeline().addLast(new RpcResponseEncoder());
                             channel.pipeline().addLast(new RpcRequestDecoder());
-                            channel.pipeline().addLast(new RpcHandler(RpcServer.this));
+                            channel.pipeline().addLast(new RpcHandler(server));
                         }
                     });
 
@@ -62,29 +64,5 @@ public class RpcServer implements ClientServiceGrpc.ClientServiceBlockingClient 
     }
 
 
-    @Override
-    public ClientProto.GetResponse get(ClientProto.GetRequest request) {
-        Get get = ProtobufUtil.toGet(request);
-        final Table table = server.getTable(request.getTable());
-        if (table == null) {
-            throw new RuntimeException("Table not exist, table=" + request.getTable());
-        }
-        final ColumnValues columnValues = table.get(get);
-        return ProtobufUtil.toGetResponse(request.getKey(), columnValues);
-    }
 
-    @Override
-    public ClientProto.PutResponse put(ClientProto.PutRequest request) {
-        return null;
-    }
-
-    @Override
-    public ClientProto.CheckAndPutResponse checkAndPut(ClientProto.CheckAndPutRequest request) {
-        return null;
-    }
-
-    @Override
-    public ClientProto.DeleteResponse delete(ClientProto.DeleteRequest request) {
-        return null;
-    }
 }

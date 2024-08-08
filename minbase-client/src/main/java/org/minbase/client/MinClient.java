@@ -18,6 +18,7 @@ import org.minbase.client.transaction.ClientTransaction;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestEncoder;
 import org.minbase.common.rpc.codec.RpcResponseDecoder;
+import org.minbase.common.rpc.proto.generated.AdminProto;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.table.Table;
@@ -26,7 +27,7 @@ import org.minbase.common.transaction.Transaction;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Client {
+public class MinClient {
     private final String host;
     private final int port;
     private Channel channel;
@@ -38,7 +39,7 @@ public class Client {
     private TxService txService;
     private AdminService adminService;
 
-    public Client(String host, int port) {
+    public MinClient(String host, int port) {
         this.host = host;
         this.port = port;
         this.requestId = new AtomicLong(0);
@@ -49,7 +50,8 @@ public class Client {
         connect();
 
         this.clientService = new ClientService(channel, requestId, waitingResponses, group);
-        this.adminService = new AdminService();
+        this.txService = new TxService(channel, requestId, waitingResponses, group);
+        this.adminService = new AdminService(channel, requestId, waitingResponses, group);
     }
 
     private void connect() {
@@ -84,11 +86,19 @@ public class Client {
         return new ClientTable(tableName, clientService);
     }
 
-    public Transaction begionTransaction() {
+    public Transaction beginTransaction() {
         ClientProto.BeginTransactionRequest.Builder builder = ClientProto.BeginTransactionRequest.newBuilder();
         ClientProto.BeginTransactionResponse beginTransactionResponse = clientService.beginTransaction(builder.build());
+        if (!beginTransactionResponse.getSuccess()) {
+            return null;
+        }
         return new ClientTransaction(beginTransactionResponse.getTxid(), clientService, txService);
     }
 
-    public
+    public boolean createTable(String tableName) {
+        AdminProto.CreateTableRequest.Builder builder = AdminProto.CreateTableRequest.newBuilder();
+        AdminProto.CreateTableRequest createTableRequest = builder.setTableName(tableName).build();
+        AdminProto.CreateTableResponse createTableResponse = adminService.createTable(createTableRequest);
+        return createTableResponse.getSuccess();
+    }
 }

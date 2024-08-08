@@ -46,17 +46,15 @@ public class MinStore {
     private ReentrantReadWriteLock.WriteLock writeLock;
     private ReentrantReadWriteLock.ReadLock readLock;
 
-    private Wal wal;
     // 文件刷写线程
     private Executor flushThread;
     // 文件压缩线程
     private Compaction compaction;
     private CompactThread compactThread;
 
-    public MinStore(String name, File dir, Wal wal, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
+    public MinStore(String name, File dir, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
         this.name = name;
         this.dir = dir;
-        this.wal = wal;
         this.flushThread = flushThread;
 
         this.memStore = new MemStore();
@@ -119,7 +117,6 @@ public class MinStore {
     }
 
     public void put(WriteBatch writeBatch) {
-        wal.log(writeBatch);
         for (KeyValue keyValue : writeBatch.getKeyValues()) {
             memStore.put(keyValue.getKey(), keyValue.getValue());
         }
@@ -171,7 +168,6 @@ public class MinStore {
     // delete实现
     public void delete(byte[] key) {
         KeyValue kv = new KeyValue(new Key(key, 0), Value.Delete());
-        wal.log(kv);
         memStore.put(kv.getKey(), kv.getValue());
         if (memStore.shouldFreeze()) {
             freezeMemTable();
@@ -240,10 +236,6 @@ public class MinStore {
     }
 
 
-    public void clearOldWal(long syncSequenceId) {
-        wal.clearOldWal(syncSequenceId);
-    }
-
     public AbstractStoreManager getStorageManager() {
         return storeManager;
     }
@@ -259,10 +251,6 @@ public class MinStore {
         if (this.memStore.shouldFreeze()) {
             freezeMemTable();
         }
-    }
-
-    public long getSnapshot() {
-        return wal.getSequenceId();
     }
 
     public void foreFlush() {

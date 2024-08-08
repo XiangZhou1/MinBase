@@ -21,15 +21,7 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
     @Override
     public ClientProto.GetResponse get(ClientProto.GetRequest request) {
         try {
-            long length = 0;
-            final String data = request.toByteString().toStringUtf8();
-            length += data.length();
-            length += Constants.LONG_LENGTH;
-            length += Constants.INTEGER_LENGTH;
-            long id = requestId.incrementAndGet();
-
-            RpcProto.RpcRequest.Builder builder = RpcProto.RpcRequest.newBuilder();
-            RpcProto.RpcRequest rpcRequest = builder.setLength(length).setId(id).setCallType(CallType.CLIENT_GET.getType()).setData(data).build();
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(), request.toByteString().toStringUtf8());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return ClientProto.GetResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -38,18 +30,11 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
         return null;
     }
 
+
     @Override
     public ClientProto.PutResponse put(ClientProto.PutRequest request) {
         try {
-            long length = 0;
-            final String data = request.toByteString().toStringUtf8();
-            length += data.length();
-            length += Constants.LONG_LENGTH;
-            length += Constants.INTEGER_LENGTH;
-            final long id = requestId.incrementAndGet();
-
-            final RpcProto.RpcRequest.Builder builder = RpcProto.RpcRequest.newBuilder();
-            final RpcProto.RpcRequest rpcRequest = builder.setLength(length).setId(id).setCallType(CallType.CLIENT_PUT.getType()).setData(request.toByteString().toStringUtf8()).build();
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_PUT.getType(), request.toByteString().toStringUtf8());
             final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return ClientProto.PutResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -61,15 +46,7 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
     @Override
     public ClientProto.CheckAndPutResponse checkAndPut(ClientProto.CheckAndPutRequest request) {
         try {
-            long length = 0;
-            final String data = request.toByteString().toStringUtf8();
-            length += data.length();
-            length += Constants.LONG_LENGTH;
-            length += Constants.INTEGER_LENGTH;
-            final long id = requestId.incrementAndGet();
-
-            final RpcProto.RpcRequest.Builder builder = RpcProto.RpcRequest.newBuilder();
-            final RpcProto.RpcRequest rpcRequest = builder.setLength(length).setId(id).setCallType(CallType.CLIENT_GET.getType()).setData(request.toByteString().toStringUtf8()).build();
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_CHECK_AND_PUT.getType(), request.toByteString().toStringUtf8());
             final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return ClientProto.CheckAndPutResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -81,15 +58,7 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
     @Override
     public ClientProto.DeleteResponse delete(ClientProto.DeleteRequest request) {
         try {
-            long length = 0;
-            final String data = request.toByteString().toStringUtf8();
-            length += data.length();
-            length += Constants.LONG_LENGTH;
-            length += Constants.INTEGER_LENGTH;
-            final long id = requestId.incrementAndGet();
-
-            final RpcProto.RpcRequest.Builder builder = RpcProto.RpcRequest.newBuilder();
-            final RpcProto.RpcRequest rpcRequest = builder.setLength(length).setId(id).setCallType(CallType.CLIENT_GET.getType()).setData(request.toByteString().toStringUtf8()).build();
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_DELETE.getType(), request.toByteString().toStringUtf8());
             final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return ClientProto.DeleteResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -100,16 +69,37 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
 
     @Override
     public ClientProto.BeginTransactionResponse beginTransaction(ClientProto.BeginTransactionRequest request) {
+        try {
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_BEGIN_TRANSACTION.getType(), request.toByteString().toStringUtf8());
+            final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            return ClientProto.BeginTransactionResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public ClientProto.RollBackResponse rollBack(ClientProto.RollBackRequest request) {
+        try {
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_ROLLBACK.getType(), request.toByteString().toStringUtf8());
+            final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            return ClientProto.RollBackResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public ClientProto.CommitResponse commit(ClientProto.CommitRequest request) {
+        try {
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_COMMIT.getType(), request.toByteString().toStringUtf8());
+            final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            return ClientProto.CommitResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

@@ -1,14 +1,6 @@
 syntax = "proto2";
 package org.minbase.common.rpc.proto.generated;
 
-message GetTableRequest {
-  required string tableName = 1;
-}
-
-message GetTableResponse {
-  required bool exist = 1;
-}
-
 message CreateTableRequest {
   required string tableName = 1;
 }
@@ -25,7 +17,16 @@ message DropTableResponse {
   required bool success = 1;
 }
 
+message TruncateTableRequest {
+  required string tableName = 1;
+}
+
+message TruncateTableResponse {
+  required bool success = 1;
+}
+
 service AdminService {
   rpc createTable(CreateTableRequest) returns (CreateTableResponse);
   rpc dropTable(DropTableRequest) returns (DropTableResponse);
+  rpc truncateTable(TruncateTableRequest) returns (TruncateTableResponse);
 }

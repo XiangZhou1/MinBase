@@ -4,13 +4,13 @@ package org.minbase.server.transaction;
 
 import org.minbase.common.exception.TransactionException;
 import org.minbase.common.table.Table;
+import org.minbase.server.op.WriteBatch;
 import org.minbase.server.table.TableImpl;
 import org.minbase.server.transaction.store.TransactionStore;
 import org.minbase.server.transaction.table.TransactionTable;
 import org.minbase.server.wal.Wal;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -59,7 +59,9 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
         long commitId = TransactionManager.getCommitId();
         ConcurrentSkipListMap<Long, Transaction> commitedTransactions = TransactionManager.getCommitedTransactions();
         if (writeSet.isEmpty() && !readSet.isEmpty()) {
-            wal.log(localStore.getWriteBatch());
+            WriteBatch writeBatch = localStore.getWriteBatch();
+            writeBatch.setSequenceId(commitId);
+            wal.log(writeBatch);
             localStore.getWriteBatch();
             this.commitId = commitId;
         } else if (!writeSet.isEmpty() && readSet.isEmpty()) {

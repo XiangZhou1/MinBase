@@ -21,4 +21,10 @@ public class WriteBatch {
     public List<KeyValue> getKeyValues() {
         return keyValues;
     }
+
+    public void setSequenceId(long sequenceId) {
+        for (KeyValue keyValue : keyValues) {
+            keyValue.getKey().setSequenceId(sequenceId);
+        }
+    }
 }

@@ -16,6 +16,11 @@ public class TransactionManager {
         return activeTransactions;
     }
 
+    public static Transaction getActiveTransaction(long txId) {
+        return activeTransactions.get(txId);
+    }
+
+
     public static long newTransactionId() {
         return txId.incrementAndGet();
     }
@@ -46,5 +51,5 @@ public class TransactionManager {
 
             }
         }
-    })
+    });
 }
