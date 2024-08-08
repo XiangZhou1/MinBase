@@ -12,10 +12,16 @@ import io.netty.util.concurrent.Promise;
 import org.minbase.client.handler.MinClientHandler;
 import org.minbase.client.service.AdminService;
 import org.minbase.client.service.ClientService;
+import org.minbase.client.service.TxService;
+import org.minbase.client.table.ClientTable;
+import org.minbase.client.transaction.ClientTransaction;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestEncoder;
 import org.minbase.common.rpc.codec.RpcResponseDecoder;
+import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
+import org.minbase.common.table.Table;
+import org.minbase.common.transaction.Transaction;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,6 +35,7 @@ public class Client {
     private MinClientHandler clientHandler;
     private EventLoopGroup group; // 创建一个NioEventLoopGroup对象，它负责处理I/O操作的多线程事件循环
     private ClientService clientService;
+    private TxService txService;
     private AdminService adminService;
 
     public Client(String host, int port) {
@@ -71,4 +78,17 @@ public class Client {
         channel.close();
         group.shutdownGracefully();
     }
+
+
+    public Table getTable(String tableName) {
+        return new ClientTable(tableName, clientService);
+    }
+
+    public Transaction begionTransaction() {
+        ClientProto.BeginTransactionRequest.Builder builder = ClientProto.BeginTransactionRequest.newBuilder();
+        ClientProto.BeginTransactionResponse beginTransactionResponse = clientService.beginTransaction(builder.build());
+        return new ClientTransaction(beginTransactionResponse.getTxid(), clientService, txService);
+    }
+
+    public
 }

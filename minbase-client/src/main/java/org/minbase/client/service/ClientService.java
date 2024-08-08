@@ -5,6 +5,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.util.concurrent.Promise;
 import org.minbase.common.Constants;
+import org.minbase.common.rpc.proto.generated.ClientProto;
+import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.CallType;
 
@@ -24,11 +26,11 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
             length += data.length();
             length += Constants.LONG_LENGTH;
             length += Constants.INTEGER_LENGTH;
-            final long id = requestId.incrementAndGet();
+            long id = requestId.incrementAndGet();
 
-            final RpcProto.RpcRequest.Builder builder = RpcProto.RpcRequest.newBuilder();
-            final RpcProto.RpcRequest rpcRequest = builder.setLength(length).setId(id).setCallType(CallType.CLIENT_GET.getType()).setData(data).build();
-            final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            RpcProto.RpcRequest.Builder builder = RpcProto.RpcRequest.newBuilder();
+            RpcProto.RpcRequest rpcRequest = builder.setLength(length).setId(id).setCallType(CallType.CLIENT_GET.getType()).setData(data).build();
+            RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return ClientProto.GetResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
@@ -96,4 +98,18 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
         return null;
     }
 
+    @Override
+    public ClientProto.BeginTransactionResponse beginTransaction(ClientProto.BeginTransactionRequest request) {
+        return null;
+    }
+
+    @Override
+    public ClientProto.RollBackResponse rollBack(ClientProto.RollBackRequest request) {
+        return null;
+    }
+
+    @Override
+    public ClientProto.CommitResponse commit(ClientProto.CommitRequest request) {
+        return null;
+    }
 }

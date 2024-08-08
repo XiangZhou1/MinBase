@@ -17,15 +17,15 @@ message CreateTableResponse {
   required bool success = 1;
 }
 
-message DeleteTableRequest {
-  required bool success = 1;
+message DropTableRequest {
+  required string tableName = 1;
 }
 
-message DeleteTableResponse {
+message DropTableResponse {
   required bool success = 1;
 }
 
 service AdminService {
-  rpc getTable(GetTableRequest) returns (GetTableResponse);
   rpc createTable(CreateTableRequest) returns (CreateTableResponse);
+  rpc dropTable(DropTableRequest) returns (DropTableResponse);
 }
