@@ -6,19 +6,19 @@ import org.slf4j.LoggerFactory;
 import java.io.InputStream;
 import java.util.Properties;
 
+import static org.minbase.server.constant.Constants.MINBASE_CONF;
+
 
 public class Config {
     private static final Logger logger = LoggerFactory.getLogger(Config.class);
     private static Properties config = new Properties();
 
+
     static {
-        InputStream resourceAsStream =
-                Config.class.getClassLoader().getResourceAsStream("minbase.conf");
-        try {
+        try (InputStream resourceAsStream =
+                     Config.class.getClassLoader().getResourceAsStream(MINBASE_CONF)) {
             //通过Properties加载配置文件
             config.load(resourceAsStream);
-            //关闭输入流
-            resourceAsStream.close();
         } catch (Exception e) {
             logger.error("Load config file(minbase.conf) error", e);
             System.exit(-1);

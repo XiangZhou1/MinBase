@@ -1,19 +1,15 @@
 package org.minbase.server.table;
 
+import org.minbase.common.exception.TransactionException;
+import org.minbase.common.operation.ColumnValues;
 import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Get;
 import org.minbase.common.operation.Put;
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.table.*;
-import org.minbase.server.constant.Constants;
+import org.minbase.common.table.Table;
 import org.minbase.server.minstore.MinStore;
-import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
-import org.minbase.server.op.WriteBatch;
-
-import java.util.List;
-import java.util.Map;
+import org.minbase.server.transaction.Transaction;
+import org.minbase.server.transaction.TransactionManager;
 
 public class TableImpl implements Table {
     String tableName;
@@ -36,41 +32,44 @@ public class TableImpl implements Table {
 
     @Override
     public ColumnValues get(Get get) {
+        Transaction transaction = TransactionManager.newTransaction(null);
+
+        Table table = transaction.getTable(tableName);
+        ColumnValues columnValues = table.get(get);
+        transaction.commit();
+
+
         KeyValue keyValue = minStore.get(get);
         return keyValue.getValue().columnValues();
     }
 
     @Override
     public void put(Put put) {
-        WriteBatch writeBatch = new WriteBatch();
-        for (Map.Entry<byte[], byte[]> entry : put.getColumnValues().entrySet()) {
-            Key key = new Key(put.getKey(), Constants.NO_VERSION);
-            Value value = Value.Put(new Coentry.getValue());
-            writeBatch.add(new KeyValue(key, value));
-        }
-        minStore.put(writeBatch);
+        Transaction transaction = TransactionManager.newTransaction(null);
+        Table table = transaction.getTable(tableName);
+        table.put(put);
+        transaction.commit();
     }
 
     @Override
     public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
-        return false;
+        Transaction transaction = TransactionManager.newTransaction(null);
+        try {
+            Table table = transaction.getTable(tableName);
+            table.put(put);
+            transaction.commit();
+            return true;
+        } catch (TransactionException e) {
+            transaction.rollback();
+            return false;
+        }
     }
 
     @Override
     public void delete(Delete delete) {
-        WriteBatch writeBatch = new WriteBatch();
-        final List<byte[]> columns = delete.getColumns();
-        if (columns.isEmpty()) {
-            Key key = new Key(delete.getKey(), null, Constants.NO_VERSION);
-            Value value = Value.Delete();
-            writeBatch.add(new KeyValue(key, value));
-        } else {
-            for (byte[] column : columns) {
-                Key key = new Key(delete.getKey(), column, Constants.NO_VERSION);
-                Value value = Value.DeleteColumn();
-                writeBatch.add(new KeyValue(key, value));
-            }
-        }
-        minStore.put(writeBatch);
+        Transaction transaction = TransactionManager.newTransaction(null);
+        Table table = transaction.getTable(tableName);
+        table.delete(delete);
+        transaction.commit();
     }
 }

@@ -49,11 +49,94 @@ message DeleteResponse {
   required bool success = 1;
 }
 
+message BeginTransactionRequest {
+
+}
+
+message BeginTransactionResponse {
+  required bool success = 1;
+  required int64 txid = 2;
+}
+
+message RollBackRequest {
+  required int64 txid = 1;
+}
+
+message RollBackResponse {
+  required bool success = 1;
+}
+
+message CommitRequest {
+  required int64 txid = 1;
+}
+
+message CommitResponse {
+  required bool success = 1;
+}
 
 service ClientService {
   rpc get(GetRequest) returns (GetResponse);
-  rpc put(PutRequest) returns (GetResponse);
+  rpc put(PutRequest) returns (PutResponse);
   rpc checkAndPut(CheckAndPutRequest) returns (CheckAndPutResponse);
   rpc delete(DeleteRequest) returns (DeleteResponse);
+  rpc beginTransaction(BeginTransactionRequest) returns (BeginTransactionResponse);
+  rpc rollBack(RollBackRequest) returns (RollBackResponse);
+  rpc commit(CommitRequest) returns (CommitResponse);
 }
+
+
+message TxGetRequest {
+  required int64 txid = 1;
+  required string key = 2;
+  required string table = 3;
+  repeated string columns = 4;
+}
+
+message TxGetResponse {
+  required string key = 1;
+  repeated ColumnValue columnValues = 3;
+}
+
+message TxPutRequest {
+  required int64 txid = 1;
+  required string key = 3;
+  required string table = 4;
+  repeated ColumnValue columnValues = 5;
+}
+
+message TxPutResponse {
+  required bool success = 1;
+}
+
+message TxCheckAndPutRequest {
+  required int64 txid = 1;
+  required string checkKey = 2;
+  required string checkValue = 3;
+  required string key = 4;
+  required string table = 5;
+  repeated ColumnValue columnValues = 6;
+}
+
+message TxCheckAndPutResponse {
+  required bool success = 1;
+}
+
+message TxDeleteRequest {
+  required int64 txid = 1;
+  required string key = 2;
+  required string table = 3;
+  repeated string columns = 4;
+}
+
+message TxDeleteResponse {
+  required bool success = 1;
+}
+
+service TransactionService {
+  rpc get(TxGetRequest) returns (TxGetResponse);
+  rpc put(TxPutRequest) returns (TxPutResponse);
+  rpc checkAndPut(TxCheckAndPutRequest) returns (TxCheckAndPutResponse);
+  rpc delete(TxDeleteRequest) returns (TxDeleteResponse);
+}
+
 

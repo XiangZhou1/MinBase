@@ -1,7 +1,7 @@
 package org.minbase.server.minstore;
 
 
-import org.minbase.server.iterator.MemTableIterator;
+import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.mem.MemStore;
 import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
@@ -40,7 +40,7 @@ public class FlushTask implements Runnable {
                 this.immMemTablesLast = immMemStores.peekLast();
 
                 StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
-                MemTableIterator iterator = immMemTablesLast.iterator();
+                MemStoreIterator iterator = immMemTablesLast.iterator();
                 long lastSyncSequenceId = 0;
                 while (iterator.isValid()) {
                     lastSyncSequenceId = Math.max(lastSyncSequenceId, iterator.key().getSequenceId());

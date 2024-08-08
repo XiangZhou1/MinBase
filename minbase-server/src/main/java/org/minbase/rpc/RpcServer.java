@@ -12,8 +12,6 @@ import org.minbase.common.rpc.Constant;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestDecoder;
 import org.minbase.common.rpc.codec.RpcResponseEncoder;
-import org.minbase.common.rpc.proto.generated.ClientProto;
-import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.table.Table;
 import org.minbase.common.utils.ProtobufUtil;
 import org.minbase.server.MinBaseServer;

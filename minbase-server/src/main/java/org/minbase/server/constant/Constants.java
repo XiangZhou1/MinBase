@@ -12,6 +12,7 @@ public class Constants {
     public static final long NO_VERSION = -1;
 
     // config 配置
+    public static final String MINBASE_CONF = "minbase.conf";
     public static final String KEY_COMPACTION_STRATEGY = "minbase.compaction_strategy";
     public static final String KEY_MAX_CACHE_SIZE = "minbase.max_cache_size";
     public static final String KEY_MAX_BLOCK_SIZE = "minbase.max_block_size";

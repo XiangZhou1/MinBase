@@ -1,23 +1,25 @@
 package org.minbase.client.table;
 
 import org.minbase.client.exception.ServerException;
+import org.minbase.common.operation.ColumnValues;
 import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Get;
 import org.minbase.common.operation.Put;
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.table.*;
+import org.minbase.common.table.Table;
+import org.minbase.common.transaction.Transaction;
 import org.minbase.common.utils.ByteUtil;
 
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ClientTable implements Table {
+public class TxTable implements Table {
+    private Transaction transaction;
     private String tableName;
-    private ClientServiceGrpc.ClientServiceBlockingClient rpcClient;
 
+    private TransactionServiceGrpc.TransactionServiceBlockingClient rpcClient;
 
-    public ClientTable(String tableName, ClientServiceGrpc.ClientServiceBlockingClient rpcClient) {
+    public TxTable(String tableName, TransactionServiceGrpc.TransactionServiceBlockingClient rpcClient) {
         this.tableName = tableName;
         this.rpcClient = rpcClient;
     }
@@ -29,14 +31,14 @@ public class ClientTable implements Table {
 
     @Override
     public ColumnValues get(Get get) {
-        final ClientProto.GetRequest.Builder builder = ClientProto.GetRequest.newBuilder();
-        builder.setTable(tableName).setKey(new String(get.getKey()));
+        final ClientProto.TxGetRequest.Builder builder = ClientProto.TxGetRequest.newBuilder();
+        builder.setTxid(transaction.txId()).setTable(tableName).setKey(new String(get.getKey()));
         final List<byte[]> columns = get.getColumns();
         for (int i = 0; i < columns.size(); i++) {
             builder.setColumns(i, new String(columns.get(i)));
         }
-        final ClientProto.GetRequest getRequest = builder.build();
-        final ClientProto.GetResponse getResponse = rpcClient.get(getRequest);
+        final ClientProto.TxGetRequest getRequest = builder.build();
+        final ClientProto.TxGetResponse getResponse = rpcClient.get(getRequest);
         ColumnValues value = new ColumnValues();
         for (int i = 0; i < getResponse.getColumnValuesCount(); i++) {
             final ClientProto.ColumnValue columnValues = getResponse.getColumnValues(i);
@@ -47,7 +49,7 @@ public class ClientTable implements Table {
 
     @Override
     public void put(Put put) {
-        final ClientProto.PutRequest.Builder builder = ClientProto.PutRequest.newBuilder();
+        final ClientProto.TxPutRequest.Builder builder = ClientProto.TxPutRequest.newBuilder();
         builder.setTable(tableName).setKey(new String(put.getKey()));
         final TreeMap<byte[], byte[]> columnValues = put.getColumnValues();
         int i = 0;
@@ -56,8 +58,8 @@ public class ClientTable implements Table {
             columnValueBuilder.setColumn(new String(entry.getKey())).setValue(new String(entry.getValue()));
             builder.setColumnValues(i, columnValueBuilder.build());
         }
-        final ClientProto.PutRequest putRequest = builder.build();
-        final ClientProto.PutResponse putResponse = rpcClient.put(putRequest);
+        final ClientProto.TxPutRequest putRequest = builder.build();
+        final ClientProto.TxPutResponse putResponse = rpcClient.put(putRequest);
 
         final boolean success = putResponse.getSuccess();
         if (!success) {

@@ -1,7 +1,9 @@
 package org.minbase.server.minstore;
 
 
+import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Get;
+import org.minbase.common.operation.Put;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.op.*;
@@ -10,7 +12,7 @@ import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.iterator.MemTableIterator;
+import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.mem.MemStore;
 import org.minbase.server.compaction.CompactionStrategy;
@@ -22,6 +24,9 @@ import org.minbase.server.wal.Wal;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -83,7 +88,7 @@ public class MinStore {
         final byte[] userKey = get.getKey();
         final KeyValueIterator iterator = iterator(Key.minKey(userKey), Key.maxKey(userKey));
         try {
-            RowTacker tacker = new RowTacker();
+            RowTacker tacker = new RowTacker(Key.latestKey(get.getKey()), new HashSet<>(get.getColumns()));
             while (iterator.isValid()) {
                 final KeyValue keyValue = iterator.value();
                 tacker.track(keyValue);
@@ -101,15 +106,16 @@ public class MinStore {
 
     //===========================
     // put实现
-    public void put(byte[] key, byte[] column, byte[] value) {
-        final Value put = Value.Put();
-        put.addColumnValue(new ColumnValue(column, value));
-        KeyValue kv = new KeyValue(new Key(key, column, 0), put);
-        wal.log(kv);
-        memStore.put(kv.getKey(), kv.getValue());
-        if (memStore.shouldFreeze()) {
-            freezeMemTable();
+    public void put(Put put) {
+        WriteBatch writeBatch = new WriteBatch();
+        for (Map.Entry<byte[], byte[]> entry : put.getColumnValues().entrySet()) {
+            Key key = new Key(put.getKey(), Constants.NO_VERSION);
+            Value value = Value.Put();
+            value.addColumnValue(entry.getKey(), entry.getValue());
+            writeBatch.add(new KeyValue(key, value));
         }
+
+        put(writeBatch);
     }
 
     public void put(WriteBatch writeBatch) {
@@ -122,15 +128,20 @@ public class MinStore {
         }
     }
 
-    public boolean checkAndPut(byte[] checkKey, byte[] checkValue, byte[] key, byte[] value) {
+    public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
         writeLock();
         try {
-            final byte[] bytes = get(checkKey);
-            if (!ByteUtil.byteEqual(bytes, checkValue)) {
+            Get get = new Get(checkKey);
+            get.addColumn(column);
+
+            KeyValue keyValue = get(get);
+            byte[] oldValue = keyValue.getValue().getColumnValues().get(column);
+            if ((oldValue == null && checkValue == null) || ByteUtil.byteEqual(oldValue, checkValue)) {
+                put(put);
+                return true;
+            } else {
                 return false;
             }
-            put(key, value);
-            return true;
         } finally {
             writeUnLock();
         }
@@ -167,16 +178,32 @@ public class MinStore {
         }
     }
 
-    
+    public void delete(Delete delete) {
+        WriteBatch writeBatch = new WriteBatch();
+        final List<byte[]> columns = delete.getColumns();
+        if (columns.isEmpty()) {
+            Key key = new Key(delete.getKey(), Constants.NO_VERSION);
+            Value value = Value.Delete();
+            writeBatch.add(new KeyValue(key, value));
+        } else {
+            for (byte[] column : columns) {
+                Key key = new Key(delete.getKey(), Constants.NO_VERSION);
+                Value value = Value.DeleteColumn(column);
+                writeBatch.add(new KeyValue(key, value));
+            }
+        }
+        this.put(writeBatch);
+    }
+
     // ===================================================================
     public KeyValueIterator iterator(Key startKey, Key endKey) {
         ArrayList<KeyValueIterator> result = new ArrayList<>();
-        MemTableIterator iterator1 = memStore.iterator(startKey, endKey);
+        MemStoreIterator iterator1 = memStore.iterator(startKey, endKey);
         result.add(iterator1);
 
         ArrayList<KeyValueIterator> list1 = new ArrayList<>();
         for (MemStore immMemStore : immMemStores) {
-            MemTableIterator iterator = immMemStore.iterator(startKey, endKey);
+            MemStoreIterator iterator = immMemStore.iterator(startKey, endKey);
             list1.add(iterator);
         }
         result.add(new MergeIterator(list1));

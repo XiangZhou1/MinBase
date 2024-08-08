@@ -1,19 +1,15 @@
 package org.minbase.server.transaction;
 
-import org.minbase.server.constant.Constants;
-import org.minbase.server.minstore.MinStore;
 import org.minbase.server.table.TableImpl;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionManager {
-    public static TransactionType transactionType = TransactionType.Pessimistic;
-
-    private static AtomicLong transactionId = new AtomicLong(0);
+    private static AtomicLong txId = new AtomicLong(0);
     private static ConcurrentSkipListMap<Long, Transaction> activeTransactions = new ConcurrentSkipListMap<>();
+    private static ConcurrentSkipListMap<Long, Transaction> commitedTransactions = new ConcurrentSkipListMap<>();
 
 
     public static ConcurrentSkipListMap<Long, Transaction> getActiveTransactions() {
@@ -21,21 +17,34 @@ public class TransactionManager {
     }
 
     public static long newTransactionId() {
-        return transactionId.incrementAndGet();
+        return txId.incrementAndGet();
     }
 
     public static Transaction newTransaction(Map<String, TableImpl> tables) {
-        long snapShot = Constants.LATEST_VERSION;
         long transactionId = TransactionManager.newTransactionId();
-        Transaction transaction;
-        if (TransactionManager.transactionType.equals(TransactionType.Optimistic)) {
-            transaction = new OptimisticTransaction(transactionId);
-        } else {
-            transaction = new PessimisticTransaction(transactionId);
-        }
+        Transaction transaction = new Transaction(transactionId);
         activeTransactions.put(transactionId, transaction);
         transaction.setTables(tables);
-        transaction.setSnapShot(snapShot);
         return transaction;
     }
+
+    public static long getCommitId() {
+        return txId.incrementAndGet();
+    }
+
+    public static ConcurrentSkipListMap<Long, Transaction> getCommitedTransactions() {
+        return commitedTransactions;
+    }
+
+
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Map.Entry<Long, Transaction> e = commitedTransactions.firstEntry();
+            if (e != null) {
+                Transaction transaction = e.getValue();
+
+            }
+        }
+    })
 }

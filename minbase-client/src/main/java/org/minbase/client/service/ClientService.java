@@ -5,8 +5,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.util.concurrent.Promise;
 import org.minbase.common.Constants;
-import org.minbase.common.rpc.proto.generated.ClientProto;
-import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.CallType;
 
