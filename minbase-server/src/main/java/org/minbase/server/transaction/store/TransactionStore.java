@@ -2,13 +2,16 @@ package org.minbase.server.transaction.store;
 
 
 
+import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Put;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.mem.MemStore;
 import org.minbase.server.op.Key;
+import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
 import org.minbase.server.op.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.utils.KeyValueUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,30 +31,26 @@ public class TransactionStore {
         return writeBatch;
     }
 
-    public Value get(byte[] key) {
-        return table.get(key);
+
+    public void delete(String tableName, Delete delete) {
+        KeyValue keyValue = KeyValueUtil.toKeyValue(delete);
+        writeBatch.add(tableName, keyValue);
+        MemStore memStore = memStores.get(tableName);
+        memStore.put(keyValue.getKey(), keyValue.getValue());
     }
 
-    public void put(byte[] key, byte[] value) {
-//        Value put = Value.Put(value);
-//        table.put(key, put);
-//        writeBatch.put(key,put);
-    }
-
-    public void delete(byte[] key) {
-//        final Value delete = Value.Delete();
-//        table.put(key, delete);
-//        writeBatch.put(key,delete);
-    }
-
-    public KeyValueIterator iterator(Key startKey, Key endKey) {
-
+    public KeyValueIterator iterator(String tableName, Key startKey, Key endKey) {
+        return null;
     }
 
     public Map<String, MemStore> getMemStores() {
         return memStores;
     }
 
-    public void put(Put put) {
+    public void put(String tableName, Put put) {
+        KeyValue keyValue = KeyValueUtil.toKeyValue(put);
+        writeBatch.add(tableName, keyValue);
+        MemStore memStore = memStores.get(tableName);
+        memStore.put(keyValue.getKey(), keyValue.getValue());
     }
 }

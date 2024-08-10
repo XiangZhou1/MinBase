@@ -26,7 +26,7 @@ public class ClientTable implements Table {
 
     @Override
     public String name() {
-        return null;
+        return tableName;
     }
 
     @Override
@@ -69,11 +69,33 @@ public class ClientTable implements Table {
 
     @Override
     public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
-        return false;
+        ClientProto.CheckAndPutRequest.Builder builder = ClientProto.CheckAndPutRequest.newBuilder();
+        builder.setTable(tableName).setKey(new String(put.getKey()));
+        builder.setCheckKey(new String(checkKey)).setCheckValue(new String(checkValue));
+        TreeMap<byte[], byte[]> columnValues = put.getColumnValues();
+        int i = 0;
+        for (Map.Entry<byte[], byte[]> entry : columnValues.entrySet()) {
+            ClientProto.ColumnValue.Builder columnValueBuilder = ClientProto.ColumnValue.newBuilder();
+            columnValueBuilder.setColumn(new String(entry.getKey())).setValue(new String(entry.getValue()));
+            builder.setColumnValues(i, columnValueBuilder.build());
+        }
+
+        ClientProto.CheckAndPutRequest checkAndPutRequest = builder.build();
+        ClientProto.CheckAndPutResponse checkAndPutResponse = rpcClient.checkAndPut(checkAndPutRequest);
+
+        return checkAndPutResponse.getSuccess();
     }
 
     @Override
-    public void delete(Delete key) {
+    public void delete(Delete delete) {
+        ClientProto.DeleteRequest.Builder builder = ClientProto.DeleteRequest.newBuilder();
+        builder.setTable(tableName).setKey(new String(delete.getKey()));
+        int i = 0;
+        for (byte[] column : delete.getColumns()) {
+            builder.setColumns(i++, new String(column));
+        }
 
+        ClientProto.DeleteRequest deleteRequest = builder.build();
+        ClientProto.DeleteResponse deleteResponse = rpcClient.delete(deleteRequest);
     }
 }

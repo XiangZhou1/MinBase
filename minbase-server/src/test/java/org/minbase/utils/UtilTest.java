@@ -1,4 +1,4 @@
-package org.minbase.server;
+package org.minbase.utils;
 
 
 import org.junit.Test;
@@ -11,6 +11,7 @@ public class UtilTest {
         byte[] bytes = ByteUtil.intToByteArray(value);
         int i = ByteUtil.byteArrayToInt(bytes, 0);
         System.out.println(i);
+        assert i == value;
     }
 
     @Test
@@ -19,6 +20,7 @@ public class UtilTest {
         byte[] bytes = ByteUtil.shotToByteArray(value);
         short value2 = ByteUtil.byteArrayToShort(bytes, 0);
         System.out.println(value2);
+        assert value2 == value;
     }
 
     @Test
@@ -27,5 +29,6 @@ public class UtilTest {
         byte[] bytes = ByteUtil.longToByteArray(value);
         long value2 = ByteUtil.byteArrayToLong(bytes, 0);
         System.out.println(value2);
+        assert value2 == value;
     }
 }

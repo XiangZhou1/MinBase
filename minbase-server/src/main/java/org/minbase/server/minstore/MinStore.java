@@ -110,14 +110,14 @@ public class MinStore {
             Key key = new Key(put.getKey(), Constants.NO_VERSION);
             Value value = Value.Put();
             value.addColumnValue(entry.getKey(), entry.getValue());
-            writeBatch.add(new KeyValue(key, value));
+            writeBatch.add(name, new KeyValue(key, value));
         }
 
         put(writeBatch);
     }
 
     public void put(WriteBatch writeBatch) {
-        for (KeyValue keyValue : writeBatch.getKeyValues()) {
+        for (KeyValue keyValue : writeBatch.getKeyValues(name)) {
             memStore.put(keyValue.getKey(), keyValue.getValue());
         }
         if (memStore.shouldFreeze()) {
@@ -180,12 +180,12 @@ public class MinStore {
         if (columns.isEmpty()) {
             Key key = new Key(delete.getKey(), Constants.NO_VERSION);
             Value value = Value.Delete();
-            writeBatch.add(new KeyValue(key, value));
+            writeBatch.add(name, new KeyValue(key, value));
         } else {
             for (byte[] column : columns) {
                 Key key = new Key(delete.getKey(), Constants.NO_VERSION);
                 Value value = Value.DeleteColumn(column);
-                writeBatch.add(new KeyValue(key, value));
+                writeBatch.add(name, new KeyValue(key, value));
             }
         }
         this.put(writeBatch);
@@ -244,14 +244,6 @@ public class MinStore {
         return immMemStores;
     }
 
-    public void applyWal(LogEntry logEntry) {
-        for (KeyValue keyValue : logEntry.getKeyValues()) {
-            memStore.put(keyValue.getKey(), keyValue.getValue());
-        }
-        if (this.memStore.shouldFreeze()) {
-            freezeMemTable();
-        }
-    }
 
     public void foreFlush() {
         freezeMemTable();

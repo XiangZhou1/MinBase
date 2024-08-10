@@ -184,4 +184,8 @@ public class Value {
     public Set<byte[]> getDeletedColumns() {
         return deletedColumns;
     }
+
+    public void setType(byte type) {
+        this.type = type;
+    }
 }

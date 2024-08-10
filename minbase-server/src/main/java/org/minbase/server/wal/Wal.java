@@ -62,19 +62,13 @@ public class Wal {
         syncWalThread.start();
     }
 
-    /**
-     * 记录日志
-     */
-    public void log(KeyValue keyValue) {
-        LogEntry logEntry = new LogEntry(keyValue);
-        log(logEntry);
-    }
+
 
     /**
      * 原子性记录多条日志
      */
     public void log(WriteBatch writeBatch) {
-        LogEntry logEntry = new LogEntry(writeBatch.getKeyValues());
+        LogEntry logEntry = new LogEntry(writeBatch);
         log(logEntry);
     }
 
@@ -108,6 +102,7 @@ public class Wal {
         if (files == null) {
             return;
         }
+        long lastSequenceId = 0L;
         for (File file1 : files) {
             recoveryFromFile(tables, lastSequenceId, file1);
         }
@@ -115,7 +110,7 @@ public class Wal {
         File inProgressFile = new File(WAL_DIR + File.separator + INPROGRESS_WAL);
         if (inProgressFile.exists()) {
             long startId = sequenceId;
-            recoveryFromFile(minStore, lastSequenceId, inProgressFile);
+            recoveryFromFile(tables, lastSequenceId, inProgressFile);
             long endId = sequenceId;
             FileUtil.rename(inProgressFile, new File(WAL_DIR + File.separator + startId + "_" + endId));
         }
@@ -136,7 +131,12 @@ public class Wal {
                 pos += logEntryLength;
 
                 if (logEntry.getSequenceId() > lastSequenceId) {
-                    minStoreInner.applyWal(logEntry);
+                    WriteBatch writeBatch = logEntry.getWriteBatch();
+                    List<String> walTables = writeBatch.getTables();
+                    for (String walTable : walTables) {
+                        MinStore minStore = tables.get(walTable).getMinStore();
+                        minStore.put(writeBatch);
+                    }
                 }
                 sequenceId = syncSequenceId = logEntry.getSequenceId();
             }

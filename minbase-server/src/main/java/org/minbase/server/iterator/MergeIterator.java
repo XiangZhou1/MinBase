@@ -5,7 +5,7 @@ package org.minbase.server.iterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.utils.KeyUtil;
+import org.minbase.server.utils.KeyValueUtil;
 
 import java.util.List;
 import java.util.PriorityQueue;
@@ -14,7 +14,7 @@ public class MergeIterator implements KeyValueIterator {
     private PriorityQueue<KeyValueIterator> queue;
 
     public MergeIterator(List<KeyValueIterator> iterators) {
-        this.queue = new PriorityQueue<>(KeyUtil.KEY_ITERATOR_COMPARATOR);
+        this.queue = new PriorityQueue<>(KeyValueUtil.KEY_ITERATOR_COMPARATOR);
 
         for (KeyValueIterator iterator : iterators) {
             if (iterator.isValid()) {

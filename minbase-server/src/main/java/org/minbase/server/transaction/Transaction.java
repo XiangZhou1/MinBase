@@ -43,7 +43,7 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
 
     @Override
     public Table getTable(String tableName) {
-        return new TransactionTable(txId, this);
+        return new TransactionTable(tableName, this, tables.get(tableName).getMinStore());
     }
 
     public long getTxId() {
@@ -56,55 +56,31 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
 
 
     public synchronized void commit() throws TransactionException {
-        long commitId = TransactionManager.getCommitId();
-        ConcurrentSkipListMap<Long, Transaction> commitedTransactions = TransactionManager.getCommitedTransactions();
-        if (writeSet.isEmpty() && !readSet.isEmpty()) {
-            WriteBatch writeBatch = localStore.getWriteBatch();
-            writeBatch.setSequenceId(commitId);
-            wal.log(writeBatch);
-            localStore.getWriteBatch();
-            this.commitId = commitId;
-        } else if (!writeSet.isEmpty() && readSet.isEmpty()) {
-            this.commitId = commitId;
-            transactionState = TransactionState.Commit;
-        } else {
-
-            for (Map.Entry<Long, Transaction> entry : commitedTransactions.entrySet()) {
-                Long id = entry.getKey();
-                Transaction transaction = entry.getValue();
-                if (id < commitId && transaction.getTxId() > this.txId) {
-                    boolean isConflict = checkConflict(transaction);
-                    if (isConflict) {
-                        throw new TransactionException();
-                    }
-                }
-            }
-
-            localStore.getWriteBatch();
-            this.commitId = commitId;
+        if (!TransactionManager.validateTransaction(txId)) {
+            throw new TransactionException("validate fail");
         }
 
-        transactionState = TransactionState.Commit;
+        WriteBatch writeBatch = localStore.getWriteBatch();
+        if (!writeBatch.isEmpty()) {
+            writeBatch.setSequenceId(commitId);
+            wal.log(writeBatch);
+            applyLocalStore(localStore);
+        }
 
-        ConcurrentSkipListMap<Long, Transaction> activeTransactions = TransactionManager.getActiveTransactions();
-        activeTransactions.remove(this.txId);
-        commitedTransactions.put(txId, this);
+        TransactionManager.commitTransaction(txId);
         localStore = null;
     }
 
-    private boolean checkConflict(Transaction transaction) {
-        for (byte[] bytes : readSet) {
-            if (transaction.writeSet.contains(bytes)) {
-                return true;
-            }
+    private void applyLocalStore(TransactionStore localStore) {
+        WriteBatch writeBatch = localStore.getWriteBatch();
+        for (String table : writeBatch.getTables()) {
+            tables.get(table).getMinStore().put(writeBatch);
         }
-        return false;
     }
 
     public void rollback() {
-        transactionState = TransactionState.Rollback;
-        ConcurrentSkipListMap<Long, Transaction> activeTransactions = TransactionManager.getActiveTransactions();
-        activeTransactions.remove(this.txId);
+        TransactionManager.rollBackTransaction(txId);
+        localStore = null;
     }
 
     protected boolean isCommit() {
@@ -121,5 +97,25 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
 
     public void setTables(Map<String, TableImpl> tables) {
         this.tables = tables;
+    }
+
+    public Set<byte[]> getWriteSet() {
+        return writeSet;
+    }
+
+    public Set<byte[]> getReadSet() {
+        return readSet;
+    }
+
+    public void setTransactionState(TransactionState state) {
+        this.transactionState = state;
+    }
+
+    public void setCommittedId(long committedId) {
+        this.commitId = committedId;
+    }
+
+    public long getCommitId() {
+        return commitId;
     }
 }

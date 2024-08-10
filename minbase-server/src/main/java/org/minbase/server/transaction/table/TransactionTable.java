@@ -23,14 +23,16 @@ import java.util.Set;
 public class TransactionTable implements Table {
     private String tableName;
     private MinStore minStore;
-    private long txId;
     protected TransactionStore localStore;
-    private Transaction transaction;
     private Set<byte[]> writeSet;
     private Set<byte[]> readSet;
 
-    public TransactionTable(long txId, Transaction transaction) {
-
+    public TransactionTable(String tableName, Transaction transaction, MinStore minStore) {
+        this.tableName = tableName;
+        this.writeSet = transaction.getWriteSet();
+        this.readSet = transaction.getReadSet();
+        this.minStore = minStore;
+        this.localStore = new TransactionStore();
     }
 
     @Override
@@ -43,7 +45,7 @@ public class TransactionTable implements Table {
         readSet.add(get.getKey());
 
         KeyValueIterator iterator1 = minStore.iterator(Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
-        KeyValueIterator iterator2 = localStore.iterator(Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
+        KeyValueIterator iterator2 = localStore.iterator(tableName, Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
         List<KeyValueIterator> keyValueIteratorList = new ArrayList<>();
         keyValueIteratorList.add(iterator1);
         keyValueIteratorList.add(iterator2);
@@ -71,8 +73,7 @@ public class TransactionTable implements Table {
     @Override
     public void put(Put put) {
         writeSet.add(put.getKey());
-
-        localStore.put(put);
+        localStore.put(tableName, put);
     }
 
     @Override
@@ -80,13 +81,21 @@ public class TransactionTable implements Table {
         readSet.add(checkKey);
         writeSet.add(put.getKey());
 
-        return false;
+        Get get = new Get(checkKey);
+        get.addColumn(column);
+        ColumnValues columnValues = get(get);
+        byte[] value = columnValues.get(column);
+        if (value == checkValue) {
+            put(put);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void delete(Delete delete) {
         writeSet.add(delete.getKey());
-
-        //localStore.delete();
+        localStore.delete(tableName, delete);
     }
 }

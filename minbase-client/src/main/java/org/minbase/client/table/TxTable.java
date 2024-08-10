@@ -5,6 +5,8 @@ import org.minbase.common.operation.ColumnValues;
 import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Get;
 import org.minbase.common.operation.Put;
+import org.minbase.common.rpc.proto.generated.ClientProto;
+import org.minbase.common.rpc.proto.generated.TransactionServiceGrpc;
 import org.minbase.common.table.Table;
 import org.minbase.common.transaction.Transaction;
 import org.minbase.common.utils.ByteUtil;
@@ -50,7 +52,7 @@ public class TxTable implements Table {
     @Override
     public void put(Put put) {
         final ClientProto.TxPutRequest.Builder builder = ClientProto.TxPutRequest.newBuilder();
-        builder.setTable(tableName).setKey(new String(put.getKey()));
+        builder.setTxid(transaction.txId()).setTable(tableName).setKey(new String(put.getKey()));
         final TreeMap<byte[], byte[]> columnValues = put.getColumnValues();
         int i = 0;
         for (Map.Entry<byte[], byte[]> entry : columnValues.entrySet()) {
@@ -69,11 +71,33 @@ public class TxTable implements Table {
 
     @Override
     public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
-        return false;
+        ClientProto.TxCheckAndPutRequest.Builder builder = ClientProto.TxCheckAndPutRequest.newBuilder();
+        builder.setTable(tableName).setKey(new String(put.getKey()));
+        builder.setCheckKey(new String(checkKey)).setCheckValue(new String(checkValue));
+        TreeMap<byte[], byte[]> columnValues = put.getColumnValues();
+        int i = 0;
+        for (Map.Entry<byte[], byte[]> entry : columnValues.entrySet()) {
+            ClientProto.ColumnValue.Builder columnValueBuilder = ClientProto.ColumnValue.newBuilder();
+            columnValueBuilder.setColumn(new String(entry.getKey())).setValue(new String(entry.getValue()));
+            builder.setColumnValues(i, columnValueBuilder.build());
+        }
+
+        ClientProto.TxCheckAndPutRequest checkAndPutRequest = builder.build();
+        ClientProto.TxCheckAndPutResponse checkAndPutResponse = rpcClient.checkAndPut(checkAndPutRequest);
+
+        return checkAndPutResponse.getSuccess();
     }
 
     @Override
-    public void delete(Delete key) {
+    public void delete(Delete delete) {
+        ClientProto.TxDeleteRequest.Builder builder = ClientProto.TxDeleteRequest.newBuilder();
+        builder.setTable(tableName).setKey(new String(delete.getKey()));
+        int i = 0;
+        for (byte[] column : delete.getColumns()) {
+            builder.setColumns(i++, new String(column));
+        }
 
+        ClientProto.TxDeleteRequest deleteRequest = builder.build();
+        ClientProto.TxDeleteResponse deleteResponse = rpcClient.delete(deleteRequest);
     }
 }
