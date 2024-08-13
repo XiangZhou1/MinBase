@@ -13,7 +13,6 @@ import org.minbase.server.transaction.TransactionState;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient, TransactionServiceGrpc.TransactionServiceBlockingClient, AdminServiceGrpc.AdminServiceBlockingClient {
     private MinBaseServer server;
@@ -171,12 +170,9 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
 
 
     public void rollBackTransactions() {
-        for (Long txid : transactions) {
-            ConcurrentSkipListMap<Long, Transaction> activeTransactions = TransactionManager.getActiveTransactions();
-            Transaction transaction = activeTransactions.get(txid);
-            if (transaction != null && transaction.getTransactionState().equals(TransactionState.Active)) {
-                transaction.rollback();
-            }
+        for (long txId : transactions) {
+            Transaction activeTransaction = TransactionManager.getActiveTransaction(txId);
+            activeTransaction.rollback();
         }
     }
 }

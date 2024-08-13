@@ -5,6 +5,7 @@ import org.minbase.common.utils.ByteUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 public class ColumnValue {
     private byte[] column;
@@ -13,8 +14,6 @@ public class ColumnValue {
     public ColumnValue() {
     }
 
-    public ColumnValue(byte[] column) {
-    }
 
     public ColumnValue(byte[] column, byte[] value) {
         this.column = column;
@@ -78,5 +77,11 @@ public class ColumnValue {
         return 2 * Constants.INTEGER_LENGTH + column.length + value.length;
     }
 
-
+    @Override
+    public String toString() {
+        return "ColumnValue{" +
+                "column=" + Arrays.toString(column) +
+                ", value=" + Arrays.toString(value) +
+                '}';
+    }
 }

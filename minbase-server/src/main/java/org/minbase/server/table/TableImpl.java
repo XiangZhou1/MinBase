@@ -6,20 +6,30 @@ import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Get;
 import org.minbase.common.operation.Put;
 import org.minbase.common.table.Table;
+import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.minstore.MinStore;
+import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
+import org.minbase.server.op.RowTacker;
 import org.minbase.server.transaction.Transaction;
 import org.minbase.server.transaction.TransactionManager;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class TableImpl implements Table {
     String tableName;
     MinStore minStore;
+    Map<String, TableImpl> selfTables;
 
     public TableImpl(String tableName, MinStore minStore) {
         this.tableName = tableName;
         this.minStore = minStore;
+        this.selfTables = new HashMap<>();
+        this.selfTables.put(tableName, this);
     }
-
 
     public MinStore getMinStore() {
         return minStore;
@@ -32,20 +42,16 @@ public class TableImpl implements Table {
 
     @Override
     public ColumnValues get(Get get) {
-        Transaction transaction = TransactionManager.newTransaction(null);
-
+        Transaction transaction = TransactionManager.newTransaction(selfTables);
         Table table = transaction.getTable(tableName);
         ColumnValues columnValues = table.get(get);
         transaction.commit();
-
-
-        KeyValue keyValue = minStore.get(get);
-        return keyValue.getValue().columnValues();
+        return columnValues;
     }
 
     @Override
     public void put(Put put) {
-        Transaction transaction = TransactionManager.newTransaction(null);
+        Transaction transaction = TransactionManager.newTransaction(selfTables);
         Table table = transaction.getTable(tableName);
         table.put(put);
         transaction.commit();
@@ -53,12 +59,16 @@ public class TableImpl implements Table {
 
     @Override
     public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
-        Transaction transaction = TransactionManager.newTransaction(null);
+        Transaction transaction = TransactionManager.newTransaction(selfTables);
         try {
             Table table = transaction.getTable(tableName);
-            table.put(put);
-            transaction.commit();
-            return true;
+            if (table.checkAndPut(checkKey, column, checkValue, put)) {
+                transaction.commit();
+                return true;
+            } else {
+                transaction.rollback();
+                return false;
+            }
         } catch (TransactionException e) {
             transaction.rollback();
             return false;
@@ -67,7 +77,7 @@ public class TableImpl implements Table {
 
     @Override
     public void delete(Delete delete) {
-        Transaction transaction = TransactionManager.newTransaction(null);
+        Transaction transaction = TransactionManager.newTransaction(selfTables);
         Table table = transaction.getTable(tableName);
         table.delete(delete);
         transaction.commit();

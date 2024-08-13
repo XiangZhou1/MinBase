@@ -10,16 +10,18 @@ import org.minbase.common.utils.Util;
 
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class StoreFileTest {
+    private static final byte[] column = "cl1".getBytes(StandardCharsets.UTF_8);
     @Test
     public void test1() {
         int totalNum = 4000;
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < totalNum; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put("v1".getBytes());
+            Value put = Value.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
 
@@ -27,7 +29,7 @@ public class StoreFileTest {
         storeFile.cacheDataBlocks();
 
         int scanNum = 0;
-        StoreFileIterator iterator = storeFile.iterator();
+        StoreFileIterator iterator = storeFile.getReader().iterator();
         while (iterator.isValid()){
             KeyValue value = iterator.value();
             scanNum ++;
@@ -44,7 +46,7 @@ public class StoreFileTest {
         for (int i = 0; i < totalNum; i++) {
             Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
             Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put("v1".getBytes());
+            Value put = Value.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key2, put));
             storeFileBuilder.add(new KeyValue(key1, put));
         }
@@ -53,7 +55,7 @@ public class StoreFileTest {
         storeFile.cacheDataBlocks();
 
         int scanNum = 0;
-        StoreFileIterator iterator = storeFile.iterator();
+        StoreFileIterator iterator = storeFile.getReader().iterator();
         while (iterator.isValid()){
             KeyValue value = iterator.value();
             scanNum ++;
@@ -69,13 +71,13 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 40960; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put("v1".getBytes());
+            Value put = Value.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
         StoreFile storeFile = storeFileBuilder.build();
 
         for (int i = 0; i < 40960; i++) {
-            StoreFileIterator iterator = storeFile.iterator(Key.latestKey(("k" + Util.fillZero(i)).getBytes()), null);
+            StoreFileIterator iterator = storeFile.getReader().iterator(Key.latestKey(("k" + Util.fillZero(i)).getBytes()), null);
             int num = 0;
             while (iterator.isValid()) {
                 KeyValue value = iterator.value();
@@ -88,36 +90,32 @@ public class StoreFileTest {
     }
 
 
-
     @Test
     public void testEncodeAndSave() throws Exception {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 4096; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put("v1".getBytes());
+            Value put = Value.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
 
         StoreFile storeFile = storeFileBuilder.build();
-        StoreFileIterator iterator = storeFile.iterator();
-        while (iterator.isValid()){
+        StoreFileIterator iterator = storeFile.getReader().iterator();
+        while (iterator.isValid()) {
             KeyValue value = iterator.value();
             //System.out.println(value);
             iterator.nextInnerKey();
         }
-
-        byte[] encode = storeFile.encode();
-        System.out.println(encode.length);
-        try(FileOutputStream fileOutputStream = new FileOutputStream("temp")){
-            fileOutputStream.write(encode);
+        try (FileOutputStream fileOutputStream = new FileOutputStream("temp")) {
+            int len = storeFile.encodeToFile(fileOutputStream);
         }
 
         StoreFile storeFile1 = new StoreFile(UUID.randomUUID().toString());
 
-        try(RandomAccessFile randomAccessFile = new RandomAccessFile("temp", "r")){
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile("temp", "r")) {
             System.out.println(randomAccessFile.length());
             //byte[] read = IOUtils.read(randomAccessFile, randomAccessFile.length());
-            storeFile1.loadFromFile(randomAccessFile);
+            storeFile1.decodeFromFile(randomAccessFile);
         }
 
         System.out.println("done");
@@ -133,23 +131,22 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 4096; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put("v1".getBytes());
+            Value put = Value.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
         StoreFile storeFile = storeFileBuilder.build();
         System.out.println(storeFile);
-        byte[] encode = storeFile.encode();
-        System.out.println(encode.length);
-        try(FileOutputStream fileOutputStream = new FileOutputStream("temp")){
-            fileOutputStream.write(encode);
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream("temp")) {
+            int len = storeFile.encodeToFile(fileOutputStream);
         }
 
         StoreFile storeFile1 = new StoreFile(UUID.randomUUID().toString());
 
-        try(RandomAccessFile randomAccessFile = new RandomAccessFile("temp", "r")){
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile("temp", "r")) {
             System.out.println(randomAccessFile.length());
             //byte[] read = IOUtils.read(randomAccessFile, randomAccessFile.length());
-            storeFile1.loadFromFile(randomAccessFile);
+            storeFile1.decodeFromFile(randomAccessFile);
         }
         System.out.println(storeFile1);
 

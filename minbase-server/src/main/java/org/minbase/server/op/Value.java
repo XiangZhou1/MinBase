@@ -49,6 +49,13 @@ public class Value {
         return new Value(TYPE_PUT, columnValues);
     }
 
+    public static Value Put(byte[] column, byte[] bytes) {
+        ColumnValues columnValues = new ColumnValues();
+        columnValues.add(column, bytes);
+        return new Value(TYPE_PUT, columnValues);
+    }
+
+
     public static Value Delete() {
         return DELETE;
     }
@@ -61,6 +68,7 @@ public class Value {
         Set<byte[]> deletedColumns = new HashSet<>(Arrays.asList(columns));
         return new Value(TYPE_DELETE_COLUMN, deletedColumns);
     }
+
 
     public void addColumnValue(byte[] column, byte[] value) {
         if (type != TYPE_PUT) {

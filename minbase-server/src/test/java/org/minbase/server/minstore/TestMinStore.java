@@ -3,75 +3,75 @@ package org.minbase.server.minstore;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.minbase.common.operation.Put;
+import org.minbase.server.compaction.CompactThread;
+import org.minbase.server.compaction.Compaction;
+import org.minbase.server.iterator.KeyValueIterator;
+import org.minbase.server.op.Key;
+import org.minbase.server.op.KeyValue;
+import org.minbase.server.op.WriteBatch;
+import org.minbase.server.utils.KeyValueUtil;
+import org.mockito.Mockito;
 
+import java.io.File;
 import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class TestMinStore {
-
-    MinStore minStoreInner;
+    private static final byte[] key1 = "key1".getBytes();
+    private static final byte[] column1 = "column1".getBytes();
+    private static final byte[] value1 = "value1".getBytes();
+    private static final String tableName = "table1";
+    MinStore minStore;
 
     @Before
-    public void before() throws Exception{
-
-        minStoreInner = new MinStore();
+    public void before() throws Exception {
+        String name = "table1";
+        File dir = null;
+        Executor flushThread = Executors.newCachedThreadPool();
+        Compaction compaction = Mockito.mock(Compaction.class);
+        Mockito.doReturn(false).when(compaction.needCompact(Mockito.any()));
+        CompactThread compactThread = new CompactThread(compaction, null);
+        minStore = new MinStore(name, dir, flushThread, compaction, compactThread);
     }
 //
     @Test
-    public void test1(){
-        minStoreInner.put("k1".getBytes(), "v1".getBytes());
-        byte[] bytes = minStoreInner.get("k1".getBytes());
-        System.out.println(new String(bytes));
-        assert new String(bytes).equals("v1");
+    public void test1() {
+        Put put = new Put(key1, column1, value1);
+        WriteBatch writeBatch = new WriteBatch();
+        writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
+        writeBatch.setSequenceId(1);
+        minStore.put(writeBatch);
+
+        KeyValueIterator iterator = minStore.iterator(Key.minKey(key1), Key.maxKey(key1));
+        while (iterator.isValid()) {
+            KeyValue value = iterator.value();
+            System.out.println(value);
+            iterator.next();
+        }
     }
 
-    public static void main(String[] args) throws Exception {
-        MinStore minStoreInner = new MinStore();
 
-//        for (int i = 0; i < 1000; i++) {
-//            lsmStorageInner.put(("k" + i).getBytes(), ("v" + i).getBytes());
-//        }
-//        byte[] bytes = lsmStorageInner.get("k1".getBytes());
-//        System.out.println(new String(bytes));
-        while (true);
-        //Thread.sleep(100000000);
-    }
 
     @Test
     public void test2() throws Exception {
         for (long i = 0; i < 1000000000; i++) {
-            minStoreInner.put(("k" + i).getBytes(), ("v" + i).getBytes());
+            Put put = new Put(("k" + i).getBytes(), column1, ("v" + i).getBytes());
+            WriteBatch writeBatch = new WriteBatch();
+            writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
+            writeBatch.setSequenceId(i);
+            minStore.put(writeBatch);
         }
-        byte[] bytes = minStoreInner.get("k1".getBytes());
-        System.out.println(new String(bytes));
-        while (true);
-//        Thread.sleep(100000000);
+
+        KeyValueIterator iterator = minStore.iterator(Key.minKey(key1), Key.maxKey(key1));
+        while (iterator.isValid()) {
+            KeyValue value = iterator.value();
+            System.out.println(value);
+            iterator.next();
+        }
     }
 
-    @Test
-    public void test3() throws Exception {
-        Random random = new Random();
-        for (int i = 0; i < 100000000; i++) {
-            minStoreInner.put(("k" + random.nextInt(1000)).getBytes(), ("v" + i).getBytes());
-//            Thread.sleep(10);
-//            System.out.println(i);
-        }
-//        byte[] bytes = lsmStorageInner.get("k1".getBytes());
-//        System.out.println(new String(bytes));
-        while (true);
-//        Thread.sleep(100000000);
-    }
-
-    @Test
-    public void test4() throws Exception {
-        for (int i = 0; i < 100000000; i++) {
-            final byte[] bytes = minStoreInner.get(("k" + i).getBytes());
-            System.out.println(bytes == null?"null":new String(bytes));
-            assert new String(bytes).equals("v" + i);
-            Thread.sleep(10);
-//            System.out.println(i);
-        }
-//        Thread.sleep(100000000);
-    }
 //
 //    @Test
 //    public void testIter(){

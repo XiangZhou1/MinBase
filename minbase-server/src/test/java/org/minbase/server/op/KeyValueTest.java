@@ -2,7 +2,10 @@ package org.minbase.server.op;
 
 import org.junit.Test;
 
+import java.nio.charset.StandardCharsets;
+
 public class KeyValueTest {
+    private static final byte[] column = "cl1".getBytes(StandardCharsets.UTF_8);
 
     @Test
     public void keyTest1() {
@@ -22,7 +25,7 @@ public class KeyValueTest {
 
     @Test
     public void valueTest1() {
-        Value put = Value.Put("v1".getBytes());
+        Value put = Value.Put(column, "v1".getBytes());
         Value put2 = new Value();
         put2.decode(put.encode());
         System.out.println(put);
@@ -33,7 +36,7 @@ public class KeyValueTest {
 
     @Test
     public void keyValueTest() {
-        Value put = Value.Put("v1".getBytes());
+        Value put = Value.Put(column, "v1".getBytes());
         Key key = new Key("k1".getBytes(), 1);
         KeyValue keyValue = new KeyValue(key, put);
 

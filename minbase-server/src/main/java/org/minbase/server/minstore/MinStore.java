@@ -80,39 +80,12 @@ public class MinStore {
         }
     }
 
-    // ======================================================
-    // get函数, 拿到最新值
-    public KeyValue get(Get get) {
-        final byte[] userKey = get.getKey();
-        final KeyValueIterator iterator = iterator(Key.minKey(userKey), Key.maxKey(userKey));
-        try {
-            RowTacker tacker = new RowTacker(Key.latestKey(get.getKey()), new HashSet<>(get.getColumns()));
-            while (iterator.isValid()) {
-                final KeyValue keyValue = iterator.value();
-                tacker.track(keyValue);
-                if (tacker.shouldStop()) {
-                    return tacker.getKeyValue();
-                }
-                iterator.nextInnerKey();
-            }
-            return tacker.getKeyValue();
-        } finally {
-            iterator.close();
-        }
-    }
-
 
     //===========================
     // put实现
-    public void put(Put put) {
+    public void put(KeyValue keyValue) {
         WriteBatch writeBatch = new WriteBatch();
-        for (Map.Entry<byte[], byte[]> entry : put.getColumnValues().entrySet()) {
-            Key key = new Key(put.getKey(), Constants.NO_VERSION);
-            Value value = Value.Put();
-            value.addColumnValue(entry.getKey(), entry.getValue());
-            writeBatch.add(name, new KeyValue(key, value));
-        }
-
+        writeBatch.add(name, keyValue);
         put(writeBatch);
     }
 
@@ -125,24 +98,6 @@ public class MinStore {
         }
     }
 
-    public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
-        writeLock();
-        try {
-            Get get = new Get(checkKey);
-            get.addColumn(column);
-
-            KeyValue keyValue = get(get);
-            byte[] oldValue = keyValue.getValue().getColumnValues().get(column);
-            if ((oldValue == null && checkValue == null) || ByteUtil.byteEqual(oldValue, checkValue)) {
-                put(put);
-                return true;
-            } else {
-                return false;
-            }
-        } finally {
-            writeUnLock();
-        }
-    }
 
     private void freezeMemTable() {
         MemStore currentMemStore = this.memStore;

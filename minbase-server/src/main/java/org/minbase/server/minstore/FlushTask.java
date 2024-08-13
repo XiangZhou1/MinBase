@@ -53,7 +53,7 @@ public class FlushTask implements Runnable {
 
                 immMemStores.removeLast();
                 storeFile.cacheDataBlocks();
-                //wa.clearOldWal(lastSyncSequenceId);
+                //wal.clearOldWal(lastSyncSequenceId);
                 minStore.triggerCompaction();
                 logger.info("Flush immMemTable success; firstKey =%s, lastKey =%s, lastSyncSequenceId=%d", storeFile.getFirstKey(), storeFile.getLastKey(), lastSyncSequenceId);
             } catch (IOException e) {

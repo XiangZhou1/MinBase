@@ -6,7 +6,7 @@ import org.minbase.server.compaction.level.LevelCompaction;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreFileIterator;
-import org.minbase.server.compaction.level.LevelStoreManager;
+
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.op.Value;
@@ -14,6 +14,7 @@ import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.Util;
+import org.minbase.server.storage.storemanager.level.LevelStoreManager;
 
 import java.io.File;
 import java.util.Arrays;

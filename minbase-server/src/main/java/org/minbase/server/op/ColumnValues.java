@@ -10,14 +10,9 @@ import java.util.TreeMap;
 
 public class ColumnValues extends org.minbase.common.operation.ColumnValues {
 
-    boolean isDeleteColumn;
-
     public ColumnValues() {
     }
 
-    public ColumnValues(boolean isDeleteColumn) {
-        this.isDeleteColumn = isDeleteColumn;
-    }
 
     /**
      * |columnLen|column|valueLen|value|
@@ -105,5 +100,12 @@ public class ColumnValues extends org.minbase.common.operation.ColumnValues {
 
     public void add(byte[] column, byte[] value) {
         columnValues.put(column, value);
+    }
+
+    @Override
+    public String toString() {
+        return "ColumnValues{" +
+                "columnValues=" + columnValues +
+                '}';
     }
 }
