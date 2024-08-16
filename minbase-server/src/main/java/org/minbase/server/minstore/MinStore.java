@@ -2,8 +2,6 @@ package org.minbase.server.minstore;
 
 
 import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.op.*;
@@ -16,17 +14,12 @@ import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.mem.MemStore;
 import org.minbase.server.compaction.CompactionStrategy;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
-import org.minbase.server.wal.LogEntry;
-import org.minbase.server.wal.Wal;
+import org.minbase.server.storage.storemanager.StoreManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -40,7 +33,7 @@ public class MinStore {
     private MemStore memStore;
     private ConcurrentLinkedDeque<MemStore> immMemStores;
     // 文件存储
-    private AbstractStoreManager storeManager;
+    private StoreManager storeManager;
 
     private ReentrantReadWriteLock rwLock;
     private ReentrantReadWriteLock.WriteLock writeLock;
@@ -191,7 +184,7 @@ public class MinStore {
     }
 
 
-    public AbstractStoreManager getStorageManager() {
+    public StoreManager getStorageManager() {
         return storeManager;
     }
 

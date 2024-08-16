@@ -1,9 +1,9 @@
 package org.minbase.server.compaction;
 
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storemanager.StoreManager;
 
 public interface Compaction {
-    void compact(AbstractStoreManager storeManager) throws Exception;
+    void compact(StoreManager storeManager) throws Exception;
 
-    boolean needCompact(AbstractStoreManager storeManager);
+    boolean needCompact(StoreManager storeManager);
 }

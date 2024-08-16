@@ -9,17 +9,15 @@ import org.minbase.server.iterator.StoreIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.store.StoreFile;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storemanager.StoreManager;
 import org.minbase.server.storage.version.EditVersion;
-import org.minbase.server.storage.version.FileEdit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TieredStoreManager extends AbstractStoreManager {
+public class TieredStoreManager extends StoreManager {
     private static final Logger logger = LoggerFactory.getLogger(TieredStoreManager.class);
 
     public TieredStoreManager() {

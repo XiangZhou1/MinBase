@@ -1,16 +1,16 @@
 package org.minbase.server.storage.version;
 
 import org.minbase.common.utils.Util;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storemanager.StoreManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ClearOldVersionTask implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(ClearOldVersionTask.class);
 
-    AbstractStoreManager storeManager;
+    StoreManager storeManager;
 
-    public ClearOldVersionTask(AbstractStoreManager storeManager) {
+    public ClearOldVersionTask(StoreManager storeManager) {
         this.storeManager = storeManager;
     }
 

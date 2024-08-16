@@ -17,7 +17,6 @@ public class LRUBlockCache implements BlockCache {
     private HashMap<String, Entry<DataBlock>> map;
     private LinkedList<DataBlock> list;
     private volatile long length = 0;
-    private static int MAX_CACHE_SIZE = (int) Util.parseUnit(Config.get(Constants.KEY_MAX_CACHE_SIZE));
 
 
     public LRUBlockCache() {
@@ -49,7 +48,7 @@ public class LRUBlockCache implements BlockCache {
         list.add(blockEntry);
         length += block.length();
 
-        while (length > MAX_CACHE_SIZE) {
+        while (length > Config.CACHE_SIZE_LIMIT) {
             System.out.println("put and evict");
             evict();
         }

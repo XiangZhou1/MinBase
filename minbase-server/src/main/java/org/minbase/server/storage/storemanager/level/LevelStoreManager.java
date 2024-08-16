@@ -9,7 +9,7 @@ import org.minbase.server.iterator.StoreIterator;
 import org.minbase.server.op.Key;
 import org.minbase.server.op.KeyValue;
 import org.minbase.server.storage.store.StoreFile;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storemanager.StoreManager;
 import org.minbase.server.storage.version.EditVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LevelStoreManager extends AbstractStoreManager {
+public class LevelStoreManager extends StoreManager {
     private static final Logger logger = LoggerFactory.getLogger(LevelStoreManager.class);
 
     public LevelStoreManager() {

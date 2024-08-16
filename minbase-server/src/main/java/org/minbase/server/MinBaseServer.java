@@ -6,10 +6,8 @@ import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.compaction.level.LevelCompaction;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
-import org.minbase.server.storage.storemanager.level.LevelStoreManager;
+import org.minbase.server.storage.storemanager.StoreManager;
 import org.minbase.server.compaction.tiered.TieredCompaction;
-import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.minstore.MinStore;
@@ -114,7 +112,7 @@ public class MinBaseServer {
             return;
         }
 
-        final AbstractStoreManager storageManager = table.getMinStore().getStorageManager();
+        final StoreManager storageManager = table.getMinStore().getStorageManager();
         if (compaction.needCompact(storageManager)) {
             this.compaction.compact(storageManager);
         }

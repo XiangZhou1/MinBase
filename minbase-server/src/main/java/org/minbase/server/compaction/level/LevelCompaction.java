@@ -12,10 +12,7 @@ import org.minbase.server.op.Key;
 import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
 import org.minbase.common.utils.Util;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
 import org.minbase.server.storage.storemanager.StoreManager;
-import org.minbase.server.storage.storemanager.level.LevelStoreManager;
-import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
 import org.minbase.server.storage.version.FileEdit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +23,12 @@ import java.util.List;
 public class LevelCompaction implements Compaction {
     private static final Logger logger = LoggerFactory.getLogger(LevelCompaction.class);
 
-    private static final long MAX_SSTABLE_SIZE = Util.parseUnit(Config.get(Constants.KEY_MAX_SSTABLE_SIZE));
-    private static final int MAX_LEVEL = 4;
+    private static final long MAX_SSTABLE_SIZE = 10000;
+    private static final int MAX_LEVEL = (int)Config.LEVEL_LIMIT;
 
 
     @Override
-    public synchronized void compact(AbstractStoreManager storeManager) throws Exception {
+    public synchronized void compact(StoreManager storeManager) throws Exception {
         FileEdit fileEdit = new FileEdit();
 
         for (int i = 0; i < MAX_LEVEL - 1; i++) {
@@ -45,7 +42,7 @@ public class LevelCompaction implements Compaction {
         storeManager.applyFileEdit(fileEdit);
     }
 
-    private void compactLevel(int level, StoreFile storeFile, FileEdit fileEdit, AbstractStoreManager storeManager) throws Exception {
+    private void compactLevel(int level, StoreFile storeFile, FileEdit fileEdit, StoreManager storeManager) throws Exception {
         logger.info("Compacting sstable files of level " + level);
 
         List<KeyValueIterator> ssTableIters = new ArrayList<>();
@@ -101,7 +98,7 @@ public class LevelCompaction implements Compaction {
     }
 
     @Override
-    public boolean needCompact(AbstractStoreManager storeManager) {
+    public boolean needCompact(StoreManager storeManager) {
         for (int i = 0; i < MAX_LEVEL - 1; i++) {
             List<StoreFile> storeFiles = storeManager.getStoreFiles(i);
             List<StoreFile> ssTablesNextLevel = storeManager.getStoreFiles(i + 1);
