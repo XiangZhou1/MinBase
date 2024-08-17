@@ -29,10 +29,11 @@ message PutResponse {
 
 message CheckAndPutRequest {
   required string checkKey = 1;
-  required string checkValue = 2;
-  required string key = 3;
-  required string table = 4;
-  repeated ColumnValue columnValues = 5;
+  required string checkColumn = 2
+  required string checkValue = 3;
+  required string key = 4;
+  required string table = 5;
+  repeated ColumnValue columnValues = 6;
 }
 
 message CheckAndPutResponse {
@@ -111,10 +112,11 @@ message TxPutResponse {
 message TxCheckAndPutRequest {
   required int64 txid = 1;
   required string checkKey = 2;
-  required string checkValue = 3;
-  required string key = 4;
-  required string table = 5;
-  repeated ColumnValue columnValues = 6;
+  required string checkColumn = 3;
+  required string checkValue = 4;
+  required string key = 5;
+  required string table = 6;
+  repeated ColumnValue columnValues = 7;
 }
 
 message TxCheckAndPutResponse {

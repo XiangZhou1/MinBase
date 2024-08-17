@@ -1,10 +1,11 @@
 package org.minbase.server.minstore;
 
 
-import org.minbase.common.operation.Delete;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
-import org.minbase.server.op.*;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 import org.minbase.server.storage.storemanager.level.LevelStoreManager;
 import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
 import org.minbase.server.conf.Config;
@@ -15,11 +16,11 @@ import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.mem.MemStore;
 import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.storage.storemanager.StoreManager;
+import org.minbase.server.utils.ValueUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -27,7 +28,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class MinStore {
     private static final int MAX_IMMEMTABLE_SIZE = 3;
     private String name;
-    private File dir;
+    private File sotreDir;
 
     // 内存存储结构
     private MemStore memStore;
@@ -45,9 +46,9 @@ public class MinStore {
     private Compaction compaction;
     private CompactThread compactThread;
 
-    public MinStore(String name, File dir, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
+    public MinStore(String name, File sotreDir, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
         this.name = name;
-        this.dir = dir;
+        this.sotreDir = sotreDir;
         this.flushThread = flushThread;
 
         this.memStore = new MemStore();
@@ -65,79 +66,58 @@ public class MinStore {
     private void initStoreManager() throws IOException {
         String compactionStrategy = Config.get(Constants.KEY_COMPACTION_STRATEGY);
         if (CompactionStrategy.LEVEL_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeManager = new LevelStoreManager();
+            this.storeManager = new LevelStoreManager(this.sotreDir);
             this.storeManager.loadStoreFiles();
         } else if (CompactionStrategy.TIERED_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeManager = new TieredStoreManager();
+            this.storeManager = new TieredStoreManager(this.sotreDir);
             this.storeManager.loadStoreFiles();
         }
     }
+
+    // ======================================================
+    // get函数, 拿到最新值
+    public KeyValue get(Key key) {
+        readLock();
+        try {
+            KeyValue keyValue;
+            keyValue = memStore.get(key);
+            if (keyValue != null) {
+                return keyValue;
+            }
+
+            for (MemStore immMemStore : immMemStores) {
+                keyValue = immMemStore.get(key);
+                if (keyValue != null) {
+                    return keyValue;
+                }
+            }
+
+            keyValue = storeManager.get(key);
+            return keyValue;
+        } finally {
+            readUnLock();
+        }
+    }
+
 
 
     //===========================
     // put实现
-    public void put(KeyValue keyValue) {
-        WriteBatch writeBatch = new WriteBatch();
-        writeBatch.add(name, keyValue);
-        put(writeBatch);
-    }
-
-    public void put(WriteBatch writeBatch) {
-        for (KeyValue keyValue : writeBatch.getKeyValues(name)) {
-            memStore.put(keyValue.getKey(), keyValue.getValue());
-        }
-        if (memStore.shouldFreeze()) {
-            freezeMemTable();
-        }
-    }
-
-
-    private void freezeMemTable() {
-        MemStore currentMemStore = this.memStore;
-        writeLock();
-        try {
-            if (this.memStore != currentMemStore) {
-                return;
-            }
-            immMemStores.addFirst(currentMemStore);
-            this.memStore = new MemStore();
-            // 进行刷写文件
-            if (immMemStores.size() >= MAX_IMMEMTABLE_SIZE) {
-                // 此处不能这样
-                flushThread.execute(new FlushTask(this));
-            }
-        } finally {
-            writeUnLock();
-        }
+    public void put(Key key, Value value) {
+        memStore.put(key, value);
     }
 
 
     //===========================
     // delete实现
-    public void delete(byte[] key) {
-        KeyValue kv = new KeyValue(new Key(key, 0), Value.Delete());
+    public void delete(Key key) {
+        KeyValue kv = new KeyValue(key, ValueUtils.Delete());
         memStore.put(kv.getKey(), kv.getValue());
         if (memStore.shouldFreeze()) {
             freezeMemTable();
         }
     }
 
-    public void delete(Delete delete) {
-        WriteBatch writeBatch = new WriteBatch();
-        final List<byte[]> columns = delete.getColumns();
-        if (columns.isEmpty()) {
-            Key key = new Key(delete.getKey(), Constants.NO_VERSION);
-            Value value = Value.Delete();
-            writeBatch.add(name, new KeyValue(key, value));
-        } else {
-            for (byte[] column : columns) {
-                Key key = new Key(delete.getKey(), Constants.NO_VERSION);
-                Value value = Value.DeleteColumn(column);
-                writeBatch.add(name, new KeyValue(key, value));
-            }
-        }
-        this.put(writeBatch);
-    }
 
     // ===================================================================
     public KeyValueIterator iterator(Key startKey, Key endKey) {
@@ -160,11 +140,26 @@ public class MinStore {
         return iterator(null, null);
     }
 
-    public KeyValueIterator scan(byte[] start, byte[] end) {
-        return iterator(Key.minKey(start), Key.maxKey(end));
-    }
 
-    
+
+    private void freezeMemTable() {
+        MemStore currentMemStore = this.memStore;
+        writeLock();
+        try {
+            if (this.memStore != currentMemStore) {
+                return;
+            }
+            immMemStores.addFirst(currentMemStore);
+            this.memStore = new MemStore();
+            // 进行刷写文件
+            if (immMemStores.size() >= MAX_IMMEMTABLE_SIZE) {
+                // 此处不能这样
+                flushThread.execute(new FlushTask(this));
+            }
+        } finally {
+            writeUnLock();
+        }
+    }
     // ==================================================
     // 其余辅助函数
     public void readLock() {

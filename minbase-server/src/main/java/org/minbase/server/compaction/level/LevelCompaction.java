@@ -4,14 +4,12 @@ package org.minbase.server.compaction.level;
 
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.conf.Config;
-import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreFileIterator;
-import org.minbase.server.op.Key;
+import org.minbase.server.kv.KeyImpl;
 import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
-import org.minbase.common.utils.Util;
 import org.minbase.server.storage.storemanager.StoreManager;
 import org.minbase.server.storage.version.FileEdit;
 import org.slf4j.Logger;
@@ -49,9 +47,9 @@ public class LevelCompaction implements Compaction {
         StoreFileIterator iterator0 = storeFile.getReader().compactionIterator();
         ssTableIters.add(iterator0);
 
-        Key firstKey = storeFile.getFirstKey();
-        Key lastKey = storeFile.getLastKey();
-        ArrayList<StoreFile> ssTables2 = chooseCompactSSTable(storeManager.getStoreFiles(level + 1), firstKey.getUserKey(), lastKey.getUserKey());
+        KeyImpl firstKey = storeFile.getFirstKey();
+        KeyImpl lastKey = storeFile.getLastKey();
+        ArrayList<StoreFile> ssTables2 = chooseCompactSSTable(storeManager.getStoreFiles(level + 1), firstKey.getKey(), lastKey.getKey());
 
         if (ssTables2.isEmpty()) {
             fileEdit.addSSTable(level + 1, storeFile);

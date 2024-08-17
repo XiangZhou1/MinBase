@@ -1,9 +1,9 @@
 package org.minbase.common.table;
 
-import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
-import org.minbase.common.operation.ColumnValues;
+import org.minbase.common.op.Delete;
+import org.minbase.common.op.Get;
+import org.minbase.common.op.Put;
+import org.minbase.common.op.ColumnValues;
 import org.minbase.common.utils.ByteUtil;
 
 import java.util.Collections;
@@ -14,7 +14,7 @@ public interface Table {
     ColumnValues get(Get get);
 
     default byte[] get(byte[] key, String column) {
-        Get get = new Get(key, Collections.singletonList(ByteUtil.toBytes(column)));
+        Get get = new Get(new String(key), Collections.singletonList(column));
         ColumnValues columnValues = get(get);
         return columnValues.get(ByteUtil.toBytes(column));
     }
@@ -26,12 +26,12 @@ public interface Table {
         put(put);
     }
 
-    boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put);
+    boolean checkAndPut(byte[] checkKey, byte[] checkColumn, byte[] checkValue, Put put);
 
     void delete(Delete key);
 
     default void delete(byte[] key) {
-        delete(new Delete(key));
+        delete(new Delete(new String(key)));
     }
 
 }

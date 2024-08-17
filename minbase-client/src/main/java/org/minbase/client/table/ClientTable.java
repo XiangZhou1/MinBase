@@ -1,10 +1,10 @@
 package org.minbase.client.table;
 
 import org.minbase.client.exception.ServerException;
-import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
-import org.minbase.common.operation.ColumnValues;
+import org.minbase.common.op.Delete;
+import org.minbase.common.op.Get;
+import org.minbase.common.op.Put;
+import org.minbase.common.op.ColumnValues;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.table.*;
@@ -32,10 +32,10 @@ public class ClientTable implements Table {
     @Override
     public ColumnValues get(Get get) {
         final ClientProto.GetRequest.Builder builder = ClientProto.GetRequest.newBuilder();
-        builder.setTable(tableName).setKey(new String(get.getKey()));
-        final List<byte[]> columns = get.getColumns();
+        builder.setTable(tableName).setKey(get.getKey());
+        final List<String> columns = get.getColumns();
         for (int i = 0; i < columns.size(); i++) {
-            builder.setColumns(i, new String(columns.get(i)));
+            builder.setColumns(i, columns.get(i));
         }
         final ClientProto.GetRequest getRequest = builder.build();
         final ClientProto.GetResponse getResponse = rpcClient.get(getRequest);
@@ -68,10 +68,10 @@ public class ClientTable implements Table {
     }
 
     @Override
-    public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
+    public boolean checkAndPut(byte[] checkKey, byte[] checkColumn, byte[] checkValue, Put put) {
         ClientProto.CheckAndPutRequest.Builder builder = ClientProto.CheckAndPutRequest.newBuilder();
         builder.setTable(tableName).setKey(new String(put.getKey()));
-        builder.setCheckKey(new String(checkKey)).setCheckValue(new String(checkValue));
+        builder.setCheckKey(new String(checkKey)).setCheckColumn(new String(checkColumn)).setCheckValue(new String(checkValue));
         TreeMap<byte[], byte[]> columnValues = put.getColumnValues();
         int i = 0;
         for (Map.Entry<byte[], byte[]> entry : columnValues.entrySet()) {
@@ -89,10 +89,10 @@ public class ClientTable implements Table {
     @Override
     public void delete(Delete delete) {
         ClientProto.DeleteRequest.Builder builder = ClientProto.DeleteRequest.newBuilder();
-        builder.setTable(tableName).setKey(new String(delete.getKey()));
+        builder.setTable(tableName).setKey(delete.getKey());
         int i = 0;
-        for (byte[] column : delete.getColumns()) {
-            builder.setColumns(i++, new String(column));
+        for (String column : delete.getColumns()) {
+            builder.setColumns(i++, column);
         }
 
         ClientProto.DeleteRequest deleteRequest = builder.build();

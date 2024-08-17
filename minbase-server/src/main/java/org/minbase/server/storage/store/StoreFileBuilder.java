@@ -4,8 +4,8 @@ package org.minbase.server.storage.store;
 import org.minbase.common.utils.Util;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.server.storage.block.BloomFilterBlock;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.DataBlockBuilder;
@@ -14,7 +14,6 @@ import org.minbase.server.storage.block.MetaBlock;
 import java.util.UUID;
 
 public class StoreFileBuilder {
-    public int MAX_BLOCK_SIZE = (int) Util.parseUnit(Config.get(Constants.KEY_MAX_BLOCK_SIZE));
     StoreFile storeFile;
 
     Key firstKey;
@@ -37,7 +36,7 @@ public class StoreFileBuilder {
 
     public void add(KeyValue kv){
         length += kv.length();
-        bloomFilter.add(kv.getKey().getUserKey());
+        bloomFilter.add(kv.getKey().getKey());
 
         if (firstKey == null || firstKey.compareTo(kv.getKey()) > 0) {
             firstKey = kv.getKey();
@@ -48,7 +47,7 @@ public class StoreFileBuilder {
 
         blockBuilder.add(kv);
 
-        if (blockBuilder.length() > MAX_BLOCK_SIZE) {
+        if (blockBuilder.length() > Config.BLOCK_SIZE_LIMIT) {
             DataBlock block = blockBuilder.build();
             MetaBlock blockMeta = new MetaBlock(blockOffset, firstKey, lastKey, block.getKeyValueNum());
             storeFile.add(block, blockMeta);

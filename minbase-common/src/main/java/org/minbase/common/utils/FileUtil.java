@@ -21,4 +21,17 @@ public class FileUtil {
             throw new IOException("Rename file failed, fileName=" + file.getName());
         }
     }
+
+    public static byte[] read(File maniFestFile) throws IOException {
+        RandomAccessFile randomAccessFile = new RandomAccessFile(maniFestFile.getPath(), "r");
+        return read(randomAccessFile, maniFestFile.length());
+    }
+
+    public static void deleteFiles(File storeFile) {
+        File[] files = storeFile.listFiles();
+        for (File file : files) {
+            deleteFiles(file);
+        }
+        storeFile.delete();
+    }
 }

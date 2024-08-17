@@ -3,18 +3,17 @@ package org.minbase.server.minstore;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minbase.common.operation.Put;
+import org.minbase.common.op.Put;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.WriteBatch;
+import org.minbase.server.kv.KeyImpl;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.transaction.store.WriteBatch;
 import org.minbase.server.utils.KeyValueUtil;
 import org.mockito.Mockito;
 
 import java.io.File;
-import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -44,7 +43,7 @@ public class TestMinStore {
         writeBatch.setSequenceId(1);
         minStore.put(writeBatch);
 
-        KeyValueIterator iterator = minStore.iterator(Key.minKey(key1), Key.maxKey(key1));
+        KeyValueIterator iterator = minStore.iterator(KeyImpl.minKey(key1), KeyImpl.maxKey(key1));
         while (iterator.isValid()) {
             KeyValue value = iterator.value();
             System.out.println(value);
@@ -64,7 +63,7 @@ public class TestMinStore {
             minStore.put(writeBatch);
         }
 
-        KeyValueIterator iterator = minStore.iterator(Key.minKey(key1), Key.maxKey(key1));
+        KeyValueIterator iterator = minStore.iterator(KeyImpl.minKey(key1), KeyImpl.maxKey(key1));
         while (iterator.isValid()) {
             KeyValue value = iterator.value();
             System.out.println(value);

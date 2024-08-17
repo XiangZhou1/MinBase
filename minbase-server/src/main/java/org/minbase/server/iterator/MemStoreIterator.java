@@ -3,14 +3,13 @@ package org.minbase.server.iterator;
 
 
 import org.minbase.server.mem.MemStore;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.op.Value;
+import org.minbase.server.kv.Value;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MemStoreIterator implements KeyValueIterator {
     private MemStore memStore;
@@ -76,11 +75,11 @@ public class MemStoreIterator implements KeyValueIterator {
     // 跳到下一个userKey
     @Override
     public void next() {
-        byte[] userKey = key().getUserKey();
+        byte[] userKey = key().getKey();
         while (isValid()) {
             nextInnerKey();
             if (isValid()) {
-                if (!ByteUtil.byteEqual(userKey, key().getUserKey())) {
+                if (!ByteUtil.byteEqual(userKey, key().getKey())) {
                     break;
                 }
             }

@@ -3,15 +3,13 @@ package org.minbase.server.transaction;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minbase.common.operation.Put;
+import org.minbase.common.op.Put;
 import org.minbase.common.table.Table;
 import org.minbase.server.MinBaseServer;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.minstore.MinStore;
-import org.minbase.server.op.KeyValue;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.table.TableImpl;
+import org.minbase.server.transaction.table.AutoTxTable;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +43,8 @@ public class TransactionTest {
     @Before
     public void init() throws Exception {
         MinStore minStore = createMinStore();
-        Map<String, TableImpl> tables = new HashMap<>();
-        tables.put(tableName, new TableImpl(tableName, minStore));
+        Map<String, AutoTxTable> tables = new HashMap<>();
+        tables.put(tableName, new AutoTxTable(tableName, minStore));
         this.transaction = TransactionManager.newTransaction(tables);
     }
 

@@ -2,20 +2,15 @@ package org.minbase.server.transaction.store;
 
 
 
-import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Put;
 import org.minbase.server.iterator.KeyValueIterator;
+import org.minbase.server.kv.Value;
 import org.minbase.server.mem.MemStore;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
-import org.minbase.server.op.WriteBatch;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.utils.KeyValueUtil;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.utils.ValueUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class TransactionStore {
     WriteBatch writeBatch;
@@ -31,26 +26,31 @@ public class TransactionStore {
         return writeBatch;
     }
 
-
-    public void delete(String tableName, Delete delete) {
-        KeyValue keyValue = KeyValueUtil.toKeyValue(delete);
-        writeBatch.add(tableName, keyValue);
+    public KeyValue get(String tableName, Key key) {
         MemStore memStore = memStores.get(tableName);
-        memStore.put(keyValue.getKey(), keyValue.getValue());
+        return memStore.get(key);
+    }
+
+    public void delete(String tableName, Key key) {
+        Value value = ValueUtils.Delete();
+        writeBatch.add(tableName, new KeyValue(key, value));
+        MemStore memStore = memStores.get(tableName);
+        memStore.put(key, value);
     }
 
     public KeyValueIterator iterator(String tableName, Key startKey, Key endKey) {
-        return null;
+        MemStore memStore = memStores.get(tableName);
+        return memStore.iterator(startKey, endKey);
     }
 
     public Map<String, MemStore> getMemStores() {
         return memStores;
     }
 
-    public void put(String tableName, Put put) {
-        KeyValue keyValue = KeyValueUtil.toKeyValue(put);
+    public void put(String tableName, Key key, Value value) {
+        KeyValue keyValue = new KeyValue(key, value);
         writeBatch.add(tableName, keyValue);
         MemStore memStore = memStores.get(tableName);
-        memStore.put(keyValue.getKey(), keyValue.getValue());
+        memStore.put(key, value);
     }
 }

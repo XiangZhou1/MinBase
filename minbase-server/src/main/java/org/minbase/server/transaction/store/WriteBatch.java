@@ -1,5 +1,7 @@
-package org.minbase.server.op;
+package org.minbase.server.transaction.store;
 
+
+import org.minbase.server.kv.KeyValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WriteBatch {
+
     Map<String, List<KeyValue>> keyValues;
 
     public WriteBatch() {
@@ -32,6 +35,10 @@ public class WriteBatch {
                 keyValue.getKey().setSequenceId(sequenceId);
             }
         }
+    }
+
+    public Map<String, List<KeyValue>> getKeyValues() {
+        return keyValues;
     }
 
     public List<String> getTables() {

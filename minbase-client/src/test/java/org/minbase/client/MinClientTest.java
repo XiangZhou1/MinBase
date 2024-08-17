@@ -1,9 +1,9 @@
 package org.minbase.client;
 
 import org.junit.Test;
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
+import org.minbase.common.op.ColumnValues;
+import org.minbase.common.op.Get;
+import org.minbase.common.op.Put;
 import org.minbase.common.table.Table;
 import org.minbase.common.transaction.Transaction;
 
@@ -30,7 +30,7 @@ public class MinClientTest {
     public void test2() {
         MinClient client = new MinClient("127.0.0.1", 9876);
         Table testTable = client.getTable("testTable");
-        Get get = new Get("k1".getBytes(StandardCharsets.UTF_8));
+        Get get = new Get("k1");
 
         ColumnValues columnValues = testTable.get(get);
 

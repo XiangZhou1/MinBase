@@ -1,7 +1,7 @@
 package org.minbase.server.compaction;
 
 import org.minbase.common.utils.Util;
-import org.minbase.server.table.TableImpl;
+import org.minbase.server.table.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,12 +11,12 @@ import java.util.concurrent.*;
 
 public class CompactThread implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CompactThread.class);
-    Map<String, TableImpl> tables;
+    Map<String, Table> tables;
     private ExecutorService compactThread;
     private Compaction compaction;
     private Thread currentThread = null;
 
-    public CompactThread(Compaction compaction, Map<String, TableImpl> tables) {
+    public CompactThread(Compaction compaction, Map<String, Table> tables) {
         this.compaction = compaction;
         this.compactThread = Executors.newCachedThreadPool();
         this.tables = tables;
@@ -27,7 +27,7 @@ public class CompactThread implements Runnable {
         currentThread = Thread.currentThread();
         while (true) {
             ArrayList<Future<?>> tasks = new ArrayList<>();
-            for (TableImpl table : tables.values()) {
+            for (Table table : tables.values()) {
                 try {
                     if (compaction.needCompact(table.getMinStore().getStorageManager())) {
                         Future<?> task = compactThread.submit(new Runnable() {

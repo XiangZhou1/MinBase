@@ -2,13 +2,14 @@ package org.minbase.server.op;
 
 import org.junit.Test;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.KeyImpl;
 
 import java.nio.charset.StandardCharsets;
 
 public class KeyTest {
     @Test
     public void testEncodeDecode() {
-        Key key = new Key("key".getBytes(StandardCharsets.UTF_8), 100L);
+        KeyImpl key = new KeyImpl("key".getBytes(StandardCharsets.UTF_8), 100L);
         System.out.println(key);
 
         byte[] encode = key.encode();
@@ -16,7 +17,7 @@ public class KeyTest {
 
         System.out.println(new String(encode));
 
-        Key key2 = new Key();
+        KeyImpl key2 = new KeyImpl();
         key2.decode(encode);
 
         assert ByteUtil.byteEqual(key.getUserKey(), key2.getUserKey());

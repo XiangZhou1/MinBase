@@ -16,7 +16,9 @@ public enum CallType {
 
     ADMIN_CREATE_TABLE(12),
     ADMIN_DROP_TABLE(13),
-    ADMIN_TRUNCATE_TABLE(14);
+    ADMIN_TRUNCATE_TABLE(14),
+    ADMIN_ADD_COLUMN(15),
+    ADMIN_GET_TABLE_INFO(16);
 
     private final int type;
 

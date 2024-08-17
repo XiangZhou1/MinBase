@@ -1,16 +1,16 @@
 package org.minbase.server.wal;
 
 
-import org.minbase.common.utils.Util;
 import org.minbase.server.MinBaseServer;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.server.minstore.MinStore;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.WriteBatch;
+import org.minbase.server.table.Table;
+import org.minbase.server.transaction.store.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.FileUtil;
-import org.minbase.server.table.TableImpl;
+import org.minbase.server.transaction.table.AutoTxTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +23,9 @@ import java.util.concurrent.locks.LockSupport;
 
 public class Wal {
     private static final Logger logger = LoggerFactory.getLogger(Wal.class);
-
-    private static final String WAL_DIR = Config.get(Constants.KEY_DATA_DIR) + File.separator + "wal";
+    private static final String WAL_DIR = Config.DATA_DIR+ File.separator + "wal";
     public static final int WAL_NUM_LIMIT = 10000;
-    public static final long WAL_FILE_LENGTH_LIMIT = Util.parseUnit(Config.get(Constants.KEY_WAL_FILE_LENGTH_LIMIT));
+    public static final long WAL_FILE_LENGTH_LIMIT = Config.WAL_FILE_LENGTH_LIMIT;
     private static final SyncLevel syncLevel = SyncLevel.valueOf(Config.get(Constants.KEY_WAL_SYNC_LEVEL));
     private static final String INPROGRESS_WAL = "wal.inprogress";
 
@@ -63,7 +62,6 @@ public class Wal {
     }
 
 
-
     /**
      * 原子性记录多条日志
      */
@@ -97,27 +95,27 @@ public class Wal {
     /**
      * 从日志文件中恢复日志
      */
-    public synchronized void recovery(ConcurrentHashMap<String, TableImpl> tables) throws IOException {
+    public synchronized void recovery(MinBaseServer server) throws IOException {
         final File[] files = listWalFiles();
         if (files == null) {
             return;
         }
         long lastSequenceId = 0L;
         for (File file1 : files) {
-            recoveryFromFile(tables, lastSequenceId, file1);
+            recoveryFromFile(server, lastSequenceId, file1);
         }
 
         File inProgressFile = new File(WAL_DIR + File.separator + INPROGRESS_WAL);
         if (inProgressFile.exists()) {
             long startId = sequenceId;
-            recoveryFromFile(tables, lastSequenceId, inProgressFile);
+            recoveryFromFile(server, lastSequenceId, inProgressFile);
             long endId = sequenceId;
             FileUtil.rename(inProgressFile, new File(WAL_DIR + File.separator + startId + "_" + endId));
         }
         logger.info("Wal recovery, sequenceId=" + sequenceId);
     }
 
-    private void recoveryFromFile(ConcurrentHashMap<String, TableImpl> tables, long lastSequenceId, File file1) throws IOException {
+    private void recoveryFromFile(MinBaseServer server, long lastSequenceId, File file1) throws IOException {
         try (RandomAccessFile raf = new RandomAccessFile(file1, "r")) {
             int pos = 0;
             while (pos < raf.length()) {
@@ -133,9 +131,15 @@ public class Wal {
                 if (logEntry.getSequenceId() > lastSequenceId) {
                     WriteBatch writeBatch = logEntry.getWriteBatch();
                     List<String> walTables = writeBatch.getTables();
-                    for (String walTable : walTables) {
-                        MinStore minStore = tables.get(walTable).getMinStore();
-                        minStore.put(writeBatch);
+                    for (String tableName : walTables) {
+                        Table table = server.getTable(tableName);
+                        if (table != null) {
+                            MinStore minStore = table.getMinStore();
+                            List<KeyValue> keyValues = writeBatch.getKeyValues(tableName);
+                            for (KeyValue keyValue : keyValues) {
+                                minStore.put(keyValue.getKey(), keyValue.getValue());
+                            }
+                        }
                     }
                 }
                 sequenceId = syncSequenceId = logEntry.getSequenceId();
@@ -188,8 +192,7 @@ public class Wal {
                             startId = logEntry.getSequenceId();
                             walFileLength = 0;
                         }
-
-                        outputStream.write(logEntry.encode());
+                        logEntry.encodeToFile(outputStream);
                         outputStream.flush();
                         syncSequenceId = logEntry.getSequenceId();
                         walFileLength += logEntry.length();

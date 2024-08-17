@@ -1,8 +1,8 @@
-package org.minbase.common.operation;
+package org.minbase.common.op;
 
 import java.util.TreeMap;
 
-public class Put {
+public class Put extends Op {
     private byte[] key;
     private ColumnValues columnValues = new ColumnValues();
 

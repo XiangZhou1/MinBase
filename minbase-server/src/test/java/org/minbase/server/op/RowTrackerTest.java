@@ -1,9 +1,13 @@
 package org.minbase.server.op;
 
 import org.junit.Test;
-import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Put;
+import org.minbase.common.op.Delete;
+import org.minbase.common.op.Put;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.KeyImpl;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.table.kv.ColumnValues;
+import org.minbase.server.table.kv.RowTacker;
 import org.minbase.server.utils.KeyValueUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -20,7 +24,7 @@ public class RowTrackerTest {
 
     @Test
     public void testGetAll() {
-        rowTacker = new RowTacker(Key.latestKey(rowKey));
+        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey));
 
         Put put = new Put(rowKey, column1, value1);
         KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
@@ -43,7 +47,7 @@ public class RowTrackerTest {
     public void testGetColumn() {
         HashSet<byte[]> set = new HashSet<>();
         set.add(column1);
-        rowTacker = new RowTacker(Key.latestKey(rowKey), set);
+        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
 
         Put put = new Put(rowKey, column1, value1);
         KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
@@ -66,7 +70,7 @@ public class RowTrackerTest {
     public void testDeleteAll1() {
         HashSet<byte[]> set = new HashSet<>();
         set.add(column1);
-        rowTacker = new RowTacker(Key.latestKey(rowKey), set);
+        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
 
         Put put = new Put(rowKey, column1, value1);
         KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
@@ -94,7 +98,7 @@ public class RowTrackerTest {
     public void testDeleteAll2() {
         HashSet<byte[]> set = new HashSet<>();
         set.add(column1);
-        rowTacker = new RowTacker(Key.latestKey(rowKey), set);
+        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
 
         Delete delete = new Delete(rowKey);
         KeyValue keyValue3 = KeyValueUtil.toKeyValue(delete);
@@ -121,7 +125,7 @@ public class RowTrackerTest {
     public void testDeleteColumn1() {
         HashSet<byte[]> set = new HashSet<>();
         set.add(column1);
-        rowTacker = new RowTacker(Key.latestKey(rowKey), set);
+        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
 
         Delete delete = new Delete(rowKey);
         delete.addColumn(column2);
@@ -149,7 +153,7 @@ public class RowTrackerTest {
     public void testDeleteColumn2() {
         HashSet<byte[]> set = new HashSet<>();
         set.add(column1);
-        rowTacker = new RowTacker(Key.latestKey(rowKey), set);
+        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
 
 
         Put put = new Put(rowKey, column1, value1);

@@ -3,7 +3,7 @@ package org.minbase.server.storage.store;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.op.Key;
+import org.minbase.server.kv.KeyImpl;
 import org.minbase.server.storage.block.BloomFilterBlock;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
@@ -63,8 +63,8 @@ public class StoreFile {
     // 整个文件的大小
     private long dataLength;
     // 整个文件的key都是有序的, 这是整个文件的起始key, 终止key
-    private Key firstKey;
-    private Key lastKey;
+    private KeyImpl firstKey;
+    private KeyImpl lastKey;
 
     private String filePath;
     private String storeId;
@@ -112,11 +112,11 @@ public class StoreFile {
         return StoreFile.this.storeId + "_" + i;
     }
 
-    public Key getFirstKey() {
+    public KeyImpl getFirstKey() {
         return firstKey;
     }
 
-    public Key getLastKey() {
+    public KeyImpl getLastKey() {
         return lastKey;
     }
 
@@ -244,15 +244,15 @@ public class StoreFile {
         if (startKey == null || endKey == null) {
             return true;
         } else if (startKey == null && endKey != null) {
-            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getUserKey())) {
+            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getKey())) {
                 return false;
             }
         } else if (startKey != null && endKey == null) {
-            if (ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())) {
+            if (ByteUtil.byteGreater(startKey, this.lastKey.getKey())) {
                 return false;
             }
         } else {
-            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getUserKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())) {
+            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getKey())) {
                 return false;
             }
         }
@@ -266,15 +266,15 @@ public class StoreFile {
         }
 
         if (startKey == null && endKey != null) {
-            if ( ByteUtil.byteLess(endKey, this.firstKey.getUserKey())) {
+            if ( ByteUtil.byteLess(endKey, this.firstKey.getKey())) {
                 return false;
             }
         } else if (startKey != null && endKey == null) {
-            if(ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
+            if(ByteUtil.byteGreater(startKey, this.lastKey.getKey())){
                 return false;
             }
         } else {
-            if(ByteUtil.byteLess(endKey, this.firstKey.getUserKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
+            if(ByteUtil.byteLess(endKey, this.firstKey.getKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getKey())){
                 return false;
             }
         }

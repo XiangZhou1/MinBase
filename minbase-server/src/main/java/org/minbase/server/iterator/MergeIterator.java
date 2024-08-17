@@ -1,9 +1,7 @@
 package org.minbase.server.iterator;
 
-
-
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.utils.KeyValueUtil;
 
@@ -71,7 +69,7 @@ public class MergeIterator implements KeyValueIterator {
 
         while (!queue.isEmpty()) {
             KeyValueIterator firstEntry = queue.peek();
-            if (ByteUtil.byteEqual(firstEntry.key().getUserKey(), key.getUserKey())) {
+            if (ByteUtil.byteEqual(firstEntry.key().getKey(), key.getKey())) {
                 queue.poll();
                 // 将新poll出来的迭代器在加进去
                 firstEntry.next();

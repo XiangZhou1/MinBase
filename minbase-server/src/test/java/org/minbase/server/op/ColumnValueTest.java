@@ -2,6 +2,7 @@ package org.minbase.server.op;
 
 import org.junit.Test;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.table.kv.ColumnValue;
 
 import java.nio.charset.StandardCharsets;
 

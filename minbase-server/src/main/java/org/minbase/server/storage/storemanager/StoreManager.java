@@ -2,8 +2,8 @@ package org.minbase.server.storage.storemanager;
 
 import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.server.storage.storemanager.level.LevelStoreManager;
 import org.minbase.server.storage.version.ClearOldVersionTask;
 import org.minbase.server.storage.version.EditVersion;
@@ -13,12 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-public abstract class StoreManager implements ManiFest {
+public abstract class StoreManager {
     private static final Logger logger = LoggerFactory.getLogger(LevelStoreManager.class);
 
     protected long lastSequenceId = 0;
@@ -26,11 +25,14 @@ public abstract class StoreManager implements ManiFest {
     protected Thread clearOldVersionThread;
     protected CompactionStrategy compactionStrategy;
     protected File storeDir;
+    protected ManiFest maniFest;
 
-    public StoreManager() {
-        editVersion = new EditVersion();
-        clearOldVersionThread = new Thread(new ClearOldVersionTask(this), "ClearOldVersionThread");
-        clearOldVersionThread.start();
+    public StoreManager(File storeDir) {
+        this.storeDir = storeDir;
+        this.editVersion = new EditVersion();
+        this.maniFest = new ManiFest(this);
+        this.clearOldVersionThread = new Thread(new ClearOldVersionTask(this), "ClearOldVersionThread");
+        this.clearOldVersionThread.start();
     }
 
     public File getStoreDir() {
@@ -48,20 +50,11 @@ public abstract class StoreManager implements ManiFest {
     /////////////////////////////////////////////////////////////////////////////
     // SSTable操作 load/add
     public void loadStoreFiles() throws IOException {
-        File file = getManiFestFile();
-        if (!file.exists()) {
-            return;
-        }
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            lastSequenceId = Long.parseLong(reader.readLine().split(":")[1]);
-            String line;
-            while ((line = reader.readLine()) != null) {
-                int level = Integer.parseInt(line.split(":")[0]);
-                final String[] storeIds = reader.readLine().split(" ");
-                for (String storeId : storeIds) {
-                    StoreFile storeFile = loadStoreFile(storeId);
-                    editVersion.getStoreFiles(level).add(storeFile);
-                }
+        maniFest.loadManiFest();
+        // 加载file 文件
+        for (Map.Entry<Integer, List<StoreFile>> entry : getStoreFiles().entrySet()) {
+            for (StoreFile storeFile : entry.getValue()) {
+                loadStoreFile(storeFile);
             }
         }
     }
@@ -75,10 +68,9 @@ public abstract class StoreManager implements ManiFest {
         return getStoreDir().getPath() + File.separator + getCompactionStrategy().toString() + File.separator + storeId;
     }
 
-    protected StoreFile loadStoreFile(String storeId) throws IOException {
-        StoreFile storeFile = new StoreFile(storeId);
-        storeFile.setFilePath(getFilePath(storeId));
-        try (RandomAccessFile ssTableFile = getSSTableFile(storeId, "r")) {
+    protected StoreFile loadStoreFile(StoreFile storeFile) throws IOException {
+        storeFile.setFilePath(getFilePath(storeFile.getStoreId()));
+        try (RandomAccessFile ssTableFile = getSSTableFile(storeFile.getStoreId(), "r")) {
             storeFile.decodeFromFile(ssTableFile);
         }
         return storeFile;
@@ -106,7 +98,6 @@ public abstract class StoreManager implements ManiFest {
         }
     }
 
-
     //=================================================================================================================
     // 文件版本管理
     public synchronized void applyFileEdit(FileEdit fileEdit) {
@@ -121,27 +112,11 @@ public abstract class StoreManager implements ManiFest {
 
     public synchronized void saveManifest() {
         try {
-            try (FileOutputStream outputStream = new FileOutputStream(getManiFestFile())) {
-                outputStream.write(("lastSequenceId:" + lastSequenceId + System.lineSeparator()).getBytes(StandardCharsets.UTF_8));
-                for (Map.Entry<Integer, List<StoreFile>> entry : editVersion.getStoreFiles().entrySet()) {
-                    int level = entry.getKey();
-                    outputStream.write((level + ":" + entry.getValue().size() + System.lineSeparator()).getBytes(StandardCharsets.UTF_8));
-                    for (StoreFile storeFile : entry.getValue()) {
-                        outputStream.write(storeFile.getStoreId().getBytes(StandardCharsets.UTF_8));
-                        outputStream.write(" ".getBytes(StandardCharsets.UTF_8));
-                    }
-                    outputStream.write(System.lineSeparator().getBytes(StandardCharsets.UTF_8));
-                }
-                outputStream.flush();
-            }
+            maniFest.saveManifest();
         } catch (IOException e) {
             logger.error("Save manifest error", e);
             System.exit(-1);
         }
-    }
-
-    public File getManiFestFile() {
-        return new File(getStoreDir(), File.separator + getCompactionStrategy().toString() + File.separator + manifestFileName);
     }
 
     public synchronized EditVersion getEditVersion(boolean read) {
@@ -161,6 +136,7 @@ public abstract class StoreManager implements ManiFest {
     }
 
 
+    //////////////////////////////////////////////////////////////////////////////////////
     // 读操作函数
     public abstract KeyValue get(Key key);
     public abstract KeyValueIterator iterator(Key startKey, Key endKey);

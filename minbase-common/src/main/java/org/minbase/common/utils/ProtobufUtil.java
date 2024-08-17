@@ -1,8 +1,9 @@
 package org.minbase.common.utils;
 
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
+import org.minbase.common.op.ColumnValues;
+import org.minbase.common.op.Delete;
+import org.minbase.common.op.Get;
+import org.minbase.common.op.Put;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 
 import java.util.Map;
@@ -10,22 +11,22 @@ import java.util.Map;
 public class ProtobufUtil {
     public static Get toGet(ClientProto.GetRequest request) {
         String key = request.getKey();
-        Get get = new Get(ByteUtil.toBytes(key));
+        Get get = new Get(key);
         int columnsCount = request.getColumnsCount();
         for (int i = 0; i < columnsCount; i++) {
             final String column = request.getColumns(i);
-            get.addColumn(ByteUtil.toBytes(column));
+            get.addColumn(column);
         }
         return get;
     }
 
     public static Get toGet(ClientProto.TxGetRequest request) {
         String key = request.getKey();
-        Get get = new Get(ByteUtil.toBytes(key));
+        Get get = new Get(key);
         int columnsCount = request.getColumnsCount();
         for (int i = 0; i < columnsCount; i++) {
             final String column = request.getColumns(i);
-            get.addColumn(ByteUtil.toBytes(column));
+            get.addColumn(column);
         }
         return get;
     }
@@ -74,5 +75,25 @@ public class ProtobufUtil {
             builder.setColumnValues(i, builder1.build());
         }
         return builder.build();
+    }
+
+    public static Delete toDelete(ClientProto.DeleteRequest request) {
+        Delete delete = new Delete(request.getKey());
+        int count = request.getColumnsCount();
+        for (int i = 0; i < count; i++) {
+            String column = request.getColumns(i);
+            delete.addColumn(column);
+        }
+        return delete;
+    }
+
+    public static Delete toDelete(ClientProto.TxDeleteRequest request) {
+        Delete delete = new Delete(request.getKey());
+        int count = request.getColumnsCount();
+        for (int i = 0; i < count; i++) {
+            String column = request.getColumns(i);
+            delete.addColumn(column);
+        }
+        return delete;
     }
 }

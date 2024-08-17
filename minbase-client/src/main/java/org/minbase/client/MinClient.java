@@ -9,6 +9,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Promise;
+import org.minbase.client.admin.Admin;
+import org.minbase.client.admin.ClientAdmin;
 import org.minbase.client.handler.MinClientHandler;
 import org.minbase.client.service.AdminService;
 import org.minbase.client.service.ClientService;
@@ -19,17 +21,18 @@ import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestEncoder;
 import org.minbase.common.rpc.codec.RpcResponseDecoder;
 import org.minbase.common.rpc.proto.generated.AdminProto;
-import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.table.Table;
 import org.minbase.common.transaction.Transaction;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class MinClient {
     private final String host;
     private final int port;
+    private final Admin admin;
     private Channel channel;
     private AtomicLong requestId;
     private ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses;
@@ -52,6 +55,7 @@ public class MinClient {
         this.clientService = new ClientService(channel, requestId, waitingResponses, group);
         this.txService = new TxService(channel, requestId, waitingResponses, group);
         this.adminService = new AdminService(channel, requestId, waitingResponses, group);
+        this.admin = new ClientAdmin(this.adminService);
     }
 
     private void connect() {
@@ -100,5 +104,13 @@ public class MinClient {
         AdminProto.CreateTableRequest createTableRequest = builder.setTableName(tableName).build();
         AdminProto.CreateTableResponse createTableResponse = adminService.createTable(createTableRequest);
         return createTableResponse.getSuccess();
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public List<String> getTableInfo(String tableName) {
+        return this.admin.getTableInfo(tableName);
     }
 }

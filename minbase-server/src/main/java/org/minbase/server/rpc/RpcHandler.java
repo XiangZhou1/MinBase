@@ -1,11 +1,10 @@
-package org.minbase.rpc;
+package org.minbase.server.rpc;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.minbase.common.Constants;
 import org.minbase.common.rpc.ResponseCode;
 import org.minbase.common.rpc.proto.generated.AdminProto;
-import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.CallType;
 import org.minbase.common.utils.ByteUtil;

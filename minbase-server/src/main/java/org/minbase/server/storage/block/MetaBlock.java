@@ -2,8 +2,9 @@ package org.minbase.server.storage.block;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.op.Key;
+import org.minbase.server.kv.Key;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.utils.KeyUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -81,7 +82,7 @@ public class MetaBlock {
         pos += Constants.INTEGER_LENGTH;
         byte[] firstKeyBuf = new byte[firstkeyLen];
         System.arraycopy(bytes, pos, firstKeyBuf, 0, firstkeyLen);
-        this.firstKey = new Key();
+        this.firstKey = KeyUtils.newKey();
         this.firstKey.decode(firstKeyBuf);
         pos += firstkeyLen;
 
@@ -89,7 +90,7 @@ public class MetaBlock {
         pos += Constants.INTEGER_LENGTH;
         byte[] lastKeyBuf = new byte[lastkeyLen];
         System.arraycopy(bytes, pos, lastKeyBuf, 0, lastkeyLen);
-        this.lastKey = new Key();
+        this.lastKey = KeyUtils.newKey();
         this.lastKey.decode(lastKeyBuf);
         pos += lastkeyLen;
 

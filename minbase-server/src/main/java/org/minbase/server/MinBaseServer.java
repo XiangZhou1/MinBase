@@ -1,17 +1,18 @@
 package org.minbase.server;
 
-import org.minbase.common.table.Table;
-import org.minbase.rpc.RpcServer;
+
+import org.minbase.common.utils.FileUtil;
+import org.minbase.server.rpc.RpcServer;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.compaction.level.LevelCompaction;
-import org.minbase.server.storage.storemanager.StoreManager;
 import org.minbase.server.compaction.tiered.TieredCompaction;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.minstore.MinStore;
-import org.minbase.server.table.TableImpl;
+import org.minbase.server.table.Table;
+import org.minbase.server.table.TableMeta;
 import org.minbase.server.transaction.Transaction;
 import org.minbase.server.transaction.TransactionManager;
 import org.minbase.server.wal.Wal;
@@ -19,19 +20,16 @@ import org.minbase.server.wal.Wal;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class MinBaseServer {
-    public static final String Data_Dir = Config.get(Constants.KEY_DATA_DIR);
+    public static final String Data_Dir = Config.DATA_DIR;
 
-    private ConcurrentHashMap<String, TableImpl> tables;
+    private ConcurrentHashMap<String, Table> tables;
     private RpcServer rpcServer;
-
-    private AtomicLong sequenceId;
-
     // 文件刷写线程
     private Executor flushThread;
 
@@ -62,13 +60,21 @@ public class MinBaseServer {
         File[] tableDirs = listTableDirs();
         for (File tableDir : tableDirs) {
             String tableName = tableDir.getName();
+            TableMeta tableMeta = loadTableMeta(tableName);
             MinStore minStore = new MinStore(tableName, tableDir, flushThread, compaction, compactThread);
-            tables.put(tableDir.getName(), new TableImpl(tableDir.getName(), minStore));
+            tables.put(tableDir.getName(), new Table(tableMeta, minStore));
         }
-        wal.recovery(tables);
-
+        wal.recovery(this);
         // 压缩线程
         this.compactThread.start();
+    }
+
+    private TableMeta loadTableMeta(String tableName) throws IOException {
+        File metaFile = new File(Config.DATA_DIR, tableName + File.separator + ".tableMeta");
+        byte[] buf = FileUtil.read(metaFile);
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.decode(buf);
+        return tableMeta;
     }
 
     private File[] listTableDirs() {
@@ -89,15 +95,17 @@ public class MinBaseServer {
         return tables.get(tableName);
     }
 
-    public Table createTable(String tableName) throws IOException {
+    public Table createTable(String tableName, List<String> columns) throws IOException {
         File tableDir = new File(Data_Dir, tableName);
         if (!tableDir.exists()) {
             if (!tableDir.mkdirs()) {
                 throw new IOException("create table fail");
             }
         }
+        TableMeta tableMeta = new TableMeta(tableName, columns);
         MinStore minStore = new MinStore(tableName, tableDir, flushThread, compaction, compactThread);
-        final TableImpl table = new TableImpl(tableName, minStore);
+        Table table = new Table(tableMeta, minStore);
+        table.updateTableMeta();
         tables.put(tableName, table);
         return table;
     }
@@ -106,17 +114,49 @@ public class MinBaseServer {
         return TransactionManager.newTransaction(tables);
     }
 
-    public void compact(String tableName) throws Exception {
-        final TableImpl table = tables.get(tableName);
-        if (table == null) {
-            return;
-        }
+//    public void compact(String tableName) throws Exception {
+//        final AutoTxTable table = tables.get(tableName);
+//        if (table == null) {
+//            return;
+//        }
+//
+//        final StoreManager storageManager = table.getMinStore().getStorageManager();
+//        if (compaction.needCompact(storageManager)) {
+//            this.compaction.compact(storageManager);
+//        }
+//    }
 
-        final StoreManager storageManager = table.getMinStore().getStorageManager();
-        if (compaction.needCompact(storageManager)) {
-            this.compaction.compact(storageManager);
+
+    public boolean addColumns(String tableName, List<String> columns) {
+        try {
+            Table table = tables.get(tableName);
+            if (table == null) {
+                return false;
+            }
+            table.addColumns(columns);
+            return true;
+        } catch (IOException e) {
+            return false;
         }
     }
 
+    public boolean dropTable(String tableName) {
+        tables.remove(tableName);
+        File storeFile = new File(Config.DATA_DIR, tableName);
+        FileUtil.deleteFiles(storeFile);
+        return true;
+    }
 
+    public boolean truncateTable(String tableName) {
+        try{
+            Table table = tables.get(tableName);
+            List<String> columns = table.getColumns();
+            if(dropTable(tableName)){
+                createTable(tableName, columns);
+            }
+            return true;
+        }catch (IOException e){
+            return false;
+        }
+    }
 }

@@ -1,9 +1,8 @@
-package org.minbase.common.operation;
+package org.minbase.common.op;
 
 import org.minbase.common.utils.ByteUtil;
 
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class ColumnValues {
     // column, value

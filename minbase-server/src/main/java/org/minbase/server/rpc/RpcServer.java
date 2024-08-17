@@ -1,4 +1,4 @@
-package org.minbase.rpc;
+package org.minbase.server.rpc;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -6,16 +6,10 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.operation.Get;
 import org.minbase.common.rpc.Constant;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestDecoder;
 import org.minbase.common.rpc.codec.RpcResponseEncoder;
-import org.minbase.common.rpc.proto.generated.ClientProto;
-import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
-import org.minbase.common.table.Table;
-import org.minbase.common.utils.ProtobufUtil;
 import org.minbase.server.MinBaseServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

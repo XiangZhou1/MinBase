@@ -6,7 +6,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.util.concurrent.Promise;
 import org.minbase.common.rpc.proto.generated.AdminProto;
 import org.minbase.common.rpc.proto.generated.AdminServiceGrpc;
-import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.CallType;
 
@@ -48,6 +47,30 @@ public class AdminService extends Service implements AdminServiceGrpc.AdminServi
             RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(), request.toByteString().toStringUtf8());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return AdminProto.TruncateTableResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public AdminProto.AddColumnResponse addColumn(AdminProto.AddColumnRequest request) {
+        try {
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_ADD_COLUMN.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            return AdminProto.AddColumnResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public AdminProto.GetTableInfoResponse getTableInfo(AdminProto.GetTableInfoRequest request) {
+        try {
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_GET_TABLE_INFO.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            return AdminProto.GetTableInfoResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

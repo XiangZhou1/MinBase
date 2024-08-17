@@ -2,6 +2,7 @@ package org.minbase.rpc;
 
 import org.junit.Test;
 import org.minbase.server.MinBaseServer;
+import org.minbase.server.rpc.RpcServer;
 
 public class TestRpcServer {
     @Test

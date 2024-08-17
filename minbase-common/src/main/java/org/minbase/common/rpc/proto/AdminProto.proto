@@ -3,6 +3,7 @@ package org.minbase.common.rpc.proto.generated;
 
 message CreateTableRequest {
   required string tableName = 1;
+  repeated string columns = 2;
 }
 
 message CreateTableResponse {
@@ -25,8 +26,28 @@ message TruncateTableResponse {
   required bool success = 1;
 }
 
+message AddColumnRequest {
+  required string tableName = 1;
+  repeated string columns = 2;
+}
+
+message AddColumnResponse {
+  required bool success = 1;
+}
+
+message GetTableInfoRequest {
+  required string tableName = 1;
+}
+
+message GetTableInfoResponse {
+  required string tableName = 1;
+  repeated string columns = 2;
+}
+
 service AdminService {
   rpc createTable(CreateTableRequest) returns (CreateTableResponse);
   rpc dropTable(DropTableRequest) returns (DropTableResponse);
   rpc truncateTable(TruncateTableRequest) returns (TruncateTableResponse);
+  rpc addColumn(AddColumnRequest) returns (AddColumnResponse);
+  rpc getTableInfo(GetTableInfoRequest) returns (GetTableInfoResponse);
 }
