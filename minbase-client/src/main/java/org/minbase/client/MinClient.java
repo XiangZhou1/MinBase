@@ -21,6 +21,7 @@ import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestEncoder;
 import org.minbase.common.rpc.codec.RpcResponseDecoder;
 import org.minbase.common.rpc.proto.generated.AdminProto;
+import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.table.Table;
 import org.minbase.common.transaction.Transaction;

@@ -35,7 +35,6 @@ public abstract class Key implements Comparable<Key>  {
     }
 
     public int encodeToFile(OutputStream outputStream) throws IOException {
-        byte[] buf = new byte[length()];
         outputStream.write(getKey());
         outputStream.write(ByteUtil.longToByteArray(sequenceId));
         return length();
@@ -58,7 +57,7 @@ public abstract class Key implements Comparable<Key>  {
 
     @Override
     public int compareTo(Key o2) {
-        int result = ByteUtil.BYTE_ORDER_COMPARATOR.compare(this.getKey(), o2.getKey());
+        int result = compareKey(o2);
         if (result != 0) {
             return result;
         }
@@ -68,6 +67,8 @@ public abstract class Key implements Comparable<Key>  {
         }
         return this.sequenceId > o2.getSequenceId() ? -1 : 1;
     }
+
+    protected abstract int compareKey(Key key);
 
     public boolean isLatestVersion() {
         return this.sequenceId == Constants.LATEST_VERSION;

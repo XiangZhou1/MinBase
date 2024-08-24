@@ -2,6 +2,7 @@ package org.minbase.server.kv;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 public class Value {
     // 0 delete
@@ -46,7 +47,7 @@ public class Value {
         return buf;
     }
 
-    // | type(1)|size(4)|column|column|
+    // | type(1)|data|
     public int encodeToFile(OutputStream outputStream) throws IOException {
         outputStream.write(type);
         if (isDelete()) {
@@ -58,12 +59,13 @@ public class Value {
     }
 
     public void decode(byte[] buf) {
-        type = buf[1];
+        type = buf[0];
         if (isDelete()) {
-            setData(new byte[0]);
-        } else if (type == TYPE_PUT) {
+            this.data = new byte[0];
+        } else if (isPut()) {
             byte[] data = new byte[buf.length - 1];
             System.arraycopy(buf, 1, data, 0, buf.length - 1);
+            this.data = data;
         }
     }
 
@@ -76,7 +78,18 @@ public class Value {
     public boolean isDelete() {
         return type == TYPE_DELETE;
     }
+    public boolean isPut() {
+        return type == TYPE_PUT;
+    }
     public void setType(byte type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Value{" +
+                "type=" + type +
+                ", data=" + Arrays.toString(data) +
+                '}';
     }
 }

@@ -1,8 +1,7 @@
 package org.minbase.server.kv;
 import org.minbase.server.constant.Constants;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.factory.KeyFactory;
-import org.minbase.server.factory.ValueFactory;
+import org.minbase.server.utils.KeyUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -55,7 +54,7 @@ public class KeyValue {
         byte[] key = new byte[keyLen];
         System.arraycopy(bytes, pos, key, 0, keyLen);
         pos += keyLen;
-        this.key = KeyFactory.newKey();
+        this.key = KeyUtils.newKey();
         this.key.decode(key);
 
         int valueLen = ByteUtil.byteArrayToInt(bytes, pos);
@@ -63,7 +62,7 @@ public class KeyValue {
 
         byte[] value = new byte[valueLen];
         System.arraycopy(bytes, pos, value, 0, valueLen);
-        this.value = ValueFactory.newValue();
+        this.value = new Value();
         this.value.decode(value);
     }
 
@@ -75,6 +74,7 @@ public class KeyValue {
                 '}';
     }
 
+    //|len(key)|key|len(value)|value|
     public int encodeToFile(OutputStream outputStream) throws IOException {
         int index = 0;
         outputStream.write(ByteUtil.intToByteArray(key.length()));

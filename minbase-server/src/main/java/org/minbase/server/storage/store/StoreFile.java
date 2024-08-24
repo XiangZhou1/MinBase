@@ -3,7 +3,7 @@ package org.minbase.server.storage.store;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.kv.KeyImpl;
+import org.minbase.server.kv.Key;
 import org.minbase.server.storage.block.BloomFilterBlock;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
@@ -63,8 +63,8 @@ public class StoreFile {
     // 整个文件的大小
     private long dataLength;
     // 整个文件的key都是有序的, 这是整个文件的起始key, 终止key
-    private KeyImpl firstKey;
-    private KeyImpl lastKey;
+    private Key firstKey;
+    private Key lastKey;
 
     private String filePath;
     private String storeId;
@@ -112,11 +112,11 @@ public class StoreFile {
         return StoreFile.this.storeId + "_" + i;
     }
 
-    public KeyImpl getFirstKey() {
+    public Key getFirstKey() {
         return firstKey;
     }
 
-    public KeyImpl getLastKey() {
+    public Key getLastKey() {
         return lastKey;
     }
 
@@ -154,7 +154,10 @@ public class StoreFile {
     }
 
 
-    public StoreFileReader getReader() {
+    public synchronized StoreFileReader getReader() {
+        if (reader == null) {
+            reader = new StoreFileReader(this);
+        }
         return reader;
     }
 

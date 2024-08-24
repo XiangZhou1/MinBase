@@ -3,6 +3,9 @@ package org.minbase.server.op;
 import org.junit.Test;
 import org.minbase.server.kv.KeyImpl;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
+import org.minbase.server.table.kv.InternalKey;
+import org.minbase.server.utils.ValueUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -27,7 +30,7 @@ public class KeyValueTest {
 
     @Test
     public void valueTest1() {
-        Value put = Value.Put(column, "v1".getBytes());
+        Value put = ValueUtils.Put( "v1".getBytes());
         Value put2 = new Value();
         put2.decode(put.encode());
         System.out.println(put);
@@ -38,8 +41,8 @@ public class KeyValueTest {
 
     @Test
     public void keyValueTest() {
-        Value put = Value.Put(column, "v1".getBytes());
-        KeyImpl key = new KeyImpl("k1".getBytes(), 1);
+        Value put = ValueUtils.Put("v1".getBytes());
+        InternalKey key = new InternalKey("k1".getBytes(), "c1".getBytes(), 1L);
         KeyValue keyValue = new KeyValue(key, put);
 
         KeyValue keyValue1 = new KeyValue();

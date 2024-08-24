@@ -8,9 +8,11 @@ public class InternalKey extends Key {
     private byte[] internalKey;
     private int userKeyLength;
 
+    // |userKeyLength|userKey|column|
     @Override
     public void setKey(byte[] key) {
-
+        this.internalKey = key;
+        this.userKeyLength = ByteUtil.byteArrayToInt(key, 0);
     }
 
     @Override
@@ -43,10 +45,15 @@ public class InternalKey extends Key {
     }
 
     public String getColumn() {
-        return new String(internalKey, Constants.INTEGER_LENGTH + userKeyLength);
+        return new String(internalKey, Constants.INTEGER_LENGTH + userKeyLength, internalKey.length - Constants.INTEGER_LENGTH - userKeyLength);
     }
-    // |userKeyLength|userKey|column
-    public int length(){
-        return internalKey.length;
+
+    @Override
+    protected int compareKey(Key key) {
+        InternalKey key2 = (InternalKey) key;
+        if (this.getUserKey().compareTo(key2.getUserKey()) == 0) {
+            return 0;
+        }
+        return this.getColumn().compareTo(key2.getColumn());
     }
 }

@@ -1,11 +1,16 @@
 package org.minbase.server.storage.store;
 
 
+import org.junit.Before;
 import org.junit.Test;
+import org.minbase.server.factory.KeyFactory;
 import org.minbase.server.iterator.StoreFileIterator;
 import org.minbase.server.kv.KeyImpl;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.common.utils.Util;
+import org.minbase.server.kv.Value;
+import org.minbase.server.utils.KeyUtils;
+import org.minbase.server.utils.ValueUtils;
 
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
@@ -14,13 +19,18 @@ import java.util.UUID;
 
 public class StoreFileTest {
     private static final byte[] column = "cl1".getBytes(StandardCharsets.UTF_8);
+
+    @Before
+    public void before() {
+        KeyUtils.keyFactory = new KeyFactory(0);
+    }
     @Test
     public void test1() {
         int totalNum = 4000;
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < totalNum; i++) {
             KeyImpl key = new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            Value put = ValueUtils.Put("v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
 
@@ -45,7 +55,7 @@ public class StoreFileTest {
         for (int i = 0; i < totalNum; i++) {
             KeyImpl key2 = new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 2);
             KeyImpl key1 = new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            Value put = ValueUtils.Put("v1".getBytes());
             storeFileBuilder.add(new KeyValue(key2, put));
             storeFileBuilder.add(new KeyValue(key1, put));
         }
@@ -70,13 +80,13 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 40960; i++) {
             KeyImpl key = new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            Value put = ValueUtils.Put("v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
         StoreFile storeFile = storeFileBuilder.build();
 
         for (int i = 0; i < 40960; i++) {
-            StoreFileIterator iterator = storeFile.getReader().iterator(KeyImpl.latestKey(("k" + Util.fillZero(i)).getBytes()), null);
+            StoreFileIterator iterator = storeFile.getReader().iterator(KeyUtils.latestKey(("k" + Util.fillZero(i)).getBytes()), null);
             int num = 0;
             while (iterator.isValid()) {
                 KeyValue value = iterator.value();
@@ -94,7 +104,7 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 4096; i++) {
             KeyImpl key = new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            Value put = ValueUtils.Put("v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
 
@@ -130,7 +140,7 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 4096; i++) {
             KeyImpl key = new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            Value put = ValueUtils.Put("v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
         StoreFile storeFile = storeFileBuilder.build();

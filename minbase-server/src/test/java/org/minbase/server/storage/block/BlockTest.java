@@ -1,11 +1,15 @@
 package org.minbase.server.storage.block;
 
 
+import org.junit.Before;
 import org.junit.Test;
+import org.minbase.server.factory.KeyFactory;
 import org.minbase.server.iterator.BlockIterator;
 import org.minbase.server.kv.KeyImpl;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.common.utils.Util;
+import org.minbase.server.utils.KeyUtils;
+import org.minbase.server.utils.ValueUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -13,14 +17,19 @@ import java.nio.charset.StandardCharsets;
 public class BlockTest {
     private static final byte[] column = "cl1".getBytes(StandardCharsets.UTF_8);
 
+    @Before
+    public void before(){
+        KeyUtils.keyFactory = new KeyFactory(0);
+    }
+
     @Test
     public void blockEndCodeDecodeTest() {
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
-        blockBuilder.add(new KeyValue(new KeyImpl("k1".getBytes(), 1), Value.Put(column, "v1".getBytes())));
-        blockBuilder.add(new KeyValue(new KeyImpl("k2".getBytes(), 1), Value.Put(column, "v2".getBytes())));
-        blockBuilder.add(new KeyValue(new KeyImpl("k3".getBytes(), 1), Value.Put(column, "v3".getBytes())));
-        blockBuilder.add(new KeyValue(new KeyImpl("k4".getBytes(), 1), Value.Put(column, "v4".getBytes())));
-        blockBuilder.add(new KeyValue(new KeyImpl("k5".getBytes(), 1), Value.Put(column, "v5".getBytes())));
+        blockBuilder.add(new KeyValue(new KeyImpl("k1".getBytes(), 1), ValueUtils.Put( "v1".getBytes())));
+        blockBuilder.add(new KeyValue(new KeyImpl("k2".getBytes(), 1), ValueUtils.Put( "v2".getBytes())));
+        blockBuilder.add(new KeyValue(new KeyImpl("k3".getBytes(), 1), ValueUtils.Put( "v3".getBytes())));
+        blockBuilder.add(new KeyValue(new KeyImpl("k4".getBytes(), 1), ValueUtils.Put( "v4".getBytes())));
+        blockBuilder.add(new KeyValue(new KeyImpl("k5".getBytes(), 1), ValueUtils.Put( "v5".getBytes())));
 
         DataBlock block = blockBuilder.build();
         System.out.println(new String(block.encode()));
@@ -46,15 +55,15 @@ public class BlockTest {
         int totalnum = 1000;
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
         for (int i=0; i<totalnum; i++) {
-            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 3), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 2), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1), Value.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 3), ValueUtils.Put( ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 2), ValueUtils.Put( ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1), ValueUtils.Put( ("v" + i).getBytes())));
         }
 
         DataBlock block = blockBuilder.build();
 
         for (int i=0; i<totalnum; i++){
-            BlockIterator blockIterator = new BlockIterator(block, KeyImpl.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
+            BlockIterator blockIterator = new BlockIterator(block, KeyUtils.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
             int num = 0;
             while (blockIterator.isValid()){
                 KeyValue value = blockIterator.value();
@@ -73,15 +82,15 @@ public class BlockTest {
         int totalnum = 1000;
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
         for (int i=0; i<totalnum; i++) {
-            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 3), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 2), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1), Value.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 3), ValueUtils.Put( ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 2), ValueUtils.Put( ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new KeyImpl(("k" + Util.fillZero(i)).getBytes(), 1), ValueUtils.Put( ("v" + i).getBytes())));
         }
 
         DataBlock block = blockBuilder.build();
 
         for (int i=0; i<totalnum; i++){
-            BlockIterator blockIterator = new BlockIterator(block, KeyImpl.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
+            BlockIterator blockIterator = new BlockIterator(block, KeyUtils.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
             int num = 0;
             while (blockIterator.isValid()){
                 KeyValue value = blockIterator.value();

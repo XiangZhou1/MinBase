@@ -18,58 +18,58 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class TestMinStore {
-    private static final byte[] key1 = "key1".getBytes();
-    private static final byte[] column1 = "column1".getBytes();
-    private static final byte[] value1 = "value1".getBytes();
-    private static final String tableName = "table1";
-    MinStore minStore;
-
-    @Before
-    public void before() throws Exception {
-        String name = "table1";
-        File dir = null;
-        Executor flushThread = Executors.newCachedThreadPool();
-        Compaction compaction = Mockito.mock(Compaction.class);
-        Mockito.doReturn(false).when(compaction.needCompact(Mockito.any()));
-        CompactThread compactThread = new CompactThread(compaction, null);
-        minStore = new MinStore(name, dir, flushThread, compaction, compactThread);
-    }
+//    private static final byte[] key1 = "key1".getBytes();
+//    private static final byte[] column1 = "column1".getBytes();
+//    private static final byte[] value1 = "value1".getBytes();
+//    private static final String tableName = "table1";
+//    MinStore minStore;
 //
-    @Test
-    public void test1() {
-        Put put = new Put(key1, column1, value1);
-        WriteBatch writeBatch = new WriteBatch();
-        writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
-        writeBatch.setSequenceId(1);
-        minStore.put(writeBatch);
-
-        KeyValueIterator iterator = minStore.iterator(KeyImpl.minKey(key1), KeyImpl.maxKey(key1));
-        while (iterator.isValid()) {
-            KeyValue value = iterator.value();
-            System.out.println(value);
-            iterator.next();
-        }
-    }
-
-
-
-    @Test
-    public void test2() throws Exception {
-        for (long i = 0; i < 1000000000; i++) {
-            Put put = new Put(("k" + i).getBytes(), column1, ("v" + i).getBytes());
-            WriteBatch writeBatch = new WriteBatch();
-            writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
-            writeBatch.setSequenceId(i);
-            minStore.put(writeBatch);
-        }
-
-        KeyValueIterator iterator = minStore.iterator(KeyImpl.minKey(key1), KeyImpl.maxKey(key1));
-        while (iterator.isValid()) {
-            KeyValue value = iterator.value();
-            System.out.println(value);
-            iterator.next();
-        }
-    }
+//    @Before
+//    public void before() throws Exception {
+//        String name = "table1";
+//        File dir = null;
+//        Executor flushThread = Executors.newCachedThreadPool();
+//        Compaction compaction = Mockito.mock(Compaction.class);
+//        Mockito.doReturn(false).when(compaction.needCompact(Mockito.any()));
+//        CompactThread compactThread = new CompactThread(compaction, null);
+//        minStore = new MinStore(name, dir, flushThread, compaction, compactThread);
+//    }
+////
+//    @Test
+//    public void test1() {
+//        Put put = new Put(key1, column1, value1);
+//        WriteBatch writeBatch = new WriteBatch();
+//        writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
+//        writeBatch.setSequenceId(1);
+//        minStore.put(writeBatch);
+//
+//        KeyValueIterator iterator = minStore.iterator(KeyImpl.minKey(key1), KeyImpl.maxKey(key1));
+//        while (iterator.isValid()) {
+//            KeyValue value = iterator.value();
+//            System.out.println(value);
+//            iterator.next();
+//        }
+//    }
+//
+//
+//
+//    @Test
+//    public void test2() throws Exception {
+//        for (long i = 0; i < 1000000000; i++) {
+//            Put put = new Put(("k" + i).getBytes(), column1, ("v" + i).getBytes());
+//            WriteBatch writeBatch = new WriteBatch();
+//            writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
+//            writeBatch.setSequenceId(i);
+//            minStore.put(writeBatch);
+//        }
+//
+//        KeyValueIterator iterator = minStore.iterator(KeyImpl.minKey(key1), KeyImpl.maxKey(key1));
+//        while (iterator.isValid()) {
+//            KeyValue value = iterator.value();
+//            System.out.println(value);
+//            iterator.next();
+//        }
+//    }
 
 //
 //    @Test

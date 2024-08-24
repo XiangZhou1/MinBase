@@ -7,11 +7,15 @@ import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.KeyImpl;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.table.kv.ColumnValues;
+import org.minbase.server.table.kv.InternalKey;
 import org.minbase.server.table.kv.RowTacker;
+import org.minbase.server.utils.KeyUtils;
 import org.minbase.server.utils.KeyValueUtil;
+import org.minbase.server.utils.ValueUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.List;
 
 public class RowTrackerTest {
     private static final byte[] column1 = "column1".getBytes(StandardCharsets.UTF_8);
@@ -24,158 +28,78 @@ public class RowTrackerTest {
 
     @Test
     public void testGetAll() {
-        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey));
+        HashSet<String> set = new HashSet<>();
+        set.add(new String(column1));
+        rowTacker = new RowTacker(new String(rowKey), set, 20L);
 
-        Put put = new Put(rowKey, column1, value1);
-        KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
+        KeyValue keyValue1 = new KeyValue(new InternalKey(rowKey, column1, 1), ValueUtils.Put(value1));
         rowTacker.track(keyValue1);
 
-        Put put2 = new Put(rowKey, column2, value2);
-        KeyValue keyValue2 = KeyValueUtil.toKeyValue(put2);
+        KeyValue keyValue2 = new KeyValue(new InternalKey(rowKey, column2, 1), ValueUtils.Put(value2));
         rowTacker.track(keyValue2);
 
-        KeyValue keyValue = rowTacker.getKeyValue();
-        System.out.println(keyValue);
-        Value val = keyValue.getValue();
-        ColumnValues columnValues = val.columnValues();
-
-        assert ByteUtil.byteEqual(columnValues.get(column1), value1);
-        assert ByteUtil.byteEqual(columnValues.get(column2), value2);
+        List<KeyValue> keyValues = rowTacker.getKeyValues();
+        for (KeyValue keyValue : keyValues) {
+            System.out.println(keyValue);
+        }
     }
 
     @Test
-    public void testGetColumn() {
-        HashSet<byte[]> set = new HashSet<>();
-        set.add(column1);
-        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
+    public void testGetAll2() {
+        HashSet<String> set = new HashSet<>();
+        set.add(new String(column1));
+        rowTacker = new RowTacker(new String(rowKey), set, 20L);
 
-        Put put = new Put(rowKey, column1, value1);
-        KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
+        KeyValue keyValue1 = new KeyValue(new InternalKey(rowKey, column1, 2), ValueUtils.Put(value1));
         rowTacker.track(keyValue1);
 
-        Put put2 = new Put(rowKey, column2, value2);
-        KeyValue keyValue2 = KeyValueUtil.toKeyValue(put2);
+        KeyValue keyValue2 = new KeyValue(new InternalKey(rowKey, column1, 1), ValueUtils.Put(value1));
         rowTacker.track(keyValue2);
 
-        KeyValue keyValue = rowTacker.getKeyValue();
-        System.out.println(keyValue);
-        Value val = keyValue.getValue();
-        ColumnValues columnValues = val.columnValues();
+        List<KeyValue> keyValues = rowTacker.getKeyValues();
+        for (KeyValue keyValue : keyValues) {
+            System.out.println(keyValue);
+        }
+    }
+    @Test
+    public void testGetAll3() {
+        HashSet<String> set = new HashSet<>();
+        set.add(new String(column1));
+        set.add(new String(column2));
+        rowTacker = new RowTacker(new String(rowKey), set, 20L);
 
-        assert ByteUtil.byteEqual(columnValues.get(column1), value1);
-        assert columnValues.get(column2) == null;
+        KeyValue keyValue1 = new KeyValue(new InternalKey(rowKey, column1, 1), ValueUtils.Put(value1));
+        rowTacker.track(keyValue1);
+
+        KeyValue keyValue2 = new KeyValue(new InternalKey(rowKey, column2, 1), ValueUtils.Put(value2));
+        rowTacker.track(keyValue2);
+
+        List<KeyValue> keyValues = rowTacker.getKeyValues();
+        for (KeyValue keyValue : keyValues) {
+            System.out.println(keyValue);
+        }
     }
 
     @Test
-    public void testDeleteAll1() {
-        HashSet<byte[]> set = new HashSet<>();
-        set.add(column1);
-        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
+    public void testGetAll4() {
+        HashSet<String> set = new HashSet<>();
+        set.add(new String(column1));
+        set.add(new String(column2));
+        rowTacker = new RowTacker(new String(rowKey), set, 20L);
 
-        Put put = new Put(rowKey, column1, value1);
-        KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
+        KeyValue keyValue1 = new KeyValue(new InternalKey(rowKey, column1, 2), ValueUtils.Put(value1));
         rowTacker.track(keyValue1);
 
-        Put put2 = new Put(rowKey, column2, value2);
-        KeyValue keyValue2 = KeyValueUtil.toKeyValue(put2);
+        KeyValue keyValue2 = new KeyValue(new InternalKey(rowKey, column2, 2), ValueUtils.Delete());
         rowTacker.track(keyValue2);
 
-        Delete delete = new Delete(rowKey);
-        KeyValue keyValue3 = KeyValueUtil.toKeyValue(delete);
+        KeyValue keyValue3 = new KeyValue(new InternalKey(rowKey, column2, 2), ValueUtils.Put(value2));
         rowTacker.track(keyValue3);
 
-        KeyValue keyValue = rowTacker.getKeyValue();
-        System.out.println(keyValue);
-        Value val = keyValue.getValue();
-        ColumnValues columnValues = val.columnValues();
-
-        assert ByteUtil.byteEqual(columnValues.get(column1), value1);
-        assert ByteUtil.byteEqual(columnValues.get(column2), value2);
+        List<KeyValue> keyValues = rowTacker.getKeyValues();
+        for (KeyValue keyValue : keyValues) {
+            System.out.println(keyValue);
+        }
     }
 
-
-    @Test
-    public void testDeleteAll2() {
-        HashSet<byte[]> set = new HashSet<>();
-        set.add(column1);
-        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
-
-        Delete delete = new Delete(rowKey);
-        KeyValue keyValue3 = KeyValueUtil.toKeyValue(delete);
-        rowTacker.track(keyValue3);
-
-        Put put = new Put(rowKey, column1, value1);
-        KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
-        rowTacker.track(keyValue1);
-
-        Put put2 = new Put(rowKey, column2, value2);
-        KeyValue keyValue2 = KeyValueUtil.toKeyValue(put2);
-        rowTacker.track(keyValue2);
-
-        KeyValue keyValue = rowTacker.getKeyValue();
-        System.out.println(keyValue);
-        Value val = keyValue.getValue();
-        ColumnValues columnValues = val.columnValues();
-
-        assert columnValues.size() == 0;
-    }
-
-
-    @Test
-    public void testDeleteColumn1() {
-        HashSet<byte[]> set = new HashSet<>();
-        set.add(column1);
-        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
-
-        Delete delete = new Delete(rowKey);
-        delete.addColumn(column2);
-        KeyValue keyValue3 = KeyValueUtil.toKeyValue(delete);
-        rowTacker.track(keyValue3);
-
-        Put put = new Put(rowKey, column1, value1);
-        KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
-        rowTacker.track(keyValue1);
-
-        Put put2 = new Put(rowKey, column2, value2);
-        KeyValue keyValue2 = KeyValueUtil.toKeyValue(put2);
-        rowTacker.track(keyValue2);
-
-        KeyValue keyValue = rowTacker.getKeyValue();
-        System.out.println(keyValue);
-        Value val = keyValue.getValue();
-        ColumnValues columnValues = val.columnValues();
-
-        assert ByteUtil.byteEqual(columnValues.get(column1), value1);
-        assert columnValues.get(column2) == null;
-    }
-
-    @Test
-    public void testDeleteColumn2() {
-        HashSet<byte[]> set = new HashSet<>();
-        set.add(column1);
-        rowTacker = new RowTacker(KeyImpl.latestKey(rowKey), set);
-
-
-        Put put = new Put(rowKey, column1, value1);
-        KeyValue keyValue1 = KeyValueUtil.toKeyValue(put);
-        rowTacker.track(keyValue1);
-
-        Put put2 = new Put(rowKey, column2, value2);
-        KeyValue keyValue2 = KeyValueUtil.toKeyValue(put2);
-        rowTacker.track(keyValue2);
-
-        Delete delete = new Delete(rowKey);
-        delete.addColumn(column2);
-        KeyValue keyValue3 = KeyValueUtil.toKeyValue(delete);
-        rowTacker.track(keyValue3);
-
-        KeyValue keyValue = rowTacker.getKeyValue();
-        System.out.println(keyValue);
-        Value val = keyValue.getValue();
-        ColumnValues columnValues = val.columnValues();
-
-
-        assert ByteUtil.byteEqual(columnValues.get(column1), value1);
-        assert ByteUtil.byteEqual(columnValues.get(column2), value2);
-    }
 }

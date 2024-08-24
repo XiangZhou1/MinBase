@@ -9,13 +9,16 @@ import org.minbase.server.MinBaseServer;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.minstore.MinStore;
+import org.minbase.server.table.TableMeta;
 import org.minbase.server.transaction.table.AutoTxTable;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -43,8 +46,10 @@ public class TransactionTest {
     @Before
     public void init() throws Exception {
         MinStore minStore = createMinStore();
-        Map<String, AutoTxTable> tables = new HashMap<>();
-        tables.put(tableName, new AutoTxTable(tableName, minStore));
+        Map<String, org.minbase.server.table.Table> tables = new HashMap<>();
+        List<String> columnList = Arrays.asList("column1");
+        TableMeta tableMeta = new TableMeta(tableName, columnList);
+        tables.put(tableName, new org.minbase.server.table.Table(tableMeta, minStore));
         this.transaction = TransactionManager.newTransaction(tables);
     }
 

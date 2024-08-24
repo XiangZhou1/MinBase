@@ -5,7 +5,10 @@ import org.junit.Test;
 import org.minbase.server.kv.KeyImpl;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.Value;
 import org.minbase.server.transaction.store.WriteBatch;
+import org.minbase.server.utils.KeyUtils;
+import org.minbase.server.utils.ValueUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,10 +25,10 @@ public class WalTest {
         final long startTime = System.currentTimeMillis();
         for (; i < 10 * 100000; i++) {
             KeyImpl key = new KeyImpl(ByteUtil.toBytes("k" + i), i);
-            Value value = Value.Put(column, ByteUtil.toBytes("v" + i));
+            Value value = ValueUtils.Put( ByteUtil.toBytes("v" + i));
 
-            KeyValue keyValue = new KeyValue(KeyImpl.latestKey(ByteUtil.toBytes("k1")), Value.Put(column, ByteUtil.toBytes("v1")));
-            KeyValue keyValue2 = new KeyValue(KeyImpl.latestKey(ByteUtil.toBytes("k2")), Value.Put(column, ByteUtil.toBytes("v2")));
+            KeyValue keyValue = new KeyValue(KeyUtils.latestKey(ByteUtil.toBytes("k1")), ValueUtils.Put( ByteUtil.toBytes("v1")));
+            KeyValue keyValue2 = new KeyValue(KeyUtils.latestKey(ByteUtil.toBytes("k2")), ValueUtils.Put( ByteUtil.toBytes("v2")));
             WriteBatch writeBatch = new WriteBatch();
             writeBatch.add(table, keyValue);
             writeBatch.add(table, keyValue2);
