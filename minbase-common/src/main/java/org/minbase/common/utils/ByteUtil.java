@@ -40,6 +40,7 @@ public class ByteUtil {
     public static boolean byteLess(byte[] key, byte[] targetKey) {
         return BYTE_ORDER_COMPARATOR.compare(key, targetKey) < 0;
     }
+
     public static boolean byteLessOrEqual(byte[] key, byte[] targetKey) {
         return BYTE_ORDER_COMPARATOR.compare(key, targetKey) <= 0;
     }
@@ -62,6 +63,7 @@ public class ByteUtil {
 
     /**
      * int到byte[] 由高位到低位
+     *
      * @param i 需要转换为byte数组的整行值。
      * @return byte数组
      */
@@ -76,6 +78,7 @@ public class ByteUtil {
 
     /**
      * byte[]转int
+     *
      * @param bytes 需要转换成int的数组
      * @return int值
      */
@@ -91,6 +94,7 @@ public class ByteUtil {
 
     /**
      * int到byte[] 由高位到低位
+     *
      * @param i 需要转换为byte数组的整行值。
      * @return byte数组
      */
@@ -109,6 +113,7 @@ public class ByteUtil {
 
     /**
      * byte[]转int
+     *
      * @param bytes 需要转换成int的数组
      * @return int值
      */

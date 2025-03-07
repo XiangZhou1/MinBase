@@ -2,7 +2,6 @@ package org.minbase.server;
 
 
 import org.minbase.common.utils.FileUtil;
-import org.minbase.server.rpc.RpcServer;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.compaction.CompactionStrategy;
@@ -11,6 +10,7 @@ import org.minbase.server.compaction.tiered.TieredCompaction;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.minstore.MinStore;
+import org.minbase.server.rpc.RpcServer;
 import org.minbase.server.table.Table;
 import org.minbase.server.table.TableMeta;
 import org.minbase.server.transaction.Transaction;
@@ -29,9 +29,9 @@ public class MinBaseServer {
     public static final String Data_Dir = Config.DATA_DIR;
 
     private ConcurrentHashMap<String, Table> tables;
-    private RpcServer rpcServer;
+    private final RpcServer rpcServer;
     // 文件刷写线程
-    private Executor flushThread;
+    private final Executor flushThread;
 
     // 文件压缩线程
     private Compaction compaction;
@@ -148,14 +148,14 @@ public class MinBaseServer {
     }
 
     public boolean truncateTable(String tableName) {
-        try{
+        try {
             Table table = tables.get(tableName);
             List<String> columns = table.getColumns();
-            if(dropTable(tableName)){
+            if (dropTable(tableName)) {
                 createTable(tableName, columns);
             }
             return true;
-        }catch (IOException e){
+        } catch (IOException e) {
             return false;
         }
     }

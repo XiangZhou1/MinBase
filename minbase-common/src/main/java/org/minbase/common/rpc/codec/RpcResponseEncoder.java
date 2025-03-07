@@ -11,7 +11,8 @@ public class RpcResponseEncoder extends MessageToByteEncoder<RpcProto.RpcRespons
     private static final Logger logger = LoggerFactory.getLogger(RpcResponseEncoder.class);
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, RpcProto.RpcResponse rpcResponse, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext channelHandlerContext, RpcProto.RpcResponse rpcResponse,
+                          ByteBuf byteBuf) throws Exception {
         byte[] bytes = rpcResponse.toByteArray();
         byteBuf.writeBytes(bytes);
         logger.info("Encode rpcResponse:" + rpcResponse);

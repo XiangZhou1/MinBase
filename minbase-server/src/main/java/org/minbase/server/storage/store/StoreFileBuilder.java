@@ -1,9 +1,7 @@
 package org.minbase.server.storage.store;
 
 
-import org.minbase.common.utils.Util;
 import org.minbase.server.conf.Config;
-import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.storage.block.BloomFilterBlock;
@@ -34,14 +32,14 @@ public class StoreFileBuilder {
         return length;
     }
 
-    public void add(KeyValue kv){
+    public void add(KeyValue kv) {
         length += kv.length();
         bloomFilter.add(kv.getKey().getKey());
 
         if (firstKey == null || firstKey.compareTo(kv.getKey()) > 0) {
             firstKey = kv.getKey();
         }
-        if (lastKey == null || lastKey.compareTo(kv.getKey())  < 0) {
+        if (lastKey == null || lastKey.compareTo(kv.getKey()) < 0) {
             lastKey = kv.getKey();
         }
 
@@ -67,7 +65,6 @@ public class StoreFileBuilder {
         }
         return storeFile;
     }
-
 
 
 }

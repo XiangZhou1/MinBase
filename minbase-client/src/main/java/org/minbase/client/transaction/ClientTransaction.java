@@ -9,11 +9,12 @@ import org.minbase.common.table.Table;
 import org.minbase.common.transaction.Transaction;
 
 public class ClientTransaction implements Transaction {
-    private long txId;
-    private ClientServiceGrpc.ClientServiceBlockingClient rpcClient;
-    private TransactionServiceGrpc.TransactionServiceBlockingClient txClient;
+    private final long txId;
+    private final ClientServiceGrpc.ClientServiceBlockingClient rpcClient;
+    private final TransactionServiceGrpc.TransactionServiceBlockingClient txClient;
 
-    public ClientTransaction(long txId, ClientServiceGrpc.ClientServiceBlockingClient rpcClient, TransactionServiceGrpc.TransactionServiceBlockingClient txClient) {
+    public ClientTransaction(long txId, ClientServiceGrpc.ClientServiceBlockingClient rpcClient,
+                             TransactionServiceGrpc.TransactionServiceBlockingClient txClient) {
         this.txId = txId;
         this.rpcClient = rpcClient;
         this.txClient = txClient;
@@ -29,7 +30,7 @@ public class ClientTransaction implements Transaction {
         ClientProto.CommitRequest.Builder builder = ClientProto.CommitRequest.newBuilder();
         ClientProto.CommitRequest commitRequest = builder.setTxid(txId).build();
         ClientProto.CommitResponse commitResponse = rpcClient.commit(commitRequest);
-        if(!commitResponse.getSuccess()){
+        if (!commitResponse.getSuccess()) {
             throw new TransactionException();
         }
     }
@@ -39,7 +40,7 @@ public class ClientTransaction implements Transaction {
         ClientProto.RollBackRequest.Builder builder = ClientProto.RollBackRequest.newBuilder();
         ClientProto.RollBackRequest rollBackRequest = builder.setTxid(txId).build();
         ClientProto.RollBackResponse rollBackResponse = rpcClient.rollBack(rollBackRequest);
-        if(!rollBackResponse.getSuccess()){
+        if (!rollBackResponse.getSuccess()) {
             throw new TransactionException();
         }
     }

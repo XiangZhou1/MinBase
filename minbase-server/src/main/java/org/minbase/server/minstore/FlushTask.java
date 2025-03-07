@@ -3,8 +3,8 @@ package org.minbase.server.minstore;
 
 import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.mem.MemStore;
-import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.storemanager.StoreManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

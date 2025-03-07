@@ -18,7 +18,7 @@ public class EditVersion {
     AtomicLong readReference;
 
     FileEdit fileEdit;
-    private SortedMap<Integer, List<StoreFile>> storeFiles;
+    private final SortedMap<Integer, List<StoreFile>> storeFiles;
 
     public EditVersion() {
         storeFiles = new ConcurrentSkipListMap<>();
@@ -52,12 +52,12 @@ public class EditVersion {
         return editVersion;
     }
 
-    public void setPrevVersion(EditVersion prevVersion) {
-        this.prevVersion = prevVersion;
-    }
-
     public EditVersion getPrevVersion() {
         return prevVersion;
+    }
+
+    public void setPrevVersion(EditVersion prevVersion) {
+        this.prevVersion = prevVersion;
     }
 
     public void deleteFile() {

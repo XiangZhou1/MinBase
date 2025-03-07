@@ -11,12 +11,24 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionManager {
-    private static AtomicLong sequenceId = new AtomicLong(0);
-    private static ConcurrentSkipListMap<Long, Transaction> activeTransactions = new ConcurrentSkipListMap<>();
-    private static ConcurrentSkipListMap<Long, Transaction> commitedTransactions = new ConcurrentSkipListMap<>();
+    private static final AtomicLong sequenceId = new AtomicLong(0);
+    private static final ConcurrentSkipListMap<Long, Transaction> activeTransactions = new ConcurrentSkipListMap<>();
+    private static final ConcurrentSkipListMap<Long, Transaction> commitedTransactions = new ConcurrentSkipListMap<>();
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Map.Entry<Long, Transaction> e = commitedTransactions.firstEntry();
+            if (e != null) {
+                Transaction transaction = e.getValue();
+
+            }
+        }
+    });
+
     public static Transaction getActiveTransaction(long txId) {
         return activeTransactions.get(txId);
     }
+
     public static long newTransactionId() {
         return sequenceId.incrementAndGet();
     }
@@ -46,18 +58,6 @@ public class TransactionManager {
     public static ConcurrentSkipListMap<Long, Transaction> getCommitedTransactions() {
         return commitedTransactions;
     }
-
-
-    Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            Map.Entry<Long, Transaction> e = commitedTransactions.firstEntry();
-            if (e != null) {
-                Transaction transaction = e.getValue();
-
-            }
-        }
-    });
 
     public static void commitTransaction(long txId) {
         Transaction transaction = activeTransactions.remove(txId);

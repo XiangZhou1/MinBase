@@ -1,11 +1,8 @@
 package org.minbase.server.storage.cache;
 
 
-
 import org.minbase.server.conf.Config;
-import org.minbase.server.constant.Constants;
 import org.minbase.server.storage.block.DataBlock;
-import org.minbase.common.utils.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +11,8 @@ import java.util.List;
 
 public class LRUBlockCache implements BlockCache {
     public static BlockCache BlockCache = new LRUBlockCache();
-    private HashMap<String, Entry<DataBlock>> map;
-    private LinkedList<DataBlock> list;
+    private final HashMap<String, Entry<DataBlock>> map;
+    private final LinkedList<DataBlock> list;
     private volatile long length = 0;
 
 
@@ -24,7 +21,7 @@ public class LRUBlockCache implements BlockCache {
         list = new LinkedList<>();//缓存的key,按照存入的顺序存储
     }
 
-    public long length(){
+    public long length() {
         return length;
     }
 
@@ -71,7 +68,7 @@ public class LRUBlockCache implements BlockCache {
         if (last != null) {
             System.out.println("evit " + last.getValue().getBlockId());
             evict(last.getValue().getBlockId());
-        }else{
+        } else {
             System.out.println("null");
         }
     }
@@ -88,8 +85,8 @@ public class LRUBlockCache implements BlockCache {
     }
 
     public static class LinkedList<V> {
-        private Entry<V> head;
-        private Entry<V> tail;
+        private final Entry<V> head;
+        private final Entry<V> tail;
 
         public LinkedList() {
             head = new Entry<>();
@@ -120,7 +117,7 @@ public class LRUBlockCache implements BlockCache {
             return null;
         }
 
-        public void remove(Entry<V> entry){
+        public void remove(Entry<V> entry) {
             if (entry.next != null) {
                 entry.next.prev = entry.prev;
             }
@@ -130,7 +127,7 @@ public class LRUBlockCache implements BlockCache {
         }
     }
 
-    public static class Entry<V>{
+    public static class Entry<V> {
         V value;
         Entry<V> prev;
         Entry<V> next;

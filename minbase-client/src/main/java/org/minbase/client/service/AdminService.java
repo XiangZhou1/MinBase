@@ -13,14 +13,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AdminService extends Service implements AdminServiceGrpc.AdminServiceBlockingClient {
-    public AdminService(Channel channel, AtomicLong requestId, ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses, EventLoopGroup group) {
+    public AdminService(Channel channel, AtomicLong requestId,
+                ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses, EventLoopGroup group) {
         super(channel, requestId, waitingResponses, group);
     }
 
     @Override
     public AdminProto.CreateTableResponse createTable(AdminProto.CreateTableRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_CREATE_TABLE.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_CREATE_TABLE.getType(),
+                    request.toByteString().toStringUtf8());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return AdminProto.CreateTableResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -32,7 +34,8 @@ public class AdminService extends Service implements AdminServiceGrpc.AdminServi
     @Override
     public AdminProto.DropTableResponse dropTable(AdminProto.DropTableRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(),
+                    request.toByteString().toStringUtf8());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return AdminProto.DropTableResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -44,7 +47,8 @@ public class AdminService extends Service implements AdminServiceGrpc.AdminServi
     @Override
     public AdminProto.TruncateTableResponse truncateTable(AdminProto.TruncateTableRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(),
+                    request.toByteString().toStringUtf8());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return AdminProto.TruncateTableResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -56,7 +60,8 @@ public class AdminService extends Service implements AdminServiceGrpc.AdminServi
     @Override
     public AdminProto.AddColumnResponse addColumn(AdminProto.AddColumnRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_ADD_COLUMN.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_ADD_COLUMN.getType(),
+                    request.toByteString().toStringUtf8());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return AdminProto.AddColumnResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {
@@ -68,7 +73,8 @@ public class AdminService extends Service implements AdminServiceGrpc.AdminServi
     @Override
     public AdminProto.GetTableInfoResponse getTableInfo(AdminProto.GetTableInfoRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_GET_TABLE_INFO.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_GET_TABLE_INFO.getType(),
+                    request.toByteString().toStringUtf8());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return AdminProto.GetTableInfoResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
         } catch (InvalidProtocolBufferException e) {

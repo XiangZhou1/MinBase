@@ -1,9 +1,9 @@
 package org.minbase.common.table;
 
+import org.minbase.common.op.ColumnValues;
 import org.minbase.common.op.Delete;
 import org.minbase.common.op.Get;
 import org.minbase.common.op.Put;
-import org.minbase.common.op.ColumnValues;
 import org.minbase.common.utils.ByteUtil;
 
 import java.util.Collections;

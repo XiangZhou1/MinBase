@@ -1,9 +1,8 @@
 package org.minbase.server.storage.block;
 
 
-
-import org.minbase.server.constant.Constants;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.constant.Constants;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,11 +23,11 @@ public class BloomFilterBlock extends Block {
     public void add(byte[] element) {
         byte[] hash1 = hash(element);
         for (byte b : hash1) {
-            int offset = (int)b;
-            if(offset < 0){
+            int offset = b;
+            if (offset < 0) {
                 offset = -offset;
             }
-            bitSet = bitSet | ((long)1<<offset);
+            bitSet = bitSet | ((long) 1 << offset);
         }
     }
 
@@ -36,11 +35,11 @@ public class BloomFilterBlock extends Block {
     public boolean mightContain(byte[] element) {
         byte[] hash1 = hash(element);
         for (byte b : hash1) {
-            int offset = (int)b;
-            if(offset < 0){
+            int offset = b;
+            if (offset < 0) {
                 offset = -offset;
             }
-            long result = bitSet & ((long)1<<offset);
+            long result = bitSet & ((long) 1 << offset);
             if (result == 0) {
                 return false;
             }

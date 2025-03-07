@@ -56,9 +56,9 @@ public class TableMeta {
 
     public void decode(byte[] buf) {
         int pos = 0;
-        int nameLen =  ByteUtil.byteArrayToInt(buf, pos);
+        int nameLen = ByteUtil.byteArrayToInt(buf, pos);
         pos += Constants.INTEGER_LENGTH;
-        byte[] nameBytes= new byte[nameLen];
+        byte[] nameBytes = new byte[nameLen];
         System.arraycopy(buf, pos, nameBytes, 0, nameLen);
         name = new String(nameBytes);
         pos += nameLen;
@@ -67,10 +67,10 @@ public class TableMeta {
         pos += Constants.INTEGER_LENGTH;
 
         columns = new ArrayList<>();
-        for(int i=0; i<columnSize; i++){
-            int columnLen =  ByteUtil.byteArrayToInt(buf, pos);
+        for (int i = 0; i < columnSize; i++) {
+            int columnLen = ByteUtil.byteArrayToInt(buf, pos);
             pos += Constants.INTEGER_LENGTH;
-            byte[] columnBytes= new byte[columnLen];
+            byte[] columnBytes = new byte[columnLen];
             System.arraycopy(buf, pos, columnBytes, 0, columnLen);
             columns.add(new String(columnBytes));
             pos += columnLen;

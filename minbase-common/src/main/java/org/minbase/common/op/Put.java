@@ -4,7 +4,7 @@ import java.util.TreeMap;
 
 public class Put extends Op {
     private byte[] key;
-    private ColumnValues columnValues = new ColumnValues();
+    private final ColumnValues columnValues = new ColumnValues();
 
     public Put(byte[] key, byte[] column, byte[] value) {
         this.key = key;
@@ -15,12 +15,12 @@ public class Put extends Op {
         this.key = key;
     }
 
-    public void setKey(byte[] key) {
-        this.key = key;
-    }
-
     public byte[] getKey() {
         return key;
+    }
+
+    public void setKey(byte[] key) {
+        this.key = key;
     }
 
     public void addValue(byte[] column, byte[] value) {

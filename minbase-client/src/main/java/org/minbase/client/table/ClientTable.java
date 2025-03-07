@@ -1,13 +1,13 @@
 package org.minbase.client.table;
 
 import org.minbase.client.exception.ServerException;
+import org.minbase.common.op.ColumnValues;
 import org.minbase.common.op.Delete;
 import org.minbase.common.op.Get;
 import org.minbase.common.op.Put;
-import org.minbase.common.op.ColumnValues;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
-import org.minbase.common.table.*;
+import org.minbase.common.table.Table;
 import org.minbase.common.utils.ByteUtil;
 
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ClientTable implements Table {
-    private String tableName;
-    private ClientServiceGrpc.ClientServiceBlockingClient rpcClient;
+    private final String tableName;
+    private final ClientServiceGrpc.ClientServiceBlockingClient rpcClient;
 
 
     public ClientTable(String tableName, ClientServiceGrpc.ClientServiceBlockingClient rpcClient) {
@@ -71,7 +71,8 @@ public class ClientTable implements Table {
     public boolean checkAndPut(byte[] checkKey, byte[] checkColumn, byte[] checkValue, Put put) {
         ClientProto.CheckAndPutRequest.Builder builder = ClientProto.CheckAndPutRequest.newBuilder();
         builder.setTable(tableName).setKey(new String(put.getKey()));
-        builder.setCheckKey(new String(checkKey)).setCheckColumn(new String(checkColumn)).setCheckValue(new String(checkValue));
+        builder.setCheckKey(new String(checkKey)).setCheckColumn(
+                new String(checkColumn)).setCheckValue(new String(checkValue));
         TreeMap<byte[], byte[]> columnValues = put.getColumnValues();
         int i = 0;
         for (Map.Entry<byte[], byte[]> entry : columnValues.entrySet()) {

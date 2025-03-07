@@ -12,7 +12,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class StoreFileReader {
-    private StoreFile storeFile;
+    private final StoreFile storeFile;
 
     public StoreFileReader(StoreFile storeFile) {
         this.storeFile = storeFile;

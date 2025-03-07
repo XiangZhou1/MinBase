@@ -13,7 +13,8 @@ import org.slf4j.LoggerFactory;
 
 public class AutoTxTable implements org.minbase.common.table.Table {
     private static final Logger log = LoggerFactory.getLogger(AutoTxTable.class);
-    private Table rawTable ;
+    private final Table rawTable;
+
     public AutoTxTable(Table rawTable) {
         this.rawTable = rawTable;
     }

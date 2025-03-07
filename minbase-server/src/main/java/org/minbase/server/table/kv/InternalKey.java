@@ -8,18 +8,6 @@ public class InternalKey extends Key {
     private byte[] internalKey;
     private int userKeyLength;
 
-    // |userKeyLength|userKey|column|
-    @Override
-    public void setKey(byte[] key) {
-        this.internalKey = key;
-        this.userKeyLength = ByteUtil.byteArrayToInt(key, 0);
-    }
-
-    @Override
-    public byte[] getKey() {
-        return internalKey;
-    }
-
     public InternalKey() {
     }
 
@@ -35,9 +23,22 @@ public class InternalKey extends Key {
         this(userKey, column);
         this.sequenceId = sequenceId;
     }
+
     public InternalKey(byte[] key, long sequenceId) {
         super(key, sequenceId);
         this.userKeyLength = ByteUtil.byteArrayToInt(internalKey, 0);
+    }
+
+    @Override
+    public byte[] getKey() {
+        return internalKey;
+    }
+
+    // |userKeyLength|userKey|column|
+    @Override
+    public void setKey(byte[] key) {
+        this.internalKey = key;
+        this.userKeyLength = ByteUtil.byteArrayToInt(key, 0);
     }
 
     public String getUserKey() {
@@ -45,7 +46,8 @@ public class InternalKey extends Key {
     }
 
     public String getColumn() {
-        return new String(internalKey, Constants.INTEGER_LENGTH + userKeyLength, internalKey.length - Constants.INTEGER_LENGTH - userKeyLength);
+        return new String(internalKey, Constants.INTEGER_LENGTH + userKeyLength,
+                internalKey.length - Constants.INTEGER_LENGTH - userKeyLength);
     }
 
     @Override

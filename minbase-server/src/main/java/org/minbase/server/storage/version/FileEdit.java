@@ -1,7 +1,6 @@
 package org.minbase.server.storage.version;
 
 
-
 import org.minbase.server.storage.store.StoreFile;
 
 import java.util.ArrayList;
@@ -11,8 +10,8 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 public class FileEdit {
-    private SortedMap<Integer, List<StoreFile>> removedSSTables;
-    private SortedMap<Integer, List<StoreFile>> addedSSTables;
+    private final SortedMap<Integer, List<StoreFile>> removedSSTables;
+    private final SortedMap<Integer, List<StoreFile>> addedSSTables;
 
     public FileEdit() {
         removedSSTables = new TreeMap<>();

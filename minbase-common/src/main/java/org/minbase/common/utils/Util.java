@@ -32,7 +32,7 @@ public class Util {
             return Long.parseLong(val.substring(0, val.length() - 2)) * KB;
         } else if (val.endsWith("MB") || val.endsWith("mb")) {
             return Long.parseLong(val.substring(0, val.length() - 2)) * MB;
-        }else if (val.endsWith("GB") || val.endsWith("gb")) {
+        } else if (val.endsWith("GB") || val.endsWith("gb")) {
             return Long.parseLong(val.substring(0, val.length() - 2)) * GB;
         } else {
             return Long.parseLong(val);

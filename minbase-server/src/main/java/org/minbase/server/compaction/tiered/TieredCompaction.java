@@ -5,8 +5,8 @@ import org.minbase.server.compaction.Compaction;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreFileIterator;
-import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.storemanager.StoreManager;
 import org.minbase.server.storage.version.FileEdit;
 import org.slf4j.Logger;
@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.SortedMap;
 
 public class TieredCompaction implements Compaction {
-    private static final Logger logger = LoggerFactory.getLogger(TieredCompaction.class);
     public static final int TABLE_SIZE_LIMIT = 5;
+    private static final Logger logger = LoggerFactory.getLogger(TieredCompaction.class);
 
     @Override
     public synchronized void compact(StoreManager storeManager) throws Exception {
@@ -35,7 +35,8 @@ public class TieredCompaction implements Compaction {
         storeManager.applyFileEdit(fileEdit);
     }
 
-    private void compactLevel(int level, List<StoreFile> tables, FileEdit fileEdit, StoreManager storeManager) throws Exception {
+    private void compactLevel(int level, List<StoreFile> tables, FileEdit fileEdit,
+                              StoreManager storeManager) throws Exception {
         logger.info("Compacting sstable files of level " + level);
         List<KeyValueIterator> ssTableIters = new ArrayList<>();
 

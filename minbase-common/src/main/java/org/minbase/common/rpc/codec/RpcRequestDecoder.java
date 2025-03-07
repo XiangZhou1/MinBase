@@ -11,8 +11,10 @@ import java.util.List;
 
 public class RpcRequestDecoder extends ByteToMessageDecoder {
     private static final Logger logger = LoggerFactory.getLogger(RpcRequestDecoder.class);
+
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
+                          List<Object> list) throws Exception {
         long len = byteBuf.getLong(0);
         byte[] bytes = new byte[(int) len];
         byteBuf.readBytes(bytes);

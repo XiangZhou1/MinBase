@@ -18,7 +18,7 @@ public interface KeyValueIterator extends Iterator<Key, KeyValue> {
 
     // 内部的一个迭代器
     void nextInnerKey();
-   
+
     default void close() {
 
     }

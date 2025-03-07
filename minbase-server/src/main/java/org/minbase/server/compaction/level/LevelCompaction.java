@@ -1,16 +1,14 @@
 package org.minbase.server.compaction.level;
 
 
-
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.conf.Config;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreFileIterator;
 import org.minbase.server.kv.Key;
-import org.minbase.server.kv.KeyImpl;
-import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.storemanager.StoreManager;
 import org.minbase.server.storage.version.FileEdit;
 import org.slf4j.Logger;
@@ -23,7 +21,7 @@ public class LevelCompaction implements Compaction {
     private static final Logger logger = LoggerFactory.getLogger(LevelCompaction.class);
 
     private static final long MAX_SSTABLE_SIZE = 10000;
-    private static final int MAX_LEVEL = (int)Config.LEVEL_LIMIT;
+    private static final int MAX_LEVEL = (int) Config.LEVEL_LIMIT;
 
 
     @Override
@@ -41,7 +39,8 @@ public class LevelCompaction implements Compaction {
         storeManager.applyFileEdit(fileEdit);
     }
 
-    private void compactLevel(int level, StoreFile storeFile, FileEdit fileEdit, StoreManager storeManager) throws Exception {
+    private void compactLevel(int level, StoreFile storeFile, FileEdit fileEdit,
+                              StoreManager storeManager) throws Exception {
         logger.info("Compacting sstable files of level " + level);
 
         List<KeyValueIterator> ssTableIters = new ArrayList<>();
@@ -50,7 +49,8 @@ public class LevelCompaction implements Compaction {
 
         Key firstKey = storeFile.getFirstKey();
         Key lastKey = storeFile.getLastKey();
-        ArrayList<StoreFile> ssTables2 = chooseCompactSSTable(storeManager.getStoreFiles(level + 1), firstKey.getKey(), lastKey.getKey());
+        ArrayList<StoreFile> ssTables2 = chooseCompactSSTable(storeManager.getStoreFiles(level + 1),
+                firstKey.getKey(), lastKey.getKey());
 
         if (ssTables2.isEmpty()) {
             fileEdit.addSSTable(level + 1, storeFile);

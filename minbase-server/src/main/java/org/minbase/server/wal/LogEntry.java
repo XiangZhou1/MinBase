@@ -18,11 +18,12 @@ import java.util.Set;
  */
 public class LogEntry {
     private int length;
-    private  WriteBatch writeBatch;
+    private WriteBatch writeBatch;
     private long sequencdId;
 
     /**
-     *|length|tableNum|len(table1)|table1|size(kv)|len(kv1)|kv|
+     * |length|tableNum|len(table1)|table1|size(kv)|len(kv1)|kv|
+     *
      * @param writeBatch
      */
     public LogEntry(WriteBatch writeBatch) {
@@ -49,7 +50,7 @@ public class LogEntry {
     }
 
     /**
-     *|length|tableNum|len(table1)|table1|size(kv)|len(kv1)|kv|
+     * |length|tableNum|len(table1)|table1|size(kv)|len(kv1)|kv|
      */
     public int encodeToFile(OutputStream outputStream) throws IOException {
         outputStream.write(length);
@@ -68,7 +69,7 @@ public class LogEntry {
 
 
     /**
-     *|---length---|tableNum|len(table1)|table1|size(kv)|len(kv1)|kv|
+     * |---length---|tableNum|len(table1)|table1|size(kv)|len(kv1)|kv|
      */
     public void decode(byte[] buf) {
         writeBatch = new WriteBatch();
@@ -77,7 +78,7 @@ public class LogEntry {
         int tableNum = ByteUtil.byteArrayToInt(buf, pos);
         pos += Constants.INTEGER_LENGTH;
 
-        for(int i=0; i<tableNum; i++){
+        for (int i = 0; i < tableNum; i++) {
             int tableNameLen = ByteUtil.byteArrayToInt(buf, pos);
             pos += Constants.INTEGER_LENGTH;
 
@@ -95,7 +96,7 @@ public class LogEntry {
                 pos += keyValue.length();
                 writeBatch.add(tableName, keyValue);
             }
-         }
+        }
     }
 
     public WriteBatch getWriteBatch() {

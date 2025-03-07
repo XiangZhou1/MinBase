@@ -1,6 +1,7 @@
 package org.minbase.server.kv;
-import org.minbase.server.constant.Constants;
+
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.constant.Constants;
 import org.minbase.server.utils.KeyUtils;
 
 import java.io.IOException;
@@ -79,12 +80,9 @@ public class KeyValue {
         int index = 0;
         outputStream.write(ByteUtil.intToByteArray(key.length()));
         index += Constants.INTEGER_LENGTH;
-
         index += key.encodeToFile(outputStream);
-
         outputStream.write(ByteUtil.intToByteArray(value.length()));
         index += Constants.INTEGER_LENGTH;
-
         index += value.encodeToFile(outputStream);
         return index;
     }

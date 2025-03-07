@@ -7,7 +7,7 @@ import org.minbase.server.constant.Constants;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public abstract class Key implements Comparable<Key>  {
+public abstract class Key implements Comparable<Key> {
     protected long sequenceId;
 
     public Key() {
@@ -18,9 +18,9 @@ public abstract class Key implements Comparable<Key>  {
         this.sequenceId = sequenceId;
     }
 
-    public abstract void setKey(byte[] key);
-
     public abstract byte[] getKey();
+
+    public abstract void setKey(byte[] key);
 
     //|key|secquenceId|
     public int length() {
@@ -41,7 +41,7 @@ public abstract class Key implements Comparable<Key>  {
     }
 
     public void decode(byte[] buf) {
-        byte[] key= new byte[buf.length - Constants.LONG_LENGTH];
+        byte[] key = new byte[buf.length - Constants.LONG_LENGTH];
         System.arraycopy(buf, 0, key, 0, buf.length - Constants.LONG_LENGTH);
         setKey(key);
         this.sequenceId = ByteUtil.byteArrayToLong(buf, buf.length - Constants.LONG_LENGTH);

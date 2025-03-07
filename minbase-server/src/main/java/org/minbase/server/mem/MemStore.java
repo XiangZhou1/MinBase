@@ -1,7 +1,6 @@
 package org.minbase.server.mem;
 
 
-
 import org.minbase.server.conf.Config;
 import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.kv.Key;
@@ -15,7 +14,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MemStore {
 
-    private ConcurrentSkipListMap<Key, Value> map;
+    private final ConcurrentSkipListMap<Key, Value> map;
     private long dataLength = 0;
 
     public MemStore() {
@@ -48,7 +47,8 @@ public class MemStore {
     }
 
     public KeyValue get(Key key) {
-        ConcurrentNavigableMap<Key, Value> navigableMap = map.subMap(KeyUtils.minKey(key.getKey()), true, key, true);
+        ConcurrentNavigableMap<Key, Value> navigableMap = map.subMap(KeyUtils.minKey(key.getKey()),
+                true, key, true);
         Map.Entry<Key, Value> entry = navigableMap.lastEntry();
         if (entry == null) {
             return null;

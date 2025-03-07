@@ -7,13 +7,15 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class CompactThread implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CompactThread.class);
     Map<String, Table> tables;
-    private ExecutorService compactThread;
-    private Compaction compaction;
+    private final ExecutorService compactThread;
+    private final Compaction compaction;
     private Thread currentThread = null;
 
     public CompactThread(Compaction compaction, Map<String, Table> tables) {

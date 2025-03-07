@@ -3,19 +3,19 @@ package org.minbase.server.minstore;
 
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
-import org.minbase.server.kv.Key;
-import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.Value;
-import org.minbase.server.storage.storemanager.level.LevelStoreManager;
-import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
+import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.iterator.MergeIterator;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 import org.minbase.server.mem.MemStore;
-import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.storage.storemanager.StoreManager;
+import org.minbase.server.storage.storemanager.level.LevelStoreManager;
+import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
 import org.minbase.server.utils.ValueUtils;
 
 import java.io.File;
@@ -27,26 +27,27 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MinStore {
     private static final int MAX_IMMEMTABLE_SIZE = 3;
-    private String name;
-    private File sotreDir;
+    private final String name;
+    private final File sotreDir;
 
     // 内存存储结构
     private MemStore memStore;
-    private ConcurrentLinkedDeque<MemStore> immMemStores;
+    private final ConcurrentLinkedDeque<MemStore> immMemStores;
     // 文件存储
     private StoreManager storeManager;
 
-    private ReentrantReadWriteLock rwLock;
-    private ReentrantReadWriteLock.WriteLock writeLock;
-    private ReentrantReadWriteLock.ReadLock readLock;
+    private final ReentrantReadWriteLock rwLock;
+    private final ReentrantReadWriteLock.WriteLock writeLock;
+    private final ReentrantReadWriteLock.ReadLock readLock;
 
     // 文件刷写线程
-    private Executor flushThread;
+    private final Executor flushThread;
     // 文件压缩线程
-    private Compaction compaction;
-    private CompactThread compactThread;
+    private final Compaction compaction;
+    private final CompactThread compactThread;
 
-    public MinStore(String name, File sotreDir, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
+    public MinStore(String name, File sotreDir, Executor flushThread, Compaction compaction,
+                    CompactThread compactThread) throws IOException {
         this.name = name;
         this.sotreDir = sotreDir;
         this.flushThread = flushThread;
@@ -100,7 +101,6 @@ public class MinStore {
     }
 
 
-
     //===========================
     // put实现
     public void put(Key key, Value value) {
@@ -141,7 +141,6 @@ public class MinStore {
     }
 
 
-
     private void freezeMemTable() {
         MemStore currentMemStore = this.memStore;
         writeLock();
@@ -160,6 +159,7 @@ public class MinStore {
             writeUnLock();
         }
     }
+
     // ==================================================
     // 其余辅助函数
     public void readLock() {

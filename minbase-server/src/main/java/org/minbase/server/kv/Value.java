@@ -14,14 +14,6 @@ public class Value {
 
     private byte[] data = new byte[0];
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
     public Value() {
     }
 
@@ -34,6 +26,13 @@ public class Value {
         setData(data);
     }
 
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 
     public byte[] encode() {
         byte[] buf = new byte[length()];
@@ -72,15 +71,19 @@ public class Value {
     public byte type() {
         return type;
     }
+
     public int length() {
         return getData().length + 1;
     }
+
     public boolean isDelete() {
         return type == TYPE_DELETE;
     }
+
     public boolean isPut() {
         return type == TYPE_PUT;
     }
+
     public void setType(byte type) {
         this.type = type;
     }

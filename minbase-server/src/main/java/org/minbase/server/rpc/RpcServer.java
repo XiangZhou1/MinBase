@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 public class RpcServer {
     private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
 
-    private int port;
+    private final int port;
     private ServerBootstrap serverBootstrap;
-    private MinBaseServer server;
+    private final MinBaseServer server;
 
     public RpcServer(MinBaseServer server, int port) {
         this.port = port;
@@ -56,7 +56,6 @@ public class RpcServer {
             eventLoopGroup.shutdownGracefully();
         }
     }
-
 
 
 }

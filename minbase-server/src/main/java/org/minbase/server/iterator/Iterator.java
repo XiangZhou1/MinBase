@@ -1,6 +1,6 @@
 package org.minbase.server.iterator;
 
-public interface Iterator <K, V>{
+public interface Iterator<K, V> {
     V value();
 
     /// Get the current key.

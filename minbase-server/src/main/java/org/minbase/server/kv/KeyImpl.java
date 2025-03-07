@@ -14,13 +14,13 @@ public class KeyImpl extends Key {
     }
 
     @Override
-    public void setKey(byte[] key) {
-        this.key = key;
+    public byte[] getKey() {
+        return key;
     }
 
     @Override
-    public byte[] getKey() {
-        return key;
+    public void setKey(byte[] key) {
+        this.key = key;
     }
 
     @Override

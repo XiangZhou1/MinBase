@@ -12,6 +12,7 @@ public class KeyUtils {
     public static Key latestKey(byte[] userKey) {
         return keyFactory.latestKey(userKey);
     }
+
     public static Key latestKey(byte[] userKey, byte[] column) {
         return new InternalKey(userKey, column, Constants.LATEST_VERSION);
     }

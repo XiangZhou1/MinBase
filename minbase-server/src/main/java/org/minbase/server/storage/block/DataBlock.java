@@ -1,7 +1,6 @@
 package org.minbase.server.storage.block;
 
 
-
 import org.minbase.server.kv.KeyValue;
 
 import java.io.IOException;
@@ -12,12 +11,12 @@ import java.util.ArrayList;
  * 数据结构
  * ---------------------------   (< ====  offset )
  * DataBlock1     | KeyValue (byte[])    (key_len + key + valueLen + value)
- *                | KeyValue (byte[])
- *                | .........
+ * | KeyValue (byte[])
+ * | .........
  * ---------------------------
  */
 public class DataBlock extends Block {
-    private ArrayList<KeyValue> data;
+    private final ArrayList<KeyValue> data;
     private long dataLength;
     private int num = 0;
 
@@ -35,10 +34,10 @@ public class DataBlock extends Block {
         this.num = num;
     }
 
-    public void add(KeyValue kv){
+    public void add(KeyValue kv) {
         data.add(kv);
         dataLength += kv.length();
-        num ++;
+        num++;
     }
 
 
@@ -56,7 +55,7 @@ public class DataBlock extends Block {
             KeyValue keyValue = new KeyValue();
             keyValue.decode(bytes, pos);
             pos += keyValue.length();
-            data.add(i,keyValue);
+            data.add(i, keyValue);
             dataLength += keyValue.length();
         }
     }

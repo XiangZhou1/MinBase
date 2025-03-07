@@ -35,13 +35,13 @@ public class MinClient {
     private final int port;
     private final Admin admin;
     private Channel channel;
-    private AtomicLong requestId;
-    private ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses;
-    private MinClientHandler clientHandler;
-    private EventLoopGroup group; // 创建一个NioEventLoopGroup对象，它负责处理I/O操作的多线程事件循环
-    private ClientService clientService;
-    private TxService txService;
-    private AdminService adminService;
+    private final AtomicLong requestId;
+    private final ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses;
+    private final MinClientHandler clientHandler;
+    private final EventLoopGroup group; // 创建一个NioEventLoopGroup对象，它负责处理I/O操作的多线程事件循环
+    private final ClientService clientService;
+    private final TxService txService;
+    private final AdminService adminService;
 
     public MinClient(String host, int port) {
         this.host = host;

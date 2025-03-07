@@ -1,21 +1,20 @@
 package org.minbase.server.iterator;
 
 
-
-import org.minbase.server.mem.MemStore;
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Value;
+import org.minbase.server.mem.MemStore;
 
 import java.util.Iterator;
 import java.util.Map;
 
 public class MemStoreIterator implements KeyValueIterator {
-    private MemStore memStore;
+    private final MemStore memStore;
     private Iterator<Map.Entry<Key, Value>> iterator;
-    private Key startKey;
-    private Key endKey;
+    private final Key startKey;
+    private final Key endKey;
     private Map.Entry<Key, Value> entry;
 
     public MemStoreIterator(MemStore memStore) {
@@ -33,7 +32,8 @@ public class MemStoreIterator implements KeyValueIterator {
     @Override
     public void seek(Key key) {
         if (key != null && endKey != null) {
-            this.iterator = memStore.getMap().subMap(key, true, endKey, false).entrySet().iterator();
+            this.iterator = memStore.getMap()
+                    .subMap(key, true, endKey, false).entrySet().iterator();
         } else if (key != null) {
             this.iterator = memStore.getMap().tailMap(key).entrySet().iterator();
         } else {

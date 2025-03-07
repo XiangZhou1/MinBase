@@ -1,23 +1,23 @@
 package org.minbase.server.storage.block;
 
 
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.Key;
-import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.utils.KeyUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- *  * ---------------------------
- *  *                 | firstKeyLen (Integer)
- *  *  MetaBlock2     | firstKey (byte[])
- *  *                 | lastKeyLen (Integer)
- *  *                 | lastKey (byte[])
- *  *                 | offset (Long)
- *  *                 | KeyValue_num (Integer)
- *  * ---------------------------
+ * * ---------------------------
+ * *                 | firstKeyLen (Integer)
+ * *  MetaBlock2     | firstKey (byte[])
+ * *                 | lastKeyLen (Integer)
+ * *                 | lastKey (byte[])
+ * *                 | offset (Long)
+ * *                 | KeyValue_num (Integer)
+ * * ---------------------------
  */
 public class MetaBlock {
     Key firstKey;
@@ -39,43 +39,43 @@ public class MetaBlock {
         return offset;
     }
 
-    public Key getFirstKey() {
-        return firstKey;
-    }
-
-    public Key getLastKey() {
-        return lastKey;
-    }
-
-    public int getKeyValueNum() {
-        return keyValueNum;
-    }
-
     public void setOffset(long offset) {
         this.offset = offset;
-    }
-
-    public void setKeyValueNum(int keyValueNum) {
-        this.keyValueNum = keyValueNum;
     }
 
     public void setOffset(int offset) {
         this.offset = offset;
     }
 
+    public Key getFirstKey() {
+        return firstKey;
+    }
+
     public void setFirstKey(Key firstKey) {
         this.firstKey = firstKey;
+    }
+
+    public Key getLastKey() {
+        return lastKey;
     }
 
     public void setLastKey(Key lastKey) {
         this.lastKey = lastKey;
     }
 
+    public int getKeyValueNum() {
+        return keyValueNum;
+    }
+
+    public void setKeyValueNum(int keyValueNum) {
+        this.keyValueNum = keyValueNum;
+    }
+
     public int length() {
         return 3 * Constants.INTEGER_LENGTH + Constants.LONG_LENGTH + firstKey.length() + lastKey.length();
     }
 
-    public void decode(byte[] bytes, int startIndex){
+    public void decode(byte[] bytes, int startIndex) {
         int pos = startIndex;
 
         int firstkeyLen = ByteUtil.byteArrayToInt(bytes, pos);

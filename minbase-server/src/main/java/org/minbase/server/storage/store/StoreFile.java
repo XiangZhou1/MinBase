@@ -1,14 +1,13 @@
 package org.minbase.server.storage.store;
 
 
-
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.FileUtil;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.Key;
 import org.minbase.server.storage.block.BloomFilterBlock;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.common.utils.FileUtil;
 import org.minbase.server.storage.cache.LRUBlockCache;
 
 import java.io.IOException;
@@ -55,9 +54,9 @@ import java.util.ArrayList;
 public class StoreFile {
     public static short storeVersion = 1;
     // 实际物理数据结构
-    private ArrayList<DataBlock> dataBlocks;
-    private ArrayList<MetaBlock> metaBlocks;
-    private BloomFilterBlock bloomFilter;
+    private final ArrayList<DataBlock> dataBlocks;
+    private final ArrayList<MetaBlock> metaBlocks;
+    private final BloomFilterBlock bloomFilter;
     private long metaBlockOffset;
 
     // 整个文件的大小
@@ -94,6 +93,10 @@ public class StoreFile {
         return StoreFile.this.storeId;
     }
 
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+
     public void add(DataBlock block, MetaBlock blockMeta) {
         dataBlocks.add(block);
         metaBlocks.add(blockMeta);
@@ -126,10 +129,6 @@ public class StoreFile {
 
     public MetaBlock getMetaBlock(int index) {
         return metaBlocks.get(index);
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
     }
 
     public long length() {
@@ -247,20 +246,15 @@ public class StoreFile {
         if (startKey == null || endKey == null) {
             return true;
         } else if (startKey == null && endKey != null) {
-            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getKey())) {
-                return false;
-            }
+            return !ByteUtil.byteLessOrEqual(endKey, this.firstKey.getKey());
         } else if (startKey != null && endKey == null) {
-            if (ByteUtil.byteGreater(startKey, this.lastKey.getKey())) {
-                return false;
-            }
+            return !ByteUtil.byteGreater(startKey, this.lastKey.getKey());
         } else {
-            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getKey())) {
-                return false;
-            }
+            return !ByteUtil.byteLessOrEqual(endKey, this.firstKey.getKey()) &&
+                    !ByteUtil.byteGreater(startKey, this.lastKey.getKey());
         }
-        return true;
     }
+
     // [startKey, endKey]
     // [firstKey, lastKey]
     private boolean inRangeClosed(byte[] startKey, byte[] endKey) {
@@ -269,20 +263,13 @@ public class StoreFile {
         }
 
         if (startKey == null && endKey != null) {
-            if ( ByteUtil.byteLess(endKey, this.firstKey.getKey())) {
-                return false;
-            }
+            return !ByteUtil.byteLess(endKey, this.firstKey.getKey());
         } else if (startKey != null && endKey == null) {
-            if(ByteUtil.byteGreater(startKey, this.lastKey.getKey())){
-                return false;
-            }
+            return !ByteUtil.byteGreater(startKey, this.lastKey.getKey());
         } else {
-            if(ByteUtil.byteLess(endKey, this.firstKey.getKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getKey())){
-                return false;
-            }
+            return !ByteUtil.byteLess(endKey, this.firstKey.getKey()) &&
+                    !ByteUtil.byteGreater(startKey, this.lastKey.getKey());
         }
-
-        return true;
     }
 
     public boolean mightContain(byte[] userKey) {

@@ -1,22 +1,21 @@
 package org.minbase.server.table.kv;
 
-import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Value;
 
-import java.util.*;
-
-import static org.minbase.server.kv.Value.TYPE_PUT;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class RowTacker {
 
-    private String userKey;
-    private long snapShot;
+    private final String userKey;
+    private final long snapShot;
     // 实际值
-    private List<KeyValue> keyValues;
+    private final List<KeyValue> keyValues;
 
     // 感兴趣的column, null 表示全部都要
-    private Set<String> interestedColumns;
+    private final Set<String> interestedColumns;
 
     private boolean stop = false;
 

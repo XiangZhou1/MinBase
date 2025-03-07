@@ -1,15 +1,15 @@
 package org.minbase.server.iterator;
 
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.utils.KeyValueUtil;
 
 import java.util.List;
 import java.util.PriorityQueue;
 
 public class MergeIterator implements KeyValueIterator {
-    private PriorityQueue<KeyValueIterator> queue;
+    private final PriorityQueue<KeyValueIterator> queue;
 
     public MergeIterator(List<KeyValueIterator> iterators) {
         this.queue = new PriorityQueue<>(KeyValueUtil.KEY_ITERATOR_COMPARATOR);
@@ -33,10 +33,7 @@ public class MergeIterator implements KeyValueIterator {
 
     @Override
     public boolean isValid() {
-        if (queue == null || queue.isEmpty()) {
-            return false;
-        }
-        return true;
+        return queue != null && !queue.isEmpty();
     }
 
     @Override

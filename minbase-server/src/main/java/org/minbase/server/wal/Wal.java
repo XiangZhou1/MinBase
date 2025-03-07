@@ -1,6 +1,8 @@
 package org.minbase.server.wal;
 
 
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.FileUtil;
 import org.minbase.server.MinBaseServer;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
@@ -8,24 +10,23 @@ import org.minbase.server.kv.KeyValue;
 import org.minbase.server.minstore.MinStore;
 import org.minbase.server.table.Table;
 import org.minbase.server.transaction.store.WriteBatch;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.common.utils.FileUtil;
-import org.minbase.server.transaction.table.AutoTxTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.LockSupport;
 
 public class Wal {
-    private static final Logger logger = LoggerFactory.getLogger(Wal.class);
-    private static final String WAL_DIR = Config.DATA_DIR+ File.separator + "wal";
     public static final int WAL_NUM_LIMIT = 10000;
     public static final long WAL_FILE_LENGTH_LIMIT = Config.WAL_FILE_LENGTH_LIMIT;
+    private static final Logger logger = LoggerFactory.getLogger(Wal.class);
+    private static final String WAL_DIR = Config.DATA_DIR + File.separator + "wal";
     private static final SyncLevel syncLevel = SyncLevel.valueOf(Config.get(Constants.KEY_WAL_SYNC_LEVEL));
     private static final String INPROGRESS_WAL = "wal.inprogress";
 
@@ -42,7 +43,7 @@ public class Wal {
     // 同步日志到文件的线程
     private Thread syncWalThread;
     private SyncWalTask syncWalTask;
-    private ConcurrentSkipListMap<Long, Thread> waitingSyncThreads = new ConcurrentSkipListMap<>();
+    private final ConcurrentSkipListMap<Long, Thread> waitingSyncThreads = new ConcurrentSkipListMap<>();
 
     public Wal() {
     }
@@ -163,7 +164,7 @@ public class Wal {
             public int compare(File o1, File o2) {
                 long id1 = Long.parseLong(o1.getName().split("_")[1]);
                 long id2 = Long.parseLong(o2.getName().split("_")[1]);
-                return (int)(id1 - id2);
+                return (int) (id1 - id2);
             }
         });
         return files;
@@ -173,13 +174,34 @@ public class Wal {
         return sequenceId;
     }
 
+    /**
+     * 清理已经写入到SSTable文件中的日志
+     *
+     * @param oldSequenceId 记录到SSTable文件中的日志
+     */
+    public void clearOldWal(long oldSequenceId) {
+        final File[] files = listWalFiles();
+        if (files == null) {
+            return;
+        }
+        for (File file1 : files) {
+            long syncId = Long.parseLong(file1.getName().split("_")[1]);
+            if (syncId <= oldSequenceId) {
+                file1.delete();
+                logger.info("Clear old wal, fileName=" + file1.getName());
+            } else {
+                break;
+            }
+        }
+    }
 
     /**
      * 记录日志到文件的线程
      */
-    private class SyncWalTask implements  Runnable {
+    private class SyncWalTask implements Runnable {
         long startId = -1;
         long walFileLength = 0;
+
         @Override
         public void run() {
             while (true) {
@@ -228,7 +250,7 @@ public class Wal {
             walFileLength = 0;
         }
 
-        private void wakeWaitingSyncThreads(){
+        private void wakeWaitingSyncThreads() {
             Map.Entry<Long, Thread> entry;
             while ((entry = waitingSyncThreads.firstEntry()) != null) {
                 if (entry.getKey() <= syncSequenceId) {
@@ -237,27 +259,6 @@ public class Wal {
                     break;
                 }
                 waitingSyncThreads.remove(entry.getKey());
-            }
-        }
-    }
-
-    /**
-     * 清理已经写入到SSTable文件中的日志
-     *
-     * @param oldSequenceId 记录到SSTable文件中的日志
-     */
-    public void clearOldWal(long oldSequenceId) {
-        final File[] files = listWalFiles();
-        if (files == null) {
-            return;
-        }
-        for (File file1 : files) {
-            long syncId = Long.parseLong(file1.getName().split("_")[1]);
-            if (syncId <= oldSequenceId) {
-                file1.delete();
-                logger.info("Clear old wal, fileName=" + file1.getName());
-            } else {
-                break;
             }
         }
     }

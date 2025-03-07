@@ -27,7 +27,7 @@ public class LevelStoreManager extends StoreManager {
         this.compactionStrategy = CompactionStrategy.LEVEL_COMPACTION;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 读写操作
     @Override
     public KeyValue get(Key key) {
@@ -61,7 +61,8 @@ public class LevelStoreManager extends StoreManager {
         EditVersion currentVersion = getEditVersion(true);
         for (List<StoreFile> storeFiles : currentVersion.getStoreFiles().values()) {
             for (StoreFile storeFile : storeFiles) {
-                if (storeFile.inRange(startKey == null ? null : startKey.getKey(), endKey == null ? null : endKey.getKey(), false)) {
+                if (storeFile.inRange(startKey == null ? null : startKey.getKey(),
+                        endKey == null ? null : endKey.getKey(), false)) {
                     list.add(storeFile.getReader().iterator(startKey, endKey));
                 }
             }

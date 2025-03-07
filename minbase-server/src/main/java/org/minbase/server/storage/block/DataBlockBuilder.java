@@ -4,7 +4,7 @@ package org.minbase.server.storage.block;
 import org.minbase.server.kv.KeyValue;
 
 public class DataBlockBuilder {
-    private DataBlock block;
+    private final DataBlock block;
 
     public DataBlockBuilder() {
         block = new DataBlock();

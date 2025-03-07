@@ -1,13 +1,11 @@
 package org.minbase.server.transaction;
 
 
-
 import org.minbase.common.exception.TransactionException;
-
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.transaction.store.WriteBatch;
 import org.minbase.server.table.Table;
 import org.minbase.server.transaction.store.TransactionStore;
+import org.minbase.server.transaction.store.WriteBatch;
 import org.minbase.server.transaction.table.TxTable;
 import org.minbase.server.wal.Wal;
 
@@ -18,15 +16,14 @@ import java.util.Set;
 
 public class Transaction implements org.minbase.common.transaction.Transaction {
     protected long txId;
-    private long commitId;
     protected TransactionStore localStore;
     protected TransactionState transactionState;
-
     protected Map<String, Table> tables;
+    private long commitId;
     private Wal wal;
 
-    private Set<byte[]> writeSet;
-    private Set<byte[]> readSet;
+    private final Set<byte[]> writeSet;
+    private final Set<byte[]> readSet;
 
     public Transaction(long transactionId) {
         this.txId = transactionId;
@@ -43,7 +40,7 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
 
     @Override
     public TxTable getTable(String tableName) {
-        return new TxTable( tables.get(tableName), this);
+        return new TxTable(tables.get(tableName), this);
     }
 
     public long getTxId() {
@@ -54,6 +51,9 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
         return transactionState;
     }
 
+    public void setTransactionState(TransactionState state) {
+        this.transactionState = state;
+    }
 
     public synchronized void commit() throws TransactionException {
         if (!TransactionManager.validateTransaction(txId)) {
@@ -74,7 +74,7 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
     private void applyLocalStore(TransactionStore localStore) {
         WriteBatch writeBatch = localStore.getWriteBatch();
         writeBatch.setSequenceId(commitId);
-        
+
         for (String table : writeBatch.getTables()) {
             List<KeyValue> keyValues = writeBatch.getKeyValues(table);
             for (KeyValue keyValue : keyValues) {
@@ -112,15 +112,11 @@ public class Transaction implements org.minbase.common.transaction.Transaction {
         return readSet;
     }
 
-    public void setTransactionState(TransactionState state) {
-        this.transactionState = state;
+    public long getCommitId() {
+        return commitId;
     }
 
     public void setCommitId(long commitId) {
         this.commitId = commitId;
-    }
-
-    public long getCommitId() {
-        return commitId;
     }
 }

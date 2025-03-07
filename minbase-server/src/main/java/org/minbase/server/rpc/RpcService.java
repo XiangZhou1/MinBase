@@ -17,14 +17,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient, TransactionServiceGrpc.TransactionServiceBlockingClient, AdminServiceGrpc.AdminServiceBlockingClient {
-    private MinBaseServer server;
-    private List<Long> transactions = new ArrayList<>();
+public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient,
+        TransactionServiceGrpc.TransactionServiceBlockingClient,
+        AdminServiceGrpc.AdminServiceBlockingClient {
+    private final MinBaseServer server;
+    private final List<Long> transactions = new ArrayList<>();
 
     public RpcService(MinBaseServer server) {
         this.server = server;
     }
-
 
 
     @Override
@@ -79,7 +80,8 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             //throw new RuntimeException("Table not exist, table=" + request.getTable());
         }
         try {
-            boolean success = table.checkAndPut(checkKey.getBytes(StandardCharsets.UTF_8), checkColumn.getBytes(StandardCharsets.UTF_8), checkValue.getBytes(StandardCharsets.UTF_8), put);
+            boolean success = table.checkAndPut(checkKey.getBytes(StandardCharsets.UTF_8),
+                    checkColumn.getBytes(StandardCharsets.UTF_8), checkValue.getBytes(StandardCharsets.UTF_8), put);
             builder.setSuccess(success);
         } catch (Exception e) {
             e.printStackTrace();
@@ -225,7 +227,8 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
                 //throw new RuntimeException("Table not exist, table=" + request.getTable());
             }
             try {
-                boolean success = table.checkAndPut(checkKey.getBytes(StandardCharsets.UTF_8), checkColumn.getBytes(StandardCharsets.UTF_8), checkValue.getBytes(StandardCharsets.UTF_8), put);
+                boolean success = table.checkAndPut(checkKey.getBytes(StandardCharsets.UTF_8),
+                        checkColumn.getBytes(StandardCharsets.UTF_8), checkValue.getBytes(StandardCharsets.UTF_8), put);
                 builder.setSuccess(success);
             } catch (Exception e) {
                 e.printStackTrace();

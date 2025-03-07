@@ -1,25 +1,24 @@
 package org.minbase.server.iterator;
 
 
-
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
-import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.storage.store.StoreFileReader;
 
 import java.util.ArrayList;
 
 public class StoreFileIterator implements KeyValueIterator {
-    private StoreFileReader reader;
+    private final StoreFileReader reader;
     private int blockIndex = -1;
     private BlockIterator blockIterator;
-    private Key startKey;
-    private Key endKey;
-    private boolean cached;
+    private final Key startKey;
+    private final Key endKey;
+    private final boolean cached;
 
-    private int numOfBlocks;
+    private final int numOfBlocks;
 
     public StoreFileIterator(StoreFileReader reader, Key startKey, Key endKey) {
         this.reader = reader;
@@ -45,6 +44,10 @@ public class StoreFileIterator implements KeyValueIterator {
         if (this.startKey != null) {
             seek(this.startKey);
         }
+    }
+
+    public static boolean inRange(Key firstKey, Key lastKey, Key key) {
+        return key.compareTo(firstKey) >= 0 && key.compareTo(lastKey) <= 0;
     }
 
     @Override
@@ -123,7 +126,6 @@ public class StoreFileIterator implements KeyValueIterator {
         }
     }
 
-
     // 寻找第一个大于等于该Key的对象
     public int binarySearchBlock(Key key) {
         ArrayList<MetaBlock> array = reader.getMetaBlocks();
@@ -142,13 +144,13 @@ public class StoreFileIterator implements KeyValueIterator {
             }
 
             int compare1 = key.compareTo(array.get(mid).getFirstKey());
-            if(compare1 <0){
+            if (compare1 < 0) {
                 right = mid;
             }
 
             int compare2 = key.compareTo(array.get(mid).getLastKey());
-            if(compare2 >0){
-                left = mid+1;
+            if (compare2 > 0) {
+                left = mid + 1;
             }
         }
 
@@ -158,11 +160,6 @@ public class StoreFileIterator implements KeyValueIterator {
 //            return left + 1;
 //        }
         return left;
-    }
-
-
-    public static boolean inRange(Key firstKey, Key lastKey, Key key) {
-        return key.compareTo(firstKey)>=0 && key.compareTo(lastKey) <=0;
     }
 
 }

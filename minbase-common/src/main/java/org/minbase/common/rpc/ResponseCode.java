@@ -1,10 +1,11 @@
 package org.minbase.common.rpc;
 
 public enum ResponseCode {
-    SUCCESS((byte)1),
-    FAIL((byte)-1);
+    SUCCESS((byte) 1),
+    FAIL((byte) -1);
 
-    private byte code;
+    private final byte code;
+
     ResponseCode(byte code) {
         this.code = code;
     }

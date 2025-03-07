@@ -17,9 +17,9 @@ import java.util.TreeMap;
 
 public class TxTable implements Table {
     private Transaction transaction;
-    private String tableName;
+    private final String tableName;
 
-    private TransactionServiceGrpc.TransactionServiceBlockingClient rpcClient;
+    private final TransactionServiceGrpc.TransactionServiceBlockingClient rpcClient;
 
     public TxTable(String tableName, TransactionServiceGrpc.TransactionServiceBlockingClient rpcClient) {
         this.tableName = tableName;
@@ -34,7 +34,7 @@ public class TxTable implements Table {
     @Override
     public ColumnValues get(Get get) {
         final ClientProto.TxGetRequest.Builder builder = ClientProto.TxGetRequest.newBuilder();
-        builder.setTxid(transaction.txId()).setTable(tableName).setKey(new String(get.getKey()));
+        builder.setTxid(transaction.txId()).setTable(tableName).setKey(get.getKey());
         final List<String> columns = get.getColumns();
         for (int i = 0; i < columns.size(); i++) {
             builder.setColumns(i, columns.get(i));
@@ -73,7 +73,8 @@ public class TxTable implements Table {
     public boolean checkAndPut(byte[] checkKey, byte[] checkColumn, byte[] checkValue, Put put) {
         ClientProto.TxCheckAndPutRequest.Builder builder = ClientProto.TxCheckAndPutRequest.newBuilder();
         builder.setTable(tableName).setKey(new String(put.getKey()));
-        builder.setCheckKey(new String(checkKey)).setCheckColumn(new String(checkColumn)).setCheckValue(new String(checkValue));
+        builder.setCheckKey(new String(checkKey)).setCheckColumn(
+                new String(checkColumn)).setCheckValue(new String(checkValue));
         TreeMap<byte[], byte[]> columnValues = put.getColumnValues();
         int i = 0;
         for (Map.Entry<byte[], byte[]> entry : columnValues.entrySet()) {

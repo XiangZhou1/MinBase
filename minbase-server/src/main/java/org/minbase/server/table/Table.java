@@ -30,12 +30,12 @@ public class Table implements org.minbase.common.table.Table {
         this.minStore = minStore;
     }
 
-    public void setMinStore(MinStore minStore) {
-        this.minStore = minStore;
-    }
-
     public MinStore getMinStore() {
         return minStore;
+    }
+
+    public void setMinStore(MinStore minStore) {
+        this.minStore = minStore;
     }
 
     @Override
@@ -73,11 +73,13 @@ public class Table implements org.minbase.common.table.Table {
         if (!get.getColumns().isEmpty()) {
             columns = get.getColumns();
             minKey = new InternalKey(ByteUtil.toBytes(get.getKey()), ByteUtil.toBytes(columns.get(0)), Long.MAX_VALUE);
-            maxKey = new InternalKey(ByteUtil.toBytes(get.getKey()), ByteUtil.toBytes(columns.get(columns.size() - 1)), get.getSequenceId()+1);
+            maxKey = new InternalKey(ByteUtil.toBytes(get.getKey()), ByteUtil.toBytes(columns.get(columns.size() - 1)),
+                    get.getSequenceId() + 1);
         } else {
             columns = tableMeta.getColumns();
             minKey = new InternalKey(ByteUtil.toBytes(get.getKey()), ByteUtil.toBytes(columns.get(0)), Long.MAX_VALUE);
-            maxKey = new InternalKey(ByteUtil.toBytes(get.getKey()), ByteUtil.toBytes(columns.get(columns.size() - 1)), get.getSequenceId()+1);
+            maxKey = new InternalKey(ByteUtil.toBytes(get.getKey()), ByteUtil.toBytes(columns.get(columns.size() - 1)),
+                    get.getSequenceId() + 1);
         }
 
         KeyValueIterator iterator = minStore.iterator(minKey, maxKey);
@@ -106,6 +108,7 @@ public class Table implements org.minbase.common.table.Table {
             minStore.put(new InternalKey(userKey, column, put.getSequenceId()), ValueUtils.Put(data));
         }
     }
+
     @Override
     public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
         minStore.writeLock();
@@ -135,7 +138,8 @@ public class Table implements org.minbase.common.table.Table {
         }
 
         for (String column : columns) {
-            InternalKey key = new InternalKey(ByteUtil.toBytes(delete.getKey()), ByteUtil.toBytes(column), delete.getSequenceId());
+            InternalKey key = new InternalKey(ByteUtil.toBytes(delete.getKey()), ByteUtil.toBytes(column),
+                    delete.getSequenceId());
             minStore.delete(key);
         }
     }

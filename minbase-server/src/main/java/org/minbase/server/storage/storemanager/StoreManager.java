@@ -4,11 +4,11 @@ import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.storage.store.StoreFile;
 import org.minbase.server.storage.storemanager.level.LevelStoreManager;
 import org.minbase.server.storage.version.ClearOldVersionTask;
 import org.minbase.server.storage.version.EditVersion;
 import org.minbase.server.storage.version.FileEdit;
-import org.minbase.server.storage.store.StoreFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,5 +139,6 @@ public abstract class StoreManager {
     //////////////////////////////////////////////////////////////////////////////////////
     // 读操作函数
     public abstract KeyValue get(Key key);
+
     public abstract KeyValueIterator iterator(Key startKey, Key endKey);
 }
