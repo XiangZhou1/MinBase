@@ -1,16 +1,14 @@
 package org.minbase.server.iterator;
 
 
-
+import org.minbase.server.kv.Key;
 import org.minbase.server.mem.MemStore;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.op.Value;
+import org.minbase.server.kv.Value;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MemStoreIterator implements KeyValueIterator {
     private MemStore memStore;

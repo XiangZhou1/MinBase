@@ -7,14 +7,12 @@ import org.minbase.common.operation.Put;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.WriteBatch;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.utils.KeyValueUtil;
 import org.mockito.Mockito;
 
 import java.io.File;
-import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 

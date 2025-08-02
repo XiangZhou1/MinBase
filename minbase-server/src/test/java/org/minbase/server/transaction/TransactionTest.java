@@ -9,8 +9,6 @@ import org.minbase.server.MinBaseServer;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.minstore.MinStore;
-import org.minbase.server.op.KeyValue;
-import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.table.TableImpl;
 import org.mockito.Mockito;
 import org.slf4j.Logger;

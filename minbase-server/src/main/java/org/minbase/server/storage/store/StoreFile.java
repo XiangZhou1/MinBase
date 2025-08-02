@@ -3,7 +3,7 @@ package org.minbase.server.storage.store;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.op.Key;
+import org.minbase.server.kv.Key;
 import org.minbase.server.storage.block.BloomFilterBlock;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;

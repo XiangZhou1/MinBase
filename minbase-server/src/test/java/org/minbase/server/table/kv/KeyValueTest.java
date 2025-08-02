@@ -1,6 +1,8 @@
-package org.minbase.server.op;
+package org.minbase.server.table.kv;
 
 import org.junit.Test;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 
 import java.nio.charset.StandardCharsets;
 

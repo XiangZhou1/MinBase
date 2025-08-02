@@ -1,8 +1,8 @@
-package org.minbase.server.op;
+package org.minbase.server.kv;
 
 
-import org.minbase.server.constant.Constants;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.constant.Constants;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,7 +10,6 @@ import java.io.OutputStream;
 public class Key implements Comparable<Key> {
     private byte[] userKey;
     private long sequenceId;
-
     public Key() {
     }
 

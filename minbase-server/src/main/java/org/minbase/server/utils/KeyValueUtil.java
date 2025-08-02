@@ -5,9 +5,9 @@ import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Put;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 
 import java.util.Comparator;
 import java.util.Map;

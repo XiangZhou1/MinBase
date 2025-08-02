@@ -1,7 +1,5 @@
 package org.minbase.server.transaction;
 
-import org.minbase.common.exception.TransactionException;
-import org.minbase.server.op.WriteBatch;
 import org.minbase.server.table.TableImpl;
 
 import java.util.Iterator;

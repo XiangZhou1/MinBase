@@ -2,7 +2,6 @@ package org.minbase.server.storage.block;
 
 
 import org.junit.Test;
-import org.minbase.server.op.Key;
 
 public class MetaBlockTest {
     @Test

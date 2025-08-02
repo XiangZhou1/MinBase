@@ -1,15 +1,12 @@
 package org.minbase.server.storage.storemanager;
 
 import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.server.storage.store.StoreFile;
-import org.minbase.server.storage.version.FileEdit;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.SortedMap;
 
 public interface StoreManager extends ManiFest {
     File getStoreDir();

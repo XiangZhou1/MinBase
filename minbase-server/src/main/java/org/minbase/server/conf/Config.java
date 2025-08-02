@@ -13,6 +13,9 @@ public class Config {
     private static final Logger logger = LoggerFactory.getLogger(Config.class);
     private static Properties config = new Properties();
 
+    public static String get(String key) {
+        return config.getProperty(key);
+    }
 
     static {
         try (InputStream resourceAsStream =
@@ -25,7 +28,5 @@ public class Config {
         }
     }
 
-    public static String get(String key) {
-        return config.getProperty(key);
-    }
+
 }

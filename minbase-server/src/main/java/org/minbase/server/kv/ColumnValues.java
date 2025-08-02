@@ -1,4 +1,4 @@
-package org.minbase.server.op;
+package org.minbase.server.kv;
 
 import org.minbase.common.Constants;
 import org.minbase.common.utils.ByteUtil;
@@ -6,7 +6,6 @@ import org.minbase.common.utils.ByteUtil;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class ColumnValues extends org.minbase.common.operation.ColumnValues {
 

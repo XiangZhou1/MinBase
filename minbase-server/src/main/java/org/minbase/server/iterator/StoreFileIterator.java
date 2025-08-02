@@ -1,12 +1,10 @@
 package org.minbase.server.iterator;
 
 
-
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.server.storage.block.MetaBlock;
-import org.minbase.server.storage.store.StoreFile;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.storage.store.StoreFileReader;
 

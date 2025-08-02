@@ -4,16 +4,14 @@ package org.minbase.server.transaction;
 
 import org.minbase.common.exception.TransactionException;
 import org.minbase.common.table.Table;
-import org.minbase.server.op.WriteBatch;
+import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.table.TableImpl;
-import org.minbase.server.transaction.store.TransactionStore;
-import org.minbase.server.transaction.table.TransactionTable;
+import org.minbase.server.table.TransactionTable;
 import org.minbase.server.wal.Wal;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class Transaction implements org.minbase.common.transaction.Transaction {
     protected long txId;

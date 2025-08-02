@@ -1,4 +1,4 @@
-package org.minbase.server.transaction.table;
+package org.minbase.server.table;
 
 import org.minbase.common.operation.ColumnValues;
 import org.minbase.common.operation.Delete;
@@ -7,12 +7,12 @@ import org.minbase.common.operation.Put;
 import org.minbase.common.table.Table;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
+import org.minbase.server.kv.Key;
 import org.minbase.server.minstore.MinStore;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.RowTacker;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.RowTacker;
 import org.minbase.server.transaction.Transaction;
-import org.minbase.server.transaction.store.TransactionStore;
+import org.minbase.server.transaction.TransactionStore;
 
 import java.util.ArrayList;
 import java.util.HashSet;

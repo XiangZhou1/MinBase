@@ -6,9 +6,8 @@ import org.minbase.common.operation.Get;
 import org.minbase.server.iterator.KeyValueIterator;
 
 import org.minbase.server.iterator.MemStoreIterator;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 
 import java.nio.charset.StandardCharsets;
 

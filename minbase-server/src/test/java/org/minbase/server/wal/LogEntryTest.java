@@ -2,14 +2,13 @@ package org.minbase.server.wal;
 
 import org.junit.Test;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.op.WriteBatch;
+import org.minbase.server.kv.WriteBatch;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class LogEntryTest {
     private static final byte[] column = "cl1".getBytes(StandardCharsets.UTF_8);

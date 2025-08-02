@@ -3,9 +3,8 @@ package org.minbase.server.storage.store;
 
 import org.junit.Test;
 import org.minbase.server.iterator.StoreFileIterator;
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 import org.minbase.common.utils.Util;
 
 import java.io.FileOutputStream;

@@ -1,8 +1,8 @@
 package org.minbase.server.iterator;
 
 
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 import org.minbase.server.storage.block.DataBlock;
 import org.minbase.common.utils.ByteUtil;
 

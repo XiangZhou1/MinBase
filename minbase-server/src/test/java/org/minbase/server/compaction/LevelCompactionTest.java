@@ -7,9 +7,8 @@ import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreFileIterator;
 
-import org.minbase.server.op.Key;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.Value;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.Value;
 import org.minbase.server.storage.store.StoreFileBuilder;
 import org.minbase.server.storage.store.StoreFile;
 import org.minbase.common.utils.ByteUtil;

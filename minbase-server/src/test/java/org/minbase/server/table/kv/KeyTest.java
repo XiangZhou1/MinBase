@@ -1,4 +1,4 @@
-package org.minbase.server.op;
+package org.minbase.server.table.kv;
 
 import org.junit.Test;
 import org.minbase.common.utils.ByteUtil;

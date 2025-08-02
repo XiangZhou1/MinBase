@@ -2,8 +2,8 @@ package org.minbase.server.storage.block;
 
 
 import org.minbase.server.constant.Constants;
-import org.minbase.server.op.Key;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.Key;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -1,15 +1,7 @@
 package org.minbase.server.wal;
 
 
-
-import org.minbase.server.constant.Constants;
-import org.minbase.server.op.KeyValue;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.op.WriteBatch;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.minbase.server.kv.WriteBatch;
 
 /**
  * 可以把多个KeyValue记录成一条日志, 以保证多个操作的原子性

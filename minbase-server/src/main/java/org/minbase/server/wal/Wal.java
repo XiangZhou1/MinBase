@@ -2,12 +2,10 @@ package org.minbase.server.wal;
 
 
 import org.minbase.common.utils.Util;
-import org.minbase.server.MinBaseServer;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.minstore.MinStore;
-import org.minbase.server.op.KeyValue;
-import org.minbase.server.op.WriteBatch;
+import org.minbase.server.kv.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.FileUtil;
 import org.minbase.server.table.TableImpl;
