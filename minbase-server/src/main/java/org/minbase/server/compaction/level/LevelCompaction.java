@@ -51,7 +51,7 @@ public class LevelCompaction implements Compaction {
 
         Key firstKey = storeFile.getFirstKey();
         Key lastKey = storeFile.getLastKey();
-        ArrayList<StoreFile> ssTables2 = chooseCompactSSTable(storeManager.getStoreFiles(level + 1), firstKey.getUserKey(), lastKey.getUserKey());
+        ArrayList<StoreFile> ssTables2 = chooseCompactSSTable(storeManager.getStoreFiles(level + 1), firstKey.getInternalKey(), lastKey.getInternalKey());
 
         if (ssTables2.isEmpty()) {
             fileEdit.addSSTable(level + 1, storeFile);

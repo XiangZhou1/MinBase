@@ -37,7 +37,7 @@ public class StoreFileBuilder {
 
     public void add(KeyValue kv){
         length += kv.length();
-        bloomFilter.add(kv.getKey().getUserKey());
+        bloomFilter.add(kv.getKey().getInternalKey());
 
         if (firstKey == null || firstKey.compareTo(kv.getKey()) > 0) {
             firstKey = kv.getKey();

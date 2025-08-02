@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class Key implements Comparable<Key> {
-    private byte[] userKey;
-    private long sequenceId;
+    private byte[] internalKey;
+    private long version;
     public Key() {
     }
 
-    public Key(byte[] userKey, long sequenceId) {
-        this.userKey = userKey;
-        this.sequenceId = sequenceId;
+    public Key(byte[] internalKey, long version) {
+        this.internalKey = internalKey;
+        this.version = version;
     }
 
     public static Key latestKey(byte[] userKey){
@@ -23,61 +23,60 @@ public class Key implements Comparable<Key> {
     }
 
     public int length() {
-        return userKey.length + Constants.LONG_LENGTH;
+        return internalKey.length + Constants.LONG_LENGTH;
     }
 
 
     public byte[] encode() {
         byte[] buf = new byte[length()];
-        System.arraycopy(userKey, 0, buf, 0, userKey.length);
-        System.arraycopy(ByteUtil.longToByteArray(sequenceId), 0, buf, userKey.length, Constants.LONG_LENGTH);
+        System.arraycopy(internalKey, 0, buf, 0, internalKey.length);
+        System.arraycopy(ByteUtil.longToByteArray(version), 0, buf, internalKey.length, Constants.LONG_LENGTH);
         return buf;
     }
 
     public int encodeToFile(OutputStream outputStream) throws IOException {
-        byte[] buf = new byte[length()];
-        outputStream.write(userKey);
-        outputStream.write(ByteUtil.longToByteArray(sequenceId));
+        outputStream.write(internalKey);
+        outputStream.write(ByteUtil.longToByteArray(version));
         return length();
     }
 
     public void decode(byte[] buf) {
-        this.userKey = new byte[buf.length - Constants.LONG_LENGTH];
-        System.arraycopy(buf, 0, userKey, 0, buf.length - Constants.LONG_LENGTH);
-        this.sequenceId = ByteUtil.byteArrayToLong(buf, buf.length - Constants.LONG_LENGTH);
+        this.internalKey = new byte[buf.length - Constants.LONG_LENGTH];
+        System.arraycopy(buf, 0, internalKey, 0, buf.length - Constants.LONG_LENGTH);
+        this.version = ByteUtil.byteArrayToLong(buf, buf.length - Constants.LONG_LENGTH);
     }
 
-    public byte[] getUserKey() {
-        return userKey;
+    public byte[] getInternalKey() {
+        return internalKey;
     }
 
-    public void setUserKey(byte[] userKey) {
-        this.userKey = userKey;
+    public void setInternalKey(byte[] internalKey) {
+        this.internalKey = internalKey;
     }
 
-    public long getSequenceId() {
-        return sequenceId;
+    public long getVersion() {
+        return version;
     }
 
-    public void setSequenceId(long sequenceId) {
-        this.sequenceId = sequenceId;
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     @Override
     public int compareTo(Key o2) {
-        int result = ByteUtil.BYTE_ORDER_COMPARATOR.compare(this.userKey, o2.userKey);
+        int result = ByteUtil.BYTE_ORDER_COMPARATOR.compare(this.internalKey, o2.internalKey);
         if (result != 0) {
             return result;
         }
         // 同一个userKey, 版本号越大， 则排在前面
-        if (this.sequenceId == o2.sequenceId) {
+        if (this.version == o2.version) {
             return 0;
         }
-        return this.sequenceId > o2.sequenceId ? -1 : 1;
+        return this.version > o2.version ? -1 : 1;
     }
 
     public boolean isLatestVersion() {
-        return this.sequenceId == Constants.LATEST_VERSION;
+        return this.version == Constants.LATEST_VERSION;
     }
 
 
@@ -92,8 +91,8 @@ public class Key implements Comparable<Key> {
     @Override
     public String toString() {
         return "Key{" +
-                "userKey=" + new String(userKey) +
-                ", version=" + sequenceId +
+                "userKey=" + new String(internalKey) +
+                ", version=" + version +
                 '}';
     }
 }

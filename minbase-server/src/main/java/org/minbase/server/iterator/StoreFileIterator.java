@@ -108,7 +108,7 @@ public class StoreFileIterator implements KeyValueIterator {
                 DataBlock block = reader.getBlock(blockIndex, cached);
                 blockIterator = new BlockIterator(block);
                 if (blockIterator.isValid()) {
-                    if (ByteUtil.byteEqual(key.getUserKey(), blockIterator.key().getUserKey())) {
+                    if (ByteUtil.byteEqual(key.getInternalKey(), blockIterator.key().getInternalKey())) {
                         blockIterator.next();
                     }
                 }

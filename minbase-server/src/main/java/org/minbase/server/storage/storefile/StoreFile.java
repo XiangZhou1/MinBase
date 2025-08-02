@@ -244,15 +244,15 @@ public class StoreFile {
         if (startKey == null || endKey == null) {
             return true;
         } else if (startKey == null && endKey != null) {
-            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getUserKey())) {
+            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getInternalKey())) {
                 return false;
             }
         } else if (startKey != null && endKey == null) {
-            if (ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())) {
+            if (ByteUtil.byteGreater(startKey, this.lastKey.getInternalKey())) {
                 return false;
             }
         } else {
-            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getUserKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())) {
+            if (ByteUtil.byteLessOrEqual(endKey, this.firstKey.getInternalKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getInternalKey())) {
                 return false;
             }
         }
@@ -266,15 +266,15 @@ public class StoreFile {
         }
 
         if (startKey == null && endKey != null) {
-            if ( ByteUtil.byteLess(endKey, this.firstKey.getUserKey())) {
+            if (ByteUtil.byteLess(endKey, this.firstKey.getInternalKey())) {
                 return false;
             }
         } else if (startKey != null && endKey == null) {
-            if(ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
+            if (ByteUtil.byteGreater(startKey, this.lastKey.getInternalKey())) {
                 return false;
             }
         } else {
-            if(ByteUtil.byteLess(endKey, this.firstKey.getUserKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getUserKey())){
+            if (ByteUtil.byteLess(endKey, this.firstKey.getInternalKey()) || ByteUtil.byteGreater(startKey, this.lastKey.getInternalKey())) {
                 return false;
             }
         }

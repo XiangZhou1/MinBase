@@ -34,7 +34,7 @@ public class TieredStoreFileManager extends AbstractStoreFileManager {
             ArrayList<KeyValueIterator> list = new ArrayList<>();
             for (List<StoreFile> storeFiles : currentVersion.getStoreFiles().values()) {
                 for (StoreFile storeFile : storeFiles) {
-                    if (storeFile.mightContain(key.getUserKey())) {
+                    if (storeFile.mightContain(key.getInternalKey())) {
                         list.add(storeFile.getReader().iterator(key, null));
                     }
                 }
@@ -44,7 +44,7 @@ public class TieredStoreFileManager extends AbstractStoreFileManager {
             mergeIterator.seek(key);
 
             if (mergeIterator.isValid()) {
-                if (ByteUtil.byteEqual(key.getUserKey(), mergeIterator.key().getUserKey())) {
+                if (ByteUtil.byteEqual(key.getInternalKey(), mergeIterator.key().getInternalKey())) {
                     return mergeIterator.value();
                 }
             }
@@ -60,7 +60,7 @@ public class TieredStoreFileManager extends AbstractStoreFileManager {
         EditVersion currentVersion = getEditVersion(true);
         for (List<StoreFile> storeFiles : currentVersion.getStoreFiles().values()) {
             for (StoreFile storeFile : storeFiles) {
-                if (storeFile.inRange(startKey == null ? null : startKey.getUserKey(), endKey == null ? null : endKey.getUserKey(), false)) {
+                if (storeFile.inRange(startKey == null ? null : startKey.getInternalKey(), endKey == null ? null : endKey.getInternalKey(), false)) {
                     list.add(storeFile.getReader().iterator(startKey, endKey));
                 }
             }

@@ -12,5 +12,5 @@ message RpcResponse {
   required int64 length = 1;
   required int64 id = 2;
   required int32 code = 3;
-  required string value = 4;
+  required string tableValue = 4;
 }

@@ -6,7 +6,7 @@ import org.minbase.server.table.ColumnValue;
 
 import java.nio.charset.StandardCharsets;
 
-public class ColumnValueTest {
+public class ColumnTableValueTest {
     private static final byte[] column = "column1".getBytes(StandardCharsets.UTF_8);
     private static final byte[] value = "v1".getBytes(StandardCharsets.UTF_8);
 

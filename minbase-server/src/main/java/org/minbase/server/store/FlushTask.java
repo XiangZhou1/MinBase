@@ -43,7 +43,7 @@ public class FlushTask implements Runnable {
                 MemStoreIterator iterator = immMemTablesLast.iterator();
                 long lastSyncSequenceId = 0;
                 while (iterator.isValid()) {
-                    lastSyncSequenceId = Math.max(lastSyncSequenceId, iterator.key().getSequenceId());
+                    lastSyncSequenceId = Math.max(lastSyncSequenceId, iterator.key().getVersion());
                     storeFileBuilder.add(iterator.value());
                     iterator.next();
                 }

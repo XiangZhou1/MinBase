@@ -4,7 +4,7 @@ package org.minbase.server.storage.block;
 import org.junit.Test;
 import org.minbase.server.iterator.BlockIterator;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.Value;
+import org.minbase.server.table.TableValue;
 import org.minbase.common.utils.Util;
 
 import java.nio.charset.StandardCharsets;
@@ -16,11 +16,11 @@ public class BlockTest {
     @Test
     public void blockEndCodeDecodeTest() {
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
-        blockBuilder.add(new KeyValue(new Key("k1".getBytes(), 1), Value.Put(column, "v1".getBytes())));
-        blockBuilder.add(new KeyValue(new Key("k2".getBytes(), 1), Value.Put(column, "v2".getBytes())));
-        blockBuilder.add(new KeyValue(new Key("k3".getBytes(), 1), Value.Put(column, "v3".getBytes())));
-        blockBuilder.add(new KeyValue(new Key("k4".getBytes(), 1), Value.Put(column, "v4".getBytes())));
-        blockBuilder.add(new KeyValue(new Key("k5".getBytes(), 1), Value.Put(column, "v5".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k1".getBytes(), 1), TableValue.Put(column, "v1".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k2".getBytes(), 1), TableValue.Put(column, "v2".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k3".getBytes(), 1), TableValue.Put(column, "v3".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k4".getBytes(), 1), TableValue.Put(column, "v4".getBytes())));
+        blockBuilder.add(new KeyValue(new Key("k5".getBytes(), 1), TableValue.Put(column, "v5".getBytes())));
 
         DataBlock block = blockBuilder.build();
         System.out.println(new String(block.encode()));
@@ -46,9 +46,9 @@ public class BlockTest {
         int totalnum = 1000;
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
         for (int i=0; i<totalnum; i++) {
-            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 3), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 2), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 1), Value.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 3), TableValue.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 2), TableValue.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 1), TableValue.Put(column, ("v" + i).getBytes())));
         }
 
         DataBlock block = blockBuilder.build();
@@ -73,9 +73,9 @@ public class BlockTest {
         int totalnum = 1000;
         DataBlockBuilder blockBuilder = new DataBlockBuilder();
         for (int i=0; i<totalnum; i++) {
-            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 3), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 2), Value.Put(column, ("v" + i).getBytes())));
-            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 1), Value.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 3), TableValue.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 2), TableValue.Put(column, ("v" + i).getBytes())));
+            blockBuilder.add(new KeyValue(new Key(("k" + Util.fillZero(i)).getBytes(), 1), TableValue.Put(column, ("v" + i).getBytes())));
         }
 
         DataBlock block = blockBuilder.build();

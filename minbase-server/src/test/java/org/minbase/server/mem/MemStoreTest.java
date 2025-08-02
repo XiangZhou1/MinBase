@@ -7,7 +7,7 @@ import org.minbase.server.iterator.KeyValueIterator;
 
 import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.Value;
+import org.minbase.server.table.TableValue;
 
 import java.nio.charset.StandardCharsets;
 
@@ -18,7 +18,7 @@ public class MemStoreTest {
     @Test
     public void test1() {
         MemStore memStore = new MemStore();
-        memStore.put(new Key("k1".getBytes(), 1), Value.Put(column, "v1".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 1), TableValue.Put(column, "v1".getBytes()));
         Get get = new Get("k1".getBytes());
 
     }
@@ -26,16 +26,16 @@ public class MemStoreTest {
     @Test
     public void test2() {
         MemStore memStore = new MemStore();
-        memStore.put(new Key("k1".getBytes(), 1), Value.Put(column, "v1".getBytes()));
-        memStore.put(new Key("k1".getBytes(), 2), Value.Put(column, "v1_2".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 1), TableValue.Put(column, "v1".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 2), TableValue.Put(column, "v1_2".getBytes()));
 
     }
 
     @Test
     public void test3(){
         MemStore memStore = new MemStore();
-        memStore.put(new Key("k1".getBytes(), 1), Value.Put(column, "v1".getBytes()));
-        memStore.put(new Key("k1".getBytes(), 2), Value.Delete());
+        memStore.put(new Key("k1".getBytes(), 1), TableValue.Put(column, "v1".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 2), TableValue.Delete());
 
     }
 
@@ -43,11 +43,11 @@ public class MemStoreTest {
     @Test
     public void test4() {
         MemStore memStore = new MemStore();
-        memStore.put(new Key("k1".getBytes(), 1), Value.Put(column, "v1".getBytes()));
-        memStore.put(new Key("k1".getBytes(), 2), Value.Put(column, "v1_2".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 1), TableValue.Put(column, "v1".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 2), TableValue.Put(column, "v1_2".getBytes()));
 
-        memStore.put(new Key("k2".getBytes(), 1), Value.Put(column, "v2".getBytes()));
-        memStore.put(new Key("k2".getBytes(), 2), Value.Put(column, "v2_2".getBytes()));
+        memStore.put(new Key("k2".getBytes(), 1), TableValue.Put(column, "v2".getBytes()));
+        memStore.put(new Key("k2".getBytes(), 2), TableValue.Put(column, "v2_2".getBytes()));
 
         MemStoreIterator iterator = memStore.iterator();
         while (iterator.isValid()) {
@@ -61,17 +61,17 @@ public class MemStoreTest {
     @Test
     public void test5() {
         MemStore memStore = new MemStore();
-        memStore.put(new Key("k1".getBytes(), 1), Value.Put(column, "v1".getBytes()));
-        memStore.put(new Key("k1".getBytes(), 2), Value.Put(column, "v1_2".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 1), TableValue.Put(column, "v1".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 2), TableValue.Put(column, "v1_2".getBytes()));
 
-        memStore.put(new Key("k2".getBytes(), 1), Value.Put(column, "v2".getBytes()));
-        memStore.put(new Key("k2".getBytes(), 2), Value.Put(column, "v2_2".getBytes()));
+        memStore.put(new Key("k2".getBytes(), 1), TableValue.Put(column, "v2".getBytes()));
+        memStore.put(new Key("k2".getBytes(), 2), TableValue.Put(column, "v2_2".getBytes()));
 
-        memStore.put(new Key("k3".getBytes(), 1), Value.Put(column, "v3".getBytes()));
-        memStore.put(new Key("k3".getBytes(), 2), Value.Put(column, "v3_2".getBytes()));
+        memStore.put(new Key("k3".getBytes(), 1), TableValue.Put(column, "v3".getBytes()));
+        memStore.put(new Key("k3".getBytes(), 2), TableValue.Put(column, "v3_2".getBytes()));
 
-        memStore.put(new Key("k4".getBytes(), 1), Value.Put(column, "v4".getBytes()));
-        memStore.put(new Key("k4".getBytes(), 2), Value.Put(column, "v4_2".getBytes()));
+        memStore.put(new Key("k4".getBytes(), 1), TableValue.Put(column, "v4".getBytes()));
+        memStore.put(new Key("k4".getBytes(), 2), TableValue.Put(column, "v4_2".getBytes()));
 
         MemStoreIterator iterator = memStore.iterator(Key.latestKey("k3".getBytes()), null);
         while (iterator.isValid()) {
@@ -84,17 +84,17 @@ public class MemStoreTest {
     @Test
     public void test6() {
         MemStore memStore = new MemStore();
-        memStore.put(new Key("k1".getBytes(), 1), Value.Put(column, "v1".getBytes()));
-        memStore.put(new Key("k1".getBytes(), 2), Value.Put(column, "v1_2".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 1), TableValue.Put(column, "v1".getBytes()));
+        memStore.put(new Key("k1".getBytes(), 2), TableValue.Put(column, "v1_2".getBytes()));
 
-        memStore.put(new Key("k2".getBytes(), 3), Value.Put(column, "v2".getBytes()));
-        memStore.put(new Key("k2".getBytes(), 4), Value.Put(column, "v2_2".getBytes()));
+        memStore.put(new Key("k2".getBytes(), 3), TableValue.Put(column, "v2".getBytes()));
+        memStore.put(new Key("k2".getBytes(), 4), TableValue.Put(column, "v2_2".getBytes()));
 
-        memStore.put(new Key("k3".getBytes(), 5), Value.Put(column, "v3".getBytes()));
-        memStore.put(new Key("k3".getBytes(), 6), Value.Put(column, "v3_2".getBytes()));
+        memStore.put(new Key("k3".getBytes(), 5), TableValue.Put(column, "v3".getBytes()));
+        memStore.put(new Key("k3".getBytes(), 6), TableValue.Put(column, "v3_2".getBytes()));
 
-        memStore.put(new Key("k4".getBytes(), 7), Value.Put(column, "v4".getBytes()));
-        memStore.put(new Key("k4".getBytes(), 8), Value.Put(column, "v4_2".getBytes()));
+        memStore.put(new Key("k4".getBytes(), 7), TableValue.Put(column, "v4".getBytes()));
+        memStore.put(new Key("k4".getBytes(), 8), TableValue.Put(column, "v4_2".getBytes()));
 
         MemStoreIterator iterator = memStore.iterator(null, null);
         while (iterator.isValid()) {

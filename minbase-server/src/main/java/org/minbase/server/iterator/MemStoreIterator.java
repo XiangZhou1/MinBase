@@ -2,10 +2,11 @@ package org.minbase.server.iterator;
 
 
 import org.minbase.server.kv.Key;
+import org.minbase.server.kv.Value;
 import org.minbase.server.mem.MemStore;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.kv.Value;
+import org.minbase.server.table.TableValue;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -74,11 +75,11 @@ public class MemStoreIterator implements KeyValueIterator {
     // 跳到下一个userKey
     @Override
     public void next() {
-        byte[] userKey = key().getUserKey();
+        byte[] userKey = key().getInternalKey();
         while (isValid()) {
             nextInnerKey();
             if (isValid()) {
-                if (!ByteUtil.byteEqual(userKey, key().getUserKey())) {
+                if (!ByteUtil.byteEqual(userKey, key().getInternalKey())) {
                     break;
                 }
             }

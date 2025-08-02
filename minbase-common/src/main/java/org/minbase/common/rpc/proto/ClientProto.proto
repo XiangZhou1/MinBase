@@ -3,7 +3,7 @@ package org.minbase.common.rpc.proto.generated;
 
 message ColumnValue {
   required string column = 1;
-  required string value = 2;
+  required string tableValue = 2;
 }
 
 message GetRequest {

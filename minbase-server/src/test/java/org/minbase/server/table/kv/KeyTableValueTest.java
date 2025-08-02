@@ -2,11 +2,11 @@ package org.minbase.server.table.kv;
 
 import org.junit.Test;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.Value;
+import org.minbase.server.table.TableValue;
 
 import java.nio.charset.StandardCharsets;
 
-public class KeyValueTest {
+public class KeyTableValueTest {
     private static final byte[] column = "cl1".getBytes(StandardCharsets.UTF_8);
 
     @Test
@@ -27,8 +27,8 @@ public class KeyValueTest {
 
     @Test
     public void valueTest1() {
-        Value put = Value.Put(column, "v1".getBytes());
-        Value put2 = new Value();
+        TableValue put = TableValue.Put(column, "v1".getBytes());
+        TableValue put2 = new TableValue();
         put2.decode(put.encode());
         System.out.println(put);
         System.out.println(put2);
@@ -38,7 +38,7 @@ public class KeyValueTest {
 
     @Test
     public void keyValueTest() {
-        Value put = Value.Put(column, "v1".getBytes());
+        TableValue put = TableValue.Put(column, "v1".getBytes());
         Key key = new Key("k1".getBytes(), 1);
         KeyValue keyValue = new KeyValue(key, put);
 

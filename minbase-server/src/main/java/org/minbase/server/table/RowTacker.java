@@ -1,4 +1,7 @@
-package org.minbase.server.kv;
+package org.minbase.server.table;
+
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -22,14 +25,18 @@ public class RowTacker {
     private boolean stop = false;
 
     public RowTacker(Key key) {
-        this.keyValue = new KeyValue(key, Value.Put());
+        // todo
+        // this.keyValue = new KeyValue(key, TableValue.Put());
+        this.keyValue = null;
         this.deletedColumns = new HashSet<>();
         this.interestedColumns = null;
         type = GetType.ALL;
     }
 
     public RowTacker(Key key, Set<byte[]> interestedColumns) {
-        this.keyValue = new KeyValue(key, Value.Put());
+        // todo
+        // this.keyValue = new KeyValue(key, TableValue.Put());
+        this.keyValue = null;
         this.deletedColumns = new HashSet<>();
         this.interestedColumns = interestedColumns;
         type = GetType.COLUMN;
@@ -40,15 +47,16 @@ public class RowTacker {
             return;
         }
 
-        Value value = keyValue.getValue();
-        if (value.isDelete()) {
+        TableValue tableValue = null; // keyValue.getValue();
+        if (tableValue.isDelete()) {
             stop = true;
-        } else if (value.isDeleteColumn()) {
-            deletedColumns.addAll(value.getDeletedColumns());
+        } else if (tableValue.isDeleteColumn()) {
+            deletedColumns.addAll(tableValue.getDeletedColumns());
         } else {
-            Map<byte[], byte[]> columnValues = this.keyValue.getValue().getColumnValues();
+            // todo
+            Map<byte[], byte[]> columnValues = null;//this.keyValue.getValue().getColumnValues();
 
-            for (Map.Entry<byte[], byte[]> entry : value.getColumnValues().entrySet()) {
+            for (Map.Entry<byte[], byte[]> entry : tableValue.getColumnValues().entrySet()) {
                 byte[] column = entry.getKey();
                 if (deletedColumns.contains(column)) {
                     continue;

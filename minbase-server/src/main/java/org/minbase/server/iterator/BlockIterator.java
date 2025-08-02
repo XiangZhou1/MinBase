@@ -90,7 +90,7 @@ public class BlockIterator implements KeyValueIterator {
     public void next() {
         Key key = key();
         nextInnerKey();
-        while (isValid() && ByteUtil.byteEqual(key.getUserKey(), key().getUserKey())) {
+        while (isValid() && ByteUtil.byteEqual(key.getInternalKey(), key().getInternalKey())) {
             nextInnerKey();
         }
     }

@@ -4,7 +4,7 @@ package org.minbase.server.storage.storefile;
 import org.junit.Test;
 import org.minbase.server.iterator.StoreFileIterator;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.Value;
+import org.minbase.server.table.TableValue;
 import org.minbase.common.utils.Util;
 
 import java.io.FileOutputStream;
@@ -20,7 +20,7 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < totalNum; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            TableValue put = TableValue.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
 
@@ -45,7 +45,7 @@ public class StoreFileTest {
         for (int i = 0; i < totalNum; i++) {
             Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
             Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            TableValue put = TableValue.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key2, put));
             storeFileBuilder.add(new KeyValue(key1, put));
         }
@@ -70,7 +70,7 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 40960; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            TableValue put = TableValue.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
         StoreFile storeFile = storeFileBuilder.build();
@@ -94,7 +94,7 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 4096; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            TableValue put = TableValue.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
 
@@ -130,7 +130,7 @@ public class StoreFileTest {
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
         for (int i = 0; i < 4096; i++) {
             Key key = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
-            Value put = Value.Put(column, "v1".getBytes());
+            TableValue put = TableValue.Put(column, "v1".getBytes());
             storeFileBuilder.add(new KeyValue(key, put));
         }
         StoreFile storeFile = storeFileBuilder.build();

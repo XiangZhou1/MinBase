@@ -1,8 +1,6 @@
 package org.minbase.server.kv;
 
 
-import org.minbase.server.kv.KeyValue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +29,7 @@ public class WriteBatch {
     public void setSequenceId(long sequenceId) {
         for (List<KeyValue> keyValues : keyValues.values()) {
             for (KeyValue keyValue : keyValues) {
-                keyValue.getKey().setSequenceId(sequenceId);
+                keyValue.getKey().setVersion(sequenceId);
             }
         }
     }

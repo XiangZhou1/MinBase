@@ -3,7 +3,7 @@ package org.minbase.server.wal;
 
 import org.junit.Test;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.Value;
+import org.minbase.server.table.TableValue;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.WriteBatch;
 
@@ -22,10 +22,10 @@ public class WalTest {
         final long startTime = System.currentTimeMillis();
         for (; i < 10 * 100000; i++) {
             Key key = new Key(ByteUtil.toBytes("k" + i), i);
-            Value value = Value.Put(column, ByteUtil.toBytes("v" + i));
+            TableValue tableValue = TableValue.Put(column, ByteUtil.toBytes("v" + i));
 
-            KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtil.toBytes("k1")), Value.Put(column, ByteUtil.toBytes("v1")));
-            KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtil.toBytes("k2")), Value.Put(column, ByteUtil.toBytes("v2")));
+            KeyValue keyValue = new KeyValue(Key.latestKey(ByteUtil.toBytes("k1")), TableValue.Put(column, ByteUtil.toBytes("v1")));
+            KeyValue keyValue2 = new KeyValue(Key.latestKey(ByteUtil.toBytes("k2")), TableValue.Put(column, ByteUtil.toBytes("v2")));
             WriteBatch writeBatch = new WriteBatch();
             writeBatch.add(table, keyValue);
             writeBatch.add(table, keyValue2);

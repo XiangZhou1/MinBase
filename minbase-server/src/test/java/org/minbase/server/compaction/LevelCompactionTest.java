@@ -8,7 +8,7 @@ import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreFileIterator;
 
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.Value;
+import org.minbase.server.table.TableValue;
 import org.minbase.server.storage.storefile.StoreFileBuilder;
 import org.minbase.server.storage.storefile.StoreFile;
 import org.minbase.common.utils.ByteUtil;
@@ -44,7 +44,7 @@ public class LevelCompactionTest {
         for(int k = 0; k < 100; k++){
             final int no = random.nextInt(10);
             for (int i = 0; i < num; i++) {
-                storeFileBuilder.add(new KeyValue(new Key(ByteUtil.toBytes(("k" + Util.fillZero(no+i))), sequence), Value.Put(ByteUtil.toBytes("v" + Util.fillZero(sequence)))));
+                storeFileBuilder.add(new KeyValue(new Key(ByteUtil.toBytes(("k" + Util.fillZero(no + i))), sequence), TableValue.Put(ByteUtil.toBytes("v" + Util.fillZero(sequence)))));
                 sequence ++;
             }
             final StoreFile storeFile = storeFileBuilder.build();

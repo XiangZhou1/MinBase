@@ -70,7 +70,7 @@ public class MergeIterator implements KeyValueIterator {
 
         while (!queue.isEmpty()) {
             KeyValueIterator firstEntry = queue.peek();
-            if (ByteUtil.byteEqual(firstEntry.key().getUserKey(), key.getUserKey())) {
+            if (ByteUtil.byteEqual(firstEntry.key().getInternalKey(), key.getInternalKey())) {
                 queue.poll();
                 // 将新poll出来的迭代器在加进去
                 firstEntry.next();

@@ -10,7 +10,6 @@ import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.store.Store;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.RowTacker;
 import org.minbase.server.table.transaction.Transaction;
 import org.minbase.server.table.transaction.TransactionStore;
 
@@ -59,7 +58,9 @@ public class TransactionTable implements Table {
                 tacker.track(tmp);
                 if (tacker.shouldStop()) {
                     keyValue = tacker.getKeyValue();
-                    return keyValue.getValue().columnValues();
+                    return null;
+                    // todo
+                    // return keyValue.getValue().columnValues();
                 }
                 iterator.nextInnerKey();
             }
@@ -67,7 +68,9 @@ public class TransactionTable implements Table {
         } finally {
             iterator.close();
         }
-        return keyValue.getValue().columnValues();
+        return null;
+        // todo
+        //return keyValue.getValue().columnValues();
     }
 
     @Override

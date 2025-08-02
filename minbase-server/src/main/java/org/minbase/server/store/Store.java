@@ -19,6 +19,7 @@ import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.storage.storefilemanager.AbstractStoreFileManager;
 import org.minbase.server.storage.storefilemanager.level.LevelStoreFileManager;
 import org.minbase.server.storage.storefilemanager.tiered.TieredStoreFileManager;
+import org.minbase.server.utils.ValueUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -119,7 +120,7 @@ public class Store {
     //===========================
     // delete实现
     public void delete(byte[] key) {
-        KeyValue kv = new KeyValue(new Key(key, 0), Value.Delete());
+        KeyValue kv = new KeyValue(new Key(key, 0), ValueUtil.Delete());
         memStore.put(kv.getKey(), kv.getValue());
         if (memStore.shouldFreeze()) {
             freezeMemTable();
@@ -131,14 +132,14 @@ public class Store {
         final List<byte[]> columns = delete.getColumns();
         if (columns.isEmpty()) {
             Key key = new Key(delete.getKey(), Constants.NO_VERSION);
-            Value value = Value.Delete();
+            Value value = ValueUtil.Delete();
             writeBatch.add(name, new KeyValue(key, value));
         } else {
-            for (byte[] column : columns) {
-                Key key = new Key(delete.getKey(), Constants.NO_VERSION);
-                Value value = Value.DeleteColumn(column);
-                writeBatch.add(name, new KeyValue(key, value));
-            }
+//            for (byte[] column : columns) {
+//                Key key = new Key(delete.getKey(), Constants.NO_VERSION);
+//                Value tableValue = TableValue.DeleteColumn(column);
+//                writeBatch.add(name, new KeyValue(key, tableValue));
+//            }
         }
         this.put(writeBatch);
     }

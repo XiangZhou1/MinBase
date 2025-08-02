@@ -6,6 +6,8 @@ import org.minbase.common.operation.Put;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.*;
 import org.minbase.server.table.ColumnValues;
+import org.minbase.server.table.RowTacker;
+import org.minbase.server.table.TableValue;
 import org.minbase.server.utils.KeyValueUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -34,7 +36,7 @@ public class RowTrackerTest {
 
         KeyValue keyValue = rowTacker.getKeyValue();
         System.out.println(keyValue);
-        Value val = keyValue.getValue();
+        TableValue val = keyValue.getValue();
         ColumnValues columnValues = val.columnValues();
 
         assert ByteUtil.byteEqual(columnValues.get(column1), value1);
@@ -57,7 +59,7 @@ public class RowTrackerTest {
 
         KeyValue keyValue = rowTacker.getKeyValue();
         System.out.println(keyValue);
-        Value val = keyValue.getValue();
+        TableValue val = keyValue.getValue();
         ColumnValues columnValues = val.columnValues();
 
         assert ByteUtil.byteEqual(columnValues.get(column1), value1);
@@ -84,7 +86,7 @@ public class RowTrackerTest {
 
         KeyValue keyValue = rowTacker.getKeyValue();
         System.out.println(keyValue);
-        Value val = keyValue.getValue();
+        TableValue val = keyValue.getValue();
         ColumnValues columnValues = val.columnValues();
 
         assert ByteUtil.byteEqual(columnValues.get(column1), value1);
@@ -112,7 +114,7 @@ public class RowTrackerTest {
 
         KeyValue keyValue = rowTacker.getKeyValue();
         System.out.println(keyValue);
-        Value val = keyValue.getValue();
+        TableValue val = keyValue.getValue();
         ColumnValues columnValues = val.columnValues();
 
         assert columnValues.size() == 0;
@@ -140,7 +142,7 @@ public class RowTrackerTest {
 
         KeyValue keyValue = rowTacker.getKeyValue();
         System.out.println(keyValue);
-        Value val = keyValue.getValue();
+        TableValue val = keyValue.getValue();
         ColumnValues columnValues = val.columnValues();
 
         assert ByteUtil.byteEqual(columnValues.get(column1), value1);
@@ -169,7 +171,7 @@ public class RowTrackerTest {
 
         KeyValue keyValue = rowTacker.getKeyValue();
         System.out.println(keyValue);
-        Value val = keyValue.getValue();
+        TableValue val = keyValue.getValue();
         ColumnValues columnValues = val.columnValues();
 
 

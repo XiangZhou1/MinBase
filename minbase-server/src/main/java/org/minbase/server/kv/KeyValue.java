@@ -24,7 +24,7 @@ public class KeyValue {
     }
 
     public byte[] getUserKey(){
-        return key.getUserKey();
+        return key.getInternalKey();
     }
 
     public Key getKey() {
