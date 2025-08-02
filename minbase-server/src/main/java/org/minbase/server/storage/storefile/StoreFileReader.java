@@ -1,4 +1,4 @@
-package org.minbase.server.storage.store;
+package org.minbase.server.storage.storefile;
 
 import org.minbase.common.utils.FileUtil;
 import org.minbase.server.iterator.StoreFileIterator;

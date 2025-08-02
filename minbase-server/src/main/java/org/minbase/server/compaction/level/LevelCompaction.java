@@ -9,10 +9,10 @@ import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreFileIterator;
 import org.minbase.server.kv.Key;
-import org.minbase.server.storage.store.StoreFileBuilder;
-import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.storefile.StoreFileBuilder;
+import org.minbase.server.storage.storefile.StoreFile;
 import org.minbase.common.utils.Util;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storefilemanager.AbstractStoreFileManager;
 import org.minbase.server.storage.version.FileEdit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class LevelCompaction implements Compaction {
 
 
     @Override
-    public synchronized void compact(AbstractStoreManager storeManager) throws Exception {
+    public synchronized void compact(AbstractStoreFileManager storeManager) throws Exception {
         FileEdit fileEdit = new FileEdit();
 
         for (int i = 0; i < MAX_LEVEL - 1; i++) {
@@ -42,7 +42,7 @@ public class LevelCompaction implements Compaction {
         storeManager.applyFileEdit(fileEdit);
     }
 
-    private void compactLevel(int level, StoreFile storeFile, FileEdit fileEdit, AbstractStoreManager storeManager) throws Exception {
+    private void compactLevel(int level, StoreFile storeFile, FileEdit fileEdit, AbstractStoreFileManager storeManager) throws Exception {
         logger.info("Compacting sstable files of level " + level);
 
         List<KeyValueIterator> ssTableIters = new ArrayList<>();
@@ -98,7 +98,7 @@ public class LevelCompaction implements Compaction {
     }
 
     @Override
-    public boolean needCompact(AbstractStoreManager storeManager) {
+    public boolean needCompact(AbstractStoreFileManager storeManager) {
         for (int i = 0; i < MAX_LEVEL - 1; i++) {
             List<StoreFile> storeFiles = storeManager.getStoreFiles(i);
             List<StoreFile> ssTablesNextLevel = storeManager.getStoreFiles(i + 1);

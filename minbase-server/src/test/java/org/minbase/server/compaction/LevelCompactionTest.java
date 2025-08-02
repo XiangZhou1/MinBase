@@ -9,11 +9,11 @@ import org.minbase.server.iterator.StoreFileIterator;
 
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Value;
-import org.minbase.server.storage.store.StoreFileBuilder;
-import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.storefile.StoreFileBuilder;
+import org.minbase.server.storage.storefile.StoreFile;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.Util;
-import org.minbase.server.storage.storemanager.level.LevelStoreManager;
+import org.minbase.server.storage.storefilemanager.level.LevelStoreFileManager;
 
 import java.io.File;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class LevelCompactionTest {
 
-    LevelStoreManager levelStorageManager;
+    LevelStoreFileManager levelStorageManager;
 
     @Before
     public void before() throws Exception{
@@ -29,7 +29,7 @@ public class LevelCompactionTest {
 //        if(!file.delete()){
 //            throw new RuntimeException("file not delete");
 //        }
-        levelStorageManager = new LevelStoreManager();
+        levelStorageManager = new LevelStoreFileManager();
         //initDataFile();
     }
 

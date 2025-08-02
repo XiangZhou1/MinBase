@@ -1,4 +1,4 @@
-package org.minbase.rpc;
+package org.minbase.server.rpc;
 
 import org.minbase.common.operation.ColumnValues;
 import org.minbase.common.operation.Get;
@@ -7,9 +7,9 @@ import org.minbase.common.rpc.proto.generated.*;
 import org.minbase.common.table.Table;
 import org.minbase.common.utils.ProtobufUtil;
 import org.minbase.server.MinBaseServer;
-import org.minbase.server.transaction.Transaction;
-import org.minbase.server.transaction.TransactionManager;
-import org.minbase.server.transaction.TransactionState;
+import org.minbase.server.table.transaction.Transaction;
+import org.minbase.server.table.transaction.TransactionManager;
+import org.minbase.server.table.transaction.TransactionState;
 
 import java.util.ArrayList;
 import java.util.List;

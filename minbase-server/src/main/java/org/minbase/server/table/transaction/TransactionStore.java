@@ -1,6 +1,4 @@
-package org.minbase.server.transaction;
-
-
+package org.minbase.server.table.transaction;
 
 import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Put;

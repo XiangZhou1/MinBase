@@ -1,14 +1,14 @@
-package org.minbase.server.storage.storemanager;
+package org.minbase.server.storage.storefilemanager;
 
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.storefile.StoreFile;
 
 import java.io.File;
 import java.io.IOException;
 
-public interface StoreManager extends ManiFest {
+public interface StoreFileManager extends ManiFest {
     File getStoreDir();
 
     long getLastSequenceId();

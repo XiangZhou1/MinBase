@@ -1,4 +1,4 @@
-package org.minbase.server.storage.storemanager;
+package org.minbase.server.storage.storefilemanager;
 
 import java.io.File;
 

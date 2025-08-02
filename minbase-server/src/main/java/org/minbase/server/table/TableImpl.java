@@ -6,27 +6,27 @@ import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Get;
 import org.minbase.common.operation.Put;
 import org.minbase.common.table.Table;
-import org.minbase.server.minstore.MinStore;
-import org.minbase.server.transaction.Transaction;
-import org.minbase.server.transaction.TransactionManager;
+import org.minbase.server.store.Store;
+import org.minbase.server.table.transaction.Transaction;
+import org.minbase.server.table.transaction.TransactionManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TableImpl implements Table {
     String tableName;
-    MinStore minStore;
+    Store store;
     Map<String, TableImpl> selfTables;
 
-    public TableImpl(String tableName, MinStore minStore) {
+    public TableImpl(String tableName, Store store) {
         this.tableName = tableName;
-        this.minStore = minStore;
+        this.store = store;
         this.selfTables = new HashMap<>();
         this.selfTables.put(tableName, this);
     }
 
-    public MinStore getMinStore() {
-        return minStore;
+    public Store getMinStore() {
+        return store;
     }
 
     @Override

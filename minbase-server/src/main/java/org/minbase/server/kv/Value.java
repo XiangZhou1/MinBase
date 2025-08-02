@@ -2,6 +2,7 @@ package org.minbase.server.kv;
 
 import org.minbase.common.Constants;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.table.ColumnValues;
 
 import java.io.IOException;
 import java.io.OutputStream;

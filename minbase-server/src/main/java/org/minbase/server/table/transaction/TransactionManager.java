@@ -1,4 +1,4 @@
-package org.minbase.server.transaction;
+package org.minbase.server.table.transaction;
 
 import org.minbase.server.table.TableImpl;
 

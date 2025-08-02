@@ -1,4 +1,4 @@
-package org.minbase.server.minstore;
+package org.minbase.server.store;
 
 
 import org.junit.Before;
@@ -16,12 +16,12 @@ import java.io.File;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class TestMinStore {
+public class TestStore {
     private static final byte[] key1 = "key1".getBytes();
     private static final byte[] column1 = "column1".getBytes();
     private static final byte[] value1 = "value1".getBytes();
     private static final String tableName = "table1";
-    MinStore minStore;
+    Store store;
 
     @Before
     public void before() throws Exception {
@@ -31,7 +31,7 @@ public class TestMinStore {
         Compaction compaction = Mockito.mock(Compaction.class);
         Mockito.doReturn(false).when(compaction.needCompact(Mockito.any()));
         CompactThread compactThread = new CompactThread(compaction, null);
-        minStore = new MinStore(name, dir, flushThread, compaction, compactThread);
+        store = new Store(name, dir, flushThread, compaction, compactThread);
     }
 //
     @Test
@@ -40,9 +40,9 @@ public class TestMinStore {
         WriteBatch writeBatch = new WriteBatch();
         writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
         writeBatch.setSequenceId(1);
-        minStore.put(writeBatch);
+        store.put(writeBatch);
 
-        KeyValueIterator iterator = minStore.iterator(Key.minKey(key1), Key.maxKey(key1));
+        KeyValueIterator iterator = store.iterator(Key.minKey(key1), Key.maxKey(key1));
         while (iterator.isValid()) {
             KeyValue value = iterator.value();
             System.out.println(value);
@@ -59,10 +59,10 @@ public class TestMinStore {
             WriteBatch writeBatch = new WriteBatch();
             writeBatch.add(tableName, KeyValueUtil.toKeyValue(put));
             writeBatch.setSequenceId(i);
-            minStore.put(writeBatch);
+            store.put(writeBatch);
         }
 
-        KeyValueIterator iterator = minStore.iterator(Key.minKey(key1), Key.maxKey(key1));
+        KeyValueIterator iterator = store.iterator(Key.minKey(key1), Key.maxKey(key1));
         while (iterator.isValid()) {
             KeyValue value = iterator.value();
             System.out.println(value);

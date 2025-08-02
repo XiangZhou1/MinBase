@@ -1,8 +1,7 @@
 package org.minbase.server.storage.version;
 
 
-
-import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.storefile.StoreFile;
 
 import java.util.ArrayList;
 import java.util.List;

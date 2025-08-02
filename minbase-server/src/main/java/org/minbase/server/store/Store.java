@@ -1,4 +1,4 @@
-package org.minbase.server.minstore;
+package org.minbase.server.store;
 
 
 import org.minbase.common.operation.Delete;
@@ -8,8 +8,7 @@ import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Value;
 import org.minbase.server.kv.WriteBatch;
-import org.minbase.server.storage.storemanager.level.LevelStoreManager;
-import org.minbase.server.storage.storemanager.tiered.TieredStoreManager;
+
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.iterator.KeyValueIterator;
@@ -17,7 +16,9 @@ import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.mem.MemStore;
 import org.minbase.server.compaction.CompactionStrategy;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storefilemanager.AbstractStoreFileManager;
+import org.minbase.server.storage.storefilemanager.level.LevelStoreFileManager;
+import org.minbase.server.storage.storefilemanager.tiered.TieredStoreFileManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class MinStore {
+public class Store {
     private static final int MAX_IMMEMTABLE_SIZE = 3;
     private String name;
     private File dir;
@@ -36,7 +37,7 @@ public class MinStore {
     private MemStore memStore;
     private ConcurrentLinkedDeque<MemStore> immMemStores;
     // 文件存储
-    private AbstractStoreManager storeManager;
+    private AbstractStoreFileManager storeManager;
 
     private ReentrantReadWriteLock rwLock;
     private ReentrantReadWriteLock.WriteLock writeLock;
@@ -48,7 +49,7 @@ public class MinStore {
     private Compaction compaction;
     private CompactThread compactThread;
 
-    public MinStore(String name, File dir, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
+    public Store(String name, File dir, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
         this.name = name;
         this.dir = dir;
         this.flushThread = flushThread;
@@ -68,10 +69,10 @@ public class MinStore {
     private void initStoreManager() throws IOException {
         String compactionStrategy = Config.get(Constants.KEY_COMPACTION_STRATEGY);
         if (CompactionStrategy.LEVEL_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeManager = new LevelStoreManager();
+            this.storeManager = new LevelStoreFileManager();
             this.storeManager.loadStoreFiles();
         } else if (CompactionStrategy.TIERED_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeManager = new TieredStoreManager();
+            this.storeManager = new TieredStoreFileManager();
             this.storeManager.loadStoreFiles();
         }
     }
@@ -187,7 +188,7 @@ public class MinStore {
     }
 
 
-    public AbstractStoreManager getStorageManager() {
+    public AbstractStoreFileManager getStorageManager() {
         return storeManager;
     }
 

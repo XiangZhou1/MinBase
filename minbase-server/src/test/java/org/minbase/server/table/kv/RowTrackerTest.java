@@ -5,6 +5,7 @@ import org.minbase.common.operation.Delete;
 import org.minbase.common.operation.Put;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.*;
+import org.minbase.server.table.ColumnValues;
 import org.minbase.server.utils.KeyValueUtil;
 
 import java.nio.charset.StandardCharsets;

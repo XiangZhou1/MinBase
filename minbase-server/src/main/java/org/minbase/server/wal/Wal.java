@@ -4,7 +4,7 @@ package org.minbase.server.wal;
 import org.minbase.common.utils.Util;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.minstore.MinStore;
+import org.minbase.server.store.Store;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.FileUtil;
@@ -132,8 +132,8 @@ public class Wal {
                     WriteBatch writeBatch = logEntry.getWriteBatch();
                     List<String> walTables = writeBatch.getTables();
                     for (String walTable : walTables) {
-                        MinStore minStore = tables.get(walTable).getMinStore();
-                        minStore.put(writeBatch);
+                        Store store = tables.get(walTable).getMinStore();
+                        store.put(writeBatch);
                     }
                 }
                 sequenceId = syncSequenceId = logEntry.getSequenceId();

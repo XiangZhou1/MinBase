@@ -1,7 +1,7 @@
-package org.minbase.server.minstore;
+package org.minbase.server.store;
 
 public class StoreManagerTest {
-    MinStore minStore;
+    Store store;
 //
 //    @Before
 //    public void before() throws Exception{

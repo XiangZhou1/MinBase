@@ -1,4 +1,4 @@
-package org.minbase.server.kv;
+package org.minbase.server.table;
 
 import org.minbase.common.Constants;
 import org.minbase.common.utils.ByteUtil;

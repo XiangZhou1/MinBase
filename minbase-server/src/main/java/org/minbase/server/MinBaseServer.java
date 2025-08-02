@@ -1,19 +1,20 @@
 package org.minbase.server;
 
 import org.minbase.common.table.Table;
-import org.minbase.rpc.RpcServer;
+import org.minbase.server.rpc.RpcServer;
 import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.compaction.CompactionStrategy;
 import org.minbase.server.compaction.level.LevelCompaction;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+
 import org.minbase.server.compaction.tiered.TieredCompaction;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.minstore.MinStore;
+import org.minbase.server.storage.storefilemanager.AbstractStoreFileManager;
+import org.minbase.server.store.Store;
 import org.minbase.server.table.TableImpl;
-import org.minbase.server.transaction.Transaction;
-import org.minbase.server.transaction.TransactionManager;
+import org.minbase.server.table.transaction.Transaction;
+import org.minbase.server.table.transaction.TransactionManager;
 import org.minbase.server.wal.Wal;
 
 import java.io.File;
@@ -62,8 +63,8 @@ public class MinBaseServer {
         File[] tableDirs = listTableDirs();
         for (File tableDir : tableDirs) {
             String tableName = tableDir.getName();
-            MinStore minStore = new MinStore(tableName, tableDir, flushThread, compaction, compactThread);
-            tables.put(tableDir.getName(), new TableImpl(tableDir.getName(), minStore));
+            Store store = new Store(tableName, tableDir, flushThread, compaction, compactThread);
+            tables.put(tableDir.getName(), new TableImpl(tableDir.getName(), store));
         }
         wal.recovery(tables);
 
@@ -96,8 +97,8 @@ public class MinBaseServer {
                 throw new IOException("create table fail");
             }
         }
-        MinStore minStore = new MinStore(tableName, tableDir, flushThread, compaction, compactThread);
-        final TableImpl table = new TableImpl(tableName, minStore);
+        Store store = new Store(tableName, tableDir, flushThread, compaction, compactThread);
+        final TableImpl table = new TableImpl(tableName, store);
         tables.put(tableName, table);
         return table;
     }
@@ -112,7 +113,7 @@ public class MinBaseServer {
             return;
         }
 
-        final AbstractStoreManager storageManager = table.getMinStore().getStorageManager();
+        final AbstractStoreFileManager storageManager = table.getMinStore().getStorageManager();
         if (compaction.needCompact(storageManager)) {
             this.compaction.compact(storageManager);
         }

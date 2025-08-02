@@ -10,6 +10,8 @@ import org.minbase.server.compaction.CompactThread;
 import org.minbase.server.compaction.Compaction;
 import org.minbase.server.minstore.MinStore;
 import org.minbase.server.table.TableImpl;
+import org.minbase.server.table.transaction.Transaction;
+import org.minbase.server.table.transaction.TransactionManager;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

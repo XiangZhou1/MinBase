@@ -1,6 +1,6 @@
 package org.minbase.server.storage.version;
 
-import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.storefile.StoreFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

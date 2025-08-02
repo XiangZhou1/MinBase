@@ -1,11 +1,11 @@
-package org.minbase.server.minstore;
+package org.minbase.server.store;
 
 
 import org.minbase.server.iterator.MemStoreIterator;
 import org.minbase.server.mem.MemStore;
-import org.minbase.server.storage.store.StoreFileBuilder;
-import org.minbase.server.storage.store.StoreFile;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storefile.StoreFileBuilder;
+import org.minbase.server.storage.storefile.StoreFile;
+import org.minbase.server.storage.storefilemanager.AbstractStoreFileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,13 +17,13 @@ public class FlushTask implements Runnable {
 
     ConcurrentLinkedDeque<MemStore> immMemStores;
     MemStore immMemTablesLast;
-    AbstractStoreManager storeManager;
-    MinStore minStore;
+    AbstractStoreFileManager storeManager;
+    Store store;
 
-    public FlushTask(MinStore minStore) {
-        this.storeManager = minStore.getStorageManager();
-        this.immMemStores = minStore.getImmMemTables();
-        this.minStore = minStore;
+    public FlushTask(Store store) {
+        this.storeManager = store.getStorageManager();
+        this.immMemStores = store.getImmMemTables();
+        this.store = store;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class FlushTask implements Runnable {
                 immMemStores.removeLast();
                 storeFile.cacheDataBlocks();
                 //wal.clearOldWal(lastSyncSequenceId);
-                minStore.triggerCompaction();
+                store.triggerCompaction();
                 logger.info("Flush immMemTable success; firstKey =%s, lastKey =%s, lastSyncSequenceId=%d", storeFile.getFirstKey(), storeFile.getLastKey(), lastSyncSequenceId);
             } catch (IOException e) {
                 logger.error("Flush immMemTable error", e);

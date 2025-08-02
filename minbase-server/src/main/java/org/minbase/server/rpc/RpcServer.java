@@ -1,4 +1,4 @@
-package org.minbase.rpc;
+package org.minbase.server.rpc;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

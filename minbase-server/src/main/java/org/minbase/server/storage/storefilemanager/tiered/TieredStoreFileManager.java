@@ -1,4 +1,4 @@
-package org.minbase.server.storage.storemanager.level;
+package org.minbase.server.storage.storefilemanager.tiered;
 
 
 import org.minbase.common.utils.ByteUtil;
@@ -8,8 +8,8 @@ import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.iterator.StoreIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.storage.store.StoreFile;
-import org.minbase.server.storage.storemanager.AbstractStoreManager;
+import org.minbase.server.storage.storefile.StoreFile;
+import org.minbase.server.storage.storefilemanager.AbstractStoreFileManager;
 import org.minbase.server.storage.version.EditVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,12 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LevelStoreManager extends AbstractStoreManager {
-    private static final Logger logger = LoggerFactory.getLogger(LevelStoreManager.class);
+public class TieredStoreFileManager extends AbstractStoreFileManager {
+    private static final Logger logger = LoggerFactory.getLogger(TieredStoreFileManager.class);
 
-    public LevelStoreManager() {
+    public TieredStoreFileManager() {
         super();
-        this.compactionStrategy = CompactionStrategy.LEVEL_COMPACTION;
+        this.compactionStrategy = CompactionStrategy.TIERED_COMPACTION;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,20 +31,21 @@ public class LevelStoreManager extends AbstractStoreManager {
     public KeyValue get(Key key) {
         EditVersion currentVersion = getEditVersion(true);
         try {
+            ArrayList<KeyValueIterator> list = new ArrayList<>();
             for (List<StoreFile> storeFiles : currentVersion.getStoreFiles().values()) {
-                ArrayList<KeyValueIterator> list = new ArrayList<>();
                 for (StoreFile storeFile : storeFiles) {
                     if (storeFile.mightContain(key.getUserKey())) {
                         list.add(storeFile.getReader().iterator(key, null));
                     }
                 }
-                MergeIterator mergeIterator = new MergeIterator(list);
-                mergeIterator.seek(key);
+            }
 
-                if (mergeIterator.isValid()) {
-                    if (ByteUtil.byteEqual(key.getUserKey(), mergeIterator.key().getUserKey())) {
-                        return mergeIterator.value();
-                    }
+            MergeIterator mergeIterator = new MergeIterator(list);
+            mergeIterator.seek(key);
+
+            if (mergeIterator.isValid()) {
+                if (ByteUtil.byteEqual(key.getUserKey(), mergeIterator.key().getUserKey())) {
+                    return mergeIterator.value();
                 }
             }
             return null;
@@ -66,4 +67,6 @@ public class LevelStoreManager extends AbstractStoreManager {
         }
         return new StoreIterator(list, currentVersion);
     }
+
+
 }

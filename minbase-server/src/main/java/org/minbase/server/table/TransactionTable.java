@@ -8,11 +8,11 @@ import org.minbase.common.table.Table;
 import org.minbase.server.iterator.KeyValueIterator;
 import org.minbase.server.iterator.MergeIterator;
 import org.minbase.server.kv.Key;
-import org.minbase.server.minstore.MinStore;
+import org.minbase.server.store.Store;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.RowTacker;
-import org.minbase.server.transaction.Transaction;
-import org.minbase.server.transaction.TransactionStore;
+import org.minbase.server.table.transaction.Transaction;
+import org.minbase.server.table.transaction.TransactionStore;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,16 +22,16 @@ import java.util.Set;
 
 public class TransactionTable implements Table {
     private String tableName;
-    private MinStore minStore;
+    private Store store;
     protected TransactionStore localStore;
     private Set<byte[]> writeSet;
     private Set<byte[]> readSet;
 
-    public TransactionTable(String tableName, Transaction transaction, MinStore minStore) {
+    public TransactionTable(String tableName, Transaction transaction, Store store) {
         this.tableName = tableName;
         this.writeSet = transaction.getWriteSet();
         this.readSet = transaction.getReadSet();
-        this.minStore = minStore;
+        this.store = store;
         this.localStore = new TransactionStore();
     }
 
@@ -44,7 +44,7 @@ public class TransactionTable implements Table {
     public ColumnValues get(Get get) {
         readSet.add(get.getKey());
 
-        KeyValueIterator iterator1 = minStore.iterator(Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
+        KeyValueIterator iterator1 = store.iterator(Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
         KeyValueIterator iterator2 = localStore.iterator(tableName, Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
         List<KeyValueIterator> keyValueIteratorList = new ArrayList<>();
         keyValueIteratorList.add(iterator1);

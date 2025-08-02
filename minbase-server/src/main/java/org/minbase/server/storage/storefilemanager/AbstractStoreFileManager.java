@@ -1,11 +1,11 @@
-package org.minbase.server.storage.storemanager;
+package org.minbase.server.storage.storefilemanager;
 
 import org.minbase.server.compaction.CompactionStrategy;
-import org.minbase.server.storage.storemanager.level.LevelStoreManager;
+import org.minbase.server.storage.storefilemanager.level.LevelStoreFileManager;
 import org.minbase.server.storage.version.ClearOldVersionTask;
 import org.minbase.server.storage.version.EditVersion;
 import org.minbase.server.storage.version.FileEdit;
-import org.minbase.server.storage.store.StoreFile;
+import org.minbase.server.storage.storefile.StoreFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-public abstract class AbstractStoreManager implements StoreManager {
-    private static final Logger logger = LoggerFactory.getLogger(LevelStoreManager.class);
+public abstract class AbstractStoreFileManager implements StoreFileManager {
+    private static final Logger logger = LoggerFactory.getLogger(LevelStoreFileManager.class);
 
     protected long lastSequenceId = 0;
     protected volatile EditVersion editVersion;
@@ -24,7 +24,7 @@ public abstract class AbstractStoreManager implements StoreManager {
     protected CompactionStrategy compactionStrategy;
     protected File storeDir;
 
-    public AbstractStoreManager() {
+    public AbstractStoreFileManager() {
         editVersion = new EditVersion();
         clearOldVersionThread = new Thread(new ClearOldVersionTask(this), "ClearOldVersionThread");
         clearOldVersionThread.start();
