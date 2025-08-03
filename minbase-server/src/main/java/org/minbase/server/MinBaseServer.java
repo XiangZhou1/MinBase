@@ -8,7 +8,7 @@ import org.minbase.server.kv.compaction.CompactionStrategy;
 import org.minbase.server.kv.compaction.level.LevelCompaction;
 
 import org.minbase.server.kv.compaction.tiered.TieredCompaction;
-import org.minbase.server.conf.Config;
+import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
 import org.minbase.server.kv.store.Store;
@@ -26,7 +26,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class MinBaseServer {
-    public static final String Data_Dir = Config.get(Constants.KEY_DATA_DIR);
+    public static final String Data_Dir = Configuration.get(Constants.KEY_DATA_DIR);
+
+    private Configuration configuration;
 
     private ConcurrentHashMap<String, TableImpl> tables;
     private RpcServer rpcServer;
@@ -42,7 +44,8 @@ public class MinBaseServer {
 
     private Wal wal;
 
-    public MinBaseServer() throws IOException {
+    public MinBaseServer(Configuration configuration) throws IOException {
+        this.configuration = configuration;
         this.rpcServer = new RpcServer(this);
         // 刷写线程
         flushThread = Executors.newSingleThreadExecutor();
@@ -51,7 +54,7 @@ public class MinBaseServer {
     private void init() throws IOException {
         // wal 日志
         wal = new Wal();
-        String compactionStrategy = Config.get(Constants.KEY_COMPACTION_STRATEGY);
+        String compactionStrategy = Configuration.get(Constants.KEY_COMPACTION_STRATEGY);
         if (CompactionStrategy.LEVEL_COMPACTION.toString().equals(compactionStrategy)) {
             this.compaction = new LevelCompaction();
         } else if (CompactionStrategy.TIERED_COMPACTION.toString().equals(compactionStrategy)) {
@@ -63,7 +66,7 @@ public class MinBaseServer {
         File[] tableDirs = listTableDirs();
         for (File tableDir : tableDirs) {
             String tableName = tableDir.getName();
-            Store store = new Store(tableName, tableDir, flushThread, compaction, compactThread);
+            Store store = new Store(tableName, tableDir, configuration flushThread, compaction, compactThread);
             tables.put(tableDir.getName(), new TableImpl(tableDir.getName(), store));
         }
         wal.recovery(tables);
@@ -120,7 +123,8 @@ public class MinBaseServer {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        MinBaseServer minBaseServer = new MinBaseServer();
+        Configuration configuration = new Configuration();
+        MinBaseServer minBaseServer = new MinBaseServer(configuration);
         minBaseServer.init();
         minBaseServer.startRpcServer();
     }

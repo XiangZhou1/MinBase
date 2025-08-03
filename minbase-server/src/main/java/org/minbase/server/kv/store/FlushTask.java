@@ -21,7 +21,7 @@ public class FlushTask implements Runnable {
 
     public FlushTask(Store store) {
         this.storeManager = store.getStorageManager();
-        this.immMemStores = store.getImmMemTables();
+        this.immMemStores = store.getFreezedMemStores();
         this.store = store;
     }
 

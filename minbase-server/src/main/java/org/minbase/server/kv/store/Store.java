@@ -1,7 +1,6 @@
 package org.minbase.server.kv.store;
 
 
-import org.minbase.common.table.op.Delete;
 import org.minbase.server.kv.compaction.CompactThread;
 import org.minbase.server.kv.compaction.Compaction;
 import org.minbase.server.kv.Key;
@@ -9,7 +8,7 @@ import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Value;
 import org.minbase.server.kv.WriteBatch;
 
-import org.minbase.server.conf.Config;
+import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MemStoreIterator;
@@ -18,7 +17,6 @@ import org.minbase.server.kv.compaction.CompactionStrategy;
 import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
 import org.minbase.server.kv.storage.storefilemanager.level.LevelStoreFileManager;
 import org.minbase.server.kv.storage.storefilemanager.tiered.TieredStoreFileManager;
-import org.minbase.server.kv.utils.ValueUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,33 +27,46 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Store {
-    private static final int MAX_IMMEMTABLE_SIZE = 3;
     private String name;
     private File dir;
 
-    // 内存存储结构
+    Configuration configuration;
+    /**
+     * 内存存储
+     */
     private MemStore memStore;
-    private ConcurrentLinkedDeque<MemStore> immMemStores;
-    // 文件存储
-    private AbstractStoreFileManager storeManager;
+    /**
+     * 冻结的内存存储
+     */
+    private ConcurrentLinkedDeque<MemStore> freezedMemStores;
 
+    // 文件存储
+    private AbstractStoreFileManager storeFileManager;
     private ReentrantReadWriteLock rwLock;
     private ReentrantReadWriteLock.WriteLock writeLock;
     private ReentrantReadWriteLock.ReadLock readLock;
 
-    // 文件刷写线程
+    /**
+     * 文件刷写线程
+     */
     private Executor flushThread;
-    // 文件压缩线程
+
+    /**
+     * 文件压缩线程
+     */
     private Compaction compaction;
     private CompactThread compactThread;
 
-    public Store(String name, File dir, Executor flushThread, Compaction compaction, CompactThread compactThread) throws IOException {
+    public Store(String name, File dir, Configuration conf,
+                 Executor flushThread, Compaction compaction,
+                 CompactThread compactThread) throws IOException {
         this.name = name;
         this.dir = dir;
+        this.configuration = conf;
         this.flushThread = flushThread;
 
-        this.memStore = new MemStore();
-        this.immMemStores = new ConcurrentLinkedDeque<MemStore>();
+        this.memStore = new MemStore(conf);
+        this.freezedMemStores = new ConcurrentLinkedDeque<MemStore>();
 
         this.rwLock = new ReentrantReadWriteLock();
         this.writeLock = rwLock.writeLock();
@@ -67,95 +78,77 @@ public class Store {
     }
 
     private void initStoreManager() throws IOException {
-        String compactionStrategy = Config.get(Constants.KEY_COMPACTION_STRATEGY);
+        String compactionStrategy = Configuration.get(Constants.KEY_COMPACTION_STRATEGY);
         if (CompactionStrategy.LEVEL_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeManager = new LevelStoreFileManager();
-            this.storeManager.loadStoreFiles();
+            this.storeFileManager = new LevelStoreFileManager();
+            this.storeFileManager.loadStoreFiles();
         } else if (CompactionStrategy.TIERED_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeManager = new TieredStoreFileManager();
-            this.storeManager.loadStoreFiles();
+            this.storeFileManager = new TieredStoreFileManager();
+            this.storeFileManager.loadStoreFiles();
         }
     }
 
 
-    //===========================
-    // put实现
-    public void put(KeyValue keyValue) {
-        WriteBatch writeBatch = new WriteBatch();
-        writeBatch.add(name, keyValue);
-        put(writeBatch);
-    }
-
-    public void put(WriteBatch writeBatch) {
-        for (KeyValue keyValue : writeBatch.getKeyValues(name)) {
-            memStore.put(keyValue.getKey(), keyValue.getValue());
-        }
-        if (memStore.shouldFreeze()) {
-            freezeMemTable();
-        }
-    }
-
-
-    private void freezeMemTable() {
-        MemStore currentMemStore = this.memStore;
+    /**
+     * put实现
+     */
+    public void put(Key key, Value value) {
         writeLock();
         try {
-            if (this.memStore != currentMemStore) {
-                return;
-            }
-            immMemStores.addFirst(currentMemStore);
-            this.memStore = new MemStore();
-            // 进行刷写文件
-            if (immMemStores.size() >= MAX_IMMEMTABLE_SIZE) {
-                // 此处不能这样
-                flushThread.execute(new FlushTask(this));
-            }
+            memStore.put(key, value);
         } finally {
             writeUnLock();
         }
     }
 
+    public void put(KeyValue keyValue) {
+        put(keyValue.getKey(), keyValue.getValue());
+    }
 
-    //===========================
-    // delete实现
-    public void delete(byte[] key) {
-        KeyValue kv = new KeyValue(new Key(key, 0), ValueUtil.Delete());
-        memStore.put(kv.getKey(), kv.getValue());
+    public void put(WriteBatch writeBatch) {
+        writeLock();
+        try {
+            for (KeyValue keyValue : writeBatch.getKeyValues(name)) {
+                memStore.put(keyValue.getKey(), keyValue.getValue());
+            }
+        } finally {
+            writeUnLock();
+        }
+
         if (memStore.shouldFreeze()) {
-            freezeMemTable();
+            freezeMemStore();
         }
     }
 
-    public void delete(Delete delete) {
-        WriteBatch writeBatch = new WriteBatch();
-        final List<byte[]> columns = delete.getColumns();
-        if (columns.isEmpty()) {
-            Key key = new Key(delete.getKey(), Constants.NO_VERSION);
-            Value value = ValueUtil.Delete();
-            writeBatch.add(name, new KeyValue(key, value));
-        } else {
-//            for (byte[] column : columns) {
-//                Key key = new Key(delete.getKey(), Constants.NO_VERSION);
-//                Value tableValue = TableValue.DeleteColumn(column);
-//                writeBatch.add(name, new KeyValue(key, tableValue));
-//            }
+    private void freezeMemStore() {
+        writeLock();
+        try {
+            MemStore currentMemStore = this.memStore;
+            if (!currentMemStore.shouldFreeze()) {
+                return;
+            }
+            freezedMemStores.addFirst(currentMemStore);
+            this.memStore = new MemStore(configuration);
+        } finally {
+            writeUnLock();
         }
-        this.put(writeBatch);
+        flushThread.execute(new FlushTask(this));
     }
 
-    // ===================================================================
     public KeyValueIterator iterator(Key startKey, Key endKey) {
-        ArrayList<KeyValueIterator> result = new ArrayList<>();
-        MemStoreIterator iterator1 = memStore.iterator(startKey, endKey);
-        result.add(iterator1);
-
-        ArrayList<KeyValueIterator> list1 = new ArrayList<>();
-        for (MemStore immMemStore : immMemStores) {
-            MemStoreIterator iterator = immMemStore.iterator(startKey, endKey);
-            list1.add(iterator);
+        readLock();
+        List<KeyValueIterator> result = new ArrayList<>();
+        try {
+            MemStoreIterator memStoreIterator = memStore.iterator(startKey, endKey);
+            result.add(memStoreIterator);
+            for (MemStore freezedMemStore : freezedMemStores) {
+                MemStoreIterator iterator = freezedMemStore.iterator(startKey, endKey);
+                result.add(iterator);
+            }
+            result.add(storeFileManager.iterator(startKey, endKey));
+        } finally {
+            readUnLock();
         }
-        result.add(new MergeIterator(list1));
-        result.add(storeManager.iterator(startKey, endKey));
         return new MergeIterator(result);
     }
 
@@ -164,13 +157,6 @@ public class Store {
         return iterator(null, null);
     }
 
-    public KeyValueIterator scan(byte[] start, byte[] end) {
-        return iterator(Key.minKey(start), Key.maxKey(end));
-    }
-
-    
-    // ==================================================
-    // 其余辅助函数
     public void readLock() {
         this.readLock.lock();
     }
@@ -189,25 +175,24 @@ public class Store {
 
 
     public AbstractStoreFileManager getStorageManager() {
-        return storeManager;
+        return storeFileManager;
     }
 
-    public ConcurrentLinkedDeque<MemStore> getImmMemTables() {
-        return immMemStores;
+    public ConcurrentLinkedDeque<MemStore> getFreezedMemStores() {
+        return freezedMemStores;
     }
-
 
     public void foreFlush() {
-        freezeMemTable();
+        freezeMemStore();
         final FlushTask flushTask = new FlushTask(this);
-        while (!this.immMemStores.isEmpty()) {
+        while (!this.freezedMemStores.isEmpty()) {
             // 此处不能这样
             flushTask.flush();
         }
     }
 
     public void triggerCompaction() {
-        if (compaction.needCompact(storeManager)) {
+        if (compaction.needCompact(storeFileManager)) {
             compactThread.trigger();
         }
     }

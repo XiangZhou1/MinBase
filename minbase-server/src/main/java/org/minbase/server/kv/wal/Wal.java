@@ -2,7 +2,7 @@ package org.minbase.server.kv.wal;
 
 
 import org.minbase.common.utils.Util;
-import org.minbase.server.conf.Config;
+import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.WriteBatch;
@@ -22,10 +22,10 @@ import java.util.concurrent.locks.LockSupport;
 public class Wal {
     private static final Logger logger = LoggerFactory.getLogger(Wal.class);
 
-    private static final String WAL_DIR = Config.get(Constants.KEY_DATA_DIR) + File.separator + "wal";
+    private static final String WAL_DIR = Configuration.get(Constants.KEY_DATA_DIR) + File.separator + "wal";
     public static final int WAL_NUM_LIMIT = 10000;
-    public static final long WAL_FILE_LENGTH_LIMIT = Util.parseUnit(Config.get(Constants.KEY_WAL_FILE_LENGTH_LIMIT));
-    private static final SyncLevel syncLevel = SyncLevel.valueOf(Config.get(Constants.KEY_WAL_SYNC_LEVEL));
+    public static final long WAL_FILE_LENGTH_LIMIT = Util.parseUnit(Configuration.get(Constants.KEY_WAL_FILE_LENGTH_LIMIT));
+    private static final SyncLevel syncLevel = SyncLevel.valueOf(Configuration.get(Constants.KEY_WAL_SYNC_LEVEL));
     private static final String INPROGRESS_WAL = "wal.inprogress";
 
     private File walFile;

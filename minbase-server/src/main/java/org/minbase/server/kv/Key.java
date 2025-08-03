@@ -3,13 +3,20 @@ package org.minbase.server.kv;
 
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.constant.Constants;
+import org.minbase.server.kv.utils.Codec;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class Key implements Comparable<Key> {
+public class Key implements Comparable<Key>, Length, Codec {
+    /**
+     * 查找最新版本
+     */
+    public static final long LATEST_VERSION = Long.MAX_VALUE;
+
     private byte[] internalKey;
     private long version;
+
     public Key() {
     }
 
@@ -18,15 +25,18 @@ public class Key implements Comparable<Key> {
         this.version = version;
     }
 
-    public static Key latestKey(byte[] userKey){
-        return new Key(userKey, Constants.LATEST_VERSION);
-    }
-
+    @Override
     public int length() {
         return internalKey.length + Constants.LONG_LENGTH;
     }
 
-
+    /**
+     * 结构
+     * | internalKey | version |
+     *
+     * @return
+     */
+    @Override
     public byte[] encode() {
         byte[] buf = new byte[length()];
         System.arraycopy(internalKey, 0, buf, 0, internalKey.length);
@@ -40,6 +50,7 @@ public class Key implements Comparable<Key> {
         return length();
     }
 
+    @Override
     public void decode(byte[] buf) {
         this.internalKey = new byte[buf.length - Constants.LONG_LENGTH];
         System.arraycopy(buf, 0, internalKey, 0, buf.length - Constants.LONG_LENGTH);
@@ -76,16 +87,7 @@ public class Key implements Comparable<Key> {
     }
 
     public boolean isLatestVersion() {
-        return this.version == Constants.LATEST_VERSION;
-    }
-
-
-    public static Key minKey(byte[] userKey) {
-        return new Key(userKey, Long.MAX_VALUE);
-    }
-
-    public static Key maxKey(byte[] userKey) {
-        return new Key(userKey, Long.MIN_VALUE);
+        return this.version == LATEST_VERSION;
     }
 
     @Override

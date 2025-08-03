@@ -2,14 +2,10 @@ package org.minbase.server.constant;
 
 public class Constants {
 
-    public static final int INTEGER_LENGTH = 4;
-    public static final int SHORT_LENGTH = 2;
-    public static final int LONG_LENGTH = 8;
-
-    // 表示查找最新版本
-    public static final long LATEST_VERSION = Long.MAX_VALUE;
-    // 表示查找最新版本
-    public static final long NO_VERSION = -1;
+    public static final int INTEGER_LENGTH = Integer.BYTES;
+    public static final int SHORT_LENGTH = Short.BYTES;
+    public static final int LONG_LENGTH = Long.BYTES;
+    public static final int BYTE_LENGTH = Byte.BYTES;
 
     // config 配置
     public static final String MINBASE_CONF = "minbase.conf";
@@ -21,4 +17,7 @@ public class Constants {
     public static final String KEY_MAX_SSTABLE_SIZE = "minbase.max_sstable_size";
     public static final String KEY_WAL_SYNC_LEVEL = "minbase.wal_sync_level";
     public static final String KEY_WAL_FILE_LENGTH_LIMIT = "minbase.wal_file_length_limit";
+
+    public static final String MEM_STORE_LENGTH_LIMIT_KEY = "memstore.length.limit";
+    public static final long MEM_STORE_LENGTH_LIMIT_DEFAULT = 128 * 1024 * 1024;
 }

@@ -2,7 +2,7 @@ package org.minbase.server.kv.compaction.level;
 
 
 import org.minbase.server.kv.compaction.Compaction;
-import org.minbase.server.conf.Config;
+import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MergeIterator;
@@ -22,7 +22,7 @@ import java.util.List;
 public class LevelCompaction implements Compaction {
     private static final Logger logger = LoggerFactory.getLogger(LevelCompaction.class);
 
-    private static final long MAX_SSTABLE_SIZE = Util.parseUnit(Config.get(Constants.KEY_MAX_SSTABLE_SIZE));
+    private static final long MAX_SSTABLE_SIZE = Util.parseUnit(Configuration.get(Constants.KEY_MAX_SSTABLE_SIZE));
     private static final int MAX_LEVEL = 4;
 
 

@@ -1,22 +1,23 @@
 package org.minbase.server.kv.store;
 
 
-
-import org.minbase.server.conf.Config;
+import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.iterator.MemStoreIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.Value;
-import org.minbase.common.utils.Util;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MemStore {
-    private static long MAX_MEMTABLE_SIZE = Util.parseUnit(Config.get(Constants.KEY_MAX_MEMTABLE_SIZE));
     private ConcurrentSkipListMap<Key, Value> map;
     private long dataLength = 0;
+    private long memStoreLengthLimit;
 
-    public MemStore() {
+    public MemStore(Configuration conf) {
+        this.memStoreLengthLimit = conf.getLong(Constants.MEM_STORE_LENGTH_LIMIT_KEY,
+                Constants.MEM_STORE_LENGTH_LIMIT_DEFAULT);
+
         this.map = new ConcurrentSkipListMap<>();
     }
 
@@ -42,6 +43,6 @@ public class MemStore {
     }
 
     public boolean shouldFreeze() {
-        return dataLength >= MAX_MEMTABLE_SIZE;
+        return dataLength >= memStoreLengthLimit;
     }
 }

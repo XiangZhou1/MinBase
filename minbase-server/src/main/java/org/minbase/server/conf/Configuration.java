@@ -9,8 +9,8 @@ import java.util.Properties;
 import static org.minbase.server.constant.Constants.MINBASE_CONF;
 
 
-public class Config {
-    private static final Logger logger = LoggerFactory.getLogger(Config.class);
+public class Configuration {
+    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
     private static Properties config = new Properties();
 
     public static String get(String key) {
@@ -19,7 +19,7 @@ public class Config {
 
     static {
         try (InputStream resourceAsStream =
-                     Config.class.getClassLoader().getResourceAsStream(MINBASE_CONF)) {
+                     Configuration.class.getClassLoader().getResourceAsStream(MINBASE_CONF)) {
             //通过Properties加载配置文件
             config.load(resourceAsStream);
         } catch (Exception e) {
@@ -28,5 +28,7 @@ public class Config {
         }
     }
 
-
+    public long getLong(String key, long defaultValue) {
+        return defaultValue;
+    }
 }

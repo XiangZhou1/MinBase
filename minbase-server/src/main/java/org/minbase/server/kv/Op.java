@@ -13,4 +13,8 @@ public enum Op {
     Op(byte op) {
         this.op = op;
     }
+
+    public byte getOp() {
+        return op;
+    }
 }
