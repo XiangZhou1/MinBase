@@ -12,16 +12,15 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class FlushTask implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(FlushTask.class);
-
-    ConcurrentLinkedDeque<MemStore> immMemStores;
-    MemStore immMemTablesLast;
+    private static final Logger LOG = LoggerFactory.getLogger(FlushTask.class);
+    ConcurrentLinkedDeque<MemStore> freezedMemStores;
+    MemStore lastFreeezedTables;
     AbstractStoreFileManager storeManager;
     Store store;
 
     public FlushTask(Store store) {
         this.storeManager = store.getStorageManager();
-        this.immMemStores = store.getFreezedMemStores();
+        this.freezedMemStores = store.getFreezedMemStores();
         this.store = store;
     }
 
@@ -31,33 +30,37 @@ public class FlushTask implements Runnable {
     }
 
     public void flush() {
-        synchronized (FlushTask.class) {
-            try {
-                if (immMemStores.isEmpty()) {
-                    return;
-                }
-                this.immMemTablesLast = immMemStores.peekLast();
-
+        boolean success = store.flushLock();
+        if (!success) {
+            return;
+        }
+        try {
+            while (!freezedMemStores.isEmpty()) {
+                this.lastFreeezedTables = freezedMemStores.peekLast();
                 StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
-                MemStoreIterator iterator = immMemTablesLast.iterator();
+                MemStoreIterator iterator = lastFreeezedTables.iterator();
                 long lastSyncSequenceId = 0;
                 while (iterator.isValid()) {
                     lastSyncSequenceId = Math.max(lastSyncSequenceId, iterator.key().getVersion());
                     storeFileBuilder.add(iterator.value());
                     iterator.next();
                 }
-
                 StoreFile storeFile = storeFileBuilder.build();
                 storeManager.addStoreFile(storeFile, lastSyncSequenceId);
-
-                immMemStores.removeLast();
+                store.setLastFlushSequenceId(lastSyncSequenceId);
+                freezedMemStores.removeLast();
                 storeFile.cacheDataBlocks();
-                //wal.clearOldWal(lastSyncSequenceId);
+
+                store.clearOldLog(lastSyncSequenceId);
                 store.triggerCompaction();
-                logger.info("Flush immMemTable success; firstKey =%s, lastKey =%s, lastSyncSequenceId=%d", storeFile.getFirstKey(), storeFile.getLastKey(), lastSyncSequenceId);
-            } catch (IOException e) {
-                logger.error("Flush immMemTable error", e);
+                LOG.debug("Flush freezedMemStore success; memStore:%s, firstKey:%s, lastKey:%s, lastSyncSequenceId:%d",
+                        store.getName(), storeFile.getFirstKey(), storeFile.getLastKey(), lastSyncSequenceId);
             }
+        } catch (IOException e) {
+            LOG.error("Flush freezedMemStore error", e);
+            System.exit(-1);
+        } finally {
+            store.flushUnLock();
         }
     }
 }

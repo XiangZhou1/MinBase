@@ -31,4 +31,8 @@ public class Configuration {
     public long getLong(String key, long defaultValue) {
         return defaultValue;
     }
+
+    public int getInt(String key, int defaultValue) {
+        return defaultValue;
+    }
 }

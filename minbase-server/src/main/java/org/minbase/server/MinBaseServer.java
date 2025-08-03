@@ -20,9 +20,7 @@ import org.minbase.server.kv.wal.Wal;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class MinBaseServer {
@@ -36,7 +34,7 @@ public class MinBaseServer {
     private AtomicLong sequenceId;
 
     // 文件刷写线程
-    private Executor flushThread;
+    private ThreadPoolExecutor flushThreadPool;
 
     // 文件压缩线程
     private Compaction compaction;
@@ -48,7 +46,8 @@ public class MinBaseServer {
         this.configuration = configuration;
         this.rpcServer = new RpcServer(this);
         // 刷写线程
-        flushThread = Executors.newSingleThreadExecutor();
+        int flushThreadMaxPoolSize = configuration.getInt(Constants.FLUSH_THREAD_MAX_POOL_SIZE_KEY, Constants.FLUSH_THREAD_MAX_POOL_SIZE_DEFAULT);
+        flushThreadPool = new ThreadPoolExecutor(1, flushThreadMaxPoolSize, 1L, TimeUnit.MINUTES, new ArrayBlockingQueue<>(100));
     }
 
     private void init() throws IOException {
@@ -66,7 +65,7 @@ public class MinBaseServer {
         File[] tableDirs = listTableDirs();
         for (File tableDir : tableDirs) {
             String tableName = tableDir.getName();
-            Store store = new Store(tableName, tableDir, configuration flushThread, compaction, compactThread);
+            Store store = new Store(tableName, tableDir, configuration, flushThreadPool, compaction, compactThread);
             tables.put(tableDir.getName(), new TableImpl(tableDir.getName(), store));
         }
         wal.recovery(tables);
@@ -100,7 +99,7 @@ public class MinBaseServer {
                 throw new IOException("create table fail");
             }
         }
-        Store store = new Store(tableName, tableDir, flushThread, compaction, compactThread);
+        Store store = new Store(tableName, tableDir, configuration, flushThreadPool, compaction, compactThread);
         final TableImpl table = new TableImpl(tableName, store);
         tables.put(tableName, table);
         return table;

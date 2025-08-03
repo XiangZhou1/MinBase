@@ -23,7 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Store {
@@ -49,21 +50,26 @@ public class Store {
     /**
      * 文件刷写线程
      */
-    private Executor flushThread;
+    private ThreadPoolExecutor flushThreadPool;
 
     /**
      * 文件压缩线程
      */
     private Compaction compaction;
     private CompactThread compactThread;
+    /**
+     * 上次刷写的序列号
+     */
+    private long lastFlushSequenceId;
+    private ReentrantLock flushLock;
 
     public Store(String name, File dir, Configuration conf,
-                 Executor flushThread, Compaction compaction,
+                 ThreadPoolExecutor flushThreadPool, Compaction compaction,
                  CompactThread compactThread) throws IOException {
         this.name = name;
         this.dir = dir;
         this.configuration = conf;
-        this.flushThread = flushThread;
+        this.flushThreadPool = flushThreadPool;
 
         this.memStore = new MemStore(conf);
         this.freezedMemStores = new ConcurrentLinkedDeque<MemStore>();
@@ -71,6 +77,7 @@ public class Store {
         this.rwLock = new ReentrantReadWriteLock();
         this.writeLock = rwLock.writeLock();
         this.readLock = rwLock.readLock();
+        this.flushLock = new ReentrantLock();
         this.compaction = compaction;
         this.compactThread = compactThread;
 
@@ -132,7 +139,7 @@ public class Store {
         } finally {
             writeUnLock();
         }
-        flushThread.execute(new FlushTask(this));
+        flushThreadPool.execute(new FlushTask(this));
     }
 
     public KeyValueIterator iterator(Key startKey, Key endKey) {
@@ -197,4 +204,23 @@ public class Store {
         }
     }
 
+    public void setLastFlushSequenceId(long lastSyncSequenceId) {
+        this.lastFlushSequenceId = lastSyncSequenceId;
+    }
+
+    public void clearOldLog(long lastSyncSequenceId) {
+
+    }
+
+    public boolean flushLock() {
+        return flushLock.tryLock();
+    }
+
+    public void flushUnLock() {
+        flushLock.unlock();
+    }
+
+    public Object getName() {
+        return name;
+    }
 }
