@@ -53,7 +53,7 @@ public class TransactionTable implements Table {
         KeyValue keyValue;
         try {
             RowTacker tacker = new RowTacker(Key.latestKey(get.getKey()), new HashSet<>(get.getColumns()));
-            while (iterator.isValid()) {
+            while (iterator.hasNext()) {
                 final KeyValue tmp = iterator.value();
                 tacker.track(tmp);
                 if (tacker.shouldStop()) {

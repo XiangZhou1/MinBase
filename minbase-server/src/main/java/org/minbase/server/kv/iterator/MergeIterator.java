@@ -11,12 +11,12 @@ import java.util.PriorityQueue;
 
 public class MergeIterator implements KeyValueIterator {
     private PriorityQueue<KeyValueIterator> queue;
-
+    private KeyValue current;
     public MergeIterator(List<KeyValueIterator> iterators) {
         this.queue = new PriorityQueue<>(KeyValueUtil.KEY_ITERATOR_COMPARATOR);
-
         for (KeyValueIterator iterator : iterators) {
-            if (iterator.isValid()) {
+            if (iterator.hasNext()) {
+                iterator.next();
                 queue.add(iterator);
             }
         }
@@ -24,16 +24,22 @@ public class MergeIterator implements KeyValueIterator {
 
     @Override
     public KeyValue value() {
-        return queue.peek().value();
+        if (current == null) {
+            return null;
+        }
+        return current;
     }
 
     @Override
     public Key key() {
-        return queue.peek().key();
+        if (current == null) {
+            return null;
+        }
+        return current.getKey();
     }
 
     @Override
-    public boolean isValid() {
+    public boolean hasNext() {
         if (queue == null || queue.isEmpty()) {
             return false;
         }
@@ -42,46 +48,45 @@ public class MergeIterator implements KeyValueIterator {
 
     @Override
     public void nextInnerKey() {
-        if (isValid()) {
-            KeyValueIterator poll = queue.poll();
-
-            // 将新poll出来的迭代器在加进去
-            poll.nextInnerKey();
-            if (poll.isValid()) {
-                queue.add(poll);
-            } else {
-                poll.close();
-            }
-        }
+//        if (hasNext()) {
+//            KeyValueIterator poll = queue.poll();
+//
+//            // 将新poll出来的迭代器在加进去
+//            poll.nextInnerKey();
+//            if (poll.hasNext()) {
+//                queue.add(poll);
+//            } else {
+//                poll.close();
+//            }
+//        }
     }
 
 
     @Override
     public void seek(Key key) {
-        while (isValid() && key().compareTo(key) < 0) {
-            nextInnerKey();
+        current = next();
+        while (current != null && key().compareTo(key) < 0 && hasNext()) {
+            next();
         }
     }
 
-    // 跳到下一个userKey
+    // 跳到下一个Key
     @Override
-    public void next() {
-        Key key = key();
-
-        while (!queue.isEmpty()) {
+    public KeyValue next() {
+        if (!queue.isEmpty()) {
             KeyValueIterator firstEntry = queue.peek();
-            if (ByteUtil.byteEqual(firstEntry.key().getInternalKey(), key.getInternalKey())) {
-                queue.poll();
-                // 将新poll出来的迭代器在加进去
+            queue.poll();
+            current = firstEntry.value();
+            // 将新poll出来的迭代器在加进去
+            if (firstEntry.hasNext()) {
                 firstEntry.next();
-                if (firstEntry.isValid()) {
-                    queue.add(firstEntry);
-                } else {
-                    firstEntry.close();
-                }
+                queue.add(firstEntry);
             } else {
-                break;
+                firstEntry.close();
             }
+            return current;
+        } else {
+            return null;
         }
     }
 }

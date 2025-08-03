@@ -1,7 +1,6 @@
 package org.minbase.server.kv.store;
 
 
-import org.minbase.server.kv.iterator.MemStoreIterator;
 import org.minbase.server.kv.storage.storefile.StoreFileBuilder;
 import org.minbase.server.kv.storage.storefile.StoreFile;
 import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
@@ -40,7 +39,7 @@ public class FlushTask implements Runnable {
                 StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
                 MemStoreIterator iterator = lastFreeezedTables.iterator();
                 long lastSyncSequenceId = 0;
-                while (iterator.isValid()) {
+                while (iterator.hasNext()) {
                     lastSyncSequenceId = Math.max(lastSyncSequenceId, iterator.key().getVersion());
                     storeFileBuilder.add(iterator.value());
                     iterator.next();

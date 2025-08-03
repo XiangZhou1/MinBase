@@ -2,7 +2,7 @@ package org.minbase.server.storage.block;
 
 
 import org.junit.Test;
-import org.minbase.server.kv.iterator.BlockIterator;
+import org.minbase.server.kv.storage.BlockIterator;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.storage.block.DataBlock;
 import org.minbase.server.kv.storage.block.DataBlockBuilder;
@@ -28,14 +28,14 @@ public class BlockTest {
         System.out.println(new String(block.encode()));
 
         DataBlock block1 = new DataBlock();
-        block1.setKeyValueNum(5);
+        block1.setKeyValueCount(5);
         block1.decode(block.encode());
 
-        int keyValueNum = block1.getKeyValueNum();
+        int keyValueNum = block1.getKeyValueCount();
         System.out.println(keyValueNum);
 
         BlockIterator blockIterator = new BlockIterator(block1);
-        while (blockIterator.isValid()){
+        while (blockIterator.hasNext()) {
             KeyValue value = blockIterator.value();
             System.out.println(value);
             blockIterator.nextInnerKey();
@@ -58,7 +58,7 @@ public class BlockTest {
         for (int i=0; i<totalnum; i++){
             BlockIterator blockIterator = new BlockIterator(block, Key.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
             int num = 0;
-            while (blockIterator.isValid()){
+            while (blockIterator.hasNext()) {
                 KeyValue value = blockIterator.value();
                 num ++;
                 blockIterator.nextInnerKey();
@@ -85,7 +85,7 @@ public class BlockTest {
         for (int i=0; i<totalnum; i++){
             BlockIterator blockIterator = new BlockIterator(block, Key.latestKey(("k"+ Util.fillZero(i)).getBytes()), null);
             int num = 0;
-            while (blockIterator.isValid()){
+            while (blockIterator.hasNext()) {
                 KeyValue value = blockIterator.value();
                 num ++;
                 blockIterator.next();

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.minbase.common.table.op.Get;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 
-import org.minbase.server.kv.iterator.MemStoreIterator;
+import org.minbase.server.kv.store.MemStoreIterator;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.store.MemStore;
 import org.minbase.server.table.TableValue;
@@ -51,7 +51,7 @@ public class MemStoreTest {
         memStore.put(new Key("k2".getBytes(), 2), TableValue.Put(column, "v2_2".getBytes()));
 
         MemStoreIterator iterator = memStore.iterator();
-        while (iterator.isValid()) {
+        while (iterator.hasNext()) {
             KeyValue value = iterator.value();
             System.out.println(value);
             iterator.nextInnerKey();
@@ -75,7 +75,7 @@ public class MemStoreTest {
         memStore.put(new Key("k4".getBytes(), 2), TableValue.Put(column, "v4_2".getBytes()));
 
         MemStoreIterator iterator = memStore.iterator(Key.latestKey("k3".getBytes()), null);
-        while (iterator.isValid()) {
+        while (iterator.hasNext()) {
             KeyValue value = iterator.value();
             System.out.println(value);
             iterator.nextInnerKey();
@@ -98,13 +98,13 @@ public class MemStoreTest {
         memStore.put(new Key("k4".getBytes(), 8), TableValue.Put(column, "v4_2".getBytes()));
 
         MemStoreIterator iterator = memStore.iterator(null, null);
-        while (iterator.isValid()) {
+        while (iterator.hasNext()) {
             System.out.println(iterator.key());
             iterator.nextInnerKey();
         }
         System.out.println("snapshot");
         KeyValueIterator snapshotIterator = memStore.iterator(null, null);
-        while (snapshotIterator.isValid()) {
+        while (snapshotIterator.hasNext()) {
             System.out.println(snapshotIterator.key());
             snapshotIterator.nextInnerKey();
         }

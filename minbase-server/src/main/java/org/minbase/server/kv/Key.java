@@ -13,7 +13,7 @@ public class Key implements Comparable<Key>, Length, Codec {
      * 查找最新版本
      */
     public static final long LATEST_VERSION = Long.MAX_VALUE;
-
+    public static final long EARLIEST_VERSION = 0L;
     private byte[] internalKey;
     private long version;
 

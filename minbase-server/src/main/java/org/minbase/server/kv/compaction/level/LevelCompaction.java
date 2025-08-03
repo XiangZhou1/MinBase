@@ -6,7 +6,7 @@ import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MergeIterator;
-import org.minbase.server.kv.iterator.StoreFileIterator;
+import org.minbase.server.kv.storage.storefilemanager.StoreFileIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.storage.storefile.StoreFileBuilder;
 import org.minbase.server.kv.storage.storefile.StoreFile;
@@ -63,7 +63,7 @@ public class LevelCompaction implements Compaction {
 
             MergeIterator mergeIterator = new MergeIterator(ssTableIters);
             StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
-            while (mergeIterator.isValid()) {
+            while (mergeIterator.hasNext()) {
                 storeFileBuilder.add(mergeIterator.value());
                 mergeIterator.next();
                 if (storeFileBuilder.length() > MAX_SSTABLE_SIZE * (level + 2)) {

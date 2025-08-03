@@ -4,7 +4,7 @@ package org.minbase.server.kv.compaction.tiered;
 import org.minbase.server.kv.compaction.Compaction;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MergeIterator;
-import org.minbase.server.kv.iterator.StoreFileIterator;
+import org.minbase.server.kv.storage.storefilemanager.StoreFileIterator;
 import org.minbase.server.kv.storage.storefile.StoreFileBuilder;
 import org.minbase.server.kv.storage.storefile.StoreFile;
 import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
@@ -46,7 +46,7 @@ public class TieredCompaction implements Compaction {
 
         MergeIterator mergeIterator = new MergeIterator(ssTableIters);
         StoreFileBuilder storeFileBuilder = new StoreFileBuilder();
-        while (mergeIterator.isValid()) {
+        while (mergeIterator.hasNext()) {
             storeFileBuilder.add(mergeIterator.value());
             mergeIterator.next();
         }

@@ -1,8 +1,10 @@
-package org.minbase.server.kv.iterator;
+package org.minbase.server.kv.storage.storefilemanager;
 
 
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.storage.BlockIterator;
+import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.storage.block.DataBlock;
 import org.minbase.server.kv.storage.block.MetaBlock;
 import org.minbase.common.utils.ByteUtil;
@@ -70,14 +72,14 @@ public class StoreFileIterator implements KeyValueIterator {
     }
 
     @Override
-    public boolean isValid() {
-        return blockIndex != -1 && blockIterator.isValid();
+    public boolean hasNext() {
+        return blockIndex != -1 && blockIterator.hasNext();
     }
 
     @Override
     public void nextInnerKey() {
         blockIterator.nextInnerKey();
-        if (!blockIterator.isValid()) {
+        if (!blockIterator.hasNext()) {
             if (blockIndex >= numOfBlocks - 1) {
                 blockIndex = -1;
                 blockIterator = null;
@@ -87,7 +89,7 @@ public class StoreFileIterator implements KeyValueIterator {
                 blockIterator = new BlockIterator(block);
             }
         }
-        if (isValid()) {
+        if (hasNext()) {
             if (endKey != null && key().compareTo(endKey) >= 0) {
                 blockIndex = -1;
             }
@@ -99,7 +101,7 @@ public class StoreFileIterator implements KeyValueIterator {
     public void next() {
         Key key = key();
         blockIterator.next();
-        while (blockIterator != null && !blockIterator.isValid()) {
+        while (blockIterator != null && !blockIterator.hasNext()) {
             if (blockIndex >= numOfBlocks - 1) {
                 blockIndex = -1;
                 blockIterator = null;
@@ -107,7 +109,7 @@ public class StoreFileIterator implements KeyValueIterator {
                 blockIndex++;
                 DataBlock block = reader.getBlock(blockIndex, cached);
                 blockIterator = new BlockIterator(block);
-                if (blockIterator.isValid()) {
+                if (blockIterator.hasNext()) {
                     if (ByteUtil.byteEqual(key.getInternalKey(), blockIterator.key().getInternalKey())) {
                         blockIterator.next();
                     }
@@ -115,7 +117,7 @@ public class StoreFileIterator implements KeyValueIterator {
             }
         }
 
-        if (isValid()) {
+        if (hasNext()) {
             if (endKey != null && key().compareTo(endKey) >= 0) {
                 blockIndex = -1;
             }

@@ -2,7 +2,7 @@ package org.minbase.server.storage.storefile;
 
 
 import org.junit.Test;
-import org.minbase.server.kv.iterator.StoreFileIterator;
+import org.minbase.server.kv.storage.storefilemanager.StoreFileIterator;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.storage.storefile.StoreFile;
 import org.minbase.server.kv.storage.storefile.StoreFileBuilder;
@@ -31,7 +31,7 @@ public class StoreFileTest {
 
         int scanNum = 0;
         StoreFileIterator iterator = storeFile.getReader().iterator();
-        while (iterator.isValid()){
+        while (iterator.hasNext()) {
             KeyValue value = iterator.value();
             scanNum ++;
             System.out.println(value);
@@ -57,7 +57,7 @@ public class StoreFileTest {
 
         int scanNum = 0;
         StoreFileIterator iterator = storeFile.getReader().iterator();
-        while (iterator.isValid()){
+        while (iterator.hasNext()) {
             KeyValue value = iterator.value();
             scanNum ++;
             System.out.println(value);
@@ -80,7 +80,7 @@ public class StoreFileTest {
         for (int i = 0; i < 40960; i++) {
             StoreFileIterator iterator = storeFile.getReader().iterator(Key.latestKey(("k" + Util.fillZero(i)).getBytes()), null);
             int num = 0;
-            while (iterator.isValid()) {
+            while (iterator.hasNext()) {
                 KeyValue value = iterator.value();
                 num++;
                 iterator.nextInnerKey();
@@ -102,7 +102,7 @@ public class StoreFileTest {
 
         StoreFile storeFile = storeFileBuilder.build();
         StoreFileIterator iterator = storeFile.getReader().iterator();
-        while (iterator.isValid()) {
+        while (iterator.hasNext()) {
             KeyValue value = iterator.value();
             //System.out.println(value);
             iterator.nextInnerKey();

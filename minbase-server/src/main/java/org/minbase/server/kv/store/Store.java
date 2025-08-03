@@ -1,6 +1,7 @@
 package org.minbase.server.kv.store;
 
 
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.compaction.CompactThread;
 import org.minbase.server.kv.compaction.Compaction;
 import org.minbase.server.kv.Key;
@@ -11,17 +12,14 @@ import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.iterator.KeyValueIterator;
-import org.minbase.server.kv.iterator.MemStoreIterator;
-import org.minbase.server.kv.iterator.MergeIterator;
 import org.minbase.server.kv.compaction.CompactionStrategy;
 import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
 import org.minbase.server.kv.storage.storefilemanager.level.LevelStoreFileManager;
 import org.minbase.server.kv.storage.storefilemanager.tiered.TieredStoreFileManager;
+import org.minbase.server.kv.utils.KeyUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.ReentrantLock;
@@ -143,20 +141,35 @@ public class Store {
     }
 
     public KeyValueIterator iterator(Key startKey, Key endKey) {
-        readLock();
-        List<KeyValueIterator> result = new ArrayList<>();
-        try {
-            MemStoreIterator memStoreIterator = memStore.iterator(startKey, endKey);
-            result.add(memStoreIterator);
-            for (MemStore freezedMemStore : freezedMemStores) {
-                MemStoreIterator iterator = freezedMemStore.iterator(startKey, endKey);
-                result.add(iterator);
-            }
-            result.add(storeFileManager.iterator(startKey, endKey));
-        } finally {
-            readUnLock();
+        return new StoreIterator(this, startKey, endKey);
+    }
+
+    /**
+     * 获取key对应的value
+     *
+     * @param key 如果key的version为LATEST_VERSION, 则返回最新版本的value
+     *            否则返回指定版本的value
+     * @return value
+     */
+    public KeyValue get(Key key) {
+        Key startKey = null;
+        Key endKey = null;
+        if (key.isLatestVersion()) {
+            startKey = KeyUtil.latestVersionKey(key.getInternalKey());
+            endKey = KeyUtil.earliestVersionKey(key.getInternalKey());
+        } else {
+            startKey = key;
+            endKey = KeyUtil.earliestVersionKey(key.getInternalKey());
         }
-        return new MergeIterator(result);
+        StoreIterator storeIterator = new StoreIterator(this, startKey, endKey);
+        while (storeIterator.hasNext()) {
+            storeIterator.next();
+            KeyValue keyValue = storeIterator.value();
+            if (ByteUtil.byteEqual(keyValue.getKey().getInternalKey(), key.getInternalKey())) {
+                return keyValue;
+            }
+        }
+        return null;
     }
 
 
@@ -220,7 +233,11 @@ public class Store {
         flushLock.unlock();
     }
 
-    public Object getName() {
+    public String getName() {
         return name;
+    }
+
+    public MemStore getMemStore() {
+        return memStore;
     }
 }

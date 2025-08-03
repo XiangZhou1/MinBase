@@ -44,7 +44,7 @@ public class TestStore {
         store.put(writeBatch);
 
         KeyValueIterator iterator = store.iterator(Key.minKey(key1), Key.maxKey(key1));
-        while (iterator.isValid()) {
+        while (iterator.hasNext()) {
             KeyValue value = iterator.value();
             System.out.println(value);
             iterator.next();
@@ -64,7 +64,7 @@ public class TestStore {
         }
 
         KeyValueIterator iterator = store.iterator(Key.minKey(key1), Key.maxKey(key1));
-        while (iterator.isValid()) {
+        while (iterator.hasNext()) {
             KeyValue value = iterator.value();
             System.out.println(value);
             iterator.next();

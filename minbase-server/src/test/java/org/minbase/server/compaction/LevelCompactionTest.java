@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.minbase.server.kv.compaction.level.LevelCompaction;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MergeIterator;
-import org.minbase.server.kv.iterator.StoreFileIterator;
+import org.minbase.server.kv.storage.storefilemanager.StoreFileIterator;
 
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.table.TableValue;
@@ -57,14 +57,14 @@ public class LevelCompactionTest {
     public void testSSTableIter() throws Exception {
         final StoreFile storeFile = levelStorageManager.loadSSTable("0e15dd05-f472-4e49-8a64-dcd681fa71e9");
         final StoreFileIterator iterator = storeFile.iterator();
-        while (iterator.isValid()){
+        while (iterator.hasNext()) {
             System.out.println(iterator.value());
             iterator.next();
         }
 
 
         final StoreFileIterator iterator1 = storeFile.iterator();
-        while (iterator1.isValid()){
+        while (iterator1.hasNext()) {
             System.out.println(iterator1.value());
             iterator1.nextInnerKey();
         }
@@ -72,20 +72,20 @@ public class LevelCompactionTest {
         System.out.println("sstable2");
         final StoreFile storeFile2 = levelStorageManager.loadSSTable("0e65787e-6980-444f-b643-d16607fb567a");
         final StoreFileIterator iterator2 = storeFile2.iterator();
-        while (iterator2.isValid()){
+        while (iterator2.hasNext()) {
             System.out.println(iterator2.value());
             iterator2.next();
         }
 
         final StoreFileIterator iterator3 = storeFile2.iterator();
-        while (iterator3.isValid()){
+        while (iterator3.hasNext()) {
             System.out.println(iterator3.value());
             iterator3.nextInnerKey();
         }
 
         System.out.println("mergeIterator");
         MergeIterator mergeIterator = new MergeIterator(Arrays.asList(storeFile.iterator(), storeFile2.iterator()));
-        while (mergeIterator.isValid()){
+        while (mergeIterator.hasNext()) {
             System.out.println(mergeIterator.value());
             mergeIterator.next();
         }
@@ -97,7 +97,7 @@ public class LevelCompactionTest {
         levelStorageManager.loadSSTables();
 
         final KeyValueIterator iterator = levelStorageManager.iterator(null, null);
-        while (iterator.isValid()) {
+        while (iterator.hasNext()) {
             final KeyValue keyValue = iterator.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));
@@ -105,7 +105,7 @@ public class LevelCompactionTest {
         }
 
         final KeyValueIterator iterator2 = levelStorageManager.iterator(null, null);
-        while (iterator2.isValid()) {
+        while (iterator2.hasNext()) {
             final KeyValue keyValue = iterator2.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));
@@ -125,7 +125,7 @@ public class LevelCompactionTest {
 
         System.out.println("scan");
         final KeyValueIterator iterator2 = levelStorageManager.iterator(null, null);
-        while (iterator2.isValid()) {
+        while (iterator2.hasNext()) {
             final KeyValue keyValue = iterator2.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));
@@ -133,7 +133,7 @@ public class LevelCompactionTest {
         }
 
         final KeyValueIterator iterator3 = levelStorageManager.iterator(null, null);
-        while (iterator3.isValid()) {
+        while (iterator3.hasNext()) {
             final KeyValue keyValue = iterator3.value();
             System.out.println(keyValue);
             //assert new String(keyValue.getKey().getUserKey()).substring(1).equals(new String(keyValue.getValue().value()).substring(1));

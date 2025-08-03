@@ -1,8 +1,9 @@
-package org.minbase.server.kv.iterator;
+package org.minbase.server.kv.storage;
 
 
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.storage.block.DataBlock;
 import org.minbase.common.utils.ByteUtil;
 
@@ -45,13 +46,13 @@ public class BlockIterator implements KeyValueIterator {
     }
 
     @Override
-    public boolean isValid() {
+    public boolean hasNext() {
         return iterIndex != -1;
     }
 
     @Override
     public void nextInnerKey() {
-        if (iterIndex >= cachedBlock.getKeyValueNum() - 1) {
+        if (iterIndex >= cachedBlock.getKeyValueCount() - 1) {
             iterIndex = -1;
         } else {
             iterIndex++;
@@ -90,7 +91,7 @@ public class BlockIterator implements KeyValueIterator {
     public void next() {
         Key key = key();
         nextInnerKey();
-        while (isValid() && ByteUtil.byteEqual(key.getInternalKey(), key().getInternalKey())) {
+        while (hasNext() && ByteUtil.byteEqual(key.getInternalKey(), key().getInternalKey())) {
             nextInnerKey();
         }
     }

@@ -4,7 +4,7 @@ package org.minbase.server.kv.iterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 
-public interface KeyValueIterator extends Iterator<Key, KeyValue> {
+public interface KeyValueIterator {
     KeyValue value();
 
     /// Get the current key.
@@ -14,12 +14,13 @@ public interface KeyValueIterator extends Iterator<Key, KeyValue> {
     void seek(Key key);
 
     /// Check if the current iterator is valid.
-    boolean isValid();
+    boolean hasNext();
 
     // 内部的一个迭代器
     void nextInnerKey();
+
+    KeyValue next();
    
     default void close() {
-
     }
 }

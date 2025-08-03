@@ -1,21 +1,20 @@
-package org.minbase.server.kv.iterator;
+package org.minbase.server.kv.store;
 
 
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.Value;
-import org.minbase.server.kv.store.MemStore;
+import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.common.utils.ByteUtil;
 
 import java.util.Iterator;
 import java.util.Map;
 
 public class MemStoreIterator implements KeyValueIterator {
     private MemStore memStore;
-    private Iterator<Map.Entry<Key, Value>> iterator;
+    private Iterator<Map.Entry<Key, KeyValue>> iterator;
     private Key startKey;
     private Key endKey;
-    private Map.Entry<Key, Value> entry;
+    private KeyValue entry;
 
     public MemStoreIterator(MemStore memStore) {
         this(memStore, null, null);
@@ -38,50 +37,48 @@ public class MemStoreIterator implements KeyValueIterator {
         } else {
             this.iterator = memStore.getMap().entrySet().iterator();
         }
-
-        if (this.iterator.hasNext()) {
-            entry = iterator.next();
-        } else {
-            entry = null;
-        }
+        this.entry = null;
     }
 
     @Override
     public KeyValue value() {
-        return new KeyValue(entry.getKey(), entry.getValue());
+        if (entry == null) {
+            return null;
+        }
+        return entry;
     }
 
     @Override
     public Key key() {
+        if (entry == null) {
+            return null;
+        }
         return entry.getKey();
     }
 
     @Override
-    public boolean isValid() {
-        return entry != null;
+    public boolean hasNext() {
+        return this.iterator.hasNext();
     }
 
     @Override
     public void nextInnerKey() {
-        if (iterator.hasNext()) {
-            entry = iterator.next();
-        } else {
-            entry = null;
-        }
+        // todo
+//        if (iterator.hasNext()) {
+//            entry = iterator.next();
+//        } else {
+//            entry = null;
+//        }
     }
 
-
-    // 跳到下一个userKey
+    // 跳到下一个Key
     @Override
-    public void next() {
-        byte[] userKey = key().getInternalKey();
-        while (isValid()) {
-            nextInnerKey();
-            if (isValid()) {
-                if (!ByteUtil.byteEqual(userKey, key().getInternalKey())) {
-                    break;
-                }
-            }
+    public KeyValue next() {
+        entry = iterator.next().getValue();
+        if (entry == null) {
+            return null;
+        } else {
+            return new KeyValue(entry.getKey(), entry.getValue());
         }
     }
 }

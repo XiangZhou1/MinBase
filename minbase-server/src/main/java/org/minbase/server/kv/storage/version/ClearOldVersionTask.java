@@ -1,0 +1,38 @@
+package org.minbase.server.kv.storage.version;
+
+import org.minbase.common.utils.Util;
+import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ClearOldVersionTask implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(ClearOldVersionTask.class);
+
+    AbstractStoreFileManager storeManager;
+
+    public ClearOldVersionTask(AbstractStoreFileManager storeManager) {
+        this.storeManager = storeManager;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            EditVersion currentVersion = storeManager.getEditVersion(false);
+            EditVersion removeVersion = currentVersion.getPrevVersion();
+            if (removeVersion == null) {
+                Util.sleep(10 * 1000);
+                continue;
+            }
+
+            while (removeVersion != null) {
+                if (removeVersion.getReadReference() == 0) {
+                    logger.info("Clear old version, delete file");
+                    removeVersion.deleteFile();
+                    currentVersion.setPrevVersion(removeVersion.getPrevVersion());
+                }
+                currentVersion = removeVersion;
+                removeVersion = currentVersion.getPrevVersion();
+            }
+        }
+    }
+}

@@ -3,11 +3,12 @@ package org.minbase.server.kv;
 
 import org.minbase.server.constant.Constants;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.utils.Codec;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class KeyValue {
+public class KeyValue implements Codec, Length {
     private Key key;
     private Value value;
 
@@ -19,6 +20,7 @@ public class KeyValue {
         this.value = value;
     }
 
+    @Override
     public int length() {
         return key.length() + value.length() + Constants.INTEGER_LENGTH * 2;
     }
@@ -35,6 +37,7 @@ public class KeyValue {
         return value;
     }
 
+    @Override
     public byte[] encode() {
         byte[] buf = new byte[length()];
         int index = 0;
@@ -79,7 +82,7 @@ public class KeyValue {
                 '}';
     }
 
-    public int encodeToFile(OutputStream outputStream) throws IOException {
+    public int encodeToStream(OutputStream outputStream) throws IOException {
         int index = 0;
         outputStream.write(ByteUtil.intToByteArray(key.length()));
         index += Constants.INTEGER_LENGTH;
