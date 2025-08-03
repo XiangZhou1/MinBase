@@ -102,7 +102,7 @@ public abstract class AbstractStoreFileManager implements StoreFileManager {
 
         storeFile.setFilePath(getFilePath(storeFile.getStoreId()));
         try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(storeFile.getFilePath()))) {
-            storeFile.encodeToFile(outputStream);
+            storeFile.encodeToStream(outputStream);
             outputStream.flush();
         }
     }

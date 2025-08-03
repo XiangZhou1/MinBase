@@ -23,7 +23,7 @@ public class BlockIterator implements KeyValueIterator {
         this.cachedBlock = block;
         this.startKey = startKey;
         this.endKey = endKey;
-        this.iterIndex = 0;
+        this.iterIndex = -1;
 
         if (this.startKey != null) {
             seek(this.startKey);
@@ -32,34 +32,44 @@ public class BlockIterator implements KeyValueIterator {
 
     @Override
     public void seek(Key key) {
-        iterIndex = binarySearchKey(key);
+        int newIterIndex = binarySearchKey(key) - 1;
+        if (newIterIndex < 0 || newIterIndex >= cachedBlock.getKeyValueCount()) {
+            return;
+        }
+        iterIndex = newIterIndex - 1;
     }
 
     @Override
     public KeyValue value() {
+        if (iterIndex < 0 || iterIndex >= cachedBlock.getKeyValueCount()) {
+            return null;
+        }
         return cachedBlock.getData().get(iterIndex);
     }
 
     @Override
     public Key key() {
+        if (iterIndex < 0 || iterIndex >= cachedBlock.getKeyValueCount()) {
+            return null;
+        }
         return cachedBlock.getData().get(iterIndex).getKey();
     }
 
     @Override
     public boolean hasNext() {
-        return iterIndex != -1;
+        return iterIndex + 1 < cachedBlock.getKeyValueCount() && (endKey == null || key().compareTo(endKey) < 0);
     }
 
     @Override
     public void nextInnerKey() {
-        if (iterIndex >= cachedBlock.getKeyValueCount() - 1) {
-            iterIndex = -1;
-        } else {
-            iterIndex++;
-            if (endKey != null && key().compareTo(endKey) >= 0) {
-                iterIndex = -1;
-            }
-        }
+//        if (iterIndex >= cachedBlock.getKeyValueCount() - 1) {
+//            iterIndex = -1;
+//        } else {
+//            iterIndex++;
+//            if (endKey != null && key().compareTo(endKey) >= 0) {
+//                iterIndex = -1;
+//            }
+//        }
     }
 
     // 寻找第一个大于等于该Key的对象
@@ -88,12 +98,9 @@ public class BlockIterator implements KeyValueIterator {
 
     // 跳到下一个userKey
     @Override
-    public void next() {
-        Key key = key();
-        nextInnerKey();
-        while (hasNext() && ByteUtil.byteEqual(key.getInternalKey(), key().getInternalKey())) {
-            nextInnerKey();
-        }
+    public KeyValue next() {
+        iterIndex++;
+        return value();
     }
 }
 

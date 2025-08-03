@@ -73,55 +73,42 @@ public class StoreFileIterator implements KeyValueIterator {
 
     @Override
     public boolean hasNext() {
-        return blockIndex != -1 && blockIterator.hasNext();
+        return blockIndex != -1 && blockIterator.hasNext() && (endKey == null || key().compareTo(endKey) < 0);
     }
 
     @Override
     public void nextInnerKey() {
-        blockIterator.nextInnerKey();
-        if (!blockIterator.hasNext()) {
-            if (blockIndex >= numOfBlocks - 1) {
-                blockIndex = -1;
-                blockIterator = null;
-            } else {
-                blockIndex++;
-                DataBlock block = reader.getBlock(blockIndex, cached);
-                blockIterator = new BlockIterator(block);
-            }
-        }
-        if (hasNext()) {
-            if (endKey != null && key().compareTo(endKey) >= 0) {
-                blockIndex = -1;
-            }
-        }
+//        blockIterator.nextInnerKey();
+//        if (!blockIterator.hasNext()) {
+//            if (blockIndex >= numOfBlocks - 1) {
+//                blockIndex = -1;
+//                blockIterator = null;
+//            } else {
+//                blockIndex++;
+//                DataBlock block = reader.getBlock(blockIndex, cached);
+//                blockIterator = new BlockIterator(block);
+//            }
+//        }
+//        if (hasNext()) {
+//            if (endKey != null && key().compareTo(endKey) >= 0) {
+//                blockIndex = -1;
+//            }
+//        }
     }
 
     // 跳到下一个userKey
     @Override
-    public void next() {
+    public KeyValue next() {
         Key key = key();
-        blockIterator.next();
-        while (blockIterator != null && !blockIterator.hasNext()) {
-            if (blockIndex >= numOfBlocks - 1) {
-                blockIndex = -1;
-                blockIterator = null;
-            } else {
-                blockIndex++;
-                DataBlock block = reader.getBlock(blockIndex, cached);
-                blockIterator = new BlockIterator(block);
-                if (blockIterator.hasNext()) {
-                    if (ByteUtil.byteEqual(key.getInternalKey(), blockIterator.key().getInternalKey())) {
-                        blockIterator.next();
-                    }
-                }
+        while (!blockIterator.hasNext()) {
+            blockIndex++;
+            if (blockIndex >= numOfBlocks) {
+                return null;
             }
+            DataBlock block = reader.getBlock(blockIndex, cached);
+            blockIterator = new BlockIterator(block);
         }
-
-        if (hasNext()) {
-            if (endKey != null && key().compareTo(endKey) >= 0) {
-                blockIndex = -1;
-            }
-        }
+        return blockIterator.next();
     }
 
 

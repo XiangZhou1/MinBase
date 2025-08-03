@@ -52,7 +52,8 @@ import java.util.ArrayList;
  * ---------------------------
  **/
 public class StoreFile {
-    public static short storeVersion = 1;
+    public static final short STORE_FILE_VERSION = 1;
+
     // 实际物理数据结构
     private ArrayList<DataBlock> dataBlocks;
     private ArrayList<MetaBlock> metaBlocks;
@@ -163,8 +164,8 @@ public class StoreFile {
         // 检查version
         file.seek(fileLength - Constants.SHORT_LENGTH);
         byte[] versionBytes = FileUtil.read(file, Constants.SHORT_LENGTH);
-        if (storeVersion != ByteUtil.byteArrayToShort(versionBytes, 0)) {
-            throw new RuntimeException("Wrong sstable version");
+        if (STORE_FILE_VERSION != ByteUtil.byteArrayToShort(versionBytes, 0)) {
+            throw new RuntimeException("Wrong storFile version, expected version=" + STORE_FILE_VERSION);
         }
 
         // 查看metaBlockOffset
@@ -213,7 +214,7 @@ public class StoreFile {
         outputStream.write(ByteUtil.longToByteArray(metaBlockOffset));
         index += Constants.LONG_LENGTH;
 
-        outputStream.write(ByteUtil.shotToByteArray(storeVersion));
+        outputStream.write(ByteUtil.shotToByteArray(STORE_FILE_VERSION));
         return index;
     }
 
