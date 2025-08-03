@@ -2,20 +2,20 @@ package org.minbase.server;
 
 import org.minbase.common.table.Table;
 import org.minbase.server.rpc.RpcServer;
-import org.minbase.server.compaction.CompactThread;
-import org.minbase.server.compaction.Compaction;
-import org.minbase.server.compaction.CompactionStrategy;
-import org.minbase.server.compaction.level.LevelCompaction;
+import org.minbase.server.kv.compaction.CompactThread;
+import org.minbase.server.kv.compaction.Compaction;
+import org.minbase.server.kv.compaction.CompactionStrategy;
+import org.minbase.server.kv.compaction.level.LevelCompaction;
 
-import org.minbase.server.compaction.tiered.TieredCompaction;
+import org.minbase.server.kv.compaction.tiered.TieredCompaction;
 import org.minbase.server.conf.Config;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.storage.storefilemanager.AbstractStoreFileManager;
-import org.minbase.server.store.Store;
+import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
+import org.minbase.server.kv.store.Store;
 import org.minbase.server.table.TableImpl;
 import org.minbase.server.table.transaction.Transaction;
 import org.minbase.server.table.transaction.TransactionManager;
-import org.minbase.server.wal.Wal;
+import org.minbase.server.kv.wal.Wal;
 
 import java.io.File;
 import java.io.FileFilter;

@@ -1,6 +1,6 @@
 package org.minbase.server.kv;
 
-import org.minbase.server.utils.Codec;
+import org.minbase.server.kv.utils.Codec;
 
 import java.io.OutputStream;
 

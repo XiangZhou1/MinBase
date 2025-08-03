@@ -2,18 +2,18 @@ package org.minbase.server.compaction;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minbase.server.compaction.level.LevelCompaction;
-import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.iterator.MergeIterator;
-import org.minbase.server.iterator.StoreFileIterator;
+import org.minbase.server.kv.compaction.level.LevelCompaction;
+import org.minbase.server.kv.iterator.KeyValueIterator;
+import org.minbase.server.kv.iterator.MergeIterator;
+import org.minbase.server.kv.iterator.StoreFileIterator;
 
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.table.TableValue;
-import org.minbase.server.storage.storefile.StoreFileBuilder;
-import org.minbase.server.storage.storefile.StoreFile;
+import org.minbase.server.kv.storage.storefile.StoreFileBuilder;
+import org.minbase.server.kv.storage.storefile.StoreFile;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.Util;
-import org.minbase.server.storage.storefilemanager.level.LevelStoreFileManager;
+import org.minbase.server.kv.storage.storefilemanager.level.LevelStoreFileManager;
 
 import java.io.File;
 import java.util.Arrays;

@@ -1,10 +1,10 @@
 package org.minbase.client.table;
 
 import org.minbase.client.exception.ServerException;
-import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
-import org.minbase.common.operation.ColumnValues;
+import org.minbase.common.table.op.Delete;
+import org.minbase.common.table.op.Get;
+import org.minbase.common.table.op.Put;
+import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.table.*;

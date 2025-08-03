@@ -1,8 +1,8 @@
 package org.minbase.common.utils;
 
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
+import org.minbase.common.table.op.ColumnValues;
+import org.minbase.common.table.op.Get;
+import org.minbase.common.table.op.Put;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 
 import java.util.Map;

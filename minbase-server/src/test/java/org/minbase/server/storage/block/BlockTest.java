@@ -2,8 +2,10 @@ package org.minbase.server.storage.block;
 
 
 import org.junit.Test;
-import org.minbase.server.iterator.BlockIterator;
+import org.minbase.server.kv.iterator.BlockIterator;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.storage.block.DataBlock;
+import org.minbase.server.kv.storage.block.DataBlockBuilder;
 import org.minbase.server.table.TableValue;
 import org.minbase.common.utils.Util;
 

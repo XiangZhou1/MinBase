@@ -1,14 +1,14 @@
 package org.minbase.server.table;
 
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
+import org.minbase.common.table.op.ColumnValues;
+import org.minbase.common.table.op.Delete;
+import org.minbase.common.table.op.Get;
+import org.minbase.common.table.op.Put;
 import org.minbase.common.table.Table;
-import org.minbase.server.iterator.KeyValueIterator;
-import org.minbase.server.iterator.MergeIterator;
+import org.minbase.server.kv.iterator.KeyValueIterator;
+import org.minbase.server.kv.iterator.MergeIterator;
 import org.minbase.server.kv.Key;
-import org.minbase.server.store.Store;
+import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.table.transaction.Transaction;
 import org.minbase.server.table.transaction.TransactionStore;

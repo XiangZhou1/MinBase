@@ -3,13 +3,14 @@ package org.minbase.server.store;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minbase.common.operation.Put;
-import org.minbase.server.compaction.CompactThread;
-import org.minbase.server.compaction.Compaction;
-import org.minbase.server.iterator.KeyValueIterator;
+import org.minbase.common.table.op.Put;
+import org.minbase.server.kv.compaction.CompactThread;
+import org.minbase.server.kv.compaction.Compaction;
+import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.WriteBatch;
-import org.minbase.server.utils.KeyValueUtil;
+import org.minbase.server.kv.store.Store;
+import org.minbase.server.kv.utils.KeyValueUtil;
 import org.mockito.Mockito;
 
 import java.io.File;

@@ -1,14 +1,14 @@
 package org.minbase.server.table.kv;
 
 import org.junit.Test;
-import org.minbase.common.operation.Delete;
-import org.minbase.common.operation.Put;
+import org.minbase.common.table.op.Delete;
+import org.minbase.common.table.op.Put;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.*;
 import org.minbase.server.table.ColumnValues;
 import org.minbase.server.table.RowTacker;
 import org.minbase.server.table.TableValue;
-import org.minbase.server.utils.KeyValueUtil;
+import org.minbase.server.kv.utils.KeyValueUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;

@@ -2,8 +2,10 @@ package org.minbase.server.storage.storefile;
 
 
 import org.junit.Test;
-import org.minbase.server.iterator.StoreFileIterator;
+import org.minbase.server.kv.iterator.StoreFileIterator;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.storage.storefile.StoreFile;
+import org.minbase.server.kv.storage.storefile.StoreFileBuilder;
 import org.minbase.server.table.TableValue;
 import org.minbase.common.utils.Util;
 

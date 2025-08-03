@@ -3,11 +3,11 @@ package org.minbase.server.transaction;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.minbase.common.operation.Put;
+import org.minbase.common.table.op.Put;
 import org.minbase.common.table.Table;
 import org.minbase.server.MinBaseServer;
-import org.minbase.server.compaction.CompactThread;
-import org.minbase.server.compaction.Compaction;
+import org.minbase.server.kv.compaction.CompactThread;
+import org.minbase.server.kv.compaction.Compaction;
 import org.minbase.server.minstore.MinStore;
 import org.minbase.server.table.TableImpl;
 import org.minbase.server.table.transaction.Transaction;

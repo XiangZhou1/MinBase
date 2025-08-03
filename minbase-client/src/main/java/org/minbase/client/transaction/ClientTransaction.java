@@ -6,7 +6,7 @@ import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.rpc.proto.generated.TransactionServiceGrpc;
 import org.minbase.common.table.Table;
-import org.minbase.common.transaction.Transaction;
+import org.minbase.common.table.transaction.Transaction;
 
 public class ClientTransaction implements Transaction {
     private long txId;

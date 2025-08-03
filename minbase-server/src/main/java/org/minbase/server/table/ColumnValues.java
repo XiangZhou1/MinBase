@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
-public class ColumnValues extends org.minbase.common.operation.ColumnValues {
+public class ColumnValues extends org.minbase.common.table.op.ColumnValues {
 
     public ColumnValues() {
     }

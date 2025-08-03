@@ -1,11 +1,11 @@
 package org.minbase.client;
 
 import org.junit.Test;
-import org.minbase.common.operation.ColumnValues;
-import org.minbase.common.operation.Get;
-import org.minbase.common.operation.Put;
+import org.minbase.common.table.op.ColumnValues;
+import org.minbase.common.table.op.Get;
+import org.minbase.common.table.op.Put;
 import org.minbase.common.table.Table;
-import org.minbase.common.transaction.Transaction;
+import org.minbase.common.table.transaction.Transaction;
 
 import java.nio.charset.StandardCharsets;
 

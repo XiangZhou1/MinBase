@@ -1,5 +1,7 @@
 package org.minbase.server.store;
 
+import org.minbase.server.kv.store.Store;
+
 public class StoreManagerTest {
     Store store;
 //

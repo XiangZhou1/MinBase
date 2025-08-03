@@ -2,11 +2,12 @@ package org.minbase.server.mem;
 
 
 import org.junit.Test;
-import org.minbase.common.operation.Get;
-import org.minbase.server.iterator.KeyValueIterator;
+import org.minbase.common.table.op.Get;
+import org.minbase.server.kv.iterator.KeyValueIterator;
 
-import org.minbase.server.iterator.MemStoreIterator;
+import org.minbase.server.kv.iterator.MemStoreIterator;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.store.MemStore;
 import org.minbase.server.table.TableValue;
 
 import java.nio.charset.StandardCharsets;

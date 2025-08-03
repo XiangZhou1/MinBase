@@ -2,7 +2,8 @@ package org.minbase.server.storage.cache;
 
 
 import org.junit.Test;
-import org.minbase.server.storage.block.DataBlock;
+import org.minbase.server.kv.storage.block.DataBlock;
+import org.minbase.server.kv.storage.cache.LRUBlockCache;
 
 public class LRUCacheTest {
     @Test

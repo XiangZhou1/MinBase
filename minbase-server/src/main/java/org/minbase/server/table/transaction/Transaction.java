@@ -7,13 +7,13 @@ import org.minbase.common.table.Table;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.table.TableImpl;
 import org.minbase.server.table.TransactionTable;
-import org.minbase.server.wal.Wal;
+import org.minbase.server.kv.wal.Wal;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Transaction implements org.minbase.common.transaction.Transaction {
+public class Transaction implements org.minbase.common.table.transaction.Transaction {
     protected long txId;
     private long commitId;
     protected TransactionStore localStore;

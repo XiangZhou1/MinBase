@@ -1,6 +1,7 @@
 package org.minbase.server.storage.block;
 
 import org.junit.Test;
+import org.minbase.server.kv.storage.block.BloomFilterBlock;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
