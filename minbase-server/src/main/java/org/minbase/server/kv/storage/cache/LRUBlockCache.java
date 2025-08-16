@@ -3,6 +3,7 @@ package org.minbase.server.kv.storage.cache;
 
 import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
+import org.minbase.server.kv.storage.StoreFile;
 import org.minbase.server.kv.storage.block.DataBlock;
 import org.minbase.common.utils.Util;
 
@@ -12,16 +13,15 @@ import java.util.List;
 
 
 public class LRUBlockCache implements BlockCache {
-    public static BlockCache BlockCache = new LRUBlockCache();
-    private HashMap<String, Entry<DataBlock>> map;
-    private LinkedList<DataBlock> list;
+    private HashMap<CacheBlockKey, Entry<CacheBlockValue>> map;
+    private LinkedList<CacheBlockValue> list;
     private volatile long length = 0;
-    private static int MAX_CACHE_SIZE = (int) Util.parseUnit(Configuration.get(Constants.KEY_MAX_CACHE_SIZE));
+    private long maxCacheSize = 100 * 1024 * 1024;
 
-
-    public LRUBlockCache() {
+    public LRUBlockCache(long maxCacheSize) {
         map = new HashMap<>();
         list = new LinkedList<>();//缓存的key,按照存入的顺序存储
+        this.maxCacheSize = maxCacheSize;
     }
 
     public long length() {
@@ -29,59 +29,63 @@ public class LRUBlockCache implements BlockCache {
     }
 
     @Override
-    synchronized public DataBlock get(String blockId) {
-        Entry<DataBlock> blockEntry = map.get(blockId);
+    public synchronized DataBlock get(StoreFile storeFile, int dataBlockIndex) {
+        CacheBlockKey cacheBlockKey = new CacheBlockKey(storeFile, dataBlockIndex);
+        Entry<CacheBlockValue> blockEntry = map.get(cacheBlockKey);
         if (blockEntry != null) {
             list.remove(blockEntry);
             list.add(blockEntry);
-            return blockEntry.getValue();
+            return blockEntry.getValue().getDataBlock();
         }
         return null;
     }
 
     @Override
-    synchronized public void put(String blockId, DataBlock block) {
-        evict(blockId);
+    public synchronized void put(StoreFile storeFile, int dataBlockIndex, DataBlock block) {
+        CacheBlockKey cacheBlockKey = new CacheBlockKey(storeFile, dataBlockIndex);
+        CacheBlockValue cacheBlockValue = new CacheBlockValue(cacheBlockKey, block);
+        evict(cacheBlockKey);
 
-        Entry<DataBlock> blockEntry = new Entry<>(block);
-        map.put(blockId, blockEntry);
+        Entry<CacheBlockValue> blockEntry = new Entry<>(cacheBlockValue);
+        map.put(cacheBlockKey, blockEntry);
         list.add(blockEntry);
         length += block.length();
 
-        while (length > MAX_CACHE_SIZE) {
+        while (length > maxCacheSize) {
             System.out.println("put and evict");
             evict();
         }
     }
 
     @Override
-    synchronized public void evict(String blockId) {
-        Entry<DataBlock> blockEntry = map.get(blockId);
+    public void evict(StoreFile storeFile, int dataBlockIndex) {
+        evict(new CacheBlockKey(storeFile, dataBlockIndex));
+    }
+
+
+    synchronized void evict(CacheBlockKey cacheBlockKey) {
+        Entry<CacheBlockValue> blockEntry = map.get(cacheBlockKey);
         if (blockEntry != null) {
-            map.remove(blockId);
+            map.remove(cacheBlockKey);
             list.remove(blockEntry);
-            length -= blockEntry.getValue().length();
+            length -= blockEntry.getValue().getDataBlock().length();
         }
     }
 
     @Override
     synchronized public void evict() {
         System.out.println("evict");
-        Entry<DataBlock> last = list.last();
-        if (last != null) {
-            System.out.println("evit " + last.getValue().getBlockId());
-            evict(last.getValue().getBlockId());
-        } else {
-            System.out.println("null");
-        }
+        Entry<CacheBlockValue> last = list.last();
+        evict(last.getValue().getCacheBlockKey());
+
     }
 
 
-    public List<String> list() {
-        List<String> result = new ArrayList<>();
-        Entry<DataBlock> entry = list.first();
+    public List<CacheBlockValue> list() {
+        List<CacheBlockValue> result = new ArrayList<>();
+        Entry<CacheBlockValue> entry = list.first();
         while (entry != null && entry != list.tail) {
-            result.add(entry.value.getBlockId());
+            result.add(entry.value);
             entry = entry.next;
         }
         return result;

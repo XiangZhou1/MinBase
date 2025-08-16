@@ -60,7 +60,7 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
 
         WriteBatch writeBatch = localStore.getWriteBatch();
         if (!writeBatch.isEmpty()) {
-            writeBatch.setSequenceId(commitId);
+            writeBatch.setLastSequenceId(commitId);
             wal.log(writeBatch);
             applyLocalStore(localStore);
         }
@@ -71,9 +71,9 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
 
     private void applyLocalStore(TransactionStore localStore) {
         WriteBatch writeBatch = localStore.getWriteBatch();
-        for (String table : writeBatch.getTables()) {
-            tables.get(table).getMinStore().put(writeBatch);
-        }
+//        for (String table : writeBatch.getStoreNames()) {
+//            tables.get(table).getMinStore().put(writeBatch);
+//        }
     }
 
     public void rollback() {

@@ -18,8 +18,16 @@ public class Value implements Codec, Length {
         this.value = null;
     }
 
+    public Value(Op op, byte[] value) {
+        this.op = op;
+        this.value = value;
+    }
+
     @Override
     public int length() {
+        if (value == null) {
+            return Constants.BYTE_LENGTH;
+        }
         return value.length + Constants.BYTE_LENGTH;
     }
 
@@ -32,7 +40,9 @@ public class Value implements Codec, Length {
     public byte[] encode() {
         byte[] bytes = new byte[length()];
         bytes[0] = op.getOp();
-        System.arraycopy(value, 0, bytes, Constants.BYTE_LENGTH, value.length);
+        if (value != null) {
+            System.arraycopy(value, 0, bytes, Constants.BYTE_LENGTH, value.length);
+        }
         return bytes;
     }
 
@@ -52,5 +62,21 @@ public class Value implements Codec, Length {
         outputStream.write(op.getOp());
         outputStream.write(value);
         return length();
+    }
+
+    public Op getOp() {
+        return op;
+    }
+
+    @Override
+    public String toString() {
+        return "Value{" +
+                "op=" + (op.equals(Op.DELETE) ? "DELETE" : "PUT") +
+                ", value=" + (value == null ? "" : new String(value)) +
+                '}';
+    }
+
+    public boolean isPut() {
+        return this.op.equals(Op.PUT);
     }
 }

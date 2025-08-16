@@ -4,23 +4,21 @@ package org.minbase.server.kv.wal;
 import org.minbase.common.utils.Util;
 import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
-import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.FileUtil;
-import org.minbase.server.table.TableImpl;
+import org.minbase.server.kv.store.StoreManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.LockSupport;
 
 public class Wal {
-    private static final Logger logger = LoggerFactory.getLogger(Wal.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Wal.class);
 
     private static final String WAL_DIR = Configuration.get(Constants.KEY_DATA_DIR) + File.separator + "wal";
     public static final int WAL_NUM_LIMIT = 10000;
@@ -28,39 +26,32 @@ public class Wal {
     private static final SyncLevel syncLevel = SyncLevel.valueOf(Configuration.get(Constants.KEY_WAL_SYNC_LEVEL));
     private static final String INPROGRESS_WAL = "wal.inprogress";
 
+    private File walDir;
     private File walFile;
-    private OutputStream outputStream;
-    // 当前记录的日志序号
-    private long sequenceId = 0;
+    private FileOutputStream outputStream;
     // 已经记录到文件的序号
-    private volatile long syncSequenceId = 0;
-
+    private volatile long syncedLogSequenceId = 0;
     // 记录日志的队列
     private LinkedBlockingQueue<LogEntry> queue;
-
     // 同步日志到文件的线程
     private Thread syncWalThread;
     private SyncWalTask syncWalTask;
     private ConcurrentSkipListMap<Long, Thread> waitingSyncThreads = new ConcurrentSkipListMap<>();
+    private StoreManager storeManager;
 
-    public Wal() {
-    }
-
-    public Wal(long sequenceId) {
-        final File walDir = new File(WAL_DIR);
+    public Wal(File walDir, StoreManager storeManager) throws IOException {
+        this.walDir = walDir;
+        this.storeManager = storeManager;
         if (!walDir.exists()) {
-            walDir.mkdirs();
+            if (!walDir.mkdirs()) {
+                throw new IOException("Create wal dir fail, dir=" + walDir);
+            }
         }
-
-        this.sequenceId = this.syncSequenceId = sequenceId;
-        queue = new LinkedBlockingQueue<>();
-
-        syncWalTask = new SyncWalTask();
-        syncWalThread = new Thread(syncWalTask, "SyncWalTask");
-        syncWalThread.start();
+        this.queue = new LinkedBlockingQueue<>();
+        this.syncWalTask = new SyncWalTask();
+        this.syncWalThread = new Thread(syncWalTask, "SyncWalTask");
+        this.syncWalThread.start();
     }
-
-
 
     /**
      * 原子性记录多条日志
@@ -73,19 +64,18 @@ public class Wal {
     private void log(LogEntry logEntry) {
         try {
             queue.put(logEntry);
-            trySyncWal(logEntry.getSequenceId());
+            trySyncWal(logEntry.getLastSequenceId());
         } catch (InterruptedException e) {
-            logger.error("Log fail, logEntry=" + logEntry, e);
+            LOG.error("Log fail, logEntry=" + logEntry, e);
         }
     }
 
     private void trySyncWal(long currSequenceId) {
-        if (syncSequenceId >= currSequenceId) {
+        if (syncedLogSequenceId >= currSequenceId) {
             return;
         }
-
         if (SyncLevel.SYNC.equals(syncLevel)) {
-            while (syncSequenceId < currSequenceId) {
+            while (syncedLogSequenceId < currSequenceId) {
                 waitingSyncThreads.put(currSequenceId, Thread.currentThread());
                 LockSupport.park();
             }
@@ -95,27 +85,26 @@ public class Wal {
     /**
      * 从日志文件中恢复日志
      */
-    public synchronized void recovery(ConcurrentHashMap<String, TableImpl> tables) throws IOException {
+    public synchronized void recovery() throws IOException {
         final File[] files = listWalFiles();
-        if (files == null) {
-            return;
+        long lastSequenceId = 0;
+        if (files != null && files.length != 0) {
+            for (File file1 : files) {
+                recoveryFromFile(file1);
+            }
         }
-        long lastSequenceId = 0L;
-        for (File file1 : files) {
-            recoveryFromFile(tables, lastSequenceId, file1);
-        }
-
-        File inProgressFile = new File(WAL_DIR + File.separator + INPROGRESS_WAL);
+        File inProgressFile = new File(walDir, INPROGRESS_WAL);
         if (inProgressFile.exists()) {
-            long startId = sequenceId;
-            recoveryFromFile(tables, lastSequenceId, inProgressFile);
-            long endId = sequenceId;
-            FileUtil.rename(inProgressFile, new File(WAL_DIR + File.separator + startId + "_" + endId));
+            long[] sequenceIds = recoveryFromFile(inProgressFile);
+            FileUtil.rename(inProgressFile, new File(walDir, sequenceIds[0] + "_" + sequenceIds[1]));
         }
-        logger.info("Wal recovery, sequenceId=" + sequenceId);
+        LOG.info("Wal recovery, lastSequenceId=" + lastSequenceId);
     }
 
-    private void recoveryFromFile(ConcurrentHashMap<String, TableImpl> tables, long lastSequenceId, File file1) throws IOException {
+    private long[] recoveryFromFile(File file1) throws IOException {
+        LogEntry logEntry = null;
+        long firstSequenceId = -1;
+        long lastSequenceId = -1;
         try (RandomAccessFile raf = new RandomAccessFile(file1, "r")) {
             int pos = 0;
             while (pos < raf.length()) {
@@ -124,25 +113,20 @@ public class Wal {
                 pos += Constants.INTEGER_LENGTH;
 
                 byte[] logEntryBuf = FileUtil.read(raf, logEntryLength);
-                LogEntry logEntry = new LogEntry();
+                logEntry = new LogEntry();
                 logEntry.decode(logEntryBuf);
                 pos += logEntryLength;
-
-                if (logEntry.getSequenceId() > lastSequenceId) {
-                    WriteBatch writeBatch = logEntry.getWriteBatch();
-                    List<String> walTables = writeBatch.getTables();
-                    for (String walTable : walTables) {
-                        Store store = tables.get(walTable).getMinStore();
-                        store.put(writeBatch);
-                    }
+                storeManager.applyLog(logEntry.getWriteBatch());
+                if (firstSequenceId == -1) {
+                    firstSequenceId = logEntry.getFirstSequenceId();
                 }
-                sequenceId = syncSequenceId = logEntry.getSequenceId();
+                lastSequenceId = logEntry.getLastSequenceId();
             }
         }
+        return new long[]{firstSequenceId, lastSequenceId};
     }
 
     private File[] listWalFiles() {
-        File walDir = new File(WAL_DIR);
         final File[] files = walDir.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
@@ -163,10 +147,9 @@ public class Wal {
         return files;
     }
 
-    public long getSequenceId() {
-        return sequenceId;
+    public boolean shouldForeFlush() {
+        return false;
     }
-
 
     /**
      * 记录日志到文件的线程
@@ -183,41 +166,42 @@ public class Wal {
                         logEntry = queue.take();
                         if (startId == -1) {
                             openFile();
-                            startId = logEntry.getSequenceId();
+                            startId = logEntry.getFirstSequenceId();
                             walFileLength = 0;
                         }
-
+                        outputStream.write(ByteUtil.intToByteArray(logEntry.length()));
                         outputStream.write(logEntry.encode());
                         outputStream.flush();
-                        syncSequenceId = logEntry.getSequenceId();
-                        walFileLength += logEntry.length();
-
+                        outputStream.getChannel().force(true);
+                        syncedLogSequenceId = logEntry.getLastSequenceId();
+                        walFileLength += logEntry.length() + Constants.INTEGER_LENGTH;
                         if (shouldCloseFile()) {
                             closeFile();
                         }
                         wakeWaitingSyncThreads();
                     } catch (Exception e) {
-                        logger.error("Sync log entry fail, logEntry=" + (logEntry == null ? "null" : logEntry));
+                        LOG.error("Sync log entry fail, logEntry=" + (logEntry == null ? "null" : logEntry));
                     }
                 }
             }
         }
 
         private boolean shouldCloseFile() {
-            return syncSequenceId - startId > WAL_NUM_LIMIT || walFileLength >= WAL_FILE_LENGTH_LIMIT;
+            return syncedLogSequenceId - startId > WAL_NUM_LIMIT || walFileLength >= WAL_FILE_LENGTH_LIMIT;
         }
 
 
         private void openFile() throws FileNotFoundException {
-            walFile = new File(WAL_DIR + File.separator + INPROGRESS_WAL);
+            walFile = new File(walDir, INPROGRESS_WAL);
             outputStream = new FileOutputStream(walFile);
         }
 
         private void closeFile() throws IOException {
+            outputStream.getChannel().force(true);
             outputStream.close();
-            File file = new File(WAL_DIR + File.separator + startId + "_" + syncSequenceId);
+            File file = new File(walDir, startId + "_" + syncedLogSequenceId);
             FileUtil.rename(walFile, file);
-            logger.info("Flush wal file, fileName=" + file.getName());
+            LOG.info("Flush wal file, fileName=" + file.getName());
             walFile = null;
             startId = -1;
             walFileLength = 0;
@@ -226,7 +210,7 @@ public class Wal {
         private void wakeWaitingSyncThreads(){
             Map.Entry<Long, Thread> entry;
             while ((entry = waitingSyncThreads.firstEntry()) != null) {
-                if (entry.getKey() <= syncSequenceId) {
+                if (entry.getKey() <= syncedLogSequenceId) {
                     LockSupport.unpark(entry.getValue());
                 } else {
                     break;
@@ -250,7 +234,7 @@ public class Wal {
             long syncId = Long.parseLong(file1.getName().split("_")[1]);
             if (syncId <= oldSequenceId) {
                 file1.delete();
-                logger.info("Clear old wal, fileName=" + file1.getName());
+                LOG.info("Clear old wal, fileName=" + file1.getName());
             } else {
                 break;
             }

@@ -31,7 +31,7 @@ public class ColumnValuesTest {
 
         for (Map.Entry<byte[], byte[]> entry : columnValues.getColumnValues().entrySet()) {
             byte[] column = entry.getKey();
-            assert ByteUtil.byteEqual(columnValues1.get(column), columnValues.get(column));
+            assert ByteUtil.ByteEqual(columnValues1.get(column), columnValues.get(column));
         }
     }
 }

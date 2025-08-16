@@ -1,0 +1,23 @@
+package org.minbase.server.kv.storage.block;
+
+
+import org.junit.Test;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.storage.block.MetaBlock;
+import org.minbase.server.kv.utils.KeyUtil;
+
+public class MetaBlockTest {
+    @Test
+    public void test1() {
+        // int offset, Key firstKey, Key lastKey, int keyValueNum
+        MetaBlock metaBlock = new MetaBlock(1000, KeyUtil.latestVersionKey("k1".getBytes()), KeyUtil.latestVersionKey("k2".getBytes()), 7);
+
+        MetaBlock metaBlock1 = new MetaBlock();
+        metaBlock1.decode(metaBlock.encode(), 0);
+
+        System.out.println(new String(metaBlock.encode()));
+        System.out.println(new String(metaBlock1.encode()));
+        assert metaBlock.toString().equals(metaBlock1.toString());
+        assert ByteUtil.ByteEqual(metaBlock.encode(), metaBlock1.encode());
+    }
+}

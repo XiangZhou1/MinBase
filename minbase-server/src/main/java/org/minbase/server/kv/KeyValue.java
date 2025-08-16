@@ -95,4 +95,8 @@ public class KeyValue implements Codec, Length {
         index += value.encodeToFile(outputStream);
         return index;
     }
+
+    public long getVersion() {
+        return key.getVersion();
+    }
 }

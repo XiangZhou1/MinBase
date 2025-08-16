@@ -23,7 +23,7 @@ public class StoreIterator implements KeyValueIterator {
                 MemStoreIterator iterator = freezedMemStore.iterator(startKey, endKey);
                 result.add(iterator);
             }
-            result.add(store.getStorageManager().iterator(startKey, endKey));
+            result.add(store.getStorageManager().newStoreFilesIterator(startKey, endKey, true));
         } finally {
             store.readUnLock();
         }
@@ -48,11 +48,6 @@ public class StoreIterator implements KeyValueIterator {
     @Override
     public boolean hasNext() {
         return mergeIterator.hasNext();
-    }
-
-    @Override
-    public void nextInnerKey() {
-        mergeIterator.nextInnerKey();
     }
 
     @Override

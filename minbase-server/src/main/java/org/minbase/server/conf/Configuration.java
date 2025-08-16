@@ -35,4 +35,8 @@ public class Configuration {
     public int getInt(String key, int defaultValue) {
         return defaultValue;
     }
+
+    public String get(String key, String defaultValue) {
+        return defaultValue;
+    }
 }

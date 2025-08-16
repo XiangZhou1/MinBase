@@ -7,6 +7,8 @@ import org.minbase.server.kv.utils.Codec;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Key implements Comparable<Key>, Length, Codec {
     /**
@@ -96,5 +98,17 @@ public class Key implements Comparable<Key>, Length, Codec {
                 "userKey=" + new String(internalKey) +
                 ", version=" + version +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Key key = (Key) o;
+        return version == key.version && Objects.deepEquals(internalKey, key.internalKey);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.hashCode(internalKey), version);
     }
 }

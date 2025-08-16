@@ -2,32 +2,25 @@ package org.minbase.server.kv.store;
 
 
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.kv.compaction.CompactThread;
-import org.minbase.server.kv.compaction.Compaction;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Value;
-import org.minbase.server.kv.WriteBatch;
 
 import org.minbase.server.conf.Configuration;
-import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.iterator.KeyValueIterator;
-import org.minbase.server.kv.compaction.CompactionStrategy;
-import org.minbase.server.kv.storage.storefilemanager.AbstractStoreFileManager;
-import org.minbase.server.kv.storage.storefilemanager.level.LevelStoreFileManager;
-import org.minbase.server.kv.storage.storefilemanager.tiered.TieredStoreFileManager;
+import org.minbase.server.kv.storage.StoreFileManager;
 import org.minbase.server.kv.utils.KeyUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.List;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Store {
     private String name;
-    private File dir;
+    private File storeDir;
 
     Configuration configuration;
     /**
@@ -40,7 +33,7 @@ public class Store {
     private ConcurrentLinkedDeque<MemStore> freezedMemStores;
 
     // 文件存储
-    private AbstractStoreFileManager storeFileManager;
+    private StoreFileManager storeFileManager;
     private ReentrantReadWriteLock rwLock;
     private ReentrantReadWriteLock.WriteLock writeLock;
     private ReentrantReadWriteLock.ReadLock readLock;
@@ -49,23 +42,17 @@ public class Store {
      * 文件刷写线程
      */
     private ThreadPoolExecutor flushThreadPool;
-
-    /**
-     * 文件压缩线程
-     */
-    private Compaction compaction;
-    private CompactThread compactThread;
     /**
      * 上次刷写的序列号
      */
-    private long lastFlushSequenceId;
+    private long flushedSequenceId;
     private ReentrantLock flushLock;
+    private StoreManager storeManager;
 
-    public Store(String name, File dir, Configuration conf,
-                 ThreadPoolExecutor flushThreadPool, Compaction compaction,
-                 CompactThread compactThread) throws IOException {
+    public Store(String name, File storDir, Configuration conf,
+                 ThreadPoolExecutor flushThreadPool, StoreManager storeManager) throws IOException {
         this.name = name;
-        this.dir = dir;
+        this.storeDir = storDir;
         this.configuration = conf;
         this.flushThreadPool = flushThreadPool;
 
@@ -76,45 +63,42 @@ public class Store {
         this.writeLock = rwLock.writeLock();
         this.readLock = rwLock.readLock();
         this.flushLock = new ReentrantLock();
-        this.compaction = compaction;
-        this.compactThread = compactThread;
-
-        initStoreManager();
+        this.storeManager = storeManager;
+        this.storeFileManager = new StoreFileManager(storeDir, this, conf);
     }
 
-    private void initStoreManager() throws IOException {
-        String compactionStrategy = Configuration.get(Constants.KEY_COMPACTION_STRATEGY);
-        if (CompactionStrategy.LEVEL_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeFileManager = new LevelStoreFileManager();
-            this.storeFileManager.loadStoreFiles();
-        } else if (CompactionStrategy.TIERED_COMPACTION.toString().equals(compactionStrategy)) {
-            this.storeFileManager = new TieredStoreFileManager();
-            this.storeFileManager.loadStoreFiles();
-        }
+    public Store(String storeName, File storDir, Configuration configuration, StoreManager storeManager)
+            throws IOException {
+        this(storeName, storDir, configuration, new ThreadPoolExecutor(1, 1,
+                1, TimeUnit.MINUTES, new ArrayBlockingQueue<>(1000),
+                new ThreadPoolExecutor.AbortPolicy()), storeManager);
     }
-
 
     /**
      * put实现
      */
     public void put(Key key, Value value) {
-        writeLock();
-        try {
-            memStore.put(key, value);
-        } finally {
-            writeUnLock();
-        }
+        put(new KeyValue(key, value));
     }
 
     public void put(KeyValue keyValue) {
-        put(keyValue.getKey(), keyValue.getValue());
-    }
-
-    public void put(WriteBatch writeBatch) {
         writeLock();
         try {
-            for (KeyValue keyValue : writeBatch.getKeyValues(name)) {
-                memStore.put(keyValue.getKey(), keyValue.getValue());
+            memStore.put(keyValue);
+        } finally {
+            writeUnLock();
+        }
+
+        if (memStore.shouldFreeze()) {
+            freezeMemStore();
+        }
+    }
+
+    public void put(List<KeyValue> keyValues) {
+        writeLock();
+        try {
+            for (KeyValue keyValue : keyValues) {
+                memStore.put(keyValue);
             }
         } finally {
             writeUnLock();
@@ -137,7 +121,7 @@ public class Store {
         } finally {
             writeUnLock();
         }
-        flushThreadPool.execute(new FlushTask(this));
+        flushThreadPool.execute(new FlushTask(this, storeManager));
     }
 
     public KeyValueIterator iterator(Key startKey, Key endKey) {
@@ -165,7 +149,10 @@ public class Store {
         while (storeIterator.hasNext()) {
             storeIterator.next();
             KeyValue keyValue = storeIterator.value();
-            if (ByteUtil.byteEqual(keyValue.getKey().getInternalKey(), key.getInternalKey())) {
+            if (keyValue == null) {
+                return null;
+            }
+            if (ByteUtil.ByteEqual(keyValue.getKey().getInternalKey(), key.getInternalKey())) {
                 return keyValue;
             }
         }
@@ -193,8 +180,7 @@ public class Store {
         this.writeLock.unlock();
     }
 
-
-    public AbstractStoreFileManager getStorageManager() {
+    public StoreFileManager getStorageManager() {
         return storeFileManager;
     }
 
@@ -203,27 +189,32 @@ public class Store {
     }
 
     public void foreFlush() {
-        freezeMemStore();
-        final FlushTask flushTask = new FlushTask(this);
+        writeLock();
+        try {
+            MemStore currentMemStore = this.memStore;
+            freezedMemStores.addFirst(currentMemStore);
+            this.memStore = new MemStore(configuration);
+        } finally {
+            writeUnLock();
+        }
+        final FlushTask flushTask = new FlushTask(this, storeManager);
         while (!this.freezedMemStores.isEmpty()) {
-            // 此处不能这样
             flushTask.flush();
         }
     }
 
     public void triggerCompaction() {
-        if (compaction.needCompact(storeFileManager)) {
-            compactThread.trigger();
-        }
+        this.storeFileManager.requestCompaction();
     }
 
-    public void setLastFlushSequenceId(long lastSyncSequenceId) {
-        this.lastFlushSequenceId = lastSyncSequenceId;
+    public void setFlushedSequenceId(long lastSyncSequenceId) {
+        this.flushedSequenceId = lastSyncSequenceId;
     }
 
-    public void clearOldLog(long lastSyncSequenceId) {
-
+    public long getFlushedSequenceId() {
+        return flushedSequenceId;
     }
+
 
     public boolean flushLock() {
         return flushLock.tryLock();
@@ -239,5 +230,14 @@ public class Store {
 
     public MemStore getMemStore() {
         return memStore;
+    }
+
+
+    public StoreFileManager getStoreFileManager() {
+        return storeFileManager;
+    }
+
+    public StoreManager getStoreManager() {
+        return storeManager;
     }
 }

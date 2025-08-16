@@ -16,9 +16,6 @@ public interface KeyValueIterator {
     /// Check if the current iterator is valid.
     boolean hasNext();
 
-    // 内部的一个迭代器
-    void nextInnerKey();
-
     KeyValue next();
    
     default void close() {

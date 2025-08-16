@@ -34,7 +34,7 @@ public class TableValueTest {
 
         for (Map.Entry<byte[], byte[]> entry : columnValues1.entrySet()) {
             byte[] column = entry.getKey();
-            assert ByteUtil.byteEqual(columnValues1.get(column), columnValues2.get(column));
+            assert ByteUtil.ByteEqual(columnValues1.get(column), columnValues2.get(column));
         }
     }
 

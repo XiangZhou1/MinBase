@@ -1,14 +1,13 @@
 package org.minbase.common.utils;
 
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 /**
  * 一个自定义的布隆过滤器实现
- *
- * @param <T> 要存储的元素类型
  */
-public class BloomFilter<T> {
+public class BloomFilter {
 
     /**
      * 位数组，用于存储元素信息
@@ -53,7 +52,7 @@ public class BloomFilter<T> {
      *
      * @param element 要添加的元素
      */
-    public void add(T element) {
+    public void add(byte[] element) {
         int[] hashIndices = getHashIndices(element);
         for (int index : hashIndices) {
             bitSet.set(index, true);
@@ -67,7 +66,7 @@ public class BloomFilter<T> {
      * @param element 要检查的元素
      * @return 如果元素可能存在，返回 true；如果元素绝对不存在，返回 false
      */
-    public boolean contains(T element) {
+    public boolean contains(byte[] element) {
         int[] hashIndices = getHashIndices(element);
         for (int index : hashIndices) {
             if (!bitSet.get(index)) {
@@ -88,11 +87,11 @@ public class BloomFilter<T> {
      * @param element 元素
      * @return 包含 k 个哈希索引的数组
      */
-    private int[] getHashIndices(T element) {
+    private int[] getHashIndices(byte[] element) {
         int[] indices = new int[numberOfHashFunctions];
 
         // 使用对象自带的 hashCode() 作为第一个哈希函数
-        int hash1 = element.hashCode();
+        int hash1 = Arrays.hashCode(element);
 
         // 使用第一个哈希值的高位和低位异或来创建第二个哈希值，增加随机性
         int hash2 = hash1 >>> 16;

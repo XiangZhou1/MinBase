@@ -8,37 +8,39 @@ import java.util.Map;
 
 public class WriteBatch {
     Map<String, List<KeyValue>> keyValues;
+    private long lastSequenceId;
 
     public WriteBatch() {
         keyValues = new HashMap<>();
     }
 
-    public void add(String tableName, KeyValue keyValue) {
-        List<KeyValue> keyValues = this.keyValues.get(tableName);
-        if (keyValue == null) {
+    public void add(String storeName, KeyValue keyValue) {
+        List<KeyValue> keyValues = this.keyValues.get(storeName);
+        if (keyValues == null) {
             keyValues = new ArrayList<>();
-            this.keyValues.put(tableName, keyValues);
+            this.keyValues.put(storeName, keyValues);
         }
         keyValues.add(keyValue);
+        this.lastSequenceId = Math.max(this.lastSequenceId, keyValue.getKey().getVersion());
     }
 
-    public List<KeyValue> getKeyValues(String tableName) {
-        return this.keyValues.get(tableName);
+    public List<KeyValue> getKeyValues(String storeName) {
+        return this.keyValues.get(storeName);
     }
 
-    public void setSequenceId(long sequenceId) {
-        for (List<KeyValue> keyValues : keyValues.values()) {
-            for (KeyValue keyValue : keyValues) {
-                keyValue.getKey().setVersion(sequenceId);
-            }
-        }
+    public void setLastSequenceId(long lastSequenceId) {
+        this.lastSequenceId = lastSequenceId;
     }
 
-    public List<String> getTables() {
+    public List<String> getStoreNames() {
         return new ArrayList<>(keyValues.keySet());
     }
 
     public boolean isEmpty() {
         return keyValues.isEmpty();
+    }
+
+    public long getLastSequenceId() {
+        return lastSequenceId;
     }
 }

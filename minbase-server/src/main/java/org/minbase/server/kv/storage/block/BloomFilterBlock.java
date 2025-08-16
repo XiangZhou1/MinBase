@@ -6,9 +6,9 @@ import org.minbase.server.kv.Length;
 import java.util.BitSet;
 
 
-public class BloomFilterBlock extends BloomFilter<byte[]> implements Length {
+public class BloomFilterBlock extends BloomFilter implements Length {
     public BloomFilterBlock() {
-        super(1000, 0.01);
+        super(10000, 0.01);
     }
 
     @Override

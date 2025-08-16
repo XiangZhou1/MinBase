@@ -13,7 +13,7 @@ public class MemStore {
     private ConcurrentSkipListMap<Key, KeyValue> map;
     private long dataLength = 0;
     private long memStoreLengthLimit;
-
+    private long maxSecquenceId = -1;
     public MemStore(Configuration conf) {
         this.memStoreLengthLimit = conf.getLong(Constants.MEM_STORE_LENGTH_LIMIT_KEY,
                 Constants.MEM_STORE_LENGTH_LIMIT_DEFAULT);
@@ -25,6 +25,13 @@ public class MemStore {
         KeyValue value1 = new KeyValue(key, value);
         map.put(key, value1);
         dataLength += value1.length();
+        this.maxSecquenceId = key.getVersion();
+    }
+
+    public void put(KeyValue keyValue) {
+        map.put(keyValue.getKey(), keyValue);
+        dataLength += keyValue.length();
+        this.maxSecquenceId = keyValue.getKey().getVersion();
     }
 
     public ConcurrentSkipListMap<Key, KeyValue> getMap() {
@@ -45,5 +52,9 @@ public class MemStore {
 
     public boolean shouldFreeze() {
         return dataLength >= memStoreLengthLimit;
+    }
+
+    public long getMaxSecquenceId() {
+        return maxSecquenceId;
     }
 }

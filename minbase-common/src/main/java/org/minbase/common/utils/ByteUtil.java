@@ -25,7 +25,7 @@ public class ByteUtil {
         return BYTE_ORDER_COMPARATOR.compare(key, firstKey) >= 0 && BYTE_ORDER_COMPARATOR.compare(key, lastKey) <= 0;
     }
 
-    public static boolean byteEqual(byte[] key, byte[] targetKey) {
+    public static boolean ByteEqual(byte[] key, byte[] targetKey) {
         return BYTE_ORDER_COMPARATOR.compare(key, targetKey) == 0;
     }
 

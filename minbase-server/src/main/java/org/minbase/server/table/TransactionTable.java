@@ -10,6 +10,7 @@ import org.minbase.server.kv.iterator.MergeIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.utils.KeyUtil;
 import org.minbase.server.table.transaction.Transaction;
 import org.minbase.server.table.transaction.TransactionStore;
 
@@ -43,8 +44,8 @@ public class TransactionTable implements Table {
     public ColumnValues get(Get get) {
         readSet.add(get.getKey());
 
-        KeyValueIterator iterator1 = store.iterator(Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
-        KeyValueIterator iterator2 = localStore.iterator(tableName, Key.minKey(get.getKey()), Key.maxKey(get.getKey()));
+        KeyValueIterator iterator1 = store.iterator(KeyUtil.earliestVersionKey(get.getKey()), KeyUtil.latestVersionKey(get.getKey()));
+        KeyValueIterator iterator2 = localStore.iterator(tableName, KeyUtil.earliestVersionKey(get.getKey()), KeyUtil.latestVersionKey(get.getKey()));
         List<KeyValueIterator> keyValueIteratorList = new ArrayList<>();
         keyValueIteratorList.add(iterator1);
         keyValueIteratorList.add(iterator2);
@@ -52,7 +53,7 @@ public class TransactionTable implements Table {
 
         KeyValue keyValue;
         try {
-            RowTacker tacker = new RowTacker(Key.latestKey(get.getKey()), new HashSet<>(get.getColumns()));
+            RowTacker tacker = new RowTacker(KeyUtil.latestVersionKey(get.getKey()), new HashSet<>(get.getColumns()));
             while (iterator.hasNext()) {
                 final KeyValue tmp = iterator.value();
                 tacker.track(tmp);
@@ -62,7 +63,7 @@ public class TransactionTable implements Table {
                     // todo
                     // return keyValue.getValue().columnValues();
                 }
-                iterator.nextInnerKey();
+                //iterator.nextInnerKey();
             }
             keyValue = tacker.getKeyValue();
         } finally {
