@@ -1,8 +1,8 @@
-package org.minbase.server.kv.wal;
+package org.minbase.server.table.wal;
 
 
+import org.minbase.common.Constants;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Length;
 import org.minbase.server.kv.WriteBatch;

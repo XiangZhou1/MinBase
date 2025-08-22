@@ -1,33 +1,32 @@
 package org.minbase.server.rpc;
 
-import org.minbase.common.table.op.ColumnValues;
-import org.minbase.common.table.op.Get;
-import org.minbase.common.table.op.Put;
+import org.minbase.common.table.op.*;
 import org.minbase.common.rpc.proto.generated.*;
 import org.minbase.common.table.Table;
 import org.minbase.common.utils.ProtobufUtil;
 import org.minbase.server.MinBaseServer;
-import org.minbase.server.table.transaction.Transaction;
-import org.minbase.server.table.transaction.TransactionManager;
-import org.minbase.server.table.transaction.TransactionState;
+import org.minbase.server.table.TableManager;
+import org.minbase.server.table.Transaction;
+import org.minbase.server.table.TransactionManager;
+import org.minbase.server.table.TransactionState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient, TransactionServiceGrpc.TransactionServiceBlockingClient, AdminServiceGrpc.AdminServiceBlockingClient {
-    private MinBaseServer server;
+    private TableManager tableManager;
     private List<Long> transactions = new ArrayList<>();
 
     public RpcService(MinBaseServer server) {
-        this.server = server;
+        this.tableManager = tableManager;
     }
 
     @Override
     public AdminProto.CreateTableResponse createTable(AdminProto.CreateTableRequest request) {
         AdminProto.CreateTableResponse.Builder builder = AdminProto.CreateTableResponse.newBuilder();
         try {
-            Table table = server.createTable(request.getTableName());
-            builder.setSuccess(table != null);
+            boolean success = tableManager.createTable(request.getTableName());
+            builder.setSuccess(success);
         } catch (Exception e) {
             e.printStackTrace();
             builder.setSuccess(false);
@@ -48,27 +47,21 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
     @Override
     public ClientProto.GetResponse get(ClientProto.GetRequest request) {
         Get get = ProtobufUtil.toGet(request);
-        final Table table = server.getTable(request.getTable());
-        if (table == null) {
-            throw new RuntimeException("Table not exist, table=" + request.getTable());
-        }
-        final ColumnValues columnValues = table.get(get);
+        ColumnValues columnValues = tableManager.get(request.getTable(), get);
         return ProtobufUtil.toGetResponse(request.getKey(), columnValues);
-
     }
 
     @Override
     public ClientProto.PutResponse put(ClientProto.PutRequest request) {
         ClientProto.PutResponse.Builder builder = ClientProto.PutResponse.newBuilder();
-
         Put put = ProtobufUtil.toPut(request);
-        Table table = server.getTable(request.getTable());
-        if (table == null) {
+        boolean tableExist = tableManager.containTable(request.getTable());
+        if (!tableExist) {
             builder.setSuccess(false);
             //throw new RuntimeException("Table not exist, table=" + request.getTable());
         }
         try {
-            table.put(put);
+            tableManager.put(request.getTable(), put);
             builder.setSuccess(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,17 +72,35 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
 
     @Override
     public ClientProto.CheckAndPutResponse checkAndPut(ClientProto.CheckAndPutRequest request) {
-        return null;
+        ClientProto.CheckAndPutResponse.Builder builder = ClientProto.CheckAndPutResponse.newBuilder();
+        CheckAndPut checkAndPut = ProtobufUtil.toChecAndPut(request);
+        try {
+            tableManager.checkAndPut(request.getTable(), checkAndPut);
+            builder.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            builder.setSuccess(false);
+        }
+        return builder.build();
     }
 
     @Override
     public ClientProto.DeleteResponse delete(ClientProto.DeleteRequest request) {
-        return null;
+        ClientProto.DeleteResponse.Builder builder = ClientProto.DeleteResponse.newBuilder();
+        Delete delete = ProtobufUtil.toDelete(request);
+        try {
+            tableManager.delete(request.getTable(), delete);
+            builder.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            builder.setSuccess(false);
+        }
+        return builder.build();
     }
 
     @Override
     public ClientProto.BeginTransactionResponse beginTransaction(ClientProto.BeginTransactionRequest request) {
-        Transaction transaction = server.newTransaction();
+        Transaction transaction = tableManager.newTransaction();
         ClientProto.BeginTransactionResponse.Builder builder = ClientProto.BeginTransactionResponse.newBuilder();
         if (transaction != null) {
             builder.setSuccess(true).setTxid(transaction.getTxId());
@@ -113,23 +124,12 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
     public ClientProto.TxGetResponse get(ClientProto.TxGetRequest request) {
         ClientProto.TxGetResponse.Builder builder = ClientProto.TxGetResponse.newBuilder();
         Get get = ProtobufUtil.toGet(request);
-        Transaction transaction = TransactionManager.getActiveTransaction(request.getTxid());
-        if (transaction == null || !transaction.getTransactionState().equals(TransactionState.Active)) {
-            //builder.set(false);
-        } else {
-            Table table = transaction.getTable(request.getTable());
-            if (table == null) {
-                //builder.setSuccess(false);
-                //throw new RuntimeException("Table not exist, table=" + request.getTable());
-            }
-            try {
-                ColumnValues columnValues = table.get(get);
-                return ProtobufUtil.toTxGetResponse(request.getKey(), columnValues);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                //builder.setSuccess(false);
-            }
+        try {
+            ColumnValues columnValues = tableManager.txGet(request.getTxid(), request.getTable(), get);
+            return ProtobufUtil.toTxGetResponse(request.getKey(), columnValues);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //builder.setSuccess(false);
         }
         return builder.build();
     }
@@ -138,22 +138,12 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
     public ClientProto.TxPutResponse put(ClientProto.TxPutRequest request) {
         ClientProto.TxPutResponse.Builder builder = ClientProto.TxPutResponse.newBuilder();
         Put put = ProtobufUtil.toPut(request);
-        Transaction transaction = TransactionManager.getActiveTransaction(request.getTxid());
-        if (transaction == null || !transaction.getTransactionState().equals(TransactionState.Active)) {
+        try {
+            tableManager.txPut(request.getTxid(), request.getTable(), put);
+            builder.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
             builder.setSuccess(false);
-        } else {
-            Table table = transaction.getTable(request.getTable());
-            if (table == null) {
-                builder.setSuccess(false);
-                //throw new RuntimeException("Table not exist, table=" + request.getTable());
-            }
-            try {
-                table.put(put);
-                builder.setSuccess(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-                builder.setSuccess(false);
-            }
         }
         return builder.build();
     }
@@ -170,9 +160,10 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
 
 
     public void rollBackTransactions() {
-        for (long txId : transactions) {
-            Transaction activeTransaction = TransactionManager.getActiveTransaction(txId);
-            activeTransaction.rollback();
-        }
+//        tableManager.rollBackTransactions();
+//        for (long txId : transactions) {
+//            Transaction activeTransaction = TransactionManager.getActiveTransaction(txId);
+//            activeTransaction.rollback();
+//        }
     }
 }

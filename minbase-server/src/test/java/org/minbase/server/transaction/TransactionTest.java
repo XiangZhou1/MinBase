@@ -1,25 +1,6 @@
 package org.minbase.server.transaction;
 
 
-import org.junit.Before;
-import org.junit.Test;
-import org.minbase.common.table.op.Put;
-import org.minbase.common.table.Table;
-import org.minbase.server.MinBaseServer;
-import org.minbase.server.kv.compaction.CompactionPolicy;
-import org.minbase.server.table.TableImpl;
-import org.minbase.server.table.transaction.Transaction;
-import org.minbase.server.table.transaction.TransactionManager;
-import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 public class TransactionTest {
 //    private static final Logger logger = LoggerFactory.getLogger(TransactionTest.class);
 //    private static final byte[] key1 = "key1".getBytes();

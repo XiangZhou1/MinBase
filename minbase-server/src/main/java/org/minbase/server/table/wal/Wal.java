@@ -1,4 +1,4 @@
-package org.minbase.server.kv.wal;
+package org.minbase.server.table.wal;
 
 
 import org.minbase.common.utils.Util;
@@ -8,6 +8,7 @@ import org.minbase.server.kv.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.FileUtil;
 import org.minbase.server.kv.store.StoreManager;
+import org.minbase.server.table.TableManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,11 +38,11 @@ public class Wal {
     private Thread syncWalThread;
     private SyncWalTask syncWalTask;
     private ConcurrentSkipListMap<Long, Thread> waitingSyncThreads = new ConcurrentSkipListMap<>();
-    private StoreManager storeManager;
+    private TableManager tableManager;
 
-    public Wal(File walDir, StoreManager storeManager) throws IOException {
+    public Wal(File walDir, TableManager tableManager) throws IOException {
         this.walDir = walDir;
-        this.storeManager = storeManager;
+        this.tableManager = tableManager;
         if (!walDir.exists()) {
             if (!walDir.mkdirs()) {
                 throw new IOException("Create wal dir fail, dir=" + walDir);
@@ -61,7 +62,7 @@ public class Wal {
         log(logEntry);
     }
 
-    private void log(LogEntry logEntry) {
+    public void log(LogEntry logEntry) {
         try {
             queue.put(logEntry);
             trySyncWal(logEntry.getLastSequenceId());
@@ -116,7 +117,7 @@ public class Wal {
                 logEntry = new LogEntry();
                 logEntry.decode(logEntryBuf);
                 pos += logEntryLength;
-                storeManager.applyLog(logEntry.getWriteBatch());
+                tableManager.applyLog(logEntry);
                 if (firstSequenceId == -1) {
                     firstSequenceId = logEntry.getFirstSequenceId();
                 }

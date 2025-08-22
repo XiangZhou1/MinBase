@@ -6,7 +6,7 @@ import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.utils.KeyUtil;
-import org.minbase.server.kv.wal.Wal;
+import org.minbase.server.table.TableManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -28,45 +27,19 @@ public class StoreManager {
     public static final String STORE_SUB_DIR = "store";
     private Configuration configuration;
     private ConcurrentHashMap<String, Store> stores;
-    private Wal wal;
     private MultiVersionControler mvcc = new MultiVersionControler();
     private ReadWriteLock readWriteLock;
     private File storeManagerDir;
     private ExecutorService clearOldLogExecutor;
-    private Object clearOldLogLock = new Object();
+    private TableManager tableManager;
 
-    StoreManager(File storeManagerDir, Configuration configuration) throws IOException {
+    public StoreManager(File storeManagerDir, Configuration configuration, TableManager tableManager) throws IOException {
         this.configuration = configuration;
         this.storeManagerDir = storeManagerDir;
         this.readWriteLock = new ReentrantReadWriteLock();
         this.stores = new ConcurrentHashMap<>();
-        this.wal = new Wal(new File(storeManagerDir, WAL_SUB_DIR), this);
         loadStores();
-        this.clearOldLogExecutor = Executors.newSingleThreadExecutor();
-        this.clearOldLogExecutor.submit(new Runnable() {
-            @Override
-            public void run() {
-                clearOldLogTask();
-            }
-        });
-    }
-
-    private void clearOldLogTask() {
-        while (true) {
-            try {
-                synchronized (clearOldLogLock) {
-                    clearOldLogLock.wait(10000);
-                }
-                long minSyncedSequenceId = getMinFlushedSequenceId();
-                wal.clearOldWal(minSyncedSequenceId);
-                if (wal.shouldForeFlush()) {
-                    foreFlush();
-                    wal.clearOldWal(getMinFlushedSequenceId());
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+        this.tableManager = tableManager;
     }
 
     private void loadStores() throws IOException {
@@ -85,8 +58,6 @@ public class StoreManager {
             Store store = new Store(storeDir.getName(), storeDir, configuration, this);
             stores.put(storeName, store);
         }
-
-        wal.recovery();
     }
 
     private PriorityQueue<Scanner> scanners = new PriorityQueue<>(new Comparator<Scanner>() {
@@ -101,11 +72,6 @@ public class StoreManager {
             }
         }
     });
-
-    public StoreManager(Configuration configuration) throws IOException {
-        this.configuration = configuration;
-        this.readWriteLock = new ReentrantReadWriteLock();
-    }
 
     public Store createStor(String storeName) throws IOException {
         File storeDir = new File(storeManagerDir, STORE_SUB_DIR + File.separator + storeName);
@@ -123,7 +89,6 @@ public class StoreManager {
     }
 
     public void put(WriteBatch writeBatch) {
-        log(writeBatch);
         List<String> storeNames = writeBatch.getStoreNames();
         for (String storeName : storeNames) {
             Store store = stores.get(storeName);
@@ -143,40 +108,23 @@ public class StoreManager {
         return null;
     }
 
-    protected Scanner scan(String store, byte[] startKey, byte[] endKey) {
+    public Scanner scan(String store, byte[] startKey, byte[] endKey) {
         KeyValueIterator iterator = stores.get(store).iterator(new Key(startKey, mvcc.getReadPoint()),
                 KeyUtil.earliestVersionKey(endKey));
         Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
         return scanner;
     }
 
-    protected Scanner scan(String store, Key startKey, Key endKey) {
+    public Scanner scan(String store, Key startKey, Key endKey) {
         KeyValueIterator iterator = stores.get(store).iterator(startKey, endKey);
         Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
         return scanner;
     }
 
-    protected Scanner scan(String store) {
+    public Scanner scan(String store) {
         KeyValueIterator iterator = stores.get(store).iterator(null, null);
         Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
         return scanner;
-    }
-
-    private void log(WriteBatch writeBatch) {
-        writeLock();
-        try {
-            List<String> storeNames = writeBatch.getStoreNames();
-            for (String storeName : storeNames) {
-                List<KeyValue> keyValues = writeBatch.getKeyValues(storeName);
-                keyValues.forEach(keyValue -> {
-                    keyValue.getKey().setVersion(mvcc.incrementAndGetWritePoint());
-                });
-            }
-            writeBatch.setLastSequenceId(mvcc.getWritePoint());
-            wal.log(writeBatch);
-        } finally {
-            writeUnLock();
-        }
     }
 
     public void writeLock() {
@@ -228,9 +176,7 @@ public class StoreManager {
     }
 
     public void requestClearOldLog() {
-        synchronized (clearOldLogLock) {
-            clearOldLogLock.notify();
-        }
+        tableManager.requestClearOldLog();
     }
 
     public void foreFlush() {
@@ -238,4 +184,13 @@ public class StoreManager {
             store.foreFlush();
         });
     }
+
+    public boolean containStore(String storeName) {
+        return stores.containsKey(storeName);
+    }
+
+    public String[] listStoreNames() {
+        return stores.keySet().toArray(new String[0]);
+    }
+
 }

@@ -79,4 +79,8 @@ public class Value implements Codec, Length {
     public boolean isPut() {
         return this.op.equals(Op.PUT);
     }
+
+    public byte[] getValue() {
+        return value;
+    }
 }

@@ -29,6 +29,11 @@ public class WriteBatch {
     }
 
     public void setLastSequenceId(long lastSequenceId) {
+        for (List<KeyValue> keyValues : this.keyValues.values()) {
+            for (KeyValue keyValue : keyValues) {
+                keyValue.getKey().setVersion(lastSequenceId);
+            }
+        }
         this.lastSequenceId = lastSequenceId;
     }
 

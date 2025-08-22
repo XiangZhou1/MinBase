@@ -1,6 +1,4 @@
-package org.minbase.server.table.transaction;
-
-import org.minbase.server.table.TableImpl;
+package org.minbase.server.table;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -9,37 +7,49 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionManager {
-    private static AtomicLong sequenceId = new AtomicLong(0);
-    private static ConcurrentSkipListMap<Long, Transaction> activeTransactions = new ConcurrentSkipListMap<>();
-    private static ConcurrentSkipListMap<Long, Transaction> commitedTransactions = new ConcurrentSkipListMap<>();
+    private AtomicLong sequenceId = new AtomicLong(0);
+    private ConcurrentSkipListMap<Long, Transaction> activeTransactions = new ConcurrentSkipListMap<>();
+    private ConcurrentSkipListMap<Long, Transaction> commitedTransactions = new ConcurrentSkipListMap<>();
+    private TableManager tableManager;
 
+    public TransactionManager(TableManager tableManager) {
+        this.tableManager = tableManager;
+    }
 
-    public static ConcurrentSkipListMap<Long, Transaction> getActiveTransactions() {
+    public ConcurrentSkipListMap<Long, Transaction> getActiveTransactions() {
         return activeTransactions;
     }
 
-    public static Transaction getActiveTransaction(long txId) {
+    public Transaction getActiveTransaction(long txId) {
         return activeTransactions.get(txId);
     }
 
 
-    public static long newTransactionId() {
+    public long newTransactionId() {
         return sequenceId.incrementAndGet();
     }
 
-    public static Transaction newTransaction(Map<String, TableImpl> tables) {
-        long transactionId = TransactionManager.newTransactionId();
-        Transaction transaction = new Transaction(transactionId);
+    public Transaction newTransaction() {
+        long transactionId = newTransactionId();
+        Transaction transaction = new Transaction(transactionId, tableManager);
         activeTransactions.put(transactionId, transaction);
-        transaction.setTables(tables);
         return transaction;
     }
 
-    public static long getCommitId() {
+    public Transaction getTransactionForRecovery(long txId) {
+        if (activeTransactions.containsKey(txId)) {
+            return activeTransactions.get(txId);
+        }
+        Transaction transaction = new Transaction(txId, tableManager);
+        activeTransactions.put(txId, transaction);
+        return transaction;
+    }
+
+    public long getCommitId() {
         return sequenceId.incrementAndGet();
     }
 
-    public static ConcurrentSkipListMap<Long, Transaction> getCommitedTransactions() {
+    public ConcurrentSkipListMap<Long, Transaction> getCommitedTransactions() {
         return commitedTransactions;
     }
 
@@ -55,14 +65,21 @@ public class TransactionManager {
         }
     });
 
-    public static void commitTransaction(long txId) {
+    public void commitTransaction(long txId) {
         Transaction transaction = activeTransactions.remove(txId);
         transaction.setTransactionState(TransactionState.Commit);
         commitedTransactions.put(transaction.getCommitId(), transaction);
         clearCommittedTransaction();
     }
 
-    private static void clearCommittedTransaction() {
+    private void clearCommittedTransaction() {
+        if (commitedTransactions.isEmpty()) {
+            return;
+        }
+        if (activeTransactions.isEmpty()) {
+            commitedTransactions.clear();
+            return;
+        }
         long txId = activeTransactions.firstKey();
         Iterator<Map.Entry<Long, Transaction>> iterator = commitedTransactions.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -74,7 +91,7 @@ public class TransactionManager {
         }
     }
 
-    public static boolean validateTransaction(long txId) {
+    public boolean validateTransaction(long txId) {
         Transaction transaction = activeTransactions.get(txId);
         Set<byte[]> writeSet = transaction.getWriteSet();
         Set<byte[]> readSet = transaction.getReadSet();
@@ -97,7 +114,7 @@ public class TransactionManager {
         return true;
     }
 
-    private static boolean checkConflict(Transaction transaction, Transaction checkedTransaction) {
+    private boolean checkConflict(Transaction transaction, Transaction checkedTransaction) {
         Set<byte[]> writeSet = checkedTransaction.getWriteSet();
         for (byte[] bytes : transaction.getReadSet()) {
             if (writeSet.contains(bytes)) {
@@ -107,7 +124,7 @@ public class TransactionManager {
         return false;
     }
 
-    public static void rollBackTransaction(long txId) {
+    public void rollBackTransaction(long txId) {
         Transaction transaction = activeTransactions.remove(txId);
         transaction.setTransactionState(TransactionState.Rollback);
         clearCommittedTransaction();

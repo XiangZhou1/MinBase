@@ -5,34 +5,35 @@ import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
 import org.minbase.common.table.Table;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.Key;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MergeIterator;
-import org.minbase.server.kv.Key;
-import org.minbase.server.kv.store.Store;
+import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.utils.KeyUtil;
-import org.minbase.server.table.transaction.Transaction;
-import org.minbase.server.table.transaction.TransactionStore;
+import org.minbase.server.kv.store.StoreManager;
+import org.minbase.server.table.wal.Wal;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
 public class TransactionTable implements Table {
     private String tableName;
-    private Store store;
-    protected TransactionStore localStore;
+    protected TransactionTableStore localStore;
     private Set<byte[]> writeSet;
     private Set<byte[]> readSet;
+    private StoreManager storeManager;
+    private Transaction transaction;
 
-    public TransactionTable(String tableName, Transaction transaction, Store store) {
+    public TransactionTable(String tableName, Transaction transaction) {
         this.tableName = tableName;
+        this.transaction = transaction;
         this.writeSet = transaction.getWriteSet();
         this.readSet = transaction.getReadSet();
-        this.store = store;
-        this.localStore = new TransactionStore();
+        this.storeManager = transaction.getStoreManager();
+        this.localStore = new TransactionTableStore(tableName, transaction.getWriteBatch());
     }
 
     @Override
@@ -44,40 +45,45 @@ public class TransactionTable implements Table {
     public ColumnValues get(Get get) {
         readSet.add(get.getKey());
 
-        KeyValueIterator iterator1 = store.iterator(KeyUtil.earliestVersionKey(get.getKey()), KeyUtil.latestVersionKey(get.getKey()));
-        KeyValueIterator iterator2 = localStore.iterator(tableName, KeyUtil.earliestVersionKey(get.getKey()), KeyUtil.latestVersionKey(get.getKey()));
-        List<KeyValueIterator> keyValueIteratorList = new ArrayList<>();
-        keyValueIteratorList.add(iterator1);
-        keyValueIteratorList.add(iterator2);
-        MergeIterator iterator = new MergeIterator(keyValueIteratorList);
+        List<byte[]> columns = get.getColumns();
+        byte[] key = get.getKey();
+        columns.sort(ByteUtil.BYTE_ORDER_COMPARATOR);
 
-        KeyValue keyValue;
-        try {
-            RowTacker tacker = new RowTacker(KeyUtil.latestVersionKey(get.getKey()), new HashSet<>(get.getColumns()));
-            while (iterator.hasNext()) {
-                final KeyValue tmp = iterator.value();
-                tacker.track(tmp);
-                if (tacker.shouldStop()) {
-                    keyValue = tacker.getKeyValue();
-                    return null;
-                    // todo
-                    // return keyValue.getValue().columnValues();
-                }
-                //iterator.nextInnerKey();
+        TableKey tableKeyFirst = new TableKey(key, columns.get(0));
+        TableKey tableKeyLast = new TableKey(key, columns.get(columns.size() - 1));
+
+        Key startKey = new Key(tableKeyLast.encode(), Long.MAX_VALUE);
+        Key endKey = new Key(tableKeyFirst.encode(), 0);
+        Scanner scan = storeManager.scan(tableName, startKey, endKey);
+        Scanner localScanner = new Scanner(localStore.iterator(startKey, endKey), Long.MAX_VALUE);
+        List<KeyValueIterator> iterators = new ArrayList<>();
+        iterators.add(scan);
+        iterators.add(localScanner);
+        Scanner scanner = new Scanner(new MergeIterator(iterators), Long.MAX_VALUE);
+
+        ColumnValues columnValues = new ColumnValues();
+        while (scanner.hasNext()) {
+            KeyValue keyValue = scanner.next();
+            if (keyValue == null) {
+                continue;
             }
-            keyValue = tacker.getKeyValue();
-        } finally {
-            iterator.close();
+            TableKey tableKey = new TableKey();
+            tableKey.decode(keyValue.getKey().getInternalKey());
+            byte[] column = tableKey.getColumn();
+            if (columns.contains(column)) {
+                columnValues.set(column, keyValue.getValue().getValue());
+            }
         }
-        return null;
-        // todo
-        //return keyValue.getValue().columnValues();
+        return columnValues;
     }
 
     @Override
     public void put(Put put) {
         writeSet.add(put.getKey());
-        localStore.put(tableName, put);
+        List<KeyValue> keyValues = OpUtil.fromPut(put);
+        for (KeyValue keyValue : keyValues) {
+            localStore.put(keyValue);
+        }
     }
 
     @Override
@@ -100,6 +106,13 @@ public class TransactionTable implements Table {
     @Override
     public void delete(Delete delete) {
         writeSet.add(delete.getKey());
-        localStore.delete(tableName, delete);
+        List<KeyValue> keyValues = OpUtil.fromDelete(delete);
+        for (KeyValue keyValue : keyValues) {
+            localStore.put(keyValue);
+        }
+    }
+
+    public void applyLog(KeyValue keyValue) {
+        localStore.put(keyValue);
     }
 }

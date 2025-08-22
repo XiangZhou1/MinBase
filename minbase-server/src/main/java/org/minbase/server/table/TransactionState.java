@@ -1,4 +1,4 @@
-package org.minbase.server.table.transaction;
+package org.minbase.server.table;
 
 public enum TransactionState {
     Active,

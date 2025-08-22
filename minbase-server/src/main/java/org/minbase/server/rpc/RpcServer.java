@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class RpcServer {
-    private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RpcServer.class);
 
     private final int port;
     private ServerBootstrap serverBootstrap;
@@ -47,11 +47,11 @@ public class RpcServer {
                         }
                     });
 
-            logger.info("Start rpcServer, bind port:" + port);
+            LOG.info("Start rpcServer, bind port:" + port);
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
-            logger.info("Start rpcServer fail", e);
+            LOG.info("Start rpcServer fail", e);
         } finally {
             eventLoopGroup.shutdownGracefully();
         }

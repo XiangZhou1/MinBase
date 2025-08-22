@@ -6,23 +6,30 @@ import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
 import org.minbase.common.table.Table;
+import org.minbase.common.utils.ByteUtil;
+import org.minbase.server.kv.Key;
+import org.minbase.server.kv.KeyValue;
+import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.store.Store;
-import org.minbase.server.table.transaction.Transaction;
-import org.minbase.server.table.transaction.TransactionManager;
+import org.minbase.server.kv.store.StoreManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TableImpl implements Table {
     String tableName;
     Store store;
-    Map<String, TableImpl> selfTables;
+    StoreManager storeManager;
+    TableManager tableManager;
+    TransactionManager transactionManager;
 
-    public TableImpl(String tableName, Store store) {
+    public TableImpl(String tableName, TableManager tableManager) {
         this.tableName = tableName;
-        this.store = store;
-        this.selfTables = new HashMap<>();
-        this.selfTables.put(tableName, this);
+        this.store = tableManager.getStoreManager().getStore(tableName);
+        this.tableManager = tableManager;
+        this.storeManager = tableManager.getStoreManager();
+        this.transactionManager = tableManager.getTransactionManager();
     }
 
     public Store getMinStore() {
@@ -34,18 +41,50 @@ public class TableImpl implements Table {
         return tableName;
     }
 
+    /**
+     * 无需进行事务
+     *
+     * @param get
+     * @return
+     */
     @Override
     public ColumnValues get(Get get) {
-        Transaction transaction = TransactionManager.newTransaction(selfTables);
-        Table table = transaction.getTable(tableName);
-        ColumnValues columnValues = table.get(get);
-        transaction.commit();
+        List<byte[]> columns = get.getColumns();
+        byte[] key = get.getKey();
+        TableKey tableKeyFirst = null;
+        TableKey tableKeyLast = null;
+        if (!columns.isEmpty()) {
+            columns.sort(ByteUtil.BYTE_ORDER_COMPARATOR);
+            tableKeyFirst = new TableKey(key, columns.get(0));
+            tableKeyLast = new TableKey(key, columns.get(columns.size() - 1));
+        } else {
+            tableKeyFirst = new TableKey(key, new byte[0]);
+            tableKeyLast = new TableKey(key, new byte[0]);
+        }
+
+        Key startKey = new Key(tableKeyLast.encode(), Long.MAX_VALUE);
+        Key endKey = new Key(tableKeyFirst.encode(), 0);
+        Scanner scan = storeManager.scan(tableName, startKey, endKey);
+
+        org.minbase.common.table.op.ColumnValues columnValues = new ColumnValues();
+        while (scan.hasNext()) {
+            KeyValue keyValue = scan.next();
+            if (keyValue == null) {
+                continue;
+            }
+            TableKey tableKey = new TableKey();
+            tableKey.decode(keyValue.getKey().getInternalKey());
+            byte[] column = tableKey.getColumn();
+            if (columns.contains(column)) {
+                columnValues.set(column, keyValue.getValue().getValue());
+            }
+        }
         return columnValues;
     }
 
     @Override
     public void put(Put put) {
-        Transaction transaction = TransactionManager.newTransaction(selfTables);
+        Transaction transaction = transactionManager.newTransaction();
         Table table = transaction.getTable(tableName);
         table.put(put);
         transaction.commit();
@@ -53,7 +92,7 @@ public class TableImpl implements Table {
 
     @Override
     public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
-        Transaction transaction = TransactionManager.newTransaction(selfTables);
+        Transaction transaction = transactionManager.newTransaction();
         try {
             Table table = transaction.getTable(tableName);
             if (table.checkAndPut(checkKey, column, checkValue, put)) {
@@ -71,7 +110,7 @@ public class TableImpl implements Table {
 
     @Override
     public void delete(Delete delete) {
-        Transaction transaction = TransactionManager.newTransaction(selfTables);
+        Transaction transaction = transactionManager.newTransaction();
         Table table = transaction.getTable(tableName);
         table.delete(delete);
         transaction.commit();

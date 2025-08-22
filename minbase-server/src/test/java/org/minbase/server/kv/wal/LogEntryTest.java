@@ -1,17 +1,12 @@
 package org.minbase.server.kv.wal;
 
 import org.junit.Test;
-import org.minbase.server.constant.Constants;
-import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.utils.KeyUtil;
 import org.minbase.server.kv.utils.ValueUtil;
-import org.minbase.server.kv.wal.LogEntry;
-import org.minbase.server.table.TableValue;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.WriteBatch;
-
-import java.nio.charset.StandardCharsets;
+import org.minbase.server.table.wal.LogEntry;
 
 public class LogEntryTest {
     private static final String table = "table1";

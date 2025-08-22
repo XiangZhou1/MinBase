@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.charset.StandardCharsets;
 
 public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest> {
-    private static final Logger logger = LoggerFactory.getLogger(RpcHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RpcHandler.class);
 
     private RpcService service;
 
@@ -26,7 +26,7 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest>
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, RpcProto.RpcRequest rpcRequest) throws Exception {
-        logger.info("RpcHandler:" + rpcRequest);
+        LOG.info("RpcHandler:" + rpcRequest);
         RpcProto.RpcResponse rpcResponse;
         try {
             int callType = rpcRequest.getCallType();
@@ -56,7 +56,7 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest>
             }
         } catch (Exception e) {
             rpcResponse = buildRpcResponse(ResponseCode.FAIL.getCode(), rpcRequest.getId(), "");
-            logger.error("Rpc fail, rpcRequest=" + rpcRequest, e);
+            LOG.error("Rpc fail, rpcRequest=" + rpcRequest, e);
         }
         channelHandlerContext.writeAndFlush(rpcResponse);
     }

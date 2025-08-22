@@ -1,10 +1,10 @@
 package org.minbase.common.utils;
 
-import org.minbase.common.table.op.ColumnValues;
-import org.minbase.common.table.op.Get;
-import org.minbase.common.table.op.Put;
+import org.minbase.common.table.op.*;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ProtobufUtil {
@@ -74,5 +74,20 @@ public class ProtobufUtil {
             builder.setColumnValues(i, builder1.build());
         }
         return builder.build();
+    }
+
+    public static CheckAndPut toChecAndPut(ClientProto.CheckAndPutRequest request) {
+        return null;
+    }
+
+    public static Delete toDelete(ClientProto.DeleteRequest request) {
+        String key = request.getKey();
+        List<byte[]> columns = new ArrayList<>();
+        int columnsCount = request.getColumnsCount();
+        for (int i = 0; i < columnsCount; i++) {
+            String columns1 = request.getColumns(i);
+            columns.add(ByteUtil.toBytes(columns1));
+        }
+        return new Delete(ByteUtil.toBytes(key), columns);
     }
 }

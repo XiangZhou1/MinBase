@@ -1,0 +1,175 @@
+package org.minbase.server.table;
+
+import org.minbase.common.table.Table;
+import org.minbase.common.table.op.*;
+import org.minbase.common.table.op.ColumnValues;
+import org.minbase.server.conf.Configuration;
+import org.minbase.server.constant.Constants;
+import org.minbase.server.kv.store.Store;
+import org.minbase.server.kv.store.StoreManager;
+import org.minbase.server.table.wal.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class TableManager {
+    private static final Logger LOG = LoggerFactory.getLogger(TableManager.class);
+    public static final String Data_Dir = Configuration.get(Constants.KEY_DATA_DIR);
+    private final ExecutorService clearOldLogExecutor;
+    private Configuration configuration;
+
+    private StoreManager storeManager;
+    private Object stopLock = new Object();
+    private boolean stop = false;
+    File storeManagerDir;
+    TransactionManager transactionManager;
+    private Map<String, TableImpl> tableMap = new HashMap<>();
+    private Wal wal;
+    private Object clearOldLogLock = new Object();
+
+    public TableManager(Configuration configuration) throws IOException {
+        this.configuration = configuration;
+        this.storeManagerDir = new File(Data_Dir);
+        this.storeManager = new StoreManager(storeManagerDir, configuration, this);
+        this.transactionManager = new TransactionManager(this);
+        this.wal = new Wal(new File(storeManagerDir, "wal"), this);
+        this.clearOldLogExecutor = Executors.newSingleThreadExecutor();
+        this.clearOldLogExecutor.submit(new Runnable() {
+            @Override
+            public void run() {
+                clearOldLogTask();
+            }
+        });
+
+    }
+
+    public Table getTable(String tableName) {
+        return tableMap.get(tableName);
+    }
+
+    private String[] listTableName() {
+        return storeManager.listStoreNames();
+    }
+
+    public boolean createTable(String tableName) throws IOException {
+        try {
+            if (tableMap.containsKey(tableName)) {
+                return true;
+            }
+            File tableDir = new File(storeManagerDir, tableName);
+            if (!tableDir.exists()) {
+                if (!tableDir.mkdirs()) {
+                    throw new IOException("create table fail");
+                }
+            }
+            storeManager.createStor(tableName);
+            TableImpl table = new TableImpl(tableName, this);
+            tableMap.put(tableName, table);
+        } catch (Exception e) {
+            LOG.error("Create table " + tableName + " fail", e);
+            return false;
+        }
+        return true;
+    }
+
+    public ColumnValues get(String table, Get get) {
+        TableImpl table1 = tableMap.get(table);
+        return table1.get(get);
+    }
+
+    public void put(String table, Put put) {
+        TableImpl table1 = tableMap.get(table);
+        table1.put(put);
+    }
+
+    public boolean containTable(String table) {
+        return storeManager.containStore(table);
+    }
+
+    public void checkAndPut(String table, CheckAndPut checkAndPut) {
+        TableImpl table1 = tableMap.get(table);
+        table1.checkAndPut(checkAndPut.getKey(), checkAndPut.getColumn(), checkAndPut.getValue(), checkAndPut.getPut());
+    }
+
+    public void delete(String table, Delete delete) {
+        TableImpl table1 = tableMap.get(table);
+        table1.delete(delete);
+    }
+
+    public Transaction newTransaction() {
+        Transaction transaction = transactionManager.newTransaction();
+        return transaction;
+    }
+
+    public void txPut(long txid, String table, Put put) {
+        Transaction activeTransaction = transactionManager.getActiveTransaction(txid);
+        Table table1 = activeTransaction.getTable(table);
+        table1.put(put);
+    }
+
+    public ColumnValues txGet(long txid, String table, Get get) {
+        Transaction activeTransaction = transactionManager.getActiveTransaction(txid);
+        Table table1 = activeTransaction.getTable(table);
+        return table1.get(get);
+    }
+
+    public void rollBackTransaction(long txId) {
+
+    }
+
+    public StoreManager getStoreManager() {
+        return storeManager;
+    }
+
+    public TransactionManager getTransactionManager() {
+        return transactionManager;
+    }
+
+    public Map<String, TableImpl> getTableMap() {
+        return tableMap;
+    }
+
+    public Wal getWal() {
+        return wal;
+    }
+
+    public File getStoreManagerDir() {
+        return storeManagerDir;
+    }
+
+    public void applyLog(LogEntry logEntry) {
+        storeManager.applyLog(logEntry.getWriteBatch());
+    }
+
+
+    private void clearOldLogTask() {
+        while (true) {
+            try {
+//                synchronized (clearOldLogLock) {
+//                    clearOldLogLock.wait(10000);
+//                }
+//                long minSyncedSequenceId = getMinFlushedSequenceId();
+//                wal.clearOldWal(minSyncedSequenceId);
+//                if (wal.shouldForeFlush()) {
+//                    foreFlush();
+//                    wal.clearOldWal(getMinFlushedSequenceId());
+//                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void requestClearOldLog() {
+        synchronized (clearOldLogLock) {
+            clearOldLogLock.notify();
+        }
+    }
+
+}
