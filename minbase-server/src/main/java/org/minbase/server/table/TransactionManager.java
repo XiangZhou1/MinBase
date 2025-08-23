@@ -165,4 +165,17 @@ public class TransactionManager {
     public void transactionWriteUnLock() {
         transactionUpdateLock.writeLock().unlock();
     }
+
+    public long getTransactionMinReadPoint() {
+        transactionReadLock();
+        long minReadPoint = Long.MAX_VALUE;
+        try {
+            for (Transaction transaction : getActiveTransactions().values()) {
+                minReadPoint = Math.min(transaction.getReadPoint(), minReadPoint);
+            }
+            return minReadPoint;
+        } finally {
+            transactionReadUnLock();
+        }
+    }
 }

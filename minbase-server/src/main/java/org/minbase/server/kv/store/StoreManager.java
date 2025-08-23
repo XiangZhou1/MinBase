@@ -28,6 +28,19 @@ public class StoreManager {
     private ReadWriteLock readWriteLock;
     private File storeManagerDir;
     private TableManager tableManager;
+    private PriorityQueue<ScannerInfo> scanners = new PriorityQueue<>(new Comparator<ScannerInfo>() {
+        @Override
+        public int compare(ScannerInfo o1, ScannerInfo o2) {
+            if (o1.getReadPoint() < o2.getReadPoint()) {
+                return -1;
+            } else if (o1.getReadPoint() > o2.getReadPoint()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    });
+    private ReentrantReadWriteLock scannerUpdateLock = new ReentrantReadWriteLock();
 
     public StoreManager(File storeManagerDir, Configuration configuration, TableManager tableManager) throws IOException {
         this.configuration = configuration;
@@ -54,19 +67,6 @@ public class StoreManager {
             stores.put(storeName, store);
         }
     }
-
-    private PriorityQueue<Scanner> scanners = new PriorityQueue<>(new Comparator<Scanner>() {
-        @Override
-        public int compare(Scanner o1, Scanner o2) {
-            if (o1.getReadPoint() < o2.getReadPoint()) {
-                return -1;
-            } else if (o1.getReadPoint() > o2.getReadPoint()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    });
 
     public Store createStor(String storeName) throws IOException {
         File storeDir = new File(storeManagerDir, storeName);
@@ -103,30 +103,24 @@ public class StoreManager {
         return null;
     }
 
-    public Scanner scan(String store, byte[] startKey, byte[] endKey) {
-        KeyValueIterator iterator = stores.get(store).iterator(new Key(startKey, mvcc.getReadPoint()),
-                KeyUtil.earliestVersionKey(endKey));
-        Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
-        scanner.setStoreManager(this);
-        return scanner;
-    }
-
     public Scanner scan(String store, Key startKey, Key endKey, long readPoint) {
+        scannerUpdateLock.writeLock().lock();
+        ScannerInfo scannerInfo = null;
+        try {
+            scannerInfo = new ScannerInfo(ScannerInfo.SCANNER_ID.incrementAndGet(), readPoint);
+            scanners.add(scannerInfo);
+        } finally {
+            scannerUpdateLock.writeLock().unlock();
+        }
         KeyValueIterator iterator = stores.get(store).iterator(startKey, endKey);
         Scanner scanner = new Scanner(iterator, readPoint);
         scanner.setStoreManager(this);
+        scanner.setScannerInfo(scannerInfo);
         return scanner;
     }
 
     public Scanner scan(String store, Key startKey, Key endKey) {
         return scan(store, startKey, endKey, mvcc.getReadPoint());
-    }
-
-    public Scanner scan(String store) {
-        KeyValueIterator iterator = stores.get(store).iterator(null, null);
-        Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
-        scanner.setStoreManager(this);
-        return scanner;
     }
 
     public void writeLock() {
@@ -155,18 +149,32 @@ public class StoreManager {
         mvcc.setWritePoint(writeBatch.getLastSequenceId());
     }
 
-
-    public long getMinReadPointOfScanner() {
-        Scanner peek = scanners.peek();
-        if (peek == null) {
-            return mvcc.getReadPoint();
-        } else {
-            return peek.getReadPoint();
+    /**
+     * readPoint含义: 高于readPoint的op不可见
+     * mingReadPoint含义: 用于compaction, 低于minReadPiont的op可以合并
+     */
+    public long getMinReadPoint() {
+        scannerUpdateLock.readLock().lock();
+        try {
+            long minReadPointOfTransaction = tableManager.getTransactionMinReadPoint();
+            ScannerInfo peek = scanners.peek();
+            if (peek == null) {
+                return Math.min(mvcc.getReadPoint(), minReadPointOfTransaction) ;
+            } else {
+                return Math.min(peek.getReadPoint(), minReadPointOfTransaction);
+            }
+        } finally {
+            scannerUpdateLock.readLock().unlock();
         }
     }
 
-    public void removeScanner(Scanner scanner) {
-        this.scanners.remove(scanner);
+    public void removeScanner(ScannerInfo scannerInfo) {
+        scannerUpdateLock.writeLock().lock();
+        try {
+            this.scanners.remove(scannerInfo);
+        } finally {
+            scannerUpdateLock.writeLock().unlock();
+        }
     }
 
     public long getMinFlushedSequenceId() {

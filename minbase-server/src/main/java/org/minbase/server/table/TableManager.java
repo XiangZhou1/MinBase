@@ -29,7 +29,7 @@ public class TableManager {
     private TransactionManager transactionManager;
     private Map<String, TableImpl> tableMap = new HashMap<>();
     private Wal wal;
-    private Object clearOldLogLock = new Object();
+    private final Object clearOldLogLock = new Object();
 
     public TableManager(Configuration configuration) throws IOException {
         this.configuration = configuration;
@@ -189,5 +189,13 @@ public class TableManager {
 
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    public long getTransactionMinReadPoint() {
+        return transactionManager.getTransactionMinReadPoint();
+    }
+
+    public long getReadPoint() {
+        return storeManager.getReadPoint();
     }
 }

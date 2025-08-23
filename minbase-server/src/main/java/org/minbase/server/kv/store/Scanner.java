@@ -8,6 +8,7 @@ import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.utils.ValueUtil;
 
 public class Scanner extends AbstractKeyValueIterator {
+    ScannerInfo scannerInfo;
     private long readPoint;
     KeyValueIterator iterator;
     private KeyValue deletedKeyValue;
@@ -72,15 +73,15 @@ public class Scanner extends AbstractKeyValueIterator {
     public void close() {
         iterator.close();
         if (storeManager != null) {
-            storeManager.removeScanner(this);
+            storeManager.removeScanner(this.scannerInfo);
         }
-    }
-
-    public long getReadPoint() {
-        return readPoint;
     }
 
     public void setStoreManager(StoreManager storeManager) {
         this.storeManager = storeManager;
+    }
+
+    public void setScannerInfo(ScannerInfo scannerInfo) {
+        this.scannerInfo = scannerInfo;
     }
 }

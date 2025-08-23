@@ -37,7 +37,7 @@ public class StoreFileManager {
     protected ReentrantReadWriteLock updateFileLock = new ReentrantReadWriteLock();
     protected ReentrantReadWriteLock.ReadLock readLock = updateFileLock.readLock();
     protected ReentrantReadWriteLock.WriteLock writeLock = updateFileLock.writeLock();
-    List<StoreFilesIterator> processingStoreFilesIterators = new ArrayList<>();
+    final List<StoreFilesIterator> processingStoreFilesIterators = new ArrayList<>();
     private Store store;
 
     public StoreFileManager(File storeDir, Store store, Configuration configuration) throws IOException {
@@ -97,7 +97,7 @@ public class StoreFileManager {
     }
 
     public void addStoreFile(StoreFile storeFile) {
-        writeLock.lock();
+        writeLock();
         try {
             storeFiles.add(storeFile);
         } finally {
@@ -106,12 +106,12 @@ public class StoreFileManager {
     }
 
     public void updateStoreFiles(List<StoreFile> toAdd, List<StoreFile> toDelete) {
-        writeLock.lock();
+        writeLock();
         try {
             this.storeFiles.addAll(toAdd);
             this.storeFiles.removeAll(toDelete);
-            if (storeFiles.size() == 0) {
-                System.out.println("empty");
+            if (!toDelete.isEmpty()) {
+                updateStoreFilesIterators(toDelete);
             }
         } finally {
             writeUnLock();
@@ -173,14 +173,8 @@ public class StoreFileManager {
                 storeFileList.add(storeFile);
                 iterators.add(new StoreFileIterator(storeFile.getStoreFileReader(), startKey, endKey, cache));
             }
-            StringBuilder sb = new StringBuilder("New Iterator, file:");
-            for (StoreFile storeFile : storeFileList) {
-                sb.append(storeFile.getRawFile().getName());
-                sb.append(", ");
-            }
-            LOG.info(sb.toString());
             StoreFilesIterator storeFilesIterator = new StoreFilesIterator(this, storeFileList, iterators, startKey, endKey);
-            processingStoreFilesIterators.add(storeFilesIterator);
+            addStoreFilesIterator(storeFilesIterator);
             return storeFilesIterator;
         } finally {
             readUnLock();
@@ -204,24 +198,24 @@ public class StoreFileManager {
     }
 
     public void removeStoreFilesIterator(StoreFilesIterator storeFilesIterator) {
-        writeLock();
-        try {
+        synchronized (processingStoreFilesIterators) {
             processingStoreFilesIterators.remove(storeFilesIterator);
-        } finally {
-            writeUnLock();
         }
     }
 
-    public void updateStoreFilesIterators(List<StoreFile> storeFilesToDelete) {
-        readLock();
-        try {
+    public void addStoreFilesIterator(StoreFilesIterator storeFilesIterator) {
+        synchronized (processingStoreFilesIterators) {
+            processingStoreFilesIterators.add(storeFilesIterator);
+        }
+    }
+
+    private void updateStoreFilesIterators(List<StoreFile> storeFilesToDelete) {
+        synchronized (processingStoreFilesIterators) {
             for (StoreFilesIterator processingStoreFilesIterator : processingStoreFilesIterators) {
                 if (processingStoreFilesIterator.containStoreFile(storeFilesToDelete)) {
                     processingStoreFilesIterator.updateStoreFiles(Lists.newArrayList(storeFiles));
                 }
             }
-        } finally {
-            readUnLock();
         }
     }
 

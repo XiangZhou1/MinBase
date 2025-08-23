@@ -42,7 +42,7 @@ public class FlushTask implements Runnable {
                 this.lastFreeezedTables = freezedMemStores.peekLast();
                 StoreFileBuilder storeFileBuilder = storeFileManager.newTmpStroeFile();
                 MemStoreIterator iterator = lastFreeezedTables.iterator();
-                CompactionScanner scanner = new CompactionScanner(iterator, storeManager.getMinReadPointOfScanner());
+                CompactionScanner scanner = new CompactionScanner(iterator, storeManager.getMinReadPoint());
 
                 while (scanner.hasNext()) {
                     KeyValue next = scanner.next();

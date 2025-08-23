@@ -22,7 +22,7 @@ public class StoreTest {
 
     static {
         storeManager = Mockito.mock(StoreManager.class);
-        PowerMockito.when(storeManager.getMinReadPointOfScanner()).thenReturn(Long.MAX_VALUE);
+        PowerMockito.when(storeManager.getMinReadPoint()).thenReturn(Long.MAX_VALUE);
     }
 
     @Test

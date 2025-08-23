@@ -34,7 +34,7 @@ public class CompactionChecker implements Runnable {
                 if (compactionPolicy.shouldCompact(storeFileManager, storeFilesToCompact)) {
                     LOG.info("StoreFilesToCompact:{}", storeFilesToCompact.size());
                     CompactionResult compactionResult = compactionPolicy.compact(storeFileManager,
-                            storeFilesToCompact, storeManager.getMinReadPointOfScanner());
+                            storeFilesToCompact, storeManager.getMinReadPoint());
                     if (compactionResult != null) {
                         applyConpactionResult(compactionResult);
                     }
@@ -59,8 +59,6 @@ public class CompactionChecker implements Runnable {
             return;
         }
         storeFileManager.updateStoreFiles(compactionResult.getFilesToAdd(), compactionResult.getFilesToDelete());
-        storeFileManager.updateStoreFilesIterators(compactionResult.getFilesToDelete());
-
         // 实际删除
         storeFileManager.deleteStoreFiles(compactionResult.getFilesToDelete());
     }
