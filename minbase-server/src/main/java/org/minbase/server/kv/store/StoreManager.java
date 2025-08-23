@@ -215,4 +215,8 @@ public class StoreManager {
     public long getReadPoint() {
         return mvcc.getReadPoint();
     }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
 }

@@ -155,8 +155,10 @@ public class TableManager {
     private void clearOldLogTask() {
         while (true) {
             try {
+                long clearOldLogCheckINterval = configuration.getLong(Constants.CLEAR_OLD_LOG_CHECK_INTERVAL_KEY,
+                        Constants.CLEAR_OLD_LOG_CHECK_INTERVAL_DEFAULT);
                 synchronized (clearOldLogLock) {
-                    clearOldLogLock.wait(10000);
+                    clearOldLogLock.wait(clearOldLogCheckINterval);
                 }
                 if (wal.shouldForeFlush()) {
                     foreFlush();

@@ -1,8 +1,6 @@
 package org.minbase.server.table.wal;
 
 
-import org.minbase.common.utils.Util;
-import org.minbase.server.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
@@ -38,6 +36,9 @@ public class Wal {
     private ConcurrentSkipListMap<Long, Thread> waitingSyncThreads = new ConcurrentSkipListMap<>();
     private TableManager tableManager;
 
+    private int foreFlushFileNum = 50;
+    private long foreFlushTime = 60 * 60 * 1000;
+
     public Wal(File walDir, TableManager tableManager) throws IOException {
         this.walDir = walDir;
         this.tableManager = tableManager;
@@ -49,6 +50,8 @@ public class Wal {
         this.walLogCountLimit = tableManager.getConfiguration().getInt(Constants.WAL_LOG_COUNT_LIMIT_KEY, Constants.WAL_LOG_COUNT_LIMIT_DEFAULT);
         this.walFileLengthLimit = tableManager.getConfiguration().getLong(Constants.WAL_FILE_LENGTH_LIMIT, Constants.WAL_FILE_LENGTH_LIMIT_DEFALUT);
         this.syncLevel = SyncLevel.valueOf(tableManager.getConfiguration().get(Constants.WAL_SYNC_LEVEL_KEY, Constants.WAL_SYNC_LEVEL_DEFAULT));
+        this.foreFlushFileNum = tableManager.getConfiguration().getInt(Constants.WAL_FORE_FLUSH_FILE_NUM_KEY, Constants.WAL_FORE_FLUSH_FILE_NUM_DEFAULT);
+        this.foreFlushTime = tableManager.getConfiguration().getLong(Constants.WAL_FORCE_FLUSH_TIME_KEY, Constants.WAL_FORCE_FLUSH_TIME_DEFAULT);
         this.queue = new LinkedBlockingQueue<>();
         this.syncWalTask = new SyncWalTask();
         this.syncWalThread = new Thread(syncWalTask, "SyncWalTask");
@@ -150,7 +153,15 @@ public class Wal {
     }
 
     public boolean shouldForeFlush() {
-        return false;
+        File[] walfiles = listWalFiles();
+        if (walfiles == null || walfiles.length == 0) {
+            return false;
+        }
+        if (walfiles.length > foreFlushFileNum) {
+            return true;
+        }
+        File latestFile = walfiles[walfiles.length - 1];
+        return System.currentTimeMillis() - latestFile.lastModified() > foreFlushTime;
     }
 
     /**

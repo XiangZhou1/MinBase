@@ -1,5 +1,6 @@
 package org.minbase.server.kv.compaction;
 
+import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.storage.StoreFile;
 import org.minbase.server.kv.storage.StoreFileManager;
 import org.minbase.server.kv.store.StoreManager;
@@ -26,12 +27,13 @@ public class CompactionChecker implements Runnable {
 
     @Override
     public void run() {
+        long compactCheckInterval = this.storeManager.getConfiguration().getLong(Constants.COMPACT_CHECK_INTERVAL_KEY, Constants.COMPACT_CHECK_INTERVAL_DEFAULT);
         while (true) {
             try {
-                compact();
                 synchronized (waitLock) {
-                    waitLock.wait(10 * 1000);
+                    waitLock.wait(compactCheckInterval);
                 }
+                compact();
             } catch (Exception e) {
                 LOG.error("Compaction error", e);
             }

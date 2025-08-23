@@ -30,4 +30,12 @@ public class Constants {
     public static final long WAL_FILE_LENGTH_LIMIT_DEFALUT = 10 * 1024 *1024;
     public static final String WAL_SYNC_LEVEL_KEY = "wal.sync.level";
     public static final String WAL_SYNC_LEVEL_DEFAULT = SyncLevel.SYNC.toString();
+    public static final String WAL_FORE_FLUSH_FILE_NUM_KEY = "wal.force.flush.file.num";
+    public static final int WAL_FORE_FLUSH_FILE_NUM_DEFAULT = 50;
+    public static final String WAL_FORCE_FLUSH_TIME_KEY = "wal.fore.flush.time";
+    public static final long WAL_FORCE_FLUSH_TIME_DEFAULT = 60 * 60 * 1000;
+    public static final String CLEAR_OLD_LOG_CHECK_INTERVAL_KEY = "clear.old.log.check.interval";
+    public static final long CLEAR_OLD_LOG_CHECK_INTERVAL_DEFAULT = 5 * 60 * 1000;
+    public static final String COMPACT_CHECK_INTERVAL_KEY = "compact.check.interval";
+    public static final long COMPACT_CHECK_INTERVAL_DEFAULT = 5 * 60 * 1000;
 }
