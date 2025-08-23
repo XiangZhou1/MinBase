@@ -5,6 +5,8 @@ import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MergeIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +15,7 @@ import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class StoreFilesIterator implements KeyValueIterator {
+    private static final Logger LOG = LoggerFactory.getLogger(StoreFilesIterator.class);
     private StoreFileManager storeFileManager;
     private MergeIterator mergeIterator;
     private Set<StoreFile> storeFiles;
@@ -109,7 +112,6 @@ public class StoreFilesIterator implements KeyValueIterator {
             }
             Key currentKey = key();
             Key seekKey = currentKey == null ? startKey : currentKey;
-            System.out.println(Thread.currentThread() + ": key before updateStoreFiles:" + currentKey);
             this.storeFiles = new HashSet<>(newStoreFiles);
             List<KeyValueIterator> iterators = new ArrayList<>();
             for (StoreFile storeFile : newStoreFiles) {
@@ -121,9 +123,21 @@ public class StoreFilesIterator implements KeyValueIterator {
                     next();
                 }
             }
-            System.out.println(Thread.currentThread() + ": key after updateStoreFiles:" + key());
+
+            boolean updateSuccess = false;
+            if (currentKey == null && key() == null) {
+                updateSuccess = true;
+            }
             if (currentKey != null && key() != null) {
-                assert ByteUtil.byteEqual(currentKey.encode(), key().encode());
+                if (ByteUtil.byteEqual(currentKey.encode(), key().encode())) {
+                    updateSuccess = true;
+                }
+            }
+            if (!updateSuccess) {
+                LOG.error("updateStoreFileIterator, startKey:{}, currentKey before update:{}, currentKey after update:{}",
+                        startKey, currentKey, key());
+                throw new RuntimeException("updateStoreFileIterator, startKey:" + startKey
+                        + ", currentKey before update:" + currentKey + ", currentKey after update:" + key());
             }
         } finally {
             lock.unlock();

@@ -258,10 +258,11 @@ public class StoreFileManager {
                 }
             }
         }
+
         StringBuilder sb = new StringBuilder("Deleted file:");
         for (StoreFile storeFile : filesToDelete) {
+            sb.append(System.lineSeparator());
             sb.append(storeFile.toString());
-            sb.append(", ");
         }
         LOG.info(sb.toString());
     }

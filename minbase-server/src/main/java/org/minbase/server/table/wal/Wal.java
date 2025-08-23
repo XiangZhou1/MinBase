@@ -203,7 +203,7 @@ public class Wal {
             outputStream.close();
             File file = new File(walDir, startId + "_" + syncedLogSequenceId);
             FileUtil.rename(walFile, file);
-            LOG.info("Flush wal file, fileName=" + file.getName());
+            LOG.debug("Flush wal file, fileName=" + file.getName());
             walFile = null;
             startId = -1;
             walFileLength = 0;
@@ -235,8 +235,9 @@ public class Wal {
         for (File file1 : files) {
             long syncId = Long.parseLong(file1.getName().split("_")[1]);
             if (syncId <= oldSequenceId) {
-                file1.delete();
-                LOG.info("Clear old wal, fileName=" + file1.getName());
+                if (file1.delete()) {
+                    LOG.info("Clear old wal, fileName=" + file1.getName());
+                }
             } else {
                 break;
             }

@@ -82,7 +82,7 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
             }
 
             transactionManager.commitTransaction(txId);
-            LOG.info("Transaction {}", this);
+            LOG.debug("Transaction {}", this);
         } finally {
             transactionManager.transactionWriteUnLock();
             PerformanceStatistics.removeDoingTask(taskId);
@@ -95,7 +95,7 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
 
     public void rollback() {
         transactionManager.rollBackTransaction(txId);
-        LOG.info("Transaction {}", this);
+        LOG.debug("Transaction {}", this);
     }
 
     protected boolean isCommit() {

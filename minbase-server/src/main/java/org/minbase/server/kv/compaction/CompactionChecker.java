@@ -14,7 +14,6 @@ public class CompactionChecker implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(CompactionChecker.class);
     StoreFileManager storeFileManager;
     private CompactionPolicy compactionPolicy;
-    private Thread currentThread = null;
     private StoreManager storeManager;
     public Object waitLock = new Object();
     private ExecutorService compactExecutorService = Executors.newSingleThreadExecutor();
@@ -27,7 +26,6 @@ public class CompactionChecker implements Runnable {
 
     @Override
     public void run() {
-        currentThread = Thread.currentThread();
         while (true) {
             try {
                 compact();
@@ -44,7 +42,6 @@ public class CompactionChecker implements Runnable {
         CompactionResult compactionResult = null;
         List<StoreFile> storeFilesToCompact = storeFileManager.getStoreFilesToCompact();
         if (compactionPolicy.shouldCompact(storeFileManager, storeFilesToCompact)) {
-
             long minReadPoint = storeManager.getMinReadPoint();
             compactionResult = compactionPolicy.compact(storeFileManager,
                     storeFilesToCompact, minReadPoint);
