@@ -23,8 +23,8 @@ public class ColumnTableValueTest {
         ColumnValue columnValue1 = new ColumnValue();
         columnValue1.decode(encode, 0);
 
-        assert ByteUtil.ByteEqual(columnValue.column(), columnValue1.column());
-        assert ByteUtil.ByteEqual(columnValue.value(), columnValue1.value());
+        assert ByteUtil.byteEqual(columnValue.column(), columnValue1.column());
+        assert ByteUtil.byteEqual(columnValue.value(), columnValue1.value());
 
     }
 }

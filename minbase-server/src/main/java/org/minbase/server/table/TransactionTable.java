@@ -22,8 +22,8 @@ import java.util.Set;
 public class TransactionTable implements Table {
     private String tableName;
     protected TransactionTableStore localStore;
-    private Set<byte[]> writeSet;
-    private Set<byte[]> readSet;
+    private KeySet writeSet;
+    private KeySet readSet;
     private StoreManager storeManager;
     private Transaction transaction;
 
@@ -43,43 +43,38 @@ public class TransactionTable implements Table {
 
     @Override
     public ColumnValues get(Get get) {
-        readSet.add(get.getKey());
+        readSet.put(tableName, get.getKey());
 
         List<byte[]> columns = get.getColumns();
         byte[] key = get.getKey();
-        columns.sort(ByteUtil.BYTE_ORDER_COMPARATOR);
 
-        TableKey tableKeyFirst = new TableKey(key, columns.get(0));
-        TableKey tableKeyLast = new TableKey(key, columns.get(columns.size() - 1));
+        TableKey tableKeyFirst = null;
+        TableKey tableKeyLast = null;
+        if (!columns.isEmpty()) {
+            columns.sort(ByteUtil.BYTE_ORDER_COMPARATOR);
+            tableKeyFirst = new TableKey(key, columns.get(0));
+            tableKeyLast = new TableKey(key, columns.get(columns.size() - 1));
+        } else {
+            tableKeyFirst = new TableKey(key, new byte[]{Byte.MIN_VALUE});
+            tableKeyLast = new TableKey(key, new byte[]{Byte.MAX_VALUE});
+        }
 
-        Key startKey = new Key(tableKeyLast.encode(), Long.MAX_VALUE);
-        Key endKey = new Key(tableKeyFirst.encode(), 0);
-        Scanner scan = storeManager.scan(tableName, startKey, endKey);
+        Key startKey = new Key(tableKeyFirst.encode(), Long.MAX_VALUE);
+        Key endKey = new Key(tableKeyLast.encode(), 0);
+        Scanner scan = storeManager.scan(tableName, startKey, endKey, transaction.getReadPoint());
         Scanner localScanner = new Scanner(localStore.iterator(startKey, endKey), Long.MAX_VALUE);
         List<KeyValueIterator> iterators = new ArrayList<>();
         iterators.add(scan);
         iterators.add(localScanner);
         Scanner scanner = new Scanner(new MergeIterator(iterators), Long.MAX_VALUE);
 
-        ColumnValues columnValues = new ColumnValues();
-        while (scanner.hasNext()) {
-            KeyValue keyValue = scanner.next();
-            if (keyValue == null) {
-                continue;
-            }
-            TableKey tableKey = new TableKey();
-            tableKey.decode(keyValue.getKey().getInternalKey());
-            byte[] column = tableKey.getColumn();
-            if (columns.contains(column)) {
-                columnValues.set(column, keyValue.getValue().getValue());
-            }
-        }
-        return columnValues;
+        RawTracker rawTracker = new RawTracker(columns);
+        return rawTracker.tracker(scanner);
     }
 
     @Override
     public void put(Put put) {
-        writeSet.add(put.getKey());
+        writeSet.put(tableName, put.getKey());
         List<KeyValue> keyValues = OpUtil.fromPut(put);
         for (KeyValue keyValue : keyValues) {
             localStore.put(keyValue);
@@ -88,8 +83,8 @@ public class TransactionTable implements Table {
 
     @Override
     public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
-        readSet.add(checkKey);
-        writeSet.add(put.getKey());
+        readSet.put(tableName, checkKey);
+        writeSet.put(tableName, put.getKey());
 
         Get get = new Get(checkKey);
         get.addColumn(column);
@@ -105,7 +100,7 @@ public class TransactionTable implements Table {
 
     @Override
     public void delete(Delete delete) {
-        writeSet.add(delete.getKey());
+        writeSet.put(tableName, delete.getKey());
         List<KeyValue> keyValues = OpUtil.fromDelete(delete);
         for (KeyValue keyValue : keyValues) {
             localStore.put(keyValue);

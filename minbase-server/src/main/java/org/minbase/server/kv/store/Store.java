@@ -152,7 +152,7 @@ public class Store {
             if (keyValue == null) {
                 return null;
             }
-            if (ByteUtil.ByteEqual(keyValue.getKey().getInternalKey(), key.getInternalKey())) {
+            if (ByteUtil.byteEqual(keyValue.getKey().getInternalKey(), key.getInternalKey())) {
                 return keyValue;
             }
         }

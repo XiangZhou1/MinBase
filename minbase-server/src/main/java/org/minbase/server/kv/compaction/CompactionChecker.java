@@ -1,13 +1,10 @@
 package org.minbase.server.kv.compaction;
 
-import org.minbase.common.utils.Util;
 import org.minbase.server.kv.storage.StoreFile;
 import org.minbase.server.kv.storage.StoreFileManager;
-import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.store.StoreManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -37,7 +34,7 @@ public class CompactionChecker implements Runnable {
                 if (compactionPolicy.shouldCompact(storeFileManager, storeFilesToCompact)) {
                     LOG.info("StoreFilesToCompact:{}", storeFilesToCompact.size());
                     CompactionResult compactionResult = compactionPolicy.compact(storeFileManager,
-                            storeFilesToCompact, storeManager.getMinReadPoint());
+                            storeFilesToCompact, storeManager.getMinReadPointOfScanner());
                     if (compactionResult != null) {
                         applyConpactionResult(compactionResult);
                     }
@@ -62,7 +59,6 @@ public class CompactionChecker implements Runnable {
             return;
         }
         storeFileManager.updateStoreFiles(compactionResult.getFilesToAdd(), compactionResult.getFilesToDelete());
-        System.out.println("updateStoreFilesIterators");
         storeFileManager.updateStoreFilesIterators(compactionResult.getFilesToDelete());
 
         // 实际删除

@@ -47,7 +47,7 @@ public class CompactionScanner extends AbstractKeyValueIterator {
                     return next;
                 }
                 if (deletedKeyValue != null &&
-                        ByteUtil.ByteEqual(deletedKeyValue.getKey().getInternalKey(),
+                        ByteUtil.byteEqual(deletedKeyValue.getKey().getInternalKey(),
                                 next.getKey().getInternalKey())) {
                     continue;
                 }
@@ -56,7 +56,7 @@ public class CompactionScanner extends AbstractKeyValueIterator {
                     continue;
                 }
                 if (currentValue != null &&
-                        ByteUtil.ByteEqual(currentValue.getKey().getInternalKey(),
+                        ByteUtil.byteEqual(currentValue.getKey().getInternalKey(),
                                 next.getKey().getInternalKey())) {
                     continue;
                 }

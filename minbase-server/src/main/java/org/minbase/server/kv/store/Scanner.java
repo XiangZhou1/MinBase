@@ -42,7 +42,7 @@ public class Scanner extends AbstractKeyValueIterator {
                     continue;
                 }
                 if (deletedKeyValue != null &&
-                        ByteUtil.ByteEqual(deletedKeyValue.getKey().getInternalKey(),
+                        ByteUtil.byteEqual(deletedKeyValue.getKey().getInternalKey(),
                                 next.getKey().getInternalKey())) {
                     continue;
                 }
@@ -51,7 +51,7 @@ public class Scanner extends AbstractKeyValueIterator {
                     continue;
                 }
                 if (currentValue != null &&
-                        ByteUtil.ByteEqual(currentValue.getKey().getInternalKey(),
+                        ByteUtil.byteEqual(currentValue.getKey().getInternalKey(),
                                 next.getKey().getInternalKey())) {
                     continue;
                 }
@@ -71,11 +71,16 @@ public class Scanner extends AbstractKeyValueIterator {
     @Override
     public void close() {
         iterator.close();
-        storeManager.removeScanner(this);
-
+        if (storeManager != null) {
+            storeManager.removeScanner(this);
+        }
     }
 
     public long getReadPoint() {
         return readPoint;
+    }
+
+    public void setStoreManager(StoreManager storeManager) {
+        this.storeManager = storeManager;
     }
 }

@@ -22,7 +22,7 @@ public class StoreTest {
 
     static {
         storeManager = Mockito.mock(StoreManager.class);
-        PowerMockito.when(storeManager.getMinReadPoint()).thenReturn(Long.MAX_VALUE);
+        PowerMockito.when(storeManager.getMinReadPointOfScanner()).thenReturn(Long.MAX_VALUE);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class StoreTest {
             KeyValue next = iterator.next();
             System.out.println(next);
             assert next != null;
-            assert ByteUtil.ByteEqual(next.getValue().encode(), new Value(Op.PUT, ("value" + i).getBytes(StandardCharsets.UTF_8)).encode());
+            assert ByteUtil.byteEqual(next.getValue().encode(), new Value(Op.PUT, ("value" + i).getBytes(StandardCharsets.UTF_8)).encode());
             i++;
         }
     }
@@ -76,7 +76,7 @@ public class StoreTest {
             KeyValue keyValue = store.get(new Key(("key" + Util.fillZero(i)).getBytes(StandardCharsets.UTF_8), Long.MAX_VALUE));
             System.out.println(keyValue);
             assert keyValue != null;
-            assert ByteUtil.ByteEqual(keyValue.getValue().encode(), new Value(Op.PUT, ("value" + i).getBytes(StandardCharsets.UTF_8)).encode());
+            assert ByteUtil.byteEqual(keyValue.getValue().encode(), new Value(Op.PUT, ("value" + i).getBytes(StandardCharsets.UTF_8)).encode());
         }
     }
 
@@ -116,7 +116,7 @@ public class StoreTest {
                             System.out.println(keyValue);
                             assert false;
                         } else {
-                            if (!ByteUtil.ByteEqual(keyValue.getValue().encode(), new Value(Op.PUT, ("value" + i).getBytes(StandardCharsets.UTF_8)).encode())) {
+                            if (!ByteUtil.byteEqual(keyValue.getValue().encode(), new Value(Op.PUT, ("value" + i).getBytes(StandardCharsets.UTF_8)).encode())) {
                                 System.out.println(i);
                                 System.out.println(keyValue);
                                 assert false;

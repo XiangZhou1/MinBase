@@ -25,7 +25,7 @@ public class StoreFileManagerTest {
 
     static {
         storeManager = Mockito.mock(StoreManager.class);
-        PowerMockito.when(storeManager.getMinReadPoint()).thenReturn(Long.MAX_VALUE);
+        PowerMockito.when(storeManager.getMinReadPointOfScanner()).thenReturn(Long.MAX_VALUE);
         store = Mockito.mock(Store.class);
     }
 
@@ -68,13 +68,13 @@ public class StoreFileManagerTest {
             Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
             Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             if (storeFilesIterator.hasNext()) {
-                assert ByteUtil.ByteEqual(storeFilesIterator.next().getKey().encode(), key2.encode());
+                assert ByteUtil.byteEqual(storeFilesIterator.next().getKey().encode(), key2.encode());
             } else {
                 System.out.println(storeFilesIterator.next().getKey());
                 assert false;
             }
             if (storeFilesIterator.hasNext()) {
-                assert ByteUtil.ByteEqual(storeFilesIterator.next().getKey().encode(), key1.encode());
+                assert ByteUtil.byteEqual(storeFilesIterator.next().getKey().encode(), key1.encode());
             } else {
                 System.out.println(storeFilesIterator.next().getKey());
                 assert false;
@@ -95,13 +95,13 @@ public class StoreFileManagerTest {
                 Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
                 Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
                 if (storeFilesIterator.hasNext()) {
-                    assert ByteUtil.ByteEqual(storeFilesIterator.next().getKey().encode(), key2.encode());
+                    assert ByteUtil.byteEqual(storeFilesIterator.next().getKey().encode(), key2.encode());
                 } else {
                     System.out.println(storeFilesIterator.next().getKey());
                     assert false;
                 }
                 if (storeFilesIterator.hasNext()) {
-                    assert ByteUtil.ByteEqual(storeFilesIterator.next().getKey().encode(), key1.encode());
+                    assert ByteUtil.byteEqual(storeFilesIterator.next().getKey().encode(), key1.encode());
                 } else {
                     System.out.println(storeFilesIterator.next().getKey());
                     assert false;
@@ -123,13 +123,13 @@ public class StoreFileManagerTest {
                 Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
                 Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
                 if (storeFilesIterator.hasNext()) {
-                    assert ByteUtil.ByteEqual(storeFilesIterator.next().getKey().encode(), key2.encode());
+                    assert ByteUtil.byteEqual(storeFilesIterator.next().getKey().encode(), key2.encode());
                 } else {
                     System.out.println(storeFilesIterator.next().getKey());
                     assert false;
                 }
                 if (storeFilesIterator.hasNext()) {
-                    assert ByteUtil.ByteEqual(storeFilesIterator.next().getKey().encode(), key1.encode());
+                    assert ByteUtil.byteEqual(storeFilesIterator.next().getKey().encode(), key1.encode());
                 } else {
                     System.out.println(storeFilesIterator.next().getKey());
                     assert false;
@@ -149,7 +149,7 @@ public class StoreFileManagerTest {
             Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
 
             if (scanner.hasNext()) {
-                assert ByteUtil.ByteEqual(scanner.next().getKey().encode(), key2.encode());
+                assert ByteUtil.byteEqual(scanner.next().getKey().encode(), key2.encode());
                 System.out.println(scanner.key());
             } else {
                 System.out.println(scanner.next().getKey());

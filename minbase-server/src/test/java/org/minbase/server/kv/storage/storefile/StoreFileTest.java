@@ -50,8 +50,8 @@ public class StoreFileTest {
         StoreFile storeFile1 = new StoreFile(UUID.randomUUID().toString());
         storeFile1.decodeFromFile(new RandomAccessFile("tmp", "r"));
 
-        assert ByteUtil.ByteEqual(storeFile1.getMetaBlock(0).encode(), storeFile.getMetaBlock(0).encode());
-        assert ByteUtil.ByteEqual(storeFile1.getBloomFilter().encode(), storeFile.getBloomFilter().encode());
+        assert ByteUtil.byteEqual(storeFile1.getMetaBlock(0).encode(), storeFile.getMetaBlock(0).encode());
+        assert ByteUtil.byteEqual(storeFile1.getBloomFilter().encode(), storeFile.getBloomFilter().encode());
 
         for (int i = 0; i < totalNum; i++) {
             Key key2 = new Key(("k" + Util.fillZero(i)).getBytes(), 2);
@@ -81,13 +81,13 @@ public class StoreFileTest {
             Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             if (iterator.hasNext()) {
                 KeyValue next = iterator.next();
-                assert ByteUtil.ByteEqual(next.getKey().encode(), key2.encode());
+                assert ByteUtil.byteEqual(next.getKey().encode(), key2.encode());
             } else {
                 assert false;
             }
             if (iterator.hasNext()) {
                 KeyValue next = iterator.next();
-                assert ByteUtil.ByteEqual(next.getKey().encode(), key1.encode());
+                assert ByteUtil.byteEqual(next.getKey().encode(), key1.encode());
             } else {
                 assert false;
             }
@@ -117,14 +117,14 @@ public class StoreFileTest {
             Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
             if (iterator.hasNext()) {
                 KeyValue next = iterator.next();
-                assert ByteUtil.ByteEqual(next.getKey().encode(), key2.encode());
+                assert ByteUtil.byteEqual(next.getKey().encode(), key2.encode());
             } else {
                 System.out.println(iterator.key());
                 assert false;
             }
             if (iterator.hasNext()) {
                 KeyValue next = iterator.next();
-                assert ByteUtil.ByteEqual(next.getKey().encode(), key1.encode());
+                assert ByteUtil.byteEqual(next.getKey().encode(), key1.encode());
             } else {
                 System.out.println(iterator.key());
                 assert false;
@@ -155,14 +155,14 @@ public class StoreFileTest {
                 Key key1 = new Key(("k" + Util.fillZero(i)).getBytes(), 1);
                 if (iterator.hasNext()) {
                     KeyValue next = iterator.next();
-                    assert ByteUtil.ByteEqual(next.getKey().encode(), key2.encode());
+                    assert ByteUtil.byteEqual(next.getKey().encode(), key2.encode());
                 } else {
                     System.out.println(iterator.key());
                     assert false;
                 }
                 if (iterator.hasNext()) {
                     KeyValue next = iterator.next();
-                    assert ByteUtil.ByteEqual(next.getKey().encode(), key1.encode());
+                    assert ByteUtil.byteEqual(next.getKey().encode(), key1.encode());
                 } else {
                     System.out.println(iterator.key());
                     assert false;

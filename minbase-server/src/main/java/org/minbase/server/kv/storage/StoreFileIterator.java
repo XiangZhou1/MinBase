@@ -35,6 +35,9 @@ public class StoreFileIterator extends AbstractKeyValueIterator {
 
     @Override
     protected boolean hasNextInternal() {
+        if (blockIndex == -1) {
+            return false;
+        }
         return dataBlockIterator.hasNext() || (blockIndex != -1 && blockIndex < numOfBlocks);
     }
 

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -39,6 +40,9 @@ public class TableManager {
         this.storeManager = new StoreManager(storeManagerDir, configuration, this);
         this.transactionManager = new TransactionManager(this);
         this.wal = new Wal(new File(storeManagerDir, "wal"), this);
+
+        initTable();
+        wal.recovery();
         this.clearOldLogExecutor = Executors.newSingleThreadExecutor();
         this.clearOldLogExecutor.submit(new Runnable() {
             @Override
@@ -47,6 +51,14 @@ public class TableManager {
             }
         });
 
+    }
+
+    private void initTable() {
+        ConcurrentHashMap<String, Store> stores = storeManager.getStores();
+        for (String tableName : stores.keySet()) {
+            TableImpl table = new TableImpl(tableName, this);
+            tableMap.put(tableName, table);
+        }
     }
 
     public Table getTable(String tableName) {
@@ -61,12 +73,6 @@ public class TableManager {
         try {
             if (tableMap.containsKey(tableName)) {
                 return true;
-            }
-            File tableDir = new File(storeManagerDir, tableName);
-            if (!tableDir.exists()) {
-                if (!tableDir.mkdirs()) {
-                    throw new IOException("create table fail");
-                }
             }
             storeManager.createStor(tableName);
             TableImpl table = new TableImpl(tableName, this);
@@ -145,21 +151,21 @@ public class TableManager {
 
     public void applyLog(LogEntry logEntry) {
         storeManager.applyLog(logEntry.getWriteBatch());
+        transactionManager.setSequenceId(logEntry.getLastSequenceId());
     }
 
 
     private void clearOldLogTask() {
         while (true) {
             try {
-//                synchronized (clearOldLogLock) {
-//                    clearOldLogLock.wait(10000);
-//                }
-//                long minSyncedSequenceId = getMinFlushedSequenceId();
-//                wal.clearOldWal(minSyncedSequenceId);
-//                if (wal.shouldForeFlush()) {
-//                    foreFlush();
-//                    wal.clearOldWal(getMinFlushedSequenceId());
-//                }
+                synchronized (clearOldLogLock) {
+                    clearOldLogLock.wait(10000);
+                }
+                if (wal.shouldForeFlush()) {
+                    foreFlush();
+                }
+                long minSyncedSequenceId = storeManager.getMinFlushedSequenceId();
+                wal.clearOldWal(minSyncedSequenceId);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -172,4 +178,15 @@ public class TableManager {
         }
     }
 
+    public void foreFlush(String tableName) {
+        storeManager.foreFlush(tableName);
+    }
+
+    public void foreFlush() {
+        storeManager.foreFlush();
+    }
+
+    public void close() {
+        foreFlush();
+    }
 }

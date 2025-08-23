@@ -5,7 +5,6 @@ import org.minbase.server.conf.Configuration;
 import org.minbase.server.kv.*;
 import org.minbase.server.table.TableManager;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -37,7 +36,6 @@ public class StoreManagerTest {
         storeManager.put(writeBatch);
         storeManager.foreFlush();
         Thread.sleep(Long.MAX_VALUE);
-
     }
 
     @Test

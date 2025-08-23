@@ -1,4 +1,4 @@
-package org.minbase.server.kv.wal;
+package org.minbase.table.wal;
 
 
 import org.junit.Test;

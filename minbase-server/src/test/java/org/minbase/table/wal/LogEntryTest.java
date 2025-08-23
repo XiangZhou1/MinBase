@@ -1,4 +1,4 @@
-package org.minbase.server.kv.wal;
+package org.minbase.table.wal;
 
 import org.junit.Test;
 import org.minbase.server.kv.KeyValue;
@@ -38,7 +38,7 @@ public class LogEntryTest {
         LogEntry logEntry1 = new LogEntry();
         logEntry1.decode(encode);
 
-        assert ByteUtil.ByteEqual(logEntry1.encode(), encode);
+        assert ByteUtil.byteEqual(logEntry1.encode(), encode);
     }
 
 }

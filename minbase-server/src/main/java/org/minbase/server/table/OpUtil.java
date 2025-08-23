@@ -5,6 +5,7 @@ import org.minbase.common.table.op.Put;
 import org.minbase.server.kv.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -31,5 +32,26 @@ public class OpUtil {
             keyValues.add(new KeyValue(key1, value));
         }
         return keyValues;
+    }
+
+    public static class ByteArrayWrapper {
+        private final byte[] data;
+
+        public ByteArrayWrapper(byte[] data) {
+            this.data = data;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ByteArrayWrapper)) return false;
+            ByteArrayWrapper that = (ByteArrayWrapper) o;
+            return Arrays.equals(data, that.data);
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(data);
+        }
     }
 }

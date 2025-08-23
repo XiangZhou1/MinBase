@@ -8,7 +8,6 @@ import org.minbase.server.kv.storage.DataBlockIterator;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.utils.KeyUtil;
 import org.minbase.server.kv.utils.ValueUtil;
-import org.minbase.common.utils.Util;
 
 import java.nio.charset.StandardCharsets;
 
@@ -31,7 +30,7 @@ public class DataBlockTest {
         block1.setKeyValueCount(5);
         block1.decode(block.encode());
 
-        assert ByteUtil.ByteEqual(block.encode(), block1.encode());
+        assert ByteUtil.byteEqual(block.encode(), block1.encode());
 
         int keyValueNum = block1.getKeyValueCount();
         System.out.println(keyValueNum);
@@ -58,7 +57,7 @@ public class DataBlockTest {
         block1.setKeyValueCount(5);
         block1.decode(block.encode());
 
-        assert ByteUtil.ByteEqual(block.encode(), block1.encode());
+        assert ByteUtil.byteEqual(block.encode(), block1.encode());
 
         int keyValueNum = block1.getKeyValueCount();
 
@@ -94,7 +93,7 @@ public class DataBlockTest {
         block1.setKeyValueCount(5);
         block1.decode(block.encode());
 
-        assert ByteUtil.ByteEqual(block.encode(), block1.encode());
+        assert ByteUtil.byteEqual(block.encode(), block1.encode());
 
         int keyValueNum = block1.getKeyValueCount();
 
@@ -154,7 +153,7 @@ public class DataBlockTest {
         block1.setKeyValueCount(5);
         block1.decode(block.encode());
 
-        assert ByteUtil.ByteEqual(block.encode(), block1.encode());
+        assert ByteUtil.byteEqual(block.encode(), block1.encode());
 
         int keyValueNum = block1.getKeyValueCount();
 

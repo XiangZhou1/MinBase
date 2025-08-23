@@ -42,7 +42,7 @@ public class FlushTask implements Runnable {
                 this.lastFreeezedTables = freezedMemStores.peekLast();
                 StoreFileBuilder storeFileBuilder = storeFileManager.newTmpStroeFile();
                 MemStoreIterator iterator = lastFreeezedTables.iterator();
-                CompactionScanner scanner = new CompactionScanner(iterator, storeManager.getMinReadPoint());
+                CompactionScanner scanner = new CompactionScanner(iterator, storeManager.getMinReadPointOfScanner());
 
                 while (scanner.hasNext()) {
                     KeyValue next = scanner.next();
@@ -59,7 +59,7 @@ public class FlushTask implements Runnable {
                 storeManager.requestClearOldLog();
                 storeFileManager.cacheDataBlocks(storeFile);
                 store.triggerCompaction();
-                LOG.debug("Flush freezedMemStore success; memStore:%s, firstKey:%s, lastKey:%s, lastSyncSequenceId:%d",
+                LOG.info("Flush freezedMemStore success; memStore:{}, firstKey:{}, lastKey:{}, lastSyncSequenceId:{}",
                         store.getName(), storeFile.getFirstKey(), storeFile.getLastKey(), lastSyncSequenceId);
             }
         } catch (IOException e) {

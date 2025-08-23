@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -30,7 +29,6 @@ public class StoreManager {
     private MultiVersionControler mvcc = new MultiVersionControler();
     private ReadWriteLock readWriteLock;
     private File storeManagerDir;
-    private ExecutorService clearOldLogExecutor;
     private TableManager tableManager;
 
     public StoreManager(File storeManagerDir, Configuration configuration, TableManager tableManager) throws IOException {
@@ -112,18 +110,25 @@ public class StoreManager {
         KeyValueIterator iterator = stores.get(store).iterator(new Key(startKey, mvcc.getReadPoint()),
                 KeyUtil.earliestVersionKey(endKey));
         Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
+        scanner.setStoreManager(this);
+        return scanner;
+    }
+
+    public Scanner scan(String store, Key startKey, Key endKey, long readPoint) {
+        KeyValueIterator iterator = stores.get(store).iterator(startKey, endKey);
+        Scanner scanner = new Scanner(iterator, readPoint);
+        scanner.setStoreManager(this);
         return scanner;
     }
 
     public Scanner scan(String store, Key startKey, Key endKey) {
-        KeyValueIterator iterator = stores.get(store).iterator(startKey, endKey);
-        Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
-        return scanner;
+        return scan(store, startKey, endKey, mvcc.getReadPoint());
     }
 
     public Scanner scan(String store) {
         KeyValueIterator iterator = stores.get(store).iterator(null, null);
         Scanner scanner = new Scanner(iterator, mvcc.getReadPoint());
+        scanner.setStoreManager(this);
         return scanner;
     }
 
@@ -154,7 +159,7 @@ public class StoreManager {
     }
 
 
-    public long getMinReadPoint() {
+    public long getMinReadPointOfScanner() {
         Scanner peek = scanners.peek();
         if (peek == null) {
             return mvcc.getReadPoint();
@@ -185,6 +190,11 @@ public class StoreManager {
         });
     }
 
+    public void foreFlush(String storeName) {
+        Store store = stores.get(storeName);
+       store.foreFlush();
+    }
+
     public boolean containStore(String storeName) {
         return stores.containsKey(storeName);
     }
@@ -193,4 +203,11 @@ public class StoreManager {
         return stores.keySet().toArray(new String[0]);
     }
 
+    public ConcurrentHashMap<String, Store> getStores() {
+        return stores;
+    }
+
+    public long getReadPoint() {
+        return mvcc.getReadPoint();
+    }
 }

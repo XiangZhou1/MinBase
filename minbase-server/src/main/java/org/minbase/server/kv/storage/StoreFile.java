@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * 数据结构 SSTable
@@ -330,5 +331,18 @@ public class StoreFile {
 
     public BloomFilterBlock getBloomFilter() {
         return bloomFilter;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreFile storeFile = (StoreFile) o;
+        return rawFile.getName().equals(storeFile.getRawFile().getName());
+   }
+
+    @Override
+    public int hashCode() {
+        return rawFile.getName().hashCode();
     }
 }

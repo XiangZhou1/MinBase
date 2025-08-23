@@ -159,7 +159,7 @@ public class StoreFileManager {
         List<StoreFile> storeFileList = new ArrayList<>();
 
         boolean isGetSpecificKey = startKey != null && endKey != null &&
-                ByteUtil.ByteEqual(startKey.getInternalKey(), endKey.getInternalKey());
+                ByteUtil.byteEqual(startKey.getInternalKey(), endKey.getInternalKey());
         readLock();
         try {
             for (StoreFile storeFile : storeFiles) {
@@ -173,7 +173,15 @@ public class StoreFileManager {
                 storeFileList.add(storeFile);
                 iterators.add(new StoreFileIterator(storeFile.getStoreFileReader(), startKey, endKey, cache));
             }
-            return new StoreFilesIterator(this, storeFileList, iterators, startKey, endKey);
+            StringBuilder sb = new StringBuilder("New Iterator, file:");
+            for (StoreFile storeFile : storeFileList) {
+                sb.append(storeFile.getRawFile().getName());
+                sb.append(", ");
+            }
+            LOG.info(sb.toString());
+            StoreFilesIterator storeFilesIterator = new StoreFilesIterator(this, storeFileList, iterators, startKey, endKey);
+            processingStoreFilesIterators.add(storeFilesIterator);
+            return storeFilesIterator;
         } finally {
             readUnLock();
         }
@@ -236,6 +244,12 @@ public class StoreFileManager {
                 }
             }
         }
+        StringBuilder sb = new StringBuilder("Deleted file:");
+        for (StoreFile storeFile : filesToDelete) {
+            sb.append(storeFile.getRawFile().getName());
+            sb.append(", ");
+        }
+        LOG.info(sb.toString());
     }
 
     public void requestCompaction() {

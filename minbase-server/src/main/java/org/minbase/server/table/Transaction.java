@@ -8,30 +8,35 @@ import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.kv.store.StoreManager;
 import org.minbase.server.table.wal.Wal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class Transaction implements org.minbase.common.table.transaction.Transaction {
+    private static final Logger LOG = LoggerFactory.getLogger(Transaction.class);
     protected long txId;
     private long commitId;
     protected TransactionState transactionState;
     protected StoreManager storeManager;
     protected TransactionManager transactionManager;
-    protected Set<byte[]> writeSet;
-    protected Set<byte[]> readSet;
+    protected KeySet writeSet;
+    protected KeySet readSet;
     private Map<String, TransactionTable> txTables = new HashMap<>();
     private WriteBatch writeBatch;
     private Wal wal;
+    private long readPoint = Long.MAX_VALUE;
 
     public Transaction(long transactionId, TableManager tableManager) {
         this.txId = transactionId;
         this.transactionState = TransactionState.Active;
         this.writeBatch = new WriteBatch();
-        this.writeSet = new HashSet<>();
-        this.readSet = new HashSet<>();
+        this.writeSet = new KeySet();
+        this.readSet = new KeySet();
         this.storeManager = tableManager.getStoreManager();
         this.transactionManager = tableManager.getTransactionManager();
         this.wal = tableManager.getWal();
+        this.readPoint = storeManager.getReadPoint();
     }
 
     @Override
@@ -58,20 +63,26 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
     }
 
 
-    public synchronized void commit() throws TransactionException {
-        if (!transactionManager.validateTransaction(txId)) {
-            throw new TransactionException("validate fail");
-        }
-
-        if (!writeBatch.isEmpty()) {
-            synchronized (Transaction.class) {
-                writeBatch.setLastSequenceId(commitId);
-                wal.log(writeBatch);
+    public void commit() throws TransactionException {
+        transactionManager.transactionWriteLock();
+        try {
+            if (!transactionManager.validateTransaction(txId)) {
+                throw new TransactionException("validate fail");
             }
-            applyLocalStore(writeBatch);
-        }
 
-        transactionManager.commitTransaction(txId);
+            if (!writeBatch.isEmpty()) {
+                synchronized (Transaction.class) {
+                    writeBatch.setLastSequenceId(commitId);
+                    wal.log(writeBatch);
+                }
+                applyLocalStore(writeBatch);
+            }
+
+            transactionManager.commitTransaction(txId);
+            LOG.info("Transaction {}", this);
+        } finally {
+            transactionManager.transactionWriteUnLock();
+        }
     }
 
     private void applyLocalStore(WriteBatch writeBatch) {
@@ -80,25 +91,18 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
 
     public void rollback() {
         transactionManager.rollBackTransaction(txId);
+        LOG.info("Transaction {}", this);
     }
 
     protected boolean isCommit() {
         return TransactionState.Commit.equals(this.transactionState);
     }
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "transactionId=" + txId +
-                ", transactionState=" + transactionState +
-                '}';
-    }
-
-    public Set<byte[]> getWriteSet() {
+    public KeySet getWriteSet() {
         return writeSet;
     }
 
-    public Set<byte[]> getReadSet() {
+    public KeySet getReadSet() {
         return readSet;
     }
 
@@ -126,19 +130,24 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
         return storeManager;
     }
 
-    public void applyLogForRecovery(String tableName, List<KeyValue> keyValues) {
-        TransactionTable table = (TransactionTable) getTable(tableName);
-        for (KeyValue keyValue : keyValues) {
-            table.applyLog(keyValue);
-        }
+    public long getReadPoint() {
+        return readPoint;
     }
 
-    public void commitForRecovery(long commitId) {
-        applyLocalStore(writeBatch);
-        transactionManager.commitTransaction(txId);
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "txId=" + txId +
+                ", commitId=" + commitId +
+                ", transactionState=" + transactionState +
+                ", writeSet=" + writeSet +
+                ", readSet=" + readSet +
+                ", checkTransactions=" + checkTransactions +
+                '}';
     }
 
-    public void rollbackForRecovery() {
-        transactionManager.rollBackTransaction(txId);
+    private List<Transaction> checkTransactions = new ArrayList<>();
+    public void addCheckTransaction(Transaction otherCommittedTransaction) {
+        checkTransactions.add(otherCommittedTransaction);
     }
 }

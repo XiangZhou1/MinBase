@@ -8,14 +8,11 @@ import org.minbase.common.table.op.Put;
 import org.minbase.common.table.Table;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Key;
-import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.store.StoreManager;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TableImpl implements Table {
     String tableName;
@@ -58,28 +55,15 @@ public class TableImpl implements Table {
             tableKeyFirst = new TableKey(key, columns.get(0));
             tableKeyLast = new TableKey(key, columns.get(columns.size() - 1));
         } else {
-            tableKeyFirst = new TableKey(key, new byte[0]);
-            tableKeyLast = new TableKey(key, new byte[0]);
+            tableKeyFirst = new TableKey(key, new byte[]{Byte.MIN_VALUE});
+            tableKeyLast = new TableKey(key, new byte[]{Byte.MAX_VALUE});
         }
 
-        Key startKey = new Key(tableKeyLast.encode(), Long.MAX_VALUE);
-        Key endKey = new Key(tableKeyFirst.encode(), 0);
+        Key startKey = new Key(tableKeyFirst.encode(), Long.MAX_VALUE);
+        Key endKey = new Key(tableKeyLast.encode(), 0);
         Scanner scan = storeManager.scan(tableName, startKey, endKey);
-
-        org.minbase.common.table.op.ColumnValues columnValues = new ColumnValues();
-        while (scan.hasNext()) {
-            KeyValue keyValue = scan.next();
-            if (keyValue == null) {
-                continue;
-            }
-            TableKey tableKey = new TableKey();
-            tableKey.decode(keyValue.getKey().getInternalKey());
-            byte[] column = tableKey.getColumn();
-            if (columns.contains(column)) {
-                columnValues.set(column, keyValue.getValue().getValue());
-            }
-        }
-        return columnValues;
+        RawTracker rawTracker = new RawTracker(columns);
+        return rawTracker.tracker(scan);
     }
 
     @Override

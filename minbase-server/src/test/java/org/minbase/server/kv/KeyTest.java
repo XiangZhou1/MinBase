@@ -20,7 +20,7 @@ public class KeyTest {
         key2.decode(encode);
         System.out.println(key2);
 
-        assert ByteUtil.ByteEqual(key.getInternalKey(), key2.getInternalKey());
+        assert ByteUtil.byteEqual(key.getInternalKey(), key2.getInternalKey());
         assert key.getVersion() == key2.getVersion();
     }
 
