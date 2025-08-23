@@ -3,6 +3,9 @@ package org.minbase.server.conf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -10,33 +13,41 @@ import static org.minbase.server.constant.Constants.MINBASE_CONF;
 
 
 public class Configuration {
-    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
-    private static Properties config = new Properties();
+    private static final Logger LOG = LoggerFactory.getLogger(Configuration.class);
+    private Properties config = new Properties();
 
-    public static String get(String key) {
-        return config.getProperty(key);
+    public Configuration() {
     }
 
-    static {
-        try (InputStream resourceAsStream =
-                     Configuration.class.getClassLoader().getResourceAsStream(MINBASE_CONF)) {
+    public Configuration(File configFile) throws IOException {
+        try (InputStream resourceAsStream = new FileInputStream(configFile)) {
             //通过Properties加载配置文件
             config.load(resourceAsStream);
-        } catch (Exception e) {
-            logger.error("Load config file(minbase.conf) error", e);
-            System.exit(-1);
+        } catch (IOException e) {
+            LOG.error("Load config file " + configFile.getName() + " error", e);
+            throw e;
         }
     }
 
     public long getLong(String key, long defaultValue) {
-        return defaultValue;
+        String property = config.getProperty(key);
+        if (property == null) {
+            return defaultValue;
+        } else {
+            return Long.parseLong(property);
+        }
     }
 
     public int getInt(String key, int defaultValue) {
-        return defaultValue;
+        String property = config.getProperty(key);
+        if (property == null) {
+            return defaultValue;
+        } else {
+            return Integer.parseInt(property);
+        }
     }
 
     public String get(String key, String defaultValue) {
-        return defaultValue;
+        return config.getProperty(key, defaultValue);
     }
 }

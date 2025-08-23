@@ -21,9 +21,13 @@ import java.util.List;
 
 public class MinorCompactionPolicy implements CompactionPolicy {
     private static final Logger LOG = LoggerFactory.getLogger(MinorCompactionPolicy.class);
-    Configuration configuration;
     private int minStoreFileCountToCompact = 3;
     private long storeFileLengthLimit = 512 * 1024 * 1024;
+
+    public MinorCompactionPolicy(int minStoreFileCountToCompact, long storeFileLengthLimit) {
+        this.minStoreFileCountToCompact = minStoreFileCountToCompact;
+        this.storeFileLengthLimit = storeFileLengthLimit;
+    }
 
     public MinorCompactionPolicy(Configuration configuration) {
         this.minStoreFileCountToCompact = configuration.getInt(Constants.MIN_STORE_FILE_COUNT_TO_COMPACT_KEY,

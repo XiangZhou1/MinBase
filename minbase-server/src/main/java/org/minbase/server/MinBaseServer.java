@@ -21,7 +21,6 @@ import java.util.List;
 
 public class MinBaseServer {
     private static final Logger LOG = LoggerFactory.getLogger(MinBaseServer.class);
-    public static final String Data_Dir = Configuration.get(Constants.KEY_DATA_DIR);
     private Configuration configuration;
     private RpcServer rpcServer;
 

@@ -1,5 +1,7 @@
 package org.minbase.server.constant;
 
+import org.minbase.server.table.wal.SyncLevel;
+
 public class Constants {
 
     public static final int INTEGER_LENGTH = Integer.BYTES;
@@ -32,4 +34,10 @@ public class Constants {
     public static final long BLOCK_CACHE_LENGTH_LIMIT_DEFAULT = 128 * 1024 * 1024;
     public static final String STORE_DIR_KEY = "stor.dir";
     public static final String STORE_DIR_DEFAULT = "data1";
+    public static final String WAL_LOG_COUNT_LIMIT_KEY = "wal.log.count.limit";
+    public static final int WAL_LOG_COUNT_LIMIT_DEFAULT = 10000;
+    public static final String WAL_FILE_LENGTH_LIMIT = "wal.file.length.limit" ;
+    public static final long WAL_FILE_LENGTH_LIMIT_DEFALUT = 10 * 1024 *1024;
+    public static final String WAL_SYNC_LEVEL_KEY = "wal.sync.level";
+    public static final String WAL_SYNC_LEVEL_DEFAULT = SyncLevel.SYNC.toString();
 }

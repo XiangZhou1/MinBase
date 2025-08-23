@@ -22,8 +22,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class StoreManager {
     private static final Logger LOG = LoggerFactory.getLogger(StoreManager.class);
-    public static final String WAL_SUB_DIR = "wal";
-    public static final String STORE_SUB_DIR = "store";
     private Configuration configuration;
     private ConcurrentHashMap<String, Store> stores;
     private MultiVersionControler mvcc = new MultiVersionControler();
@@ -41,8 +39,7 @@ public class StoreManager {
     }
 
     private void loadStores() throws IOException {
-        File storeSubDir = new File(storeManagerDir, STORE_SUB_DIR);
-        File[] storeDirs = storeSubDir.listFiles(new FileFilter() {
+        File[] storeDirs = storeManagerDir.listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
                 return file.isDirectory();
@@ -72,7 +69,7 @@ public class StoreManager {
     });
 
     public Store createStor(String storeName) throws IOException {
-        File storeDir = new File(storeManagerDir, STORE_SUB_DIR + File.separator + storeName);
+        File storeDir = new File(storeManagerDir, storeName);
         Store store = new Store(storeName, storeDir, configuration, this);
         stores.put(storeName, store);
         return store;

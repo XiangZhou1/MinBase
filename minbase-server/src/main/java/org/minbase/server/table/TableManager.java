@@ -21,25 +21,22 @@ import java.util.concurrent.Executors;
 
 public class TableManager {
     private static final Logger LOG = LoggerFactory.getLogger(TableManager.class);
-    public static final String Data_Dir = Configuration.get(Constants.KEY_DATA_DIR);
     private final ExecutorService clearOldLogExecutor;
     private Configuration configuration;
 
     private StoreManager storeManager;
-    private Object stopLock = new Object();
-    private boolean stop = false;
-    File storeManagerDir;
-    TransactionManager transactionManager;
+    private File tableManagerDir;
+    private TransactionManager transactionManager;
     private Map<String, TableImpl> tableMap = new HashMap<>();
     private Wal wal;
     private Object clearOldLogLock = new Object();
 
     public TableManager(Configuration configuration) throws IOException {
         this.configuration = configuration;
-        this.storeManagerDir = new File(Data_Dir);
-        this.storeManager = new StoreManager(storeManagerDir, configuration, this);
+        this.tableManagerDir = new File(configuration.get(Constants.STORE_DIR_KEY, Constants.STORE_DIR_DEFAULT));
+        this.storeManager = new StoreManager(new File(tableManagerDir, "store"), configuration, this);
         this.transactionManager = new TransactionManager(this);
-        this.wal = new Wal(new File(storeManagerDir, "wal"), this);
+        this.wal = new Wal(new File(tableManagerDir, "wal"), this);
 
         initTable();
         wal.recovery();
@@ -145,8 +142,8 @@ public class TableManager {
         return wal;
     }
 
-    public File getStoreManagerDir() {
-        return storeManagerDir;
+    public File getTableManagerDir() {
+        return tableManagerDir;
     }
 
     public void applyLog(LogEntry logEntry) {
@@ -188,5 +185,9 @@ public class TableManager {
 
     public void close() {
         foreFlush();
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
     }
 }

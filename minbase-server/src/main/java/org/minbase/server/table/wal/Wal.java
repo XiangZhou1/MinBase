@@ -7,7 +7,6 @@ import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.FileUtil;
-import org.minbase.server.kv.store.StoreManager;
 import org.minbase.server.table.TableManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +20,9 @@ import java.util.concurrent.locks.LockSupport;
 public class Wal {
     private static final Logger LOG = LoggerFactory.getLogger(Wal.class);
 
-    private static final String WAL_DIR = Configuration.get(Constants.KEY_DATA_DIR) + File.separator + "wal";
-    public static final int WAL_NUM_LIMIT = 10000;
-    public static final long WAL_FILE_LENGTH_LIMIT = Util.parseUnit(Configuration.get(Constants.KEY_WAL_FILE_LENGTH_LIMIT));
-    private static final SyncLevel syncLevel = SyncLevel.valueOf(Configuration.get(Constants.KEY_WAL_SYNC_LEVEL));
+    public int walLogCountLimit;
+    public long walFileLengthLimit;
+    private SyncLevel syncLevel;
     private static final String INPROGRESS_WAL = "wal.inprogress";
 
     private File walDir;
@@ -48,6 +46,9 @@ public class Wal {
                 throw new IOException("Create wal dir fail, dir=" + walDir);
             }
         }
+        this.walLogCountLimit = tableManager.getConfiguration().getInt(Constants.WAL_LOG_COUNT_LIMIT_KEY, Constants.WAL_LOG_COUNT_LIMIT_DEFAULT);
+        this.walFileLengthLimit = tableManager.getConfiguration().getLong(Constants.WAL_FILE_LENGTH_LIMIT, Constants.WAL_FILE_LENGTH_LIMIT_DEFALUT);
+        this.syncLevel = SyncLevel.valueOf(tableManager.getConfiguration().get(Constants.WAL_SYNC_LEVEL_KEY, Constants.WAL_SYNC_LEVEL_DEFAULT));
         this.queue = new LinkedBlockingQueue<>();
         this.syncWalTask = new SyncWalTask();
         this.syncWalThread = new Thread(syncWalTask, "SyncWalTask");
@@ -188,7 +189,7 @@ public class Wal {
         }
 
         private boolean shouldCloseFile() {
-            return syncedLogSequenceId - startId > WAL_NUM_LIMIT || walFileLength >= WAL_FILE_LENGTH_LIMIT;
+            return syncedLogSequenceId - startId > walLogCountLimit || walFileLength >= walFileLengthLimit;
         }
 
 
