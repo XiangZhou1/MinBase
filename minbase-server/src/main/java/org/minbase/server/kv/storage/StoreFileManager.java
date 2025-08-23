@@ -14,6 +14,7 @@ import org.minbase.server.kv.storage.cache.BlockCache;
 import org.minbase.server.kv.storage.cache.LRUBlockCache;
 import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.utils.StoreFileUtil;
+import org.minbase.server.statistics.PerformanceStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,11 +111,15 @@ public class StoreFileManager {
         try {
             this.storeFiles.addAll(toAdd);
             this.storeFiles.removeAll(toDelete);
-            if (!toDelete.isEmpty()) {
-                updateStoreFilesIterators(toDelete);
-            }
         } finally {
             writeUnLock();
+        }
+
+        if (!toDelete.isEmpty()) {
+            long taskId = PerformanceStatistics.recordDoingTask(PerformanceStatistics.Op.UPDATE_STOR_FILE_ITERSTOR_BY_COMPACT,
+                    PerformanceStatistics.getUpdateStoreFileIteratorByCompactGenerator(toDelete));
+            updateStoreFilesIterators(toDelete);
+            PerformanceStatistics.removeDoingTask(taskId);
         }
     }
 
@@ -155,6 +160,9 @@ public class StoreFileManager {
     }
 
     public StoreFilesIterator newStoreFilesIterator(Key startKey, Key endKey, boolean cache) {
+        long taskId = PerformanceStatistics.recordDoingTask(PerformanceStatistics.Op.CREATE_STOR_FILE_ITERATOR,
+                PerformanceStatistics.getCreateStoreFileIteratorGenerator(startKey, endKey));
+
         List<KeyValueIterator> iterators = new ArrayList<>();
         List<StoreFile> storeFileList = new ArrayList<>();
 
@@ -178,6 +186,7 @@ public class StoreFileManager {
             return storeFilesIterator;
         } finally {
             readUnLock();
+            PerformanceStatistics.removeDoingTask(taskId);
         }
     }
 
@@ -210,12 +219,23 @@ public class StoreFileManager {
     }
 
     private void updateStoreFilesIterators(List<StoreFile> storeFilesToDelete) {
+        List<StoreFilesIterator> storeFilesIterators = null;
         synchronized (processingStoreFilesIterators) {
-            for (StoreFilesIterator processingStoreFilesIterator : processingStoreFilesIterators) {
-                if (processingStoreFilesIterator.containStoreFile(storeFilesToDelete)) {
-                    processingStoreFilesIterator.updateStoreFiles(Lists.newArrayList(storeFiles));
-                }
+            storeFilesIterators = new ArrayList<>(processingStoreFilesIterators);
+        }
+        for (StoreFilesIterator processingStoreFilesIterator : storeFilesIterators) {
+            if (processingStoreFilesIterator.containStoreFile(storeFilesToDelete)) {
+                processingStoreFilesIterator.updateStoreFiles(copyStoreFiles());
             }
+        }
+    }
+
+    private List<StoreFile> copyStoreFiles() {
+        readLock();
+        try {
+            return new ArrayList<>(storeFiles);
+        } finally {
+            readUnLock();
         }
     }
 
@@ -240,7 +260,7 @@ public class StoreFileManager {
         }
         StringBuilder sb = new StringBuilder("Deleted file:");
         for (StoreFile storeFile : filesToDelete) {
-            sb.append(storeFile.getRawFile().getName());
+            sb.append(storeFile.toString());
             sb.append(", ");
         }
         LOG.info(sb.toString());

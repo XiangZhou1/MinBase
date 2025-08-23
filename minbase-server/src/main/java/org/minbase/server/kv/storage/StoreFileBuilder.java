@@ -24,6 +24,7 @@ public class StoreFileBuilder {
     DataBlockBuilder blockBuilder;
     long sotreFileBlockLengthLimit = 128 * 1024 * 1024;
 
+    long count = 0;
 
     public StoreFileBuilder(long sotreFileBlockLengthLimit) {
         blockBuilder = new DataBlockBuilder();
@@ -38,6 +39,7 @@ public class StoreFileBuilder {
 
     public void add(KeyValue kv) {
         length += kv.length();
+        count ++;
         bloomFilter.add(kv.getKey().getInternalKey());
 
         if (firstKey == null || firstKey.compareTo(kv.getKey()) > 0) {
@@ -57,7 +59,6 @@ public class StoreFileBuilder {
             firstKey = null;
             lastKey = null;
             blockBuilder = new DataBlockBuilder();
-            length = 0;
         }
     }
 
@@ -70,4 +71,7 @@ public class StoreFileBuilder {
         return storeFile;
     }
 
+    public long getCount() {
+        return count;
+    }
 }

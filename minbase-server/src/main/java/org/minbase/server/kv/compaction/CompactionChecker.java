@@ -30,15 +30,7 @@ public class CompactionChecker implements Runnable {
         currentThread = Thread.currentThread();
         while (true) {
             try {
-                List<StoreFile> storeFilesToCompact = storeFileManager.getStoreFilesToCompact();
-                if (compactionPolicy.shouldCompact(storeFileManager, storeFilesToCompact)) {
-                    LOG.info("StoreFilesToCompact:{}", storeFilesToCompact.size());
-                    CompactionResult compactionResult = compactionPolicy.compact(storeFileManager,
-                            storeFilesToCompact, storeManager.getMinReadPoint());
-                    if (compactionResult != null) {
-                        applyConpactionResult(compactionResult);
-                    }
-                }
+                compact();
                 synchronized (waitLock) {
                     waitLock.wait(10 * 1000);
                 }
@@ -46,6 +38,23 @@ public class CompactionChecker implements Runnable {
                 LOG.error("Compaction error", e);
             }
         }
+    }
+
+    public CompactionResult compact() throws Exception {
+        CompactionResult compactionResult = null;
+        List<StoreFile> storeFilesToCompact = storeFileManager.getStoreFilesToCompact();
+        if (compactionPolicy.shouldCompact(storeFileManager, storeFilesToCompact)) {
+
+            long minReadPoint = storeManager.getMinReadPoint();
+            compactionResult = compactionPolicy.compact(storeFileManager,
+                    storeFilesToCompact, minReadPoint);
+            if (compactionResult != null) {
+                applyConpactionResult(compactionResult);
+                LOG.info("Compact file, minReadPoint:{}, selectedFileSize:{}, addedFileSize:{}", minReadPoint, compactionResult.getFilesToDelete().size(),
+                        compactionResult.getFilesToAdd().size());
+            }
+        }
+        return compactionResult;
     }
 
     public void requestCompaction() {

@@ -17,6 +17,8 @@ public class StoreFilesIterator implements KeyValueIterator {
     private MergeIterator mergeIterator;
     private Set<StoreFile> storeFiles;
     private ReentrantLock lock = new ReentrantLock();
+    private boolean closed = false;
+    private Key startKey;
 
     public StoreFilesIterator(StoreFileManager storeFileManager, List<StoreFile> storeFiles,
                               List<KeyValueIterator> iterators) {
@@ -30,6 +32,7 @@ public class StoreFilesIterator implements KeyValueIterator {
         this.storeFileManager = storeFileManager;
         this.mergeIterator = new MergeIterator(iterators);
         this.storeFiles = new HashSet<>(storeFiles);
+        this.startKey = startKey;
         if (startKey != null) {
             this.mergeIterator.seek(startKey);
         }
@@ -82,6 +85,7 @@ public class StoreFilesIterator implements KeyValueIterator {
             mergeIterator.close();
             storeFileManager.removeStoreFilesIterator(this);
         } finally {
+            closed = true;
             lock.unlock();
         }
     }
@@ -97,17 +101,21 @@ public class StoreFilesIterator implements KeyValueIterator {
         return false;
     }
 
-    public void updateStoreFiles(ArrayList<StoreFile> newStoreFiles) {
+    public void updateStoreFiles(List<StoreFile> newStoreFiles) {
         lock.lock();
         try {
+            if (closed) {
+                return;
+            }
             Key currentKey = key();
+            Key seekKey = currentKey == null ? startKey : currentKey;
             System.out.println(Thread.currentThread() + ": key before updateStoreFiles:" + currentKey);
             this.storeFiles = new HashSet<>(newStoreFiles);
             List<KeyValueIterator> iterators = new ArrayList<>();
             for (StoreFile storeFile : newStoreFiles) {
-                iterators.add(new StoreFileIterator(storeFile.getStoreFileReader(), currentKey, mergeIterator.getEndKey(), true));
+                iterators.add(new StoreFileIterator(storeFile.getStoreFileReader(), seekKey, mergeIterator.getEndKey(), true));
             }
-            this.mergeIterator = new MergeIterator(iterators, currentKey, mergeIterator.getEndKey());
+            this.mergeIterator = new MergeIterator(iterators, seekKey, mergeIterator.getEndKey());
             if (currentKey != null) {
                 if (hasNext()) {
                     next();

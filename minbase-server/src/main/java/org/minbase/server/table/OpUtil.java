@@ -53,5 +53,12 @@ public class OpUtil {
         public int hashCode() {
             return Arrays.hashCode(data);
         }
+
+        @Override
+        public String toString() {
+            return "ByteArrayWrapper{" +
+                    "data=" + new String(data) +
+                    '}';
+        }
     }
 }

@@ -87,7 +87,9 @@ public class MinorCompactionPolicy implements CompactionPolicy {
                 storeFileBuilder.add(next);
             }
             if (storeFileBuilder.length() >= storeFileLengthLimit) {
-                compactionResult.addFileToAdd(storeFileBuilder.build());
+                StoreFile storeFile = storeFileBuilder.build();
+                storeFileManager.saveStoreFile(storeFile);
+                compactionResult.addFileToAdd(storeFile);
                 storeFileBuilder = storeFileManager.newTmpStroeFile();
             }
         }

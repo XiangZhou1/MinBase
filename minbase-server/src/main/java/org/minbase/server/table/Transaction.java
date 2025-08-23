@@ -7,6 +7,7 @@ import org.minbase.common.table.Table;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.kv.store.StoreManager;
+import org.minbase.server.statistics.PerformanceStatistics;
 import org.minbase.server.table.wal.Wal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +65,8 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
 
 
     public void commit() throws TransactionException {
+        long taskId = PerformanceStatistics.recordDoingTask(PerformanceStatistics.Op.COMMIT,
+                PerformanceStatistics.getCommitGenerator(this));
         transactionManager.transactionWriteLock();
         try {
             if (!transactionManager.validateTransaction(txId)) {
@@ -82,6 +85,7 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
             LOG.info("Transaction {}", this);
         } finally {
             transactionManager.transactionWriteUnLock();
+            PerformanceStatistics.removeDoingTask(taskId);
         }
     }
 

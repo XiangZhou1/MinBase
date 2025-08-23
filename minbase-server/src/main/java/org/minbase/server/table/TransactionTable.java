@@ -69,7 +69,8 @@ public class TransactionTable implements Table {
         Scanner scanner = new Scanner(new MergeIterator(iterators), Long.MAX_VALUE);
 
         RawTracker rawTracker = new RawTracker(columns);
-        return rawTracker.tracker(scanner);
+        ColumnValues result = rawTracker.tracker(scanner);
+        return result;
     }
 
     @Override
