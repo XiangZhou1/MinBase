@@ -7,7 +7,6 @@ import org.jline.reader.UserInterruptException;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.minbase.client.MinClient;
-import org.minbase.client.service.AdminService;
 import org.minbase.common.conf.Configuration;
 import org.minbase.common.exception.ServerException;
 import org.minbase.common.exception.TableNotExistException;
@@ -59,7 +58,7 @@ public class MinBaseShell {
             while (true) {
                 String prompt = "minbase> ";
                 if (transaction != null) {
-                    System.out.print("minbase(tx:" + transaction.txId() + ")> ");
+                    prompt = "minbase(tx:" + transaction.txId() + ")> ";
                 }
 
                 String line = null;
@@ -86,6 +85,10 @@ public class MinBaseShell {
 
                 try {
                     handleCommand(command, parts);
+                } catch (TableNotExistException e) {
+                    System.err.println("Table not exist");
+                }  catch (TransactionNotExistException e) {
+                    System.err.println("Transaction not exist");
                 } catch (Exception e) {
                     System.err.println("An error occurred: " + e.getMessage());
                     // e.printStackTrace(); // 在调试时可以打开
@@ -193,7 +196,7 @@ public class MinBaseShell {
             System.out.println("Transaction " + transaction.txId() + " commit success");
         } catch (Exception e) {
             transaction.rollback();
-            System.out.println("Transaction " + transaction.txId() + "commit failed, rollback success");
+            System.out.println("Transaction " + transaction.txId() + " commit failed, rollback success");
         } finally {
             transaction = null;
         }
@@ -204,9 +207,13 @@ public class MinBaseShell {
             System.err.println("Usage: beginTransaction");
             return;
         }
+        if (transaction != null) {
+            System.out.println("Can not beginTransaction, already in transaction " + transaction.txId());
+            return;
+        }
         Transaction transaction1 = client.beginTransaction();
         if (transaction1 == null) {
-            System.out.println("beginTransaction failed");
+            System.out.println("BeginTransaction failed");
         } else {
             transaction = transaction1;
             System.out.println("Transaction started with ID: " + transaction.txId());
@@ -221,7 +228,7 @@ public class MinBaseShell {
 
         List<String> tables = client.listTable();
         if (tables == null) {
-            System.out.println("empty table");
+            System.out.println("Empty table");
         } else {
             System.out.println("Tables:");
             tables.forEach(tableName -> System.out.println("  - " + tableName));
@@ -332,7 +339,7 @@ public class MinBaseShell {
         }
         String tableName1 = parts[1];
         boolean created = client.createTable(tableName1);
-        System.out.println("Result: " + (created ? "Success" : "Failed"));
+        System.out.println("CreateTable " + (created ? "Success" : "Failed"));
     }
 
     private static void dropTable(String[] parts) {
@@ -342,7 +349,7 @@ public class MinBaseShell {
         }
         String tableName2 = parts[1];
         boolean dropped = client.dropTable(tableName2);
-        System.out.println("Result: " + (dropped ? "Success" : "Failed"));
+        System.out.println("DropTable: " + (dropped ? "Success" : "Failed"));
     }
 
     private static void printHelp() {
