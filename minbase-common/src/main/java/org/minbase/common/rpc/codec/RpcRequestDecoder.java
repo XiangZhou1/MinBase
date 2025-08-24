@@ -14,7 +14,6 @@ public class RpcRequestDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         long len = byteBuf.readableBytes();
-        LOG.info("Decode rpcRequest, length:{}", len);
         byte[] bytes = new byte[(int) len];
         byteBuf.readBytes(bytes);
         final RpcProto.RpcRequest rpcRequest = RpcProto.RpcRequest.parseFrom(bytes);

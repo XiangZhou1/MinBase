@@ -1,0 +1,58 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+    <!--
+     id 会被追加到最终文件名后面, 形成 minbase-dist-1.0-SNAPSHOT-bin.tar.gz
+     bin 是一个通用惯例, 表示二进制可执行包
+    -->
+    <id>bin</id>
+
+    <!-- 定义最终包的格式, 可以同时生成多种 -->
+    <formats>
+        <format>tar.gz</format>
+        <format>zip</format>
+    </formats>
+
+    <!-- 在压缩包内创建一个根目录, 如 minbase-1.0-SNAPSHOT/, 避免解压时文件散落一地 -->
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>${project.artifactId}-${project.version}</baseDirectory>
+
+    <!--
+     处理依赖 JAR 包
+     把所有依赖 (包括传递依赖) 复制到压缩包的 lib/ 目录下
+    -->
+    <dependencySets>
+        <dependencySet>
+            <!-- 输出到 lib/ 目录 -->
+            <outputDirectory>lib</outputDirectory>
+            <!-- 复制所有 runtime 和 compile 范围的依赖 -->
+            <scope>runtime</scope>
+            <!-- 不包含 dist 模块自身 -->
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+    </dependencySets>
+
+    <!-- 处理我们自己提供的文件 (脚本, 配置文件等) -->
+    <fileSets>
+        <!-- 复制脚本文件到 bin/ 目录 -->
+        <fileSet>
+            <!-- 文件来源目录 -->
+            <directory>${project.basedir}/src/main/resources/bin</directory>
+            <!-- 复制到压缩包的 bin/ 目录 -->
+            <outputDirectory>bin</outputDirectory>
+            <!--
+             【非常重要】设置文件权限, 0755 表示 owner 可读/写/执行, group 和 other 可读/执行.
+             这样 startServer.sh 在 Linux/macOS 下解压后就是可执行的.
+            -->
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <!-- 复制配置文件到 conf/ 目录 -->
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources/conf</directory>
+            <outputDirectory>conf</outputDirectory>
+            <!-- 配置文件通常是可读写的, 0644 即可 -->
+            <fileMode>0644</fileMode>
+        </fileSet>
+    </fileSets>
+</assembly>

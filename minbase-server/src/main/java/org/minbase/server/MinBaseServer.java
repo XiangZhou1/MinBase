@@ -36,6 +36,7 @@ public class MinBaseServer {
     }
 
     public void stop() throws InterruptedException {
+        tableManager.foreFlush();
         stop = true;
         synchronized (stopLock) {
             stopLock.notify();
@@ -57,9 +58,18 @@ public class MinBaseServer {
         if (args == null || args.length == 0) {
             configuration = new Configuration();
         } else {
+            LOG.info("Load config file:{}", args[0]);
             configuration = new Configuration(new File(args[0]));
         }
         MinBaseServer minBaseServer = new MinBaseServer(configuration);
+        SERVER_INSTANCE = minBaseServer;
+        Runtime.getRuntime().addShutdownHook(new Thread( () -> {
+            try {
+                stopServer();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }));
         minBaseServer.start();
         LOG.info("Start MinBaseServer");
         minBaseServer.waitForShutdown();

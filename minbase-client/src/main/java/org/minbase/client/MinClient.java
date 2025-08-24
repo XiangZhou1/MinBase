@@ -16,6 +16,7 @@ import org.minbase.client.service.ClientService;
 import org.minbase.client.service.TxService;
 import org.minbase.client.table.ClientTableImpl;
 import org.minbase.client.transaction.ClientTransaction;
+import org.minbase.common.conf.Configuration;
 import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestEncoder;
@@ -28,6 +29,8 @@ import org.minbase.common.table.ClientTable;
 import org.minbase.common.table.transaction.Transaction;
 import org.minbase.common.utils.ByteUtil;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -117,5 +120,9 @@ public class MinClient {
         AdminProto.TruncateTableRequest truncateTableRequest = builder.setTableName(ByteString.copyFromUtf8(tableName)).build();
         AdminProto.TruncateTableResponse truncateTableResponse = adminService.truncateTable(truncateTableRequest);
         return truncateTableResponse.getStatusCode() == StatusCode.SUCCESS.getCode();
+    }
+
+    public List<String> listTable() {
+        return null;
     }
 }

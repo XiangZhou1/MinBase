@@ -13,7 +13,6 @@ public class RpcRequestEncoder extends MessageToByteEncoder<RpcProto.RpcRequest>
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, RpcProto.RpcRequest rpcRequest, ByteBuf byteBuf) throws Exception {
         byte[] bytes = rpcRequest.toByteArray();
-        LOG.info("Encode rpcRequest, callId:{}, length:{}", rpcRequest.getId(), bytes.length);
         byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
     }
