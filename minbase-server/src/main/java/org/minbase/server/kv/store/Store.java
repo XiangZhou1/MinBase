@@ -10,6 +10,8 @@ import org.minbase.common.conf.Configuration;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.storage.StoreFileManager;
 import org.minbase.server.kv.utils.KeyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Store {
+    private static final Logger LOG = LoggerFactory.getLogger(StoreManager.class);
     private String name;
     private File storeDir;
 
@@ -239,5 +242,23 @@ public class Store {
 
     public StoreManager getStoreManager() {
         return storeManager;
+    }
+
+    public void removeStore() {
+        flushThreadPool.shutdownNow();
+        try {
+            storeFileManager.getCompactionChecker().close();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        File[] files = storeDir.listFiles();
+        for (File file : files) {
+            if (!file.delete()) {
+                LOG.warn("Fail to delete file:{}", file.getName());
+            }
+        }
+        if (!storeDir.delete()) {
+            LOG.warn("Fail to delete file:{}", storeDir.getName());
+        }
     }
 }

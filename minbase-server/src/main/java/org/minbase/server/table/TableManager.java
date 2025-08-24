@@ -80,7 +80,7 @@ public class TableManager {
 
     TableInfo loadTableInfo(String tableName) throws IOException {
         TableInfo tableInfo = new TableInfo(tableName);
-        File file = new File(tableManagerDir, "stor/" + tableName + "/" + "tableInfo");
+        File file = new File(tableManagerDir, "store/" + tableName + "/" + "tableInfo");
         if (!file.exists()) {
             return tableInfo;
         }
@@ -100,7 +100,7 @@ public class TableManager {
         if (tableInfo.getColumns().isEmpty()) {
             return;
         }
-        File file = new File(tableManagerDir, "stor/" + tableInfo.getName() + "/" + "tableInfo");
+        File file = new File(tableManagerDir, "store/" + tableInfo.getName() + "/" + "tableInfo");
         File parent = file.getParentFile();
         if (!parent.exists()) {
             // 一次性创建多级目录
@@ -324,10 +324,15 @@ public class TableManager {
         tableUpdateLock.readLock().lock();
         try {
             tableMap.remove(tableName);
+            storeManager.removeStore(tableName);
             return true;
         } finally {
             tableUpdateLock.readLock().unlock();
         }
+    }
+
+    public boolean truncateTable(String tableName) {
+        return false;
     }
 
     public void rollBackTransaction(long txId) {

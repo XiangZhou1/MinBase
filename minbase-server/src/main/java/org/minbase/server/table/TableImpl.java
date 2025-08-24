@@ -22,6 +22,8 @@ public class TableImpl implements Table {
     TableManager tableManager;
     TransactionManager transactionManager;
 
+    boolean droped = false;
+
     public TableImpl(TableInfo tableInfo, TableManager tableManager) {
         this.tableInfo = tableInfo;
         this.tableName = tableInfo.getName();

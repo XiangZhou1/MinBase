@@ -85,6 +85,10 @@ public class StoreFileManager {
         return new RandomAccessFile(filePath, mode);
     }
 
+    public CompactionChecker getCompactionChecker() {
+        return compactionChecker;
+    }
+
     protected String getFilePath(String storeId) {
         return getStoreDir().getPath() + File.separator + storeId;
     }

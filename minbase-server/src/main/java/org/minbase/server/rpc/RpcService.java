@@ -68,7 +68,7 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
     public AdminProto.TruncateTableResponse truncateTable(AdminProto.TruncateTableRequest request) {
         AdminProto.TruncateTableResponse.Builder builder = AdminProto.TruncateTableResponse.newBuilder();
         try {
-            boolean success = tableManager.dropTable(request.getTableName().toStringUtf8());
+            boolean success = tableManager.truncateTable(request.getTableName().toStringUtf8());
             if (success) {
                 builder.setStatusCode(StatusCode.SUCCESS.getCode());
             } else {

@@ -143,6 +143,9 @@ public class StoreManager {
         List<String> storeNames = writeBatch.getStoreNames();
         for (String storeName : storeNames) {
             Store store = stores.get(storeName);
+            if (store == null) {
+                continue;
+            }
             store.put(writeBatch.getKeyValues(storeName));
         }
         mvcc.completeWrite(writeBatch.getLastSequenceId());
@@ -218,5 +221,13 @@ public class StoreManager {
 
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    public void removeStore(String storeName) {
+        Store store = stores.remove(storeName);
+        if (store == null) {
+            return;
+        }
+        store.removeStore();
     }
 }

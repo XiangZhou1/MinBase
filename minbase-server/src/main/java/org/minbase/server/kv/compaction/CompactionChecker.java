@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class CompactionChecker implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(CompactionChecker.class);
@@ -18,20 +19,27 @@ public class CompactionChecker implements Runnable {
     private StoreManager storeManager;
     public Object waitLock = new Object();
     private ExecutorService compactExecutorService = Executors.newSingleThreadExecutor();
-
+    private boolean stop = false;
     public CompactionChecker(StoreManager storeManager, StoreFileManager storeFileManager) {
         this.storeFileManager = storeFileManager;
         this.storeManager = storeManager;
         this.compactionPolicy = storeFileManager.getCompactionPolicy();
     }
 
+    public void setStop(boolean stop) {
+        this.stop = stop;
+    }
+
     @Override
     public void run() {
         long compactCheckInterval = this.storeManager.getConfiguration().getLong(Constants.COMPACT_CHECK_INTERVAL_KEY, Constants.COMPACT_CHECK_INTERVAL_DEFAULT);
-        while (true) {
+        while (!stop) {
             try {
                 synchronized (waitLock) {
                     waitLock.wait(compactCheckInterval);
+                }
+                if (stop) {
+                    return;
                 }
                 compact();
             } catch (Exception e) {
@@ -73,5 +81,12 @@ public class CompactionChecker implements Runnable {
 
     public void start() {
         compactExecutorService.execute(this);
+    }
+
+    public void close () throws InterruptedException {
+        setStop(true);
+        requestCompaction();
+        compactExecutorService.shutdownNow();
+        compactExecutorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
     }
 }
