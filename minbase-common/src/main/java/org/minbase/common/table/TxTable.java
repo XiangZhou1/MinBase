@@ -38,8 +38,12 @@ public interface TxTable {
         Put put = new Put(ByteUtil.toBytes(key), ByteUtil.toBytes(column), ByteUtil.toBytes(value));
         return checkAndPut(ByteUtil.toBytes(checkKey), ByteUtil.toBytes(checkColumn), ByteUtil.toBytes(checkValue),  put);
     }
+    default void delete(String key) throws TableNotExistException, ServerException, TransactionNotExistException {
+        Delete delete = new Delete(ByteUtil.toBytes(key));
+        delete(delete);
+    }
 
-    void delete(Delete key) throws TableNotExistException, ServerException, TransactionNotExistException;
+    void delete(Delete delete) throws TableNotExistException, ServerException, TransactionNotExistException;
 
     default void delete(String key, String... cloumns) throws ServerException, TableNotExistException, TransactionNotExistException {
         Delete key1 = new Delete(ByteUtil.toBytes(key));

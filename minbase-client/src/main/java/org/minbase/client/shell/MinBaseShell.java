@@ -261,8 +261,8 @@ public class MinBaseShell {
     }
 
     private static void delete(String[] parts) throws ServerException, TableNotExistException, TransactionNotExistException {
-        if (parts.length < 4) {
-            System.err.println("Usage: delete <tableName> <key> <column>...");
+        if (parts.length < 3) {
+            System.err.println("Usage: delete <tableName> <key> [<column>...]");
             return;
         }
 
@@ -286,7 +286,7 @@ public class MinBaseShell {
 
     private static void get(String[] parts) throws TableNotExistException, ServerException, TransactionNotExistException {
         if (parts.length < 3) {
-            System.err.println("Usage: get <tableName> <key> [column]...");
+            System.err.println("Usage: get <tableName> <key> [<column>...]");
             return;
         }
 
@@ -373,6 +373,7 @@ public class MinBaseShell {
         System.out.println("    put <tableName> <key> <column> <value>");
         System.out.println("    get <tableName> <key>");
         System.out.println("    get <tableName> <key> <column>...");
+        System.out.println("    delete <tableName> <key>");
         System.out.println("    delete <tableName> <key> <column>...");
         System.out.println("    checkAndPut <tableName> <checkKey> <checkCol> <checkVal> <putKey> <putCol> <putVal>");
         System.out.println("\n  Transaction Operations:");

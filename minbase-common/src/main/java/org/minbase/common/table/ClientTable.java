@@ -41,6 +41,11 @@ public interface ClientTable {
         return checkAndPut(ByteUtil.toBytes(checkKey), ByteUtil.toBytes(checkColumn), ByteUtil.toBytes(checkValue),  put);
     }
 
+    default void delete(String key) throws TableNotExistException, ServerException {
+        Delete delete = new Delete(ByteUtil.toBytes(key));
+        delete(delete);
+    }
+
     void delete(Delete key) throws TableNotExistException, ServerException;
 
     default void delete(String key, String... cloumns) throws ServerException, TableNotExistException {

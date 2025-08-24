@@ -12,6 +12,7 @@ import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.store.StoreManager;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 public class TableImpl implements Table {
@@ -100,6 +101,13 @@ public class TableImpl implements Table {
     public void delete(Delete delete) throws IOException {
         Transaction transaction = transactionManager.newTransaction();
         Table table = transaction.getTable(tableName);
+        if (delete.getColumns().isEmpty()) {
+            Iterator<String> iterator = table.getTableInfo().getColumns().iterator();
+            while (iterator.hasNext()) {
+                String column = iterator.next();
+                delete.addColumn(ByteUtil.toBytes(column));
+            }
+        }
         table.delete(delete);
         transaction.commit();
     }
