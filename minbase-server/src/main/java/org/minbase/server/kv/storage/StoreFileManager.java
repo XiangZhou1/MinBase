@@ -72,7 +72,8 @@ public class StoreFileManager {
     public void loadStoreFiles() throws IOException {
         List<Path> paths = Files.list(storeDir.getAbsoluteFile().toPath()).collect(Collectors.toList());
         for (Path path : paths) {
-            if (path.getFileName().toString().endsWith("tmp")) {
+            String fileName = path.getFileName().toString();
+            if (fileName.endsWith("tmp") || fileName.endsWith("tableInfo")) {
                 continue;
             }
             storeFiles.add(loadStoreFile(new File(path.toUri())));

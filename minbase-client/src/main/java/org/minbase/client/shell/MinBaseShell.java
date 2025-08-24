@@ -11,6 +11,7 @@ import org.minbase.common.conf.Configuration;
 import org.minbase.common.exception.ServerException;
 import org.minbase.common.exception.TableNotExistException;
 import org.minbase.common.exception.TransactionNotExistException;
+import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.TxTable;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
@@ -226,12 +227,21 @@ public class MinBaseShell {
             return;
         }
 
-        List<String> tables = client.listTable();
-        if (tables == null) {
+        List<TableInfo> tableInfos = client.listTables();
+        if (tableInfos == null || tableInfos.isEmpty()) {
             System.out.println("Empty table");
         } else {
             System.out.println("Tables:");
-            tables.forEach(tableName -> System.out.println("  - " + tableName));
+            // 定义表头
+            List<String> headers = Arrays.asList("TABLE", "COLUMNS");
+
+            // 将 Map 转换为 List<List<String>> 以便打印
+            List<List<String>> rows = new ArrayList<>();
+            for (TableInfo tableInfo : tableInfos) {
+                rows.add(Arrays.asList(tableInfo.getName(), String.join(",", tableInfo.getColumns())));
+            }
+            // 调用我们的新工具来打印表格
+            CliTablePrinter.printTable(headers, rows);
         }
     }
 

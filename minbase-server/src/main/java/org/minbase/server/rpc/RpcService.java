@@ -1,8 +1,10 @@
 package org.minbase.server.rpc;
 
+import com.google.protobuf.ByteString;
 import org.minbase.common.exception.TransactionException;
 import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.rpc.service.StatusCode;
+import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.*;
 import org.minbase.common.rpc.proto.generated.*;
 import org.minbase.common.utils.ProtobufUtil;
@@ -14,7 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient,
         TransactionServiceGrpc.TransactionServiceBlockingClient, AdminServiceGrpc.AdminServiceBlockingClient {
@@ -280,6 +284,22 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
         return builder.build();
     }
 
+    @Override
+    public AdminProto.ListTablesResponse listTables(AdminProto.ListTablesRequest request) {
+        AdminProto.ListTablesResponse.Builder builder = AdminProto.ListTablesResponse.newBuilder();
+        List<TableInfo> tableInfos = tableManager.listTableNames();
+        for (TableInfo tableInfo : tableInfos) {
+            AdminProto.TableInfo.Builder builder1 = AdminProto.TableInfo.newBuilder();
+            builder1.setName(ByteString.copyFromUtf8(tableInfo.getName()));
+            Iterator<String> iterator = tableInfo.getColumns().iterator();
+            while (iterator.hasNext()) {
+                String next = iterator.next();
+                builder1.addColumns(ByteString.copyFromUtf8(next));
+            }
+            builder.addTables(builder1.build());
+        }
+        return builder.build();
+    }
 
     public void rollBackTransactions() {
         tableManager.rollBackTransactions(sessionTransactions);

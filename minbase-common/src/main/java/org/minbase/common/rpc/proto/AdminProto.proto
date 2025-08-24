@@ -25,8 +25,21 @@ message TruncateTableResponse {
   required int32 statusCode = 1;
 }
 
+message TableInfo {
+    required bytes name = 1;
+    repeated bytes columns = 2;
+}
+
+message ListTablesRequest {
+}
+
+message ListTablesResponse {
+  repeated TableInfo tables = 1;
+}
+
 service AdminService {
   rpc createTable(CreateTableRequest) returns (CreateTableResponse);
   rpc dropTable(DropTableRequest) returns (DropTableResponse);
   rpc truncateTable(TruncateTableRequest) returns (TruncateTableResponse);
+  rpc listTables(ListTablesRequest) returns (ListTablesResponse);
 }

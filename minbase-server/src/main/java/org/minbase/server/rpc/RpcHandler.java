@@ -1,22 +1,16 @@
 package org.minbase.server.rpc;
 
 import com.google.protobuf.ByteString;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.minbase.common.Constants;
 import org.minbase.common.rpc.ResponseCode;
 import org.minbase.common.rpc.proto.generated.AdminProto;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.CallType;
-import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.MinBaseServer;
 import org.minbase.server.table.TableManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.charset.StandardCharsets;
 
 public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest> {
     private static final Logger LOG = LoggerFactory.getLogger(RpcHandler.class);
@@ -89,6 +83,10 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest>
                 AdminProto.TruncateTableRequest truncateTableRequest = AdminProto.TruncateTableRequest.parseFrom(rpcRequest.getData());
                 AdminProto.TruncateTableResponse truncateTableResponse = service.truncateTable(truncateTableRequest);
                 rpcResponse = buildRpcResponse(ResponseCode.SUCCESS.getCode(), rpcRequest.getId(), truncateTableResponse.toByteString());
+            }  else if (callType == CallType.ADMIN_LIST_TABLES.getType()) {
+                AdminProto.ListTablesRequest listTablesRequest = AdminProto.ListTablesRequest.parseFrom(rpcRequest.getData());
+                AdminProto.ListTablesResponse listTablesResponse = service.listTables(listTablesRequest);
+                rpcResponse = buildRpcResponse(ResponseCode.SUCCESS.getCode(), rpcRequest.getId(), listTablesResponse.toByteString());
             } else {
                 rpcResponse = buildRpcResponse(ResponseCode.FAIL.getCode(), rpcRequest.getId(), ByteString.EMPTY);
             }

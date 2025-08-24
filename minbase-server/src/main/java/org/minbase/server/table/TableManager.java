@@ -3,11 +3,14 @@ package org.minbase.server.table;
 import org.minbase.common.exception.TransactionException;
 import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.table.ClientTable;
+import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.*;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.conf.Configuration;
+import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.constant.Constants;
 import org.minbase.common.exception.TableNotExistException;
+import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.store.StoreManager;
 import org.minbase.server.table.wal.*;
@@ -15,10 +18,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,16 +64,52 @@ public class TableManager {
 
     }
 
-    private void initTable() {
+    private void initTable() throws IOException {
         tableUpdateLock.writeLock().lock();
         try {
             ConcurrentHashMap<String, Store> stores = storeManager.getStores();
             for (String tableName : stores.keySet()) {
-                TableImpl table = new TableImpl(tableName, this);
+                TableInfo tableInfo = loadTableInfo(tableName);
+                TableImpl table = new TableImpl(tableInfo, this);
                 tableMap.put(tableName, table);
             }
         } finally {
             tableUpdateLock.writeLock().unlock();
+        }
+    }
+
+    TableInfo loadTableInfo(String tableName) throws IOException {
+        TableInfo tableInfo = new TableInfo(tableName);
+        File file = new File(tableManagerDir, "stor/" + tableName + "/" + "tableInfo");
+        if (!file.exists()) {
+            return tableInfo;
+        }
+        try (java.util.Scanner scanner = new java.util.Scanner(new FileInputStream(file))) {
+            if (scanner.hasNext()) {
+                String line = scanner.nextLine();
+                String[] columns = line.split(",");
+                for (String column : columns) {
+                    tableInfo.addColumn(column);
+                }
+            }
+        }
+        return tableInfo;
+    }
+
+    void saveTableInfo(TableInfo tableInfo) throws IOException {
+        if (tableInfo.getColumns().isEmpty()) {
+            return;
+        }
+        File file = new File(tableManagerDir, "stor/" + tableInfo.getName() + "/" + "tableInfo");
+        File parent = file.getParentFile();
+        if (!parent.exists()) {
+            // 一次性创建多级目录
+            parent.mkdirs();
+        }
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            String columns = String.join(",", tableInfo.getColumns());
+            fileOutputStream.write(ByteUtil.toBytes(columns));
+            fileOutputStream.getChannel().force(true);
         }
     }
 
@@ -85,7 +129,8 @@ public class TableManager {
                 return true;
             }
             storeManager.createStor(tableName);
-            TableImpl table = new TableImpl(tableName, this);
+            TableInfo tableInfo = new TableInfo(tableName);
+            TableImpl table = new TableImpl(tableInfo, this);
             tableMap.put(tableName, table);
             return true;
         } catch (Exception e) {
@@ -107,7 +152,23 @@ public class TableManager {
         if (table1 == null) {
             throw new TableNotExistException(table + "noe exist");
         }
+        checkTableColumn(table1.getTableInfo(), put.getColumnValues().keySet());
         table1.put(put);
+    }
+
+    public void checkTableColumn(TableInfo tableInfo, Set<byte[]> columns) throws IOException {
+        Set<String> existColumns = tableInfo.getColumns();
+        boolean needSave = false;
+        for (byte[] column : columns) {
+            String columnStr = new String(column);
+            if (!existColumns.contains(columnStr)) {
+                existColumns.add(columnStr);
+                needSave = true;
+            }
+        }
+        if (needSave) {
+            saveTableInfo(tableInfo);
+        }
     }
 
     public boolean containTable(String table) {
@@ -246,10 +307,14 @@ public class TableManager {
         return storeManager.getReadPoint();
     }
 
-    public String[] listTableNames() {
+    public List<TableInfo> listTableNames() {
+        List<TableInfo> tableInfos = new ArrayList<>();
         tableUpdateLock.readLock().lock();
         try {
-            return tableMap.keySet().toArray(new String[0]);
+            for (Map.Entry<String, TableImpl> entry : tableMap.entrySet()) {
+                tableInfos.add(entry.getValue().getTableInfo());
+            }
+            return tableInfos;
         } finally {
             tableUpdateLock.readLock().unlock();
         }

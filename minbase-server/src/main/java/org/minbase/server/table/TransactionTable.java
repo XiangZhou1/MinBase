@@ -1,5 +1,6 @@
 package org.minbase.server.table;
 
+import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
@@ -13,6 +14,7 @@ import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.store.StoreManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +26,11 @@ public class TransactionTable implements Table {
     private KeySet readSet;
     private StoreManager storeManager;
     private Transaction transaction;
+    private TableInfo tableInfo;
 
-    public TransactionTable(String tableName, Transaction transaction) {
-        this.tableName = tableName;
+    public TransactionTable(TableInfo tableInfo, Transaction transaction) {
+        this.tableInfo = tableInfo;
+        this.tableName = tableInfo.getName();
         this.transaction = transaction;
         this.writeSet = transaction.getWriteSet();
         this.readSet = transaction.getReadSet();
@@ -72,8 +76,9 @@ public class TransactionTable implements Table {
     }
 
     @Override
-    public void put(Put put) {
+    public void put(Put put) throws IOException {
         writeSet.put(tableName, put.getKey());
+        transaction.getTableManager().checkTableColumn(tableInfo, put.getColumnValues().keySet());
         List<KeyValue> keyValues = OpUtil.fromPut(put);
         for (KeyValue keyValue : keyValues) {
             localStore.put(keyValue);
@@ -81,7 +86,7 @@ public class TransactionTable implements Table {
     }
 
     @Override
-    public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) {
+    public boolean checkAndPut(byte[] checkKey, byte[] column, byte[] checkValue, Put put) throws IOException {
         readSet.put(tableName, checkKey);
         writeSet.put(tableName, put.getKey());
 
@@ -92,6 +97,7 @@ public class TransactionTable implements Table {
         boolean equal = (value == null && checkValue == null) ||
                 (value != null && checkValue != null && ByteUtil.byteEqual(value, checkValue));
         if (equal) {
+            transaction.getTableManager().checkTableColumn(tableInfo, put.getColumnValues().keySet());
             put(put);
             return true;
         } else {
@@ -110,5 +116,10 @@ public class TransactionTable implements Table {
 
     public void applyLog(KeyValue keyValue) {
         localStore.put(keyValue);
+    }
+
+    @Override
+    public TableInfo getTableInfo() {
+        return tableInfo;
     }
 }

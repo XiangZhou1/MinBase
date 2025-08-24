@@ -26,6 +26,7 @@ public class Transaction {
     private WriteBatch writeBatch;
     private Wal wal;
     private long readPoint = Long.MAX_VALUE;
+    private TableManager tableManager;
 
     public Transaction(long transactionId, TableManager tableManager) {
         this.txId = transactionId;
@@ -37,6 +38,7 @@ public class Transaction {
         this.transactionManager = tableManager.getTransactionManager();
         this.wal = tableManager.getWal();
         this.readPoint = storeManager.getReadPoint();
+        this.tableManager = tableManager;
     }
 
 
@@ -46,9 +48,10 @@ public class Transaction {
 
 
     public Table getTable(String tableName) {
+        Table table = tableManager.getTable(tableName);
         TransactionTable transactionTable = txTables.get(tableName);
         if (transactionTable == null) {
-            transactionTable = new TransactionTable(tableName, this);
+            transactionTable = new TransactionTable(table.getTableInfo(), this);
             txTables.put(tableName, transactionTable);
         }
         return transactionTable;
@@ -152,5 +155,9 @@ public class Transaction {
     private List<Transaction> checkTransactions = new ArrayList<>();
     public void addCheckTransaction(Transaction otherCommittedTransaction) {
         checkTransactions.add(otherCommittedTransaction);
+    }
+
+    public TableManager getTableManager() {
+        return tableManager;
     }
 }

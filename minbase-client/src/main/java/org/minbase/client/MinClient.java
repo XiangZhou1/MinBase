@@ -16,7 +16,6 @@ import org.minbase.client.service.ClientService;
 import org.minbase.client.service.TxService;
 import org.minbase.client.table.ClientTableImpl;
 import org.minbase.client.transaction.ClientTransaction;
-import org.minbase.common.conf.Configuration;
 import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestEncoder;
@@ -26,11 +25,11 @@ import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.StatusCode;
 import org.minbase.common.table.ClientTable;
+import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.transaction.Transaction;
-import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.ProtobufUtil;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -122,7 +121,11 @@ public class MinClient {
         return truncateTableResponse.getStatusCode() == StatusCode.SUCCESS.getCode();
     }
 
-    public List<String> listTable() {
-        return null;
+    public List<TableInfo> listTables() {
+        AdminProto.ListTablesRequest.Builder builder = AdminProto.ListTablesRequest.newBuilder();
+        AdminProto.ListTablesRequest listTablesRequest = builder.build();
+        AdminProto.ListTablesResponse listTablesResponse = adminService.listTables(listTablesRequest);
+        return ProtobufUtil.toTableInfos(listTablesResponse);
     }
+
 }

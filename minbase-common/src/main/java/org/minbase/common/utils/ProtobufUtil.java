@@ -1,6 +1,8 @@
 package org.minbase.common.utils;
 
 import com.google.protobuf.ByteString;
+import org.minbase.common.rpc.proto.generated.AdminProto;
+import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.*;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 
@@ -106,5 +108,19 @@ public class ProtobufUtil {
             columns.add(request.getColumns(i).toByteArray());
         }
         return new Delete(request.getKey().toByteArray(), columns);
+    }
+
+    public static List<TableInfo> toTableInfos(AdminProto.ListTablesResponse listTablesResponse) {
+        List<TableInfo> tableInfos = new ArrayList<>();
+        int tablesCount = listTablesResponse.getTablesCount();
+        for (int i = 0; i < tablesCount; i++) {
+            AdminProto.TableInfo tables = listTablesResponse.getTables(i);
+            TableInfo tableInfo = new TableInfo(tables.getName().toStringUtf8());
+            for (ByteString column : tables.getColumnsList()) {
+                tableInfo.addColumn(column.toStringUtf8());
+            }
+            tableInfos.add(tableInfo);
+        }
+        return tableInfos;
     }
 }

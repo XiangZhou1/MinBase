@@ -2861,6 +2861,1763 @@ public final class AdminProto {
 
   }
 
+  public interface TableInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TableInfo)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required bytes name = 1;</code>
+     */
+    boolean hasName();
+    /**
+     * <code>required bytes name = 1;</code>
+     */
+    com.google.protobuf.ByteString getName();
+
+    /**
+     * <code>repeated bytes columns = 2;</code>
+     */
+    java.util.List<com.google.protobuf.ByteString> getColumnsList();
+    /**
+     * <code>repeated bytes columns = 2;</code>
+     */
+    int getColumnsCount();
+    /**
+     * <code>repeated bytes columns = 2;</code>
+     */
+    com.google.protobuf.ByteString getColumns(int index);
+  }
+  /**
+   * Protobuf type {@code org.minbase.common.rpc.proto.generated.TableInfo}
+   */
+  public  static final class TableInfo extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TableInfo)
+      TableInfoOrBuilder {
+    // Use TableInfo.newBuilder() to construct.
+    private TableInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TableInfo() {
+      name_ = com.google.protobuf.ByteString.EMPTY;
+      columns_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TableInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              name_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              columns_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          columns_ = java.util.Collections.unmodifiableList(columns_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_TableInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_TableInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.class, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString name_;
+    /**
+     * <code>required bytes name = 1;</code>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bytes name = 1;</code>
+     */
+    public com.google.protobuf.ByteString getName() {
+      return name_;
+    }
+
+    public static final int COLUMNS_FIELD_NUMBER = 2;
+    private java.util.List<com.google.protobuf.ByteString> columns_;
+    /**
+     * <code>repeated bytes columns = 2;</code>
+     */
+    public java.util.List<com.google.protobuf.ByteString>
+        getColumnsList() {
+      return columns_;
+    }
+    /**
+     * <code>repeated bytes columns = 2;</code>
+     */
+    public int getColumnsCount() {
+      return columns_.size();
+    }
+    /**
+     * <code>repeated bytes columns = 2;</code>
+     */
+    public com.google.protobuf.ByteString getColumns(int index) {
+      return columns_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, name_);
+      }
+      for (int i = 0; i < columns_.size(); i++) {
+        output.writeBytes(2, columns_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, name_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < columns_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(columns_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getColumnsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.AdminProto.TableInfo)) {
+        return super.equals(obj);
+      }
+      org.minbase.common.rpc.proto.generated.AdminProto.TableInfo other = (org.minbase.common.rpc.proto.generated.AdminProto.TableInfo) obj;
+
+      boolean result = true;
+      result = result && (hasName() == other.hasName());
+      if (hasName()) {
+        result = result && getName()
+            .equals(other.getName());
+      }
+      result = result && getColumnsList()
+          .equals(other.getColumnsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasName()) {
+        hash = (37 * hash) + NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getName().hashCode();
+      }
+      if (getColumnsCount() > 0) {
+        hash = (37 * hash) + COLUMNS_FIELD_NUMBER;
+        hash = (53 * hash) + getColumnsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.AdminProto.TableInfo prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code org.minbase.common.rpc.proto.generated.TableInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TableInfo)
+        org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_TableInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_TableInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.class, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder.class);
+      }
+
+      // Construct using org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        name_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        columns_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_TableInfo_descriptor;
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.getDefaultInstance();
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo build() {
+        org.minbase.common.rpc.proto.generated.AdminProto.TableInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo buildPartial() {
+        org.minbase.common.rpc.proto.generated.AdminProto.TableInfo result = new org.minbase.common.rpc.proto.generated.AdminProto.TableInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.name_ = name_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          columns_ = java.util.Collections.unmodifiableList(columns_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.columns_ = columns_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.minbase.common.rpc.proto.generated.AdminProto.TableInfo) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.AdminProto.TableInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.AdminProto.TableInfo other) {
+        if (other == org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.getDefaultInstance()) return this;
+        if (other.hasName()) {
+          setName(other.getName());
+        }
+        if (!other.columns_.isEmpty()) {
+          if (columns_.isEmpty()) {
+            columns_ = other.columns_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureColumnsIsMutable();
+            columns_.addAll(other.columns_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasName()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.AdminProto.TableInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.minbase.common.rpc.proto.generated.AdminProto.TableInfo) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.ByteString name_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes name = 1;</code>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bytes name = 1;</code>
+       */
+      public com.google.protobuf.ByteString getName() {
+        return name_;
+      }
+      /**
+       * <code>required bytes name = 1;</code>
+       */
+      public Builder setName(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes name = 1;</code>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.google.protobuf.ByteString> columns_ = java.util.Collections.emptyList();
+      private void ensureColumnsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>(columns_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated bytes columns = 2;</code>
+       */
+      public java.util.List<com.google.protobuf.ByteString>
+          getColumnsList() {
+        return java.util.Collections.unmodifiableList(columns_);
+      }
+      /**
+       * <code>repeated bytes columns = 2;</code>
+       */
+      public int getColumnsCount() {
+        return columns_.size();
+      }
+      /**
+       * <code>repeated bytes columns = 2;</code>
+       */
+      public com.google.protobuf.ByteString getColumns(int index) {
+        return columns_.get(index);
+      }
+      /**
+       * <code>repeated bytes columns = 2;</code>
+       */
+      public Builder setColumns(
+          int index, com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
+        columns_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes columns = 2;</code>
+       */
+      public Builder addColumns(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
+        columns_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes columns = 2;</code>
+       */
+      public Builder addAllColumns(
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+        ensureColumnsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, columns_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes columns = 2;</code>
+       */
+      public Builder clearColumns() {
+        columns_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:org.minbase.common.rpc.proto.generated.TableInfo)
+    }
+
+    // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TableInfo)
+    private static final org.minbase.common.rpc.proto.generated.AdminProto.TableInfo DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.AdminProto.TableInfo();
+    }
+
+    public static org.minbase.common.rpc.proto.generated.AdminProto.TableInfo getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TableInfo>
+        PARSER = new com.google.protobuf.AbstractParser<TableInfo>() {
+      public TableInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TableInfo(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TableInfo> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TableInfo> getParserForType() {
+      return PARSER;
+    }
+
+    public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ListTablesRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.ListTablesRequest)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code org.minbase.common.rpc.proto.generated.ListTablesRequest}
+   */
+  public  static final class ListTablesRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.ListTablesRequest)
+      ListTablesRequestOrBuilder {
+    // Use ListTablesRequest.newBuilder() to construct.
+    private ListTablesRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ListTablesRequest() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ListTablesRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.class, org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest)) {
+        return super.equals(obj);
+      }
+      org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest other = (org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code org.minbase.common.rpc.proto.generated.ListTablesRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.ListTablesRequest)
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.class, org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.Builder.class);
+      }
+
+      // Construct using org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_descriptor;
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.getDefaultInstance();
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest build() {
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest result = new org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:org.minbase.common.rpc.proto.generated.ListTablesRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.ListTablesRequest)
+    private static final org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest();
+    }
+
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<ListTablesRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ListTablesRequest>() {
+      public ListTablesRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ListTablesRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ListTablesRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ListTablesRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ListTablesResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.ListTablesResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    java.util.List<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo> 
+        getTablesList();
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    org.minbase.common.rpc.proto.generated.AdminProto.TableInfo getTables(int index);
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    int getTablesCount();
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    java.util.List<? extends org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder> 
+        getTablesOrBuilderList();
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder getTablesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code org.minbase.common.rpc.proto.generated.ListTablesResponse}
+   */
+  public  static final class ListTablesResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.ListTablesResponse)
+      ListTablesResponseOrBuilder {
+    // Use ListTablesResponse.newBuilder() to construct.
+    private ListTablesResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ListTablesResponse() {
+      tables_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ListTablesResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                tables_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              tables_.add(
+                  input.readMessage(org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          tables_ = java.util.Collections.unmodifiableList(tables_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.class, org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.Builder.class);
+    }
+
+    public static final int TABLES_FIELD_NUMBER = 1;
+    private java.util.List<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo> tables_;
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    public java.util.List<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo> getTablesList() {
+      return tables_;
+    }
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    public java.util.List<? extends org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder> 
+        getTablesOrBuilderList() {
+      return tables_;
+    }
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    public int getTablesCount() {
+      return tables_.size();
+    }
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo getTables(int index) {
+      return tables_.get(index);
+    }
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+     */
+    public org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder getTablesOrBuilder(
+        int index) {
+      return tables_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      for (int i = 0; i < getTablesCount(); i++) {
+        if (!getTables(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < tables_.size(); i++) {
+        output.writeMessage(1, tables_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < tables_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, tables_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse)) {
+        return super.equals(obj);
+      }
+      org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse other = (org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse) obj;
+
+      boolean result = true;
+      result = result && getTablesList()
+          .equals(other.getTablesList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (getTablesCount() > 0) {
+        hash = (37 * hash) + TABLES_FIELD_NUMBER;
+        hash = (53 * hash) + getTablesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code org.minbase.common.rpc.proto.generated.ListTablesResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.ListTablesResponse)
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.class, org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.Builder.class);
+      }
+
+      // Construct using org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getTablesFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (tablesBuilder_ == null) {
+          tables_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          tablesBuilder_.clear();
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_descriptor;
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.getDefaultInstance();
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse build() {
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse result = new org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (tablesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            tables_ = java.util.Collections.unmodifiableList(tables_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.tables_ = tables_;
+        } else {
+          result.tables_ = tablesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.getDefaultInstance()) return this;
+        if (tablesBuilder_ == null) {
+          if (!other.tables_.isEmpty()) {
+            if (tables_.isEmpty()) {
+              tables_ = other.tables_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureTablesIsMutable();
+              tables_.addAll(other.tables_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.tables_.isEmpty()) {
+            if (tablesBuilder_.isEmpty()) {
+              tablesBuilder_.dispose();
+              tablesBuilder_ = null;
+              tables_ = other.tables_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              tablesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getTablesFieldBuilder() : null;
+            } else {
+              tablesBuilder_.addAllMessages(other.tables_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getTablesCount(); i++) {
+          if (!getTables(i).isInitialized()) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo> tables_ =
+        java.util.Collections.emptyList();
+      private void ensureTablesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          tables_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo>(tables_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.minbase.common.rpc.proto.generated.AdminProto.TableInfo, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder, org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder> tablesBuilder_;
+
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public java.util.List<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo> getTablesList() {
+        if (tablesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(tables_);
+        } else {
+          return tablesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public int getTablesCount() {
+        if (tablesBuilder_ == null) {
+          return tables_.size();
+        } else {
+          return tablesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo getTables(int index) {
+        if (tablesBuilder_ == null) {
+          return tables_.get(index);
+        } else {
+          return tablesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder setTables(
+          int index, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo value) {
+        if (tablesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTablesIsMutable();
+          tables_.set(index, value);
+          onChanged();
+        } else {
+          tablesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder setTables(
+          int index, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder builderForValue) {
+        if (tablesBuilder_ == null) {
+          ensureTablesIsMutable();
+          tables_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          tablesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder addTables(org.minbase.common.rpc.proto.generated.AdminProto.TableInfo value) {
+        if (tablesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTablesIsMutable();
+          tables_.add(value);
+          onChanged();
+        } else {
+          tablesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder addTables(
+          int index, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo value) {
+        if (tablesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTablesIsMutable();
+          tables_.add(index, value);
+          onChanged();
+        } else {
+          tablesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder addTables(
+          org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder builderForValue) {
+        if (tablesBuilder_ == null) {
+          ensureTablesIsMutable();
+          tables_.add(builderForValue.build());
+          onChanged();
+        } else {
+          tablesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder addTables(
+          int index, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder builderForValue) {
+        if (tablesBuilder_ == null) {
+          ensureTablesIsMutable();
+          tables_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          tablesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder addAllTables(
+          java.lang.Iterable<? extends org.minbase.common.rpc.proto.generated.AdminProto.TableInfo> values) {
+        if (tablesBuilder_ == null) {
+          ensureTablesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, tables_);
+          onChanged();
+        } else {
+          tablesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder clearTables() {
+        if (tablesBuilder_ == null) {
+          tables_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          tablesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public Builder removeTables(int index) {
+        if (tablesBuilder_ == null) {
+          ensureTablesIsMutable();
+          tables_.remove(index);
+          onChanged();
+        } else {
+          tablesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder getTablesBuilder(
+          int index) {
+        return getTablesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder getTablesOrBuilder(
+          int index) {
+        if (tablesBuilder_ == null) {
+          return tables_.get(index);  } else {
+          return tablesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public java.util.List<? extends org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder> 
+           getTablesOrBuilderList() {
+        if (tablesBuilder_ != null) {
+          return tablesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(tables_);
+        }
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder addTablesBuilder() {
+        return getTablesFieldBuilder().addBuilder(
+            org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder addTablesBuilder(
+          int index) {
+        return getTablesFieldBuilder().addBuilder(
+            index, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .org.minbase.common.rpc.proto.generated.TableInfo tables = 1;</code>
+       */
+      public java.util.List<org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder> 
+           getTablesBuilderList() {
+        return getTablesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.minbase.common.rpc.proto.generated.AdminProto.TableInfo, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder, org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder> 
+          getTablesFieldBuilder() {
+        if (tablesBuilder_ == null) {
+          tablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              org.minbase.common.rpc.proto.generated.AdminProto.TableInfo, org.minbase.common.rpc.proto.generated.AdminProto.TableInfo.Builder, org.minbase.common.rpc.proto.generated.AdminProto.TableInfoOrBuilder>(
+                  tables_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          tables_ = null;
+        }
+        return tablesBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:org.minbase.common.rpc.proto.generated.ListTablesResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.ListTablesResponse)
+    private static final org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse();
+    }
+
+    public static org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<ListTablesResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ListTablesResponse>() {
+      public ListTablesResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ListTablesResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ListTablesResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ListTablesResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_org_minbase_common_rpc_proto_generated_CreateTableRequest_descriptor;
   private static final 
@@ -2891,6 +4648,21 @@ public final class AdminProto {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_minbase_common_rpc_proto_generated_TruncateTableResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_minbase_common_rpc_proto_generated_TableInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TableInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2907,18 +4679,25 @@ public final class AdminProto {
       "st\022\021\n\ttableName\030\001 \002(\014\"\'\n\021DropTableRespon" +
       "se\022\022\n\nstatusCode\030\001 \002(\005\")\n\024TruncateTableR" +
       "equest\022\021\n\ttableName\030\001 \002(\014\"+\n\025TruncateTab" +
-      "leResponse\022\022\n\nstatusCode\030\001 \002(\0052\251\003\n\014Admin" +
-      "Service\022\206\001\n\013createTable\022:.org.minbase.co" +
-      "mmon.rpc.proto.generated.CreateTableRequ",
-      "est\032;.org.minbase.common.rpc.proto.gener" +
-      "ated.CreateTableResponse\022\200\001\n\tdropTable\0228" +
-      ".org.minbase.common.rpc.proto.generated." +
-      "DropTableRequest\0329.org.minbase.common.rp" +
-      "c.proto.generated.DropTableResponse\022\214\001\n\r" +
-      "truncateTable\022<.org.minbase.common.rpc.p" +
-      "roto.generated.TruncateTableRequest\032=.or" +
-      "g.minbase.common.rpc.proto.generated.Tru" +
-      "ncateTableResponse"
+      "leResponse\022\022\n\nstatusCode\030\001 \002(\005\"*\n\tTableI" +
+      "nfo\022\014\n\004name\030\001 \002(\014\022\017\n\007columns\030\002 \003(\014\"\023\n\021Li" +
+      "stTablesRequest\"W\n\022ListTablesResponse\022A\n",
+      "\006tables\030\001 \003(\01321.org.minbase.common.rpc.p" +
+      "roto.generated.TableInfo2\257\004\n\014AdminServic" +
+      "e\022\206\001\n\013createTable\022:.org.minbase.common.r" +
+      "pc.proto.generated.CreateTableRequest\032;." +
+      "org.minbase.common.rpc.proto.generated.C" +
+      "reateTableResponse\022\200\001\n\tdropTable\0228.org.m" +
+      "inbase.common.rpc.proto.generated.DropTa" +
+      "bleRequest\0329.org.minbase.common.rpc.prot" +
+      "o.generated.DropTableResponse\022\214\001\n\rtrunca" +
+      "teTable\022<.org.minbase.common.rpc.proto.g",
+      "enerated.TruncateTableRequest\032=.org.minb" +
+      "ase.common.rpc.proto.generated.TruncateT" +
+      "ableResponse\022\203\001\n\nlistTables\0229.org.minbas" +
+      "e.common.rpc.proto.generated.ListTablesR" +
+      "equest\032:.org.minbase.common.rpc.proto.ge" +
+      "nerated.ListTablesResponse"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2968,6 +4747,24 @@ public final class AdminProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_minbase_common_rpc_proto_generated_TruncateTableResponse_descriptor,
         new java.lang.String[] { "StatusCode", });
+    internal_static_org_minbase_common_rpc_proto_generated_TableInfo_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_org_minbase_common_rpc_proto_generated_TableInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TableInfo_descriptor,
+        new java.lang.String[] { "Name", "Columns", });
+    internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_ListTablesRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_ListTablesResponse_descriptor,
+        new java.lang.String[] { "Tables", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

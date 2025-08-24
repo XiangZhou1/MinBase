@@ -48,6 +48,15 @@ public class AdminServiceGrpc {
               "org.minbase.common.rpc.proto.generated.AdminService", "truncateTable"),
           io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest,
+      org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse> METHOD_LIST_TABLES =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.minbase.common.rpc.proto.generated.AdminService", "listTables"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse.getDefaultInstance()));
 
   public static AdminServiceStub newStub(io.grpc.Channel channel) {
     return new AdminServiceStub(channel);
@@ -73,6 +82,9 @@ public class AdminServiceGrpc {
 
     public void truncateTable(org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableRequest request,
         io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableResponse> responseObserver);
+
+    public void listTables(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest request,
+        io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse> responseObserver);
   }
 
   public static interface AdminServiceBlockingClient {
@@ -82,6 +94,8 @@ public class AdminServiceGrpc {
     public org.minbase.common.rpc.proto.generated.AdminProto.DropTableResponse dropTable(org.minbase.common.rpc.proto.generated.AdminProto.DropTableRequest request);
 
     public org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableResponse truncateTable(org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableRequest request);
+
+    public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse listTables(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest request);
   }
 
   public static interface AdminServiceFutureClient {
@@ -94,6 +108,9 @@ public class AdminServiceGrpc {
 
     public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableResponse> truncateTable(
         org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse> listTables(
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest request);
   }
 
   public static class AdminServiceStub extends io.grpc.stub.AbstractStub<AdminServiceStub>
@@ -133,6 +150,13 @@ public class AdminServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_TRUNCATE_TABLE, getCallOptions()), request, responseObserver);
     }
+
+    @java.lang.Override
+    public void listTables(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest request,
+        io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_LIST_TABLES, getCallOptions()), request, responseObserver);
+    }
   }
 
   public static class AdminServiceBlockingStub extends io.grpc.stub.AbstractStub<AdminServiceBlockingStub>
@@ -168,6 +192,12 @@ public class AdminServiceGrpc {
     public org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableResponse truncateTable(org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_TRUNCATE_TABLE, getCallOptions(), request);
+    }
+
+    @java.lang.Override
+    public org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse listTables(org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_LIST_TABLES, getCallOptions(), request);
     }
   }
 
@@ -208,11 +238,19 @@ public class AdminServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_TRUNCATE_TABLE, getCallOptions()), request);
     }
+
+    @java.lang.Override
+    public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse> listTables(
+        org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_LIST_TABLES, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_TABLE = 0;
   private static final int METHODID_DROP_TABLE = 1;
   private static final int METHODID_TRUNCATE_TABLE = 2;
+  private static final int METHODID_LIST_TABLES = 3;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -241,6 +279,10 @@ public class AdminServiceGrpc {
         case METHODID_TRUNCATE_TABLE:
           serviceImpl.truncateTable((org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableRequest) request,
               (io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableResponse>) responseObserver);
+          break;
+        case METHODID_LIST_TABLES:
+          serviceImpl.listTables((org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest) request,
+              (io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -281,6 +323,13 @@ public class AdminServiceGrpc {
               org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableRequest,
               org.minbase.common.rpc.proto.generated.AdminProto.TruncateTableResponse>(
                 serviceImpl, METHODID_TRUNCATE_TABLE)))
+        .addMethod(
+          METHOD_LIST_TABLES,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.minbase.common.rpc.proto.generated.AdminProto.ListTablesRequest,
+              org.minbase.common.rpc.proto.generated.AdminProto.ListTablesResponse>(
+                serviceImpl, METHODID_LIST_TABLES)))
         .build();
   }
 }

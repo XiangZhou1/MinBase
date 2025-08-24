@@ -1,5 +1,6 @@
 package org.minbase.server.table;
 
+import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
@@ -15,13 +16,15 @@ import java.util.List;
 
 public class TableImpl implements Table {
     String tableName;
+    TableInfo tableInfo;
     Store store;
     StoreManager storeManager;
     TableManager tableManager;
     TransactionManager transactionManager;
 
-    public TableImpl(String tableName, TableManager tableManager) {
-        this.tableName = tableName;
+    public TableImpl(TableInfo tableInfo, TableManager tableManager) {
+        this.tableInfo = tableInfo;
+        this.tableName = tableInfo.getName();
         this.store = tableManager.getStoreManager().getStore(tableName);
         this.tableManager = tableManager;
         this.storeManager = tableManager.getStoreManager();
@@ -97,5 +100,9 @@ public class TableImpl implements Table {
         Table table = transaction.getTable(tableName);
         table.delete(delete);
         transaction.commit();
+    }
+
+    public TableInfo getTableInfo() {
+        return tableInfo;
     }
 }

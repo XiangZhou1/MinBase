@@ -4,10 +4,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.util.concurrent.Promise;
-import org.minbase.common.exception.ServerException;
 import org.minbase.common.rpc.proto.generated.AdminProto;
 import org.minbase.common.rpc.proto.generated.AdminServiceGrpc;
-import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.CallType;
 import org.slf4j.Logger;
@@ -52,6 +50,18 @@ public class AdminService extends Service implements AdminServiceGrpc.AdminServi
             RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_TRUNCATE_TABLE.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
             return AdminProto.TruncateTableResponse.parseFrom(rpcResponse.getData());
+        } catch (InvalidProtocolBufferException e) {
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public AdminProto.ListTablesResponse listTables(AdminProto.ListTablesRequest request) {
+        try {
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_LIST_TABLES.getType(), request.toByteString());
+            RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            return AdminProto.ListTablesResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
             LOG.error("InvalidProtocolBufferException", e);
             throw new RuntimeException(e);
