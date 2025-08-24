@@ -38,4 +38,8 @@ public class Constants {
     public static final long CLEAR_OLD_LOG_CHECK_INTERVAL_DEFAULT = 5 * 60 * 1000;
     public static final String COMPACT_CHECK_INTERVAL_KEY = "compact.check.interval";
     public static final long COMPACT_CHECK_INTERVAL_DEFAULT = 5 * 60 * 1000;
+    public static final String SERVER_PORT_KEY = "server.port";
+    public static final int SERVER_PORT_DEFAULT = 4444;
+    public static final String SERVER_IP_KEY = "server.ip";
+    public static final String SERVER_IP_DEFAULT = "127.0.0.1";
 }

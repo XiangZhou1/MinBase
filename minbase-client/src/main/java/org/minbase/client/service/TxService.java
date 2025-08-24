@@ -8,60 +8,64 @@ import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.proto.generated.TransactionServiceGrpc;
 import org.minbase.common.rpc.service.CallType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TxService extends Service implements TransactionServiceGrpc.TransactionServiceBlockingClient {
-    public TxService(Channel channel, AtomicLong requestId, ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses, EventLoopGroup group) {
+    private static final Logger LOG = LoggerFactory.getLogger(AdminService.class);
+    public TxService(Channel channel, AtomicLong requestId, ConcurrentHashMap<Long,
+            Promise<RpcProto.RpcResponse>> waitingResponses, EventLoopGroup group) {
         super(channel, requestId, waitingResponses, group);
     }
 
     @Override
     public ClientProto.TxGetResponse get(ClientProto.TxGetRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_GET.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_GET.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
-            return ClientProto.TxGetResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+            return ClientProto.TxGetResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public ClientProto.TxPutResponse put(ClientProto.TxPutRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_PUT.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_PUT.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
-            return ClientProto.TxPutResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+            return ClientProto.TxPutResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public ClientProto.TxCheckAndPutResponse checkAndPut(ClientProto.TxCheckAndPutRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_PUT.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_CHECK_AND_PUT.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
-            return ClientProto.TxCheckAndPutResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+            return ClientProto.TxCheckAndPutResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public ClientProto.TxDeleteResponse delete(ClientProto.TxDeleteRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_PUT.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.TX_DELETE.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
-            return ClientProto.TxDeleteResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+            return ClientProto.TxDeleteResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }

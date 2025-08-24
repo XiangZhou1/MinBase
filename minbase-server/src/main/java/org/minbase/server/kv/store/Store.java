@@ -6,7 +6,7 @@ import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Value;
 
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.storage.StoreFileManager;
 import org.minbase.server.kv.utils.KeyUtil;

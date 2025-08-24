@@ -1,10 +1,13 @@
 package org.minbase.server.table;
 
-import org.minbase.common.table.Table;
+import org.minbase.common.exception.TransactionException;
+import org.minbase.common.exception.TransactionNotExistException;
+import org.minbase.common.table.ClientTable;
 import org.minbase.common.table.op.*;
 import org.minbase.common.table.op.ColumnValues;
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.constant.Constants;
+import org.minbase.common.exception.TableNotExistException;
 import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.store.StoreManager;
 import org.minbase.server.table.wal.*;
@@ -14,10 +17,12 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class TableManager {
     private static final Logger LOG = LoggerFactory.getLogger(TableManager.class);
@@ -30,6 +35,7 @@ public class TableManager {
     private Map<String, TableImpl> tableMap = new HashMap<>();
     private Wal wal;
     private final Object clearOldLogLock = new Object();
+    private final ReentrantReadWriteLock tableUpdateLock = new ReentrantReadWriteLock();
 
     public TableManager(Configuration configuration) throws IOException {
         this.configuration = configuration;
@@ -51,22 +57,29 @@ public class TableManager {
     }
 
     private void initTable() {
-        ConcurrentHashMap<String, Store> stores = storeManager.getStores();
-        for (String tableName : stores.keySet()) {
-            TableImpl table = new TableImpl(tableName, this);
-            tableMap.put(tableName, table);
+        tableUpdateLock.writeLock().lock();
+        try {
+            ConcurrentHashMap<String, Store> stores = storeManager.getStores();
+            for (String tableName : stores.keySet()) {
+                TableImpl table = new TableImpl(tableName, this);
+                tableMap.put(tableName, table);
+            }
+        } finally {
+            tableUpdateLock.writeLock().unlock();
         }
     }
 
     public Table getTable(String tableName) {
-        return tableMap.get(tableName);
-    }
-
-    private String[] listTableName() {
-        return storeManager.listStoreNames();
+        tableUpdateLock.readLock().lock();
+        try {
+            return tableMap.get(tableName);
+        } finally {
+            tableUpdateLock.readLock().unlock();
+        }
     }
 
     public boolean createTable(String tableName) throws IOException {
+        LOG.info("Try reate table:{}", tableName);
         try {
             if (tableMap.containsKey(tableName)) {
                 return true;
@@ -74,20 +87,26 @@ public class TableManager {
             storeManager.createStor(tableName);
             TableImpl table = new TableImpl(tableName, this);
             tableMap.put(tableName, table);
+            return true;
         } catch (Exception e) {
             LOG.error("Create table " + tableName + " fail", e);
             return false;
         }
-        return true;
     }
 
-    public ColumnValues get(String table, Get get) {
+    public ColumnValues get(String table, Get get) throws IOException {
         TableImpl table1 = tableMap.get(table);
+        if (table1 == null) {
+            throw new TableNotExistException(table + "noe exist");
+        }
         return table1.get(get);
     }
 
-    public void put(String table, Put put) {
+    public void put(String table, Put put) throws IOException {
         TableImpl table1 = tableMap.get(table);
+        if (table1 == null) {
+            throw new TableNotExistException(table + "noe exist");
+        }
         table1.put(put);
     }
 
@@ -95,13 +114,20 @@ public class TableManager {
         return storeManager.containStore(table);
     }
 
-    public void checkAndPut(String table, CheckAndPut checkAndPut) {
+    public boolean checkAndPut(String table, CheckAndPut checkAndPut) throws IOException {
         TableImpl table1 = tableMap.get(table);
-        table1.checkAndPut(checkAndPut.getKey(), checkAndPut.getColumn(), checkAndPut.getValue(), checkAndPut.getPut());
+        if (table1 == null) {
+            throw new TableNotExistException(table + "noe exist");
+        }
+        return table1.checkAndPut(checkAndPut.getKey(),
+                checkAndPut.getColumn(), checkAndPut.getValue(), checkAndPut.getPut());
     }
 
-    public void delete(String table, Delete delete) {
+    public void delete(String table, Delete delete) throws IOException {
         TableImpl table1 = tableMap.get(table);
+        if (table1 == null) {
+            throw new TableNotExistException(table + "noe exist");
+        }
         table1.delete(delete);
     }
 
@@ -110,20 +136,39 @@ public class TableManager {
         return transaction;
     }
 
-    public void txPut(long txid, String table, Put put) {
+    public void txPut(long txid, String table, Put put) throws IOException {
         Transaction activeTransaction = transactionManager.getActiveTransaction(txid);
+        if (activeTransaction == null) {
+            throw new TransactionNotExistException();
+        }
         Table table1 = activeTransaction.getTable(table);
         table1.put(put);
     }
 
-    public ColumnValues txGet(long txid, String table, Get get) {
+    public ColumnValues txGet(long txid, String table, Get get) throws IOException {
         Transaction activeTransaction = transactionManager.getActiveTransaction(txid);
+        if (activeTransaction == null) {
+            throw new TransactionNotExistException();
+        }
         Table table1 = activeTransaction.getTable(table);
         return table1.get(get);
     }
+    public void txDelete(long txid, String table, Delete delete) throws IOException {
+        Transaction activeTransaction = transactionManager.getActiveTransaction(txid);
+        if (activeTransaction == null) {
+            throw new TransactionNotExistException();
+        }
+        Table table1 = activeTransaction.getTable(table);
+        table1.delete(delete);
+    }
 
-    public void rollBackTransaction(long txId) {
-
+    public boolean txCheckAndPut(long txid, String table, CheckAndPut checkAndPut) throws IOException {
+        Transaction activeTransaction = transactionManager.getActiveTransaction(txid);
+        if (activeTransaction == null) {
+            throw new TransactionNotExistException();
+        }
+        Table table1 = activeTransaction.getTable(table);
+        return table1.checkAndPut(checkAndPut.getKey(), checkAndPut.getColumn(), checkAndPut.getValue(), checkAndPut.getPut());
     }
 
     public StoreManager getStoreManager() {
@@ -200,4 +245,50 @@ public class TableManager {
     public long getReadPoint() {
         return storeManager.getReadPoint();
     }
+
+    public String[] listTableNames() {
+        tableUpdateLock.readLock().lock();
+        try {
+            return tableMap.keySet().toArray(new String[0]);
+        } finally {
+            tableUpdateLock.readLock().unlock();
+        }
+    }
+
+    public boolean dropTable(String tableName) {
+        tableUpdateLock.readLock().lock();
+        try {
+            tableMap.remove(tableName);
+            return true;
+        } finally {
+            tableUpdateLock.readLock().unlock();
+        }
+    }
+
+    public void rollBackTransaction(long txId) {
+        Transaction activeTransaction = transactionManager.getActiveTransaction(txId);
+        if (activeTransaction != null) {
+            activeTransaction.rollback();
+        }
+    }
+
+    public void rollBackTransactions(List<Long> sessionTransactions) {
+        for (Long sessionTransaction : sessionTransactions) {
+            Transaction activeTransaction = transactionManager.getActiveTransaction(sessionTransaction);
+            if (activeTransaction != null) {
+                activeTransaction.rollback();
+            }
+        }
+    }
+
+    public void commitTransaction(long txid) throws TransactionNotExistException, TransactionException {
+        Transaction activeTransaction = transactionManager.getActiveTransaction(txid);
+        if (activeTransaction != null) {
+            activeTransaction.commit();
+        } else {
+            throw new TransactionNotExistException();
+        }
+    }
+
+
 }

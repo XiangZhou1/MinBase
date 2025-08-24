@@ -3,7 +3,7 @@ package org.minbase.server.kv.storage.storefile;
 
 import org.junit.Test;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.storage.StoreFileIterator;

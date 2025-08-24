@@ -4,7 +4,7 @@ package org.minbase.server.kv.store;
 import org.junit.Test;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.common.utils.Util;
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Op;

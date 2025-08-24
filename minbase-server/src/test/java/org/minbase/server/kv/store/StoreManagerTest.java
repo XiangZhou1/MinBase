@@ -1,7 +1,7 @@
 package org.minbase.server.kv.store;
 
 import org.junit.Test;
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.kv.*;
 import org.minbase.server.table.TableManager;
 import org.mockito.Mockito;

@@ -1,6 +1,6 @@
 package org.minbase.server.table;
 
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.store.MemStore;

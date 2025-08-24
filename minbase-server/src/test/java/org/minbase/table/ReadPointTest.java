@@ -1,12 +1,11 @@
 package org.minbase.table;
 
 import org.junit.Test;
-import org.minbase.common.table.Table;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.Op;
@@ -16,9 +15,9 @@ import org.minbase.server.kv.compaction.CompactionResult;
 import org.minbase.server.kv.compaction.MinorCompactionPolicy;
 import org.minbase.server.kv.storage.StoreFile;
 import org.minbase.server.kv.storage.StoreFileBuilder;
-import org.minbase.server.kv.storage.StoreFileIterator;
 import org.minbase.server.kv.storage.StoreFileManager;
 import org.minbase.server.kv.store.StoreManager;
+import org.minbase.server.table.Table;
 import org.minbase.server.table.TableManager;
 import org.minbase.server.table.Transaction;
 import org.minbase.server.table.TransactionManager;

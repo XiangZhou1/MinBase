@@ -1,9 +1,8 @@
 package org.minbase.server.kv.compaction;
 
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.constant.Constants;
 import org.minbase.server.kv.KeyValue;
-import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.iterator.KeyValueIterator;
 import org.minbase.server.kv.iterator.MergeIterator;
 import org.minbase.server.kv.storage.StoreFile;

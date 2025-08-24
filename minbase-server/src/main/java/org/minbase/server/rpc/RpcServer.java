@@ -6,29 +6,26 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.minbase.common.rpc.Constant;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestDecoder;
 import org.minbase.common.rpc.codec.RpcResponseEncoder;
-import org.minbase.server.MinBaseServer;
+import org.minbase.server.table.TableManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 public class RpcServer {
     private static final Logger LOG = LoggerFactory.getLogger(RpcServer.class);
-
     private final int port;
+    private final String ip;
     private ServerBootstrap serverBootstrap;
-    private final MinBaseServer server;
+    private final TableManager server;
 
-    public RpcServer(MinBaseServer server, int port) {
+
+    public RpcServer(TableManager server, String ip, int port) {
+        this.ip = ip;
         this.port = port;
         this.server = server;
-    }
-
-    public RpcServer(MinBaseServer server) {
-        this(server, Constant.DEFAULT_SERVER_PORT);
     }
 
     public void start() throws InterruptedException {
@@ -47,8 +44,8 @@ public class RpcServer {
                         }
                     });
 
-            LOG.info("Start rpcServer, bind port:" + port);
-            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
+            LOG.info("Start rpcServer, bind address: {}:{}", ip, port);
+            ChannelFuture channelFuture = serverBootstrap.bind(ip, port).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
             LOG.info("Start rpcServer fail", e);
@@ -56,7 +53,4 @@ public class RpcServer {
             eventLoopGroup.shutdownGracefully();
         }
     }
-
-
-
 }

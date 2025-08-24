@@ -1,6 +1,8 @@
-package org.minbase.client.exception;
+package org.minbase.common.exception;
 
-public class ServerException extends RuntimeException {
+import java.io.IOException;
+
+public class ServerException extends IOException {
     public ServerException() {
     }
 
@@ -14,9 +16,5 @@ public class ServerException extends RuntimeException {
 
     public ServerException(Throwable cause) {
         super(cause);
-    }
-
-    public ServerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

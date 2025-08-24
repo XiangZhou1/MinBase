@@ -4,87 +4,67 @@
 package org.minbase.common.rpc.proto.generated;
 
 public final class ClientProto {
-  private ClientProto() {
+  private ClientProto() {}
+  public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
   }
 
   public static void registerAllExtensions(
-          com.google.protobuf.ExtensionRegistryLite registry) {
-  }
-
-  public static void registerAllExtensions(
-          com.google.protobuf.ExtensionRegistry registry) {
+      com.google.protobuf.ExtensionRegistry registry) {
     registerAllExtensions(
-            (com.google.protobuf.ExtensionRegistryLite) registry);
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-
   public interface ColumnValueOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.ColumnValue)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.ColumnValue)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string column = 1;</code>
+     * <code>required bytes column = 1;</code>
      */
     boolean hasColumn();
+    /**
+     * <code>required bytes column = 1;</code>
+     */
+    com.google.protobuf.ByteString getColumn();
 
     /**
-     * <code>required string column = 1;</code>
+     * <code>required bytes tableValue = 2;</code>
      */
-    String getColumn();
-
+    boolean hasTableValue();
     /**
-     * <code>required string column = 1;</code>
+     * <code>required bytes tableValue = 2;</code>
      */
-    com.google.protobuf.ByteString
-    getColumnBytes();
-
-    /**
-     * <code>required string value = 2;</code>
-     */
-    boolean hasValue();
-
-    /**
-     * <code>required string value = 2;</code>
-     */
-    String getValue();
-
-    /**
-     * <code>required string value = 2;</code>
-     */
-    com.google.protobuf.ByteString
-    getValueBytes();
+    com.google.protobuf.ByteString getTableValue();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.ColumnValue}
    */
-  public static final class ColumnValue extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.ColumnValue)
-          ColumnValueOrBuilder {
+  public  static final class ColumnValue extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.ColumnValue)
+      ColumnValueOrBuilder {
     // Use ColumnValue.newBuilder() to construct.
     private ColumnValue(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private ColumnValue() {
-      column_ = "";
-      value_ = "";
+      column_ = com.google.protobuf.ByteString.EMPTY;
+      tableValue_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private ColumnValue(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -95,21 +75,19 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              column_ = bs;
+              column_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              value_ = bs;
+              tableValue_ = input.readBytes();
               break;
             }
           }
@@ -118,118 +96,56 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      ColumnValue.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.class, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder.class);
     }
 
     private int bitField0_;
     public static final int COLUMN_FIELD_NUMBER = 1;
-    private volatile Object column_;
-
+    private com.google.protobuf.ByteString column_;
     /**
-     * <code>required string column = 1;</code>
+     * <code>required bytes column = 1;</code>
      */
     public boolean hasColumn() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required string column = 1;</code>
+     * <code>required bytes column = 1;</code>
      */
-    public String getColumn() {
-      Object ref = column_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          column_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getColumn() {
+      return column_;
     }
 
+    public static final int TABLEVALUE_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString tableValue_;
     /**
-     * <code>required string column = 1;</code>
+     * <code>required bytes tableValue = 2;</code>
      */
-    public com.google.protobuf.ByteString
-    getColumnBytes() {
-      Object ref = column_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        column_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int VALUE_FIELD_NUMBER = 2;
-    private volatile Object value_;
-
-    /**
-     * <code>required string value = 2;</code>
-     */
-    public boolean hasValue() {
+    public boolean hasTableValue() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string value = 2;</code>
+     * <code>required bytes tableValue = 2;</code>
      */
-    public String getValue() {
-      Object ref = value_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          value_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string value = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-    getValueBytes() {
-      Object ref = value_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        value_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getTableValue() {
+      return tableValue_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -239,7 +155,7 @@ public final class ClientProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasValue()) {
+      if (!hasTableValue()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -248,12 +164,12 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, column_);
+        output.writeBytes(1, column_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, value_);
+        output.writeBytes(2, tableValue_);
       }
       unknownFields.writeTo(output);
     }
@@ -264,10 +180,12 @@ public final class ClientProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, column_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, column_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, value_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, tableValue_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -275,33 +193,32 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof ColumnValue)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue)) {
         return super.equals(obj);
       }
-      ColumnValue other = (ColumnValue) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue other = (org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue) obj;
 
       boolean result = true;
       result = result && (hasColumn() == other.hasColumn());
       if (hasColumn()) {
         result = result && getColumn()
-                .equals(other.getColumn());
+            .equals(other.getColumn());
       }
-      result = result && (hasValue() == other.hasValue());
-      if (hasValue()) {
-        result = result && getValue()
-                .equals(other.getValue());
+      result = result && (hasTableValue() == other.hasTableValue());
+      if (hasTableValue()) {
+        result = result && getTableValue()
+            .equals(other.getTableValue());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -312,124 +229,109 @@ public final class ClientProto {
         hash = (37 * hash) + COLUMN_FIELD_NUMBER;
         hash = (53 * hash) + getColumn().hashCode();
       }
-      if (hasValue()) {
-        hash = (37 * hash) + VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + getValue().hashCode();
+      if (hasTableValue()) {
+        hash = (37 * hash) + TABLEVALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getTableValue().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static ColumnValue parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static ColumnValue parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static ColumnValue parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static ColumnValue parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static ColumnValue parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static ColumnValue parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static ColumnValue parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static ColumnValue parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static ColumnValue parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static ColumnValue parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(ColumnValue prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.ColumnValue}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.ColumnValue)
-            ColumnValueOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.ColumnValue)
+        org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        ColumnValue.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.class, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.newBuilder()
@@ -438,45 +340,43 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        column_ = "";
+        column_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = "";
+        tableValue_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
       }
 
-      public ColumnValue getDefaultInstanceForType() {
-        return ColumnValue.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance();
       }
 
-      public ColumnValue build() {
-        ColumnValue result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public ColumnValue buildPartial() {
-        ColumnValue result = new ColumnValue(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue result = new org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -486,7 +386,7 @@ public final class ClientProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.value_ = value_;
+        result.tableValue_ = tableValue_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -495,55 +395,45 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ColumnValue) {
-          return mergeFrom((ColumnValue) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ColumnValue other) {
-        if (other == ColumnValue.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance()) return this;
         if (other.hasColumn()) {
-          bitField0_ |= 0x00000001;
-          column_ = other.column_;
-          onChanged();
+          setColumn(other.getColumn());
         }
-        if (other.hasValue()) {
-          bitField0_ |= 0x00000002;
-          value_ = other.value_;
-          onChanged();
+        if (other.hasTableValue()) {
+          setTableValue(other.getTableValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -554,21 +444,21 @@ public final class ClientProto {
         if (!hasColumn()) {
           return false;
         }
-        if (!hasValue()) {
+        if (!hasTableValue()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        ColumnValue parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ColumnValue) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -577,69 +467,35 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private Object column_ = "";
-
+      private com.google.protobuf.ByteString column_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string column = 1;</code>
+       * <code>required bytes column = 1;</code>
        */
       public boolean hasColumn() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required string column = 1;</code>
+       * <code>required bytes column = 1;</code>
        */
-      public String getColumn() {
-        Object ref = column_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            column_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getColumn() {
+        return column_;
       }
-
       /**
-       * <code>required string column = 1;</code>
+       * <code>required bytes column = 1;</code>
        */
-      public com.google.protobuf.ByteString
-      getColumnBytes() {
-        Object ref = column_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          column_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string column = 1;</code>
-       */
-      public Builder setColumn(
-              String value) {
+      public Builder setColumn(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         column_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string column = 1;</code>
+       * <code>required bytes column = 1;</code>
        */
       public Builder clearColumn() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -648,109 +504,47 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString tableValue_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string column = 1;</code>
+       * <code>required bytes tableValue = 2;</code>
        */
-      public Builder setColumnBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        column_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object value_ = "";
-
-      /**
-       * <code>required string value = 2;</code>
-       */
-      public boolean hasValue() {
+      public boolean hasTableValue() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string value = 2;</code>
+       * <code>required bytes tableValue = 2;</code>
        */
-      public String getValue() {
-        Object ref = value_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            value_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTableValue() {
+        return tableValue_;
       }
-
       /**
-       * <code>required string value = 2;</code>
+       * <code>required bytes tableValue = 2;</code>
        */
-      public com.google.protobuf.ByteString
-      getValueBytes() {
-        Object ref = value_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          value_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string value = 2;</code>
-       */
-      public Builder setValue(
-              String value) {
+      public Builder setTableValue(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        value_ = value;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tableValue_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string value = 2;</code>
+       * <code>required bytes tableValue = 2;</code>
        */
-      public Builder clearValue() {
+      public Builder clearTableValue() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        value_ = getDefaultInstance().getValue();
+        tableValue_ = getDefaultInstance().getTableValue();
         onChanged();
         return this;
       }
-
-      /**
-       * <code>required string value = 2;</code>
-       */
-      public Builder setValueBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        value_ = value;
-        onChanged();
-        return this;
-      }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -759,24 +553,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.ColumnValue)
-    private static final ColumnValue DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new ColumnValue();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue();
     }
 
-    public static ColumnValue getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<ColumnValue>
-            PARSER = new com.google.protobuf.AbstractParser<ColumnValue>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<ColumnValue>
+        PARSER = new com.google.protobuf.AbstractParser<ColumnValue>() {
       public ColumnValue parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ColumnValue(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ColumnValue(input, extensionRegistry);
       }
     };
 
@@ -784,108 +576,82 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<ColumnValue> getParserForType() {
       return PARSER;
     }
 
-    public ColumnValue getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface GetRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.GetRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.GetRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 1;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
-    String getTable();
+    com.google.protobuf.ByteString getTable();
 
     /**
-     * <code>required string table = 2;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    com.google.protobuf.ByteString
-    getTableBytes();
-
+    java.util.List<com.google.protobuf.ByteString> getColumnsList();
     /**
-     * <code>repeated string columns = 3;</code>
-     */
-    java.util.List<String>
-    getColumnsList();
-
-    /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
     int getColumnsCount();
-
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    String getColumns(int index);
-
-    /**
-     * <code>repeated string columns = 3;</code>
-     */
-    com.google.protobuf.ByteString
-    getColumnsBytes(int index);
+    com.google.protobuf.ByteString getColumns(int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.GetRequest}
    */
-  public static final class GetRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.GetRequest)
-          GetRequestOrBuilder {
+  public  static final class GetRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.GetRequest)
+      GetRequestOrBuilder {
     // Use GetRequest.newBuilder() to construct.
     private GetRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private GetRequest() {
-      key_ = "";
-      table_ = "";
-      columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
+      columns_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private GetRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -896,30 +662,27 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              key_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              table_ = bs;
+              table_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                columns_ = new com.google.protobuf.LazyStringArrayList();
+                columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              columns_.add(bs);
+              columns_.add(input.readBytes());
               break;
             }
           }
@@ -928,154 +691,81 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      GetRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.GetRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.GetRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int KEY_FIELD_NUMBER = 1;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string key = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
     public static final int TABLE_FIELD_NUMBER = 2;
-    private volatile Object table_;
-
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
     public boolean hasTable() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string table = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
     public static final int COLUMNS_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList columns_;
-
+    private java.util.List<com.google.protobuf.ByteString> columns_;
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    public com.google.protobuf.ProtocolStringList
-    getColumnsList() {
+    public java.util.List<com.google.protobuf.ByteString>
+        getColumnsList() {
       return columns_;
     }
-
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
     public int getColumnsCount() {
       return columns_.size();
     }
-
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    public String getColumns(int index) {
+    public com.google.protobuf.ByteString getColumns(int index) {
       return columns_.get(index);
     }
 
-    /**
-     * <code>repeated string columns = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-    getColumnsBytes(int index) {
-      return columns_.getByteString(index);
-    }
-
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1094,15 +784,15 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
+        output.writeBytes(1, key_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, table_);
+        output.writeBytes(2, table_);
       }
       for (int i = 0; i < columns_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, columns_.getRaw(i));
+        output.writeBytes(3, columns_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -1113,15 +803,18 @@ public final class ClientProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, key_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, table_);
       }
       {
         int dataSize = 0;
         for (int i = 0; i < columns_.size(); i++) {
-          dataSize += computeStringSizeNoTag(columns_.getRaw(i));
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(columns_.get(i));
         }
         size += dataSize;
         size += 1 * getColumnsList().size();
@@ -1132,35 +825,34 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof GetRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.GetRequest)) {
         return super.equals(obj);
       }
-      GetRequest other = (GetRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.GetRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.GetRequest) obj;
 
       boolean result = true;
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnsList()
-              .equals(other.getColumnsList());
+          .equals(other.getColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -1184,115 +876,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static GetRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static GetRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static GetRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static GetRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static GetRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static GetRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static GetRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static GetRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static GetRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static GetRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(GetRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.GetRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.GetRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.GetRequest)
-            GetRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.GetRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.GetRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        GetRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.GetRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.GetRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.GetRequest.newBuilder()
@@ -1301,47 +978,45 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
-        table_ = "";
+        table_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
       }
 
-      public GetRequest getDefaultInstanceForType() {
-        return GetRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.GetRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.GetRequest.getDefaultInstance();
       }
 
-      public GetRequest build() {
-        GetRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.GetRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.GetRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public GetRequest buildPartial() {
-        GetRequest result = new GetRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.GetRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.GetRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.GetRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -1353,7 +1028,7 @@ public final class ClientProto {
         }
         result.table_ = table_;
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.columns_ = columns_;
@@ -1365,55 +1040,45 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof GetRequest) {
-          return mergeFrom((GetRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.GetRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.GetRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(GetRequest other) {
-        if (other == GetRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.GetRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.GetRequest.getDefaultInstance()) return this;
         if (other.hasKey()) {
-          bitField0_ |= 0x00000001;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000002;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (!other.columns_.isEmpty()) {
           if (columns_.isEmpty()) {
@@ -1441,14 +1106,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        GetRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.GetRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (GetRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.GetRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1457,69 +1122,35 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1528,80 +1159,33 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
       public boolean hasTable() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 2;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
       public Builder clearTable() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1610,130 +1194,84 @@ public final class ClientProto {
         return this;
       }
 
-      /**
-       * <code>required string table = 2;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringList columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-
+      private java.util.List<com.google.protobuf.ByteString> columns_ = java.util.Collections.emptyList();
       private void ensureColumnsIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          columns_ = new com.google.protobuf.LazyStringArrayList(columns_);
+          columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>(columns_);
           bitField0_ |= 0x00000004;
-        }
+         }
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
-      public com.google.protobuf.ProtocolStringList
-      getColumnsList() {
-        return columns_.getUnmodifiableView();
+      public java.util.List<com.google.protobuf.ByteString>
+          getColumnsList() {
+        return java.util.Collections.unmodifiableList(columns_);
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public int getColumnsCount() {
         return columns_.size();
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
-      public String getColumns(int index) {
+      public com.google.protobuf.ByteString getColumns(int index) {
         return columns_.get(index);
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-      getColumnsBytes(int index) {
-        return columns_.getByteString(index);
-      }
-
-      /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public Builder setColumns(
-              int index, String value) {
+          int index, com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.set(index, value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
-      public Builder addColumns(
-              String value) {
+      public Builder addColumns(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.add(value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public Builder addAllColumns(
-              Iterable<String> values) {
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureColumnsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, columns_);
+            values, columns_);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public Builder clearColumns() {
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
-
-      /**
-       * <code>repeated string columns = 3;</code>
-       */
-      public Builder addColumnsBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
-        columns_.add(value);
-        onChanged();
-        return this;
-      }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -1742,24 +1280,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.GetRequest)
-    private static final GetRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.GetRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new GetRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.GetRequest();
     }
 
-    public static GetRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<GetRequest>
-            PARSER = new com.google.protobuf.AbstractParser<GetRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetRequest>() {
       public GetRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new GetRequest(input, extensionRegistry);
       }
     };
 
@@ -1767,97 +1303,93 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<GetRequest> getParserForType() {
       return PARSER;
     }
 
-    public GetRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.GetRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface GetResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.GetResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.GetResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     boolean hasKey();
+    /**
+     * <code>required bytes key = 1;</code>
+     */
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 1;</code>
+     * <code>required int32 statusCode = 2;</code>
      */
-    String getKey();
-
+    boolean hasStatusCode();
     /**
-     * <code>required string key = 1;</code>
+     * <code>required int32 statusCode = 2;</code>
      */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
-     */
-    java.util.List<ColumnValue>
-    getColumnValuesList();
+    int getStatusCode();
 
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    ColumnValue getColumnValues(int index);
-
+    java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> 
+        getColumnValuesList();
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
+     */
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index);
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
     int getColumnValuesCount();
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList();
-
+    java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList();
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index);
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.GetResponse}
    */
-  public static final class GetResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.GetResponse)
-          GetResponseOrBuilder {
+  public  static final class GetResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.GetResponse)
+      GetResponseOrBuilder {
     // Use GetResponse.newBuilder() to construct.
     private GetResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private GetResponse() {
-      key_ = "";
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      statusCode_ = 0;
       columnValues_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private GetResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -1868,24 +1400,28 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              key_ = bs;
+              key_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              statusCode_ = input.readInt32();
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                columnValues_ = new java.util.ArrayList<ColumnValue>();
-                mutable_bitField0_ |= 0x00000002;
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>();
+                mutable_bitField0_ |= 0x00000004;
               }
               columnValues_.add(
-                      input.readMessage(ColumnValue.PARSER, extensionRegistry));
+                  input.readMessage(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.PARSER, extensionRegistry));
               break;
             }
           }
@@ -1894,122 +1430,104 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      GetResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.GetResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.GetResponse.Builder.class);
     }
 
     private int bitField0_;
     public static final int KEY_FIELD_NUMBER = 1;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
+    public static final int STATUSCODE_FIELD_NUMBER = 2;
+    private int statusCode_;
     /**
-     * <code>required string key = 1;</code>
+     * <code>required int32 statusCode = 2;</code>
      */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public boolean hasStatusCode() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 statusCode = 2;</code>
+     */
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     public static final int COLUMNVALUES_FIELD_NUMBER = 3;
-    private java.util.List<ColumnValue> columnValues_;
-
+    private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_;
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public java.util.List<ColumnValue> getColumnValuesList() {
+    public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList() {
+    public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
     public int getColumnValuesCount() {
       return columnValues_.size();
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public ColumnValue getColumnValues(int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
       return columnValues_.get(index);
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index) {
       return columnValues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
       if (!hasKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2024,9 +1542,12 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
+        output.writeBytes(1, key_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, statusCode_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         output.writeMessage(3, columnValues_.get(i));
@@ -2040,11 +1561,16 @@ public final class ClientProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, key_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, statusCode_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(3, columnValues_.get(i));
+          .computeMessageSize(3, columnValues_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2052,30 +1578,34 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof GetResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.GetResponse)) {
         return super.equals(obj);
       }
-      GetResponse other = (GetResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.GetResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.GetResponse) obj;
 
       boolean result = true;
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
+      }
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && getColumnValuesList()
-              .equals(other.getColumnValuesList());
+          .equals(other.getColumnValuesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -2086,6 +1616,10 @@ public final class ClientProto {
         hash = (37 * hash) + KEY_FIELD_NUMBER;
         hash = (53 * hash) + getKey().hashCode();
       }
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
+      }
       if (getColumnValuesCount() > 0) {
         hash = (37 * hash) + COLUMNVALUES_FIELD_NUMBER;
         hash = (53 * hash) + getColumnValuesList().hashCode();
@@ -2095,115 +1629,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static GetResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static GetResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static GetResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static GetResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static GetResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static GetResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static GetResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static GetResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static GetResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static GetResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(GetResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.GetResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.GetResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.GetResponse)
-            GetResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.GetResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.GetResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        GetResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.GetResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.GetResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.GetResponse.newBuilder()
@@ -2212,25 +1731,25 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getColumnValuesFieldBuilder();
         }
       }
-
       public Builder clear() {
         super.clear();
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        statusCode_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           columnValuesBuilder_.clear();
         }
@@ -2238,34 +1757,38 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
       }
 
-      public GetResponse getDefaultInstanceForType() {
-        return GetResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.GetResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.GetResponse.getDefaultInstance();
       }
 
-      public GetResponse build() {
-        GetResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.GetResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.GetResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public GetResponse buildPartial() {
-        GetResponse result = new GetResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.GetResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.GetResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.GetResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.statusCode_ = statusCode_;
         if (columnValuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.columnValues_ = columnValues_;
         } else {
@@ -2279,56 +1802,51 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof GetResponse) {
-          return mergeFrom((GetResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.GetResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.GetResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(GetResponse other) {
-        if (other == GetResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.GetResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.GetResponse.getDefaultInstance()) return this;
         if (other.hasKey()) {
-          bitField0_ |= 0x00000001;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
+        }
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         if (columnValuesBuilder_ == null) {
           if (!other.columnValues_.isEmpty()) {
             if (columnValues_.isEmpty()) {
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureColumnValuesIsMutable();
               columnValues_.addAll(other.columnValues_);
@@ -2341,10 +1859,10 @@ public final class ClientProto {
               columnValuesBuilder_.dispose();
               columnValuesBuilder_ = null;
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              columnValuesBuilder_ =
-                      com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                              getColumnValuesFieldBuilder() : null;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              columnValuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnValuesFieldBuilder() : null;
             } else {
               columnValuesBuilder_.addAllMessages(other.columnValues_);
             }
@@ -2359,6 +1877,9 @@ public final class ClientProto {
         if (!hasKey()) {
           return false;
         }
+        if (!hasStatusCode()) {
+          return false;
+        }
         for (int i = 0; i < getColumnValuesCount(); i++) {
           if (!getColumnValues(i).isInitialized()) {
             return false;
@@ -2368,14 +1889,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        GetResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.GetResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (GetResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.GetResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -2384,69 +1905,35 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2455,44 +1942,60 @@ public final class ClientProto {
         return this;
       }
 
+      private int statusCode_ ;
       /**
-       * <code>required string key = 1;</code>
+       * <code>required int32 statusCode = 2;</code>
        */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        key_ = value;
+      public boolean hasStatusCode() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 statusCode = 2;</code>
+       */
+      public int getStatusCode() {
+        return statusCode_;
+      }
+      /**
+       * <code>required int32 statusCode = 2;</code>
+       */
+      public Builder setStatusCode(int value) {
+        bitField0_ |= 0x00000002;
+        statusCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 statusCode = 2;</code>
+       */
+      public Builder clearStatusCode() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        statusCode_ = 0;
         onChanged();
         return this;
       }
 
-      private java.util.List<ColumnValue> columnValues_ =
-              java.util.Collections.emptyList();
-
+      private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_ =
+        java.util.Collections.emptyList();
       private void ensureColumnValuesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          columnValues_ = new java.util.ArrayList<ColumnValue>(columnValues_);
-          bitField0_ |= 0x00000002;
-        }
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>(columnValues_);
+          bitField0_ |= 0x00000004;
+         }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder> columnValuesBuilder_;
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> columnValuesBuilder_;
 
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<ColumnValue> getColumnValuesList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
         if (columnValuesBuilder_ == null) {
           return java.util.Collections.unmodifiableList(columnValues_);
         } else {
           return columnValuesBuilder_.getMessageList();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
@@ -2503,23 +2006,21 @@ public final class ClientProto {
           return columnValuesBuilder_.getCount();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue getColumnValues(int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
           return columnValues_.get(index);
         } else {
           return columnValuesBuilder_.getMessage(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2532,12 +2033,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.set(index, builderForValue.build());
@@ -2547,11 +2047,10 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public Builder addColumnValues(ColumnValue value) {
+      public Builder addColumnValues(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2564,12 +2063,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2582,12 +2080,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              ColumnValue.Builder builderForValue) {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(builderForValue.build());
@@ -2597,12 +2094,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(index, builderForValue.build());
@@ -2612,37 +2108,34 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addAllColumnValues(
-              Iterable<? extends ColumnValue> values) {
+          java.lang.Iterable<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> values) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, columnValues_);
+              values, columnValues_);
           onChanged();
         } else {
           columnValuesBuilder_.addAllMessages(values);
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder clearColumnValues() {
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           columnValuesBuilder_.clear();
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
@@ -2656,86 +2149,77 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder getColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder getColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().getBuilder(index);
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValueOrBuilder getColumnValuesOrBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+          int index) {
         if (columnValuesBuilder_ == null) {
-          return columnValues_.get(index);
-        } else {
+          return columnValues_.get(index);  } else {
           return columnValuesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<? extends ColumnValueOrBuilder>
-      getColumnValuesOrBuilderList() {
+      public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+           getColumnValuesOrBuilderList() {
         if (columnValuesBuilder_ != null) {
           return columnValuesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(columnValues_);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder() {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder() {
         return getColumnValuesFieldBuilder().addBuilder(
-                ColumnValue.getDefaultInstance());
+            org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().addBuilder(
-                index, ColumnValue.getDefaultInstance());
+            index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<ColumnValue.Builder>
-      getColumnValuesBuilderList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder> 
+           getColumnValuesBuilderList() {
         return getColumnValuesFieldBuilder().getBuilderList();
       }
-
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>
-      getColumnValuesFieldBuilder() {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+          getColumnValuesFieldBuilder() {
         if (columnValuesBuilder_ == null) {
           columnValuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>(
+              org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder>(
                   columnValues_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           columnValues_ = null;
         }
         return columnValuesBuilder_;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -2744,24 +2228,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.GetResponse)
-    private static final GetResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.GetResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new GetResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.GetResponse();
     }
 
-    public static GetResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.GetResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<GetResponse>
-            PARSER = new com.google.protobuf.AbstractParser<GetResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetResponse>() {
       public GetResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new GetResponse(input, extensionRegistry);
       }
     };
 
@@ -2769,114 +2251,93 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<GetResponse> getParserForType() {
       return PARSER;
     }
 
-    public GetResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.GetResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface PutRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.PutRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.PutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 1;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
-    String getTable();
-
-    /**
-     * <code>required string table = 2;</code>
-     */
-    com.google.protobuf.ByteString
-    getTableBytes();
+    com.google.protobuf.ByteString getTable();
 
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    java.util.List<ColumnValue>
-    getColumnValuesList();
-
+    java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> 
+        getColumnValuesList();
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    ColumnValue getColumnValues(int index);
-
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index);
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
     int getColumnValuesCount();
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList();
-
+    java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList();
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index);
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.PutRequest}
    */
-  public static final class PutRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.PutRequest)
-          PutRequestOrBuilder {
+  public  static final class PutRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.PutRequest)
+      PutRequestOrBuilder {
     // Use PutRequest.newBuilder() to construct.
     private PutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private PutRequest() {
-      key_ = "";
-      table_ = "";
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
       columnValues_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private PutRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -2887,30 +2348,28 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              key_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              table_ = bs;
+              table_ = input.readBytes();
               break;
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                columnValues_ = new java.util.ArrayList<ColumnValue>();
+                columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>();
                 mutable_bitField0_ |= 0x00000004;
               }
               columnValues_.add(
-                      input.readMessage(ColumnValue.PARSER, extensionRegistry));
+                  input.readMessage(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.PARSER, extensionRegistry));
               break;
             }
           }
@@ -2919,7 +2378,7 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
@@ -2928,152 +2387,85 @@ public final class ClientProto {
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      PutRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.PutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.PutRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int KEY_FIELD_NUMBER = 1;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string key = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
     public static final int TABLE_FIELD_NUMBER = 2;
-    private volatile Object table_;
-
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
     public boolean hasTable() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string table = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
     public static final int COLUMNVALUES_FIELD_NUMBER = 3;
-    private java.util.List<ColumnValue> columnValues_;
-
+    private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_;
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public java.util.List<ColumnValue> getColumnValuesList() {
+    public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList() {
+    public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
     public int getColumnValuesCount() {
       return columnValues_.size();
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public ColumnValue getColumnValues(int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
       return columnValues_.get(index);
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index) {
       return columnValues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3098,12 +2490,12 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
+        output.writeBytes(1, key_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, table_);
+        output.writeBytes(2, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         output.writeMessage(3, columnValues_.get(i));
@@ -3117,14 +2509,16 @@ public final class ClientProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, key_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(3, columnValues_.get(i));
+          .computeMessageSize(3, columnValues_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3132,35 +2526,34 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof PutRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.PutRequest)) {
         return super.equals(obj);
       }
-      PutRequest other = (PutRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.PutRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.PutRequest) obj;
 
       boolean result = true;
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnValuesList()
-              .equals(other.getColumnValuesList());
+          .equals(other.getColumnValuesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -3184,115 +2577,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static PutRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static PutRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static PutRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static PutRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static PutRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static PutRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static PutRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static PutRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static PutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static PutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(PutRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.PutRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.PutRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.PutRequest)
-            PutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.PutRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.PutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        PutRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.PutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.PutRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.PutRequest.newBuilder()
@@ -3301,23 +2679,21 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getColumnValuesFieldBuilder();
         }
       }
-
       public Builder clear() {
         super.clear();
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
-        table_ = "";
+        table_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
@@ -3329,24 +2705,24 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
       }
 
-      public PutRequest getDefaultInstanceForType() {
-        return PutRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.PutRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.PutRequest.getDefaultInstance();
       }
 
-      public PutRequest build() {
-        PutRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.PutRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.PutRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public PutRequest buildPartial() {
-        PutRequest result = new PutRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.PutRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.PutRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.PutRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -3374,55 +2750,45 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof PutRequest) {
-          return mergeFrom((PutRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.PutRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.PutRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(PutRequest other) {
-        if (other == PutRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.PutRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.PutRequest.getDefaultInstance()) return this;
         if (other.hasKey()) {
-          bitField0_ |= 0x00000001;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000002;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (columnValuesBuilder_ == null) {
           if (!other.columnValues_.isEmpty()) {
@@ -3442,9 +2808,9 @@ public final class ClientProto {
               columnValuesBuilder_ = null;
               columnValues_ = other.columnValues_;
               bitField0_ = (bitField0_ & ~0x00000004);
-              columnValuesBuilder_ =
-                      com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                              getColumnValuesFieldBuilder() : null;
+              columnValuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnValuesFieldBuilder() : null;
             } else {
               columnValuesBuilder_.addAllMessages(other.columnValues_);
             }
@@ -3471,14 +2837,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        PutRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.PutRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (PutRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.PutRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3487,69 +2853,35 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -3558,80 +2890,33 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
       public boolean hasTable() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 2;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
       public Builder clearTable() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3640,44 +2925,28 @@ public final class ClientProto {
         return this;
       }
 
-      /**
-       * <code>required string table = 2;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<ColumnValue> columnValues_ =
-              java.util.Collections.emptyList();
-
+      private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_ =
+        java.util.Collections.emptyList();
       private void ensureColumnValuesIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          columnValues_ = new java.util.ArrayList<ColumnValue>(columnValues_);
+          columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>(columnValues_);
           bitField0_ |= 0x00000004;
-        }
+         }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder> columnValuesBuilder_;
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> columnValuesBuilder_;
 
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<ColumnValue> getColumnValuesList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
         if (columnValuesBuilder_ == null) {
           return java.util.Collections.unmodifiableList(columnValues_);
         } else {
           return columnValuesBuilder_.getMessageList();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
@@ -3688,23 +2957,21 @@ public final class ClientProto {
           return columnValuesBuilder_.getCount();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue getColumnValues(int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
           return columnValues_.get(index);
         } else {
           return columnValuesBuilder_.getMessage(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3717,12 +2984,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.set(index, builderForValue.build());
@@ -3732,11 +2998,10 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public Builder addColumnValues(ColumnValue value) {
+      public Builder addColumnValues(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3749,12 +3014,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3767,12 +3031,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              ColumnValue.Builder builderForValue) {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(builderForValue.build());
@@ -3782,12 +3045,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(index, builderForValue.build());
@@ -3797,23 +3059,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addAllColumnValues(
-              Iterable<? extends ColumnValue> values) {
+          java.lang.Iterable<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> values) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, columnValues_);
+              values, columnValues_);
           onChanged();
         } else {
           columnValuesBuilder_.addAllMessages(values);
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
@@ -3827,7 +3087,6 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
@@ -3841,70 +3100,62 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder getColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder getColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().getBuilder(index);
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValueOrBuilder getColumnValuesOrBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+          int index) {
         if (columnValuesBuilder_ == null) {
-          return columnValues_.get(index);
-        } else {
+          return columnValues_.get(index);  } else {
           return columnValuesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<? extends ColumnValueOrBuilder>
-      getColumnValuesOrBuilderList() {
+      public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+           getColumnValuesOrBuilderList() {
         if (columnValuesBuilder_ != null) {
           return columnValuesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(columnValues_);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder() {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder() {
         return getColumnValuesFieldBuilder().addBuilder(
-                ColumnValue.getDefaultInstance());
+            org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().addBuilder(
-                index, ColumnValue.getDefaultInstance());
+            index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<ColumnValue.Builder>
-      getColumnValuesBuilderList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder> 
+           getColumnValuesBuilderList() {
         return getColumnValuesFieldBuilder().getBuilderList();
       }
-
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>
-      getColumnValuesFieldBuilder() {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+          getColumnValuesFieldBuilder() {
         if (columnValuesBuilder_ == null) {
           columnValuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>(
+              org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder>(
                   columnValues_,
                   ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
@@ -3913,14 +3164,13 @@ public final class ClientProto {
         }
         return columnValuesBuilder_;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -3929,24 +3179,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.PutRequest)
-    private static final PutRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.PutRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new PutRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.PutRequest();
     }
 
-    public static PutRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<PutRequest>
-            PARSER = new com.google.protobuf.AbstractParser<PutRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<PutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<PutRequest>() {
       public PutRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PutRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new PutRequest(input, extensionRegistry);
       }
     };
 
@@ -3954,62 +3202,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<PutRequest> getParserForType() {
       return PARSER;
     }
 
-    public PutRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.PutRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface PutResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.PutResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.PutResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.PutResponse}
    */
-  public static final class PutResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.PutResponse)
-          PutResponseOrBuilder {
+  public  static final class PutResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.PutResponse)
+      PutResponseOrBuilder {
     // Use PutResponse.newBuilder() to construct.
     private PutResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private PutResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private PutResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -4020,14 +3264,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -4036,51 +3280,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      PutResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.PutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.PutResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4089,9 +3329,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -4103,7 +3343,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4111,153 +3351,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof PutResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.PutResponse)) {
         return super.equals(obj);
       }
-      PutResponse other = (PutResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.PutResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.PutResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static PutResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static PutResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static PutResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static PutResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static PutResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static PutResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static PutResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static PutResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static PutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static PutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(PutResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.PutResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.PutResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.PutResponse)
-            PutResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.PutResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.PutResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        PutResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.PutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.PutResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.PutResponse.newBuilder()
@@ -4266,49 +3489,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
       }
 
-      public PutResponse getDefaultInstanceForType() {
-        return PutResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.PutResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.PutResponse.getDefaultInstance();
       }
 
-      public PutResponse build() {
-        PutResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.PutResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.PutResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public PutResponse buildPartial() {
-        PutResponse result = new PutResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.PutResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.PutResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.PutResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4317,48 +3538,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof PutResponse) {
-          return mergeFrom((PutResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.PutResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.PutResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(PutResponse other) {
-        if (other == PutResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.PutResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.PutResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4366,21 +3581,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        PutResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.PutResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (PutResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.PutResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4389,52 +3604,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -4443,24 +3652,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.PutResponse)
-    private static final PutResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.PutResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new PutResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.PutResponse();
     }
 
-    public static PutResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.PutResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<PutResponse>
-            PARSER = new com.google.protobuf.AbstractParser<PutResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<PutResponse>
+        PARSER = new com.google.protobuf.AbstractParser<PutResponse>() {
       public PutResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PutResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new PutResponse(input, extensionRegistry);
       }
     };
 
@@ -4468,148 +3675,123 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<PutResponse> getParserForType() {
       return PARSER;
     }
 
-    public PutResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.PutResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface CheckAndPutRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CheckAndPutRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CheckAndPutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string checkKey = 1;</code>
+     * <code>required bytes checkKey = 1;</code>
      */
     boolean hasCheckKey();
-
     /**
-     * <code>required string checkKey = 1;</code>
+     * <code>required bytes checkKey = 1;</code>
      */
-    String getCheckKey();
+    com.google.protobuf.ByteString getCheckKey();
 
     /**
-     * <code>required string checkKey = 1;</code>
+     * <code>required bytes checkColumn = 2;</code>
      */
-    com.google.protobuf.ByteString
-    getCheckKeyBytes();
+    boolean hasCheckColumn();
+    /**
+     * <code>required bytes checkColumn = 2;</code>
+     */
+    com.google.protobuf.ByteString getCheckColumn();
 
     /**
-     * <code>required string checkValue = 2;</code>
+     * <code>required bytes checkValue = 3;</code>
      */
     boolean hasCheckValue();
-
     /**
-     * <code>required string checkValue = 2;</code>
+     * <code>required bytes checkValue = 3;</code>
      */
-    String getCheckValue();
+    com.google.protobuf.ByteString getCheckValue();
 
     /**
-     * <code>required string checkValue = 2;</code>
-     */
-    com.google.protobuf.ByteString
-    getCheckValueBytes();
-
-    /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes key = 4;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes key = 4;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 3;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes table = 5;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes table = 5;</code>
      */
-    String getTable();
+    com.google.protobuf.ByteString getTable();
 
     /**
-     * <code>required string table = 4;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    com.google.protobuf.ByteString
-    getTableBytes();
-
+    java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> 
+        getColumnValuesList();
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    java.util.List<ColumnValue>
-    getColumnValuesList();
-
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index);
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
-     */
-    ColumnValue getColumnValues(int index);
-
-    /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
     int getColumnValuesCount();
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList();
-
+    java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList();
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index);
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.CheckAndPutRequest}
    */
-  public static final class CheckAndPutRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CheckAndPutRequest)
-          CheckAndPutRequestOrBuilder {
+  public  static final class CheckAndPutRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CheckAndPutRequest)
+      CheckAndPutRequestOrBuilder {
     // Use CheckAndPutRequest.newBuilder() to construct.
     private CheckAndPutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private CheckAndPutRequest() {
-      checkKey_ = "";
-      checkValue_ = "";
-      key_ = "";
-      table_ = "";
+      checkKey_ = com.google.protobuf.ByteString.EMPTY;
+      checkColumn_ = com.google.protobuf.ByteString.EMPTY;
+      checkValue_ = com.google.protobuf.ByteString.EMPTY;
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
       columnValues_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private CheckAndPutRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -4620,42 +3802,43 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              checkKey_ = bs;
+              checkKey_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              checkValue_ = bs;
+              checkColumn_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              key_ = bs;
+              checkValue_ = input.readBytes();
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
-              table_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                columnValues_ = new java.util.ArrayList<ColumnValue>();
-                mutable_bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000010;
+              table_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>();
+                mutable_bitField0_ |= 0x00000020;
               }
               columnValues_.add(
-                      input.readMessage(ColumnValue.PARSER, extensionRegistry));
+                  input.readMessage(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.PARSER, extensionRegistry));
               break;
             }
           }
@@ -4664,257 +3847,149 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      CheckAndPutRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int CHECKKEY_FIELD_NUMBER = 1;
-    private volatile Object checkKey_;
-
+    private com.google.protobuf.ByteString checkKey_;
     /**
-     * <code>required string checkKey = 1;</code>
+     * <code>required bytes checkKey = 1;</code>
      */
     public boolean hasCheckKey() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required string checkKey = 1;</code>
+     * <code>required bytes checkKey = 1;</code>
      */
-    public String getCheckKey() {
-      Object ref = checkKey_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          checkKey_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getCheckKey() {
+      return checkKey_;
     }
 
+    public static final int CHECKCOLUMN_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString checkColumn_;
     /**
-     * <code>required string checkKey = 1;</code>
+     * <code>required bytes checkColumn = 2;</code>
      */
-    public com.google.protobuf.ByteString
-    getCheckKeyBytes() {
-      Object ref = checkKey_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        checkKey_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int CHECKVALUE_FIELD_NUMBER = 2;
-    private volatile Object checkValue_;
-
-    /**
-     * <code>required string checkValue = 2;</code>
-     */
-    public boolean hasCheckValue() {
+    public boolean hasCheckColumn() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string checkValue = 2;</code>
+     * <code>required bytes checkColumn = 2;</code>
      */
-    public String getCheckValue() {
-      Object ref = checkValue_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          checkValue_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getCheckColumn() {
+      return checkColumn_;
     }
 
+    public static final int CHECKVALUE_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString checkValue_;
     /**
-     * <code>required string checkValue = 2;</code>
+     * <code>required bytes checkValue = 3;</code>
      */
-    public com.google.protobuf.ByteString
-    getCheckValueBytes() {
-      Object ref = checkValue_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        checkValue_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int KEY_FIELD_NUMBER = 3;
-    private volatile Object key_;
-
-    /**
-     * <code>required string key = 3;</code>
-     */
-    public boolean hasKey() {
+    public boolean hasCheckValue() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
-
     /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes checkValue = 3;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getCheckValue() {
+      return checkValue_;
     }
 
+    public static final int KEY_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes key = 4;</code>
      */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int TABLE_FIELD_NUMBER = 4;
-    private volatile Object table_;
-
-    /**
-     * <code>required string table = 4;</code>
-     */
-    public boolean hasTable() {
+    public boolean hasKey() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
-
     /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes key = 4;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
+    public static final int TABLE_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes table = 5;</code>
      */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public boolean hasTable() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required bytes table = 5;</code>
+     */
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
-    public static final int COLUMNVALUES_FIELD_NUMBER = 5;
-    private java.util.List<ColumnValue> columnValues_;
-
+    public static final int COLUMNVALUES_FIELD_NUMBER = 6;
+    private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_;
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    public java.util.List<ColumnValue> getColumnValuesList() {
+    public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
       return columnValues_;
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    public java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList() {
+    public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList() {
       return columnValues_;
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
     public int getColumnValuesCount() {
       return columnValues_.size();
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    public ColumnValue getColumnValues(int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
       return columnValues_.get(index);
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
      */
-    public ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index) {
       return columnValues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
       if (!hasCheckKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCheckColumn()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4941,21 +4016,24 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, checkKey_);
+        output.writeBytes(1, checkKey_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, checkValue_);
+        output.writeBytes(2, checkColumn_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, key_);
+        output.writeBytes(3, checkValue_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, table_);
+        output.writeBytes(4, key_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
-        output.writeMessage(5, columnValues_.get(i));
+        output.writeMessage(6, columnValues_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -4966,20 +4044,28 @@ public final class ClientProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, checkKey_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, checkKey_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, checkValue_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, checkColumn_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, checkValue_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, key_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(5, columnValues_.get(i));
+          .computeMessageSize(6, columnValues_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4987,45 +4073,49 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof CheckAndPutRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest)) {
         return super.equals(obj);
       }
-      CheckAndPutRequest other = (CheckAndPutRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest) obj;
 
       boolean result = true;
       result = result && (hasCheckKey() == other.hasCheckKey());
       if (hasCheckKey()) {
         result = result && getCheckKey()
-                .equals(other.getCheckKey());
+            .equals(other.getCheckKey());
+      }
+      result = result && (hasCheckColumn() == other.hasCheckColumn());
+      if (hasCheckColumn()) {
+        result = result && getCheckColumn()
+            .equals(other.getCheckColumn());
       }
       result = result && (hasCheckValue() == other.hasCheckValue());
       if (hasCheckValue()) {
         result = result && getCheckValue()
-                .equals(other.getCheckValue());
+            .equals(other.getCheckValue());
       }
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnValuesList()
-              .equals(other.getColumnValuesList());
+          .equals(other.getColumnValuesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -5035,6 +4125,10 @@ public final class ClientProto {
       if (hasCheckKey()) {
         hash = (37 * hash) + CHECKKEY_FIELD_NUMBER;
         hash = (53 * hash) + getCheckKey().hashCode();
+      }
+      if (hasCheckColumn()) {
+        hash = (37 * hash) + CHECKCOLUMN_FIELD_NUMBER;
+        hash = (53 * hash) + getCheckColumn().hashCode();
       }
       if (hasCheckValue()) {
         hash = (37 * hash) + CHECKVALUE_FIELD_NUMBER;
@@ -5057,115 +4151,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static CheckAndPutRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CheckAndPutRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CheckAndPutRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CheckAndPutRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CheckAndPutRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CheckAndPutRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CheckAndPutRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static CheckAndPutRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CheckAndPutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CheckAndPutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(CheckAndPutRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.CheckAndPutRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CheckAndPutRequest)
-            CheckAndPutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CheckAndPutRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        CheckAndPutRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest.newBuilder()
@@ -5174,31 +4253,31 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getColumnValuesFieldBuilder();
         }
       }
-
       public Builder clear() {
         super.clear();
-        checkKey_ = "";
+        checkKey_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
-        checkValue_ = "";
+        checkColumn_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        key_ = "";
+        checkValue_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        table_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
+        table_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           columnValuesBuilder_.clear();
         }
@@ -5206,24 +4285,24 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
       }
 
-      public CheckAndPutRequest getDefaultInstanceForType() {
-        return CheckAndPutRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest.getDefaultInstance();
       }
 
-      public CheckAndPutRequest build() {
-        CheckAndPutRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public CheckAndPutRequest buildPartial() {
-        CheckAndPutRequest result = new CheckAndPutRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -5233,19 +4312,23 @@ public final class ClientProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.checkValue_ = checkValue_;
+        result.checkColumn_ = checkColumn_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.key_ = key_;
+        result.checkValue_ = checkValue_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
+        result.key_ = key_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
         result.table_ = table_;
         if (columnValuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
             columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000020);
           }
           result.columnValues_ = columnValues_;
         } else {
@@ -5259,71 +4342,60 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof CheckAndPutRequest) {
-          return mergeFrom((CheckAndPutRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(CheckAndPutRequest other) {
-        if (other == CheckAndPutRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest.getDefaultInstance()) return this;
         if (other.hasCheckKey()) {
-          bitField0_ |= 0x00000001;
-          checkKey_ = other.checkKey_;
-          onChanged();
+          setCheckKey(other.getCheckKey());
+        }
+        if (other.hasCheckColumn()) {
+          setCheckColumn(other.getCheckColumn());
         }
         if (other.hasCheckValue()) {
-          bitField0_ |= 0x00000002;
-          checkValue_ = other.checkValue_;
-          onChanged();
+          setCheckValue(other.getCheckValue());
         }
         if (other.hasKey()) {
-          bitField0_ |= 0x00000004;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000008;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (columnValuesBuilder_ == null) {
           if (!other.columnValues_.isEmpty()) {
             if (columnValues_.isEmpty()) {
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000020);
             } else {
               ensureColumnValuesIsMutable();
               columnValues_.addAll(other.columnValues_);
@@ -5336,10 +4408,10 @@ public final class ClientProto {
               columnValuesBuilder_.dispose();
               columnValuesBuilder_ = null;
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-              columnValuesBuilder_ =
-                      com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                              getColumnValuesFieldBuilder() : null;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              columnValuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnValuesFieldBuilder() : null;
             } else {
               columnValuesBuilder_.addAllMessages(other.columnValues_);
             }
@@ -5352,6 +4424,9 @@ public final class ClientProto {
 
       public final boolean isInitialized() {
         if (!hasCheckKey()) {
+          return false;
+        }
+        if (!hasCheckColumn()) {
           return false;
         }
         if (!hasCheckValue()) {
@@ -5372,14 +4447,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        CheckAndPutRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (CheckAndPutRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -5388,69 +4463,35 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private Object checkKey_ = "";
-
+      private com.google.protobuf.ByteString checkKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkKey = 1;</code>
+       * <code>required bytes checkKey = 1;</code>
        */
       public boolean hasCheckKey() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required string checkKey = 1;</code>
+       * <code>required bytes checkKey = 1;</code>
        */
-      public String getCheckKey() {
-        Object ref = checkKey_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            checkKey_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getCheckKey() {
+        return checkKey_;
       }
-
       /**
-       * <code>required string checkKey = 1;</code>
+       * <code>required bytes checkKey = 1;</code>
        */
-      public com.google.protobuf.ByteString
-      getCheckKeyBytes() {
-        Object ref = checkKey_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          checkKey_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string checkKey = 1;</code>
-       */
-      public Builder setCheckKey(
-              String value) {
+      public Builder setCheckKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         checkKey_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string checkKey = 1;</code>
+       * <code>required bytes checkKey = 1;</code>
        */
       public Builder clearCheckKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -5459,292 +4500,170 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString checkColumn_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkKey = 1;</code>
+       * <code>required bytes checkColumn = 2;</code>
        */
-      public Builder setCheckKeyBytes(
-              com.google.protobuf.ByteString value) {
+      public boolean hasCheckColumn() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bytes checkColumn = 2;</code>
+       */
+      public com.google.protobuf.ByteString getCheckColumn() {
+        return checkColumn_;
+      }
+      /**
+       * <code>required bytes checkColumn = 2;</code>
+       */
+      public Builder setCheckColumn(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        checkKey_ = value;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        checkColumn_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes checkColumn = 2;</code>
+       */
+      public Builder clearCheckColumn() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        checkColumn_ = getDefaultInstance().getCheckColumn();
         onChanged();
         return this;
       }
 
-      private Object checkValue_ = "";
-
+      private com.google.protobuf.ByteString checkValue_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkValue = 2;</code>
+       * <code>required bytes checkValue = 3;</code>
        */
       public boolean hasCheckValue() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
-
       /**
-       * <code>required string checkValue = 2;</code>
+       * <code>required bytes checkValue = 3;</code>
        */
-      public String getCheckValue() {
-        Object ref = checkValue_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            checkValue_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getCheckValue() {
+        return checkValue_;
       }
-
       /**
-       * <code>required string checkValue = 2;</code>
+       * <code>required bytes checkValue = 3;</code>
        */
-      public com.google.protobuf.ByteString
-      getCheckValueBytes() {
-        Object ref = checkValue_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          checkValue_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string checkValue = 2;</code>
-       */
-      public Builder setCheckValue(
-              String value) {
+      public Builder setCheckValue(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
         checkValue_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string checkValue = 2;</code>
+       * <code>required bytes checkValue = 3;</code>
        */
       public Builder clearCheckValue() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         checkValue_ = getDefaultInstance().getCheckValue();
         onChanged();
         return this;
       }
 
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkValue = 2;</code>
-       */
-      public Builder setCheckValueBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        checkValue_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object key_ = "";
-
-      /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 4;</code>
        */
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
-
       /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 4;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 4;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 3;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 4;</code>
        */
       public Builder clearKey() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         key_ = getDefaultInstance().getKey();
         onChanged();
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 3;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 5;</code>
        */
       public boolean hasTable() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
-
       /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 5;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 5;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 4;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000008;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 5;</code>
        */
       public Builder clearTable() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         table_ = getDefaultInstance().getTable();
         onChanged();
         return this;
       }
 
-      /**
-       * <code>required string table = 4;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000008;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<ColumnValue> columnValues_ =
-              java.util.Collections.emptyList();
-
+      private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_ =
+        java.util.Collections.emptyList();
       private void ensureColumnValuesIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          columnValues_ = new java.util.ArrayList<ColumnValue>(columnValues_);
-          bitField0_ |= 0x00000010;
-        }
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>(columnValues_);
+          bitField0_ |= 0x00000020;
+         }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder> columnValuesBuilder_;
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> columnValuesBuilder_;
 
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public java.util.List<ColumnValue> getColumnValuesList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
         if (columnValuesBuilder_ == null) {
           return java.util.Collections.unmodifiableList(columnValues_);
         } else {
           return columnValuesBuilder_.getMessageList();
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public int getColumnValuesCount() {
         if (columnValuesBuilder_ == null) {
@@ -5753,23 +4672,21 @@ public final class ClientProto {
           return columnValuesBuilder_.getCount();
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public ColumnValue getColumnValues(int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
           return columnValues_.get(index);
         } else {
           return columnValuesBuilder_.getMessage(index);
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5782,12 +4699,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.set(index, builderForValue.build());
@@ -5797,11 +4713,10 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public Builder addColumnValues(ColumnValue value) {
+      public Builder addColumnValues(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5814,12 +4729,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5832,12 +4746,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder addColumnValues(
-              ColumnValue.Builder builderForValue) {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(builderForValue.build());
@@ -5847,12 +4760,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(index, builderForValue.build());
@@ -5862,39 +4774,36 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder addAllColumnValues(
-              Iterable<? extends ColumnValue> values) {
+          java.lang.Iterable<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> values) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, columnValues_);
+              values, columnValues_);
           onChanged();
         } else {
           columnValuesBuilder_.addAllMessages(values);
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder clearColumnValues() {
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000020);
           onChanged();
         } else {
           columnValuesBuilder_.clear();
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
       public Builder removeColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
@@ -5906,86 +4815,77 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public ColumnValue.Builder getColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder getColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().getBuilder(index);
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public ColumnValueOrBuilder getColumnValuesOrBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+          int index) {
         if (columnValuesBuilder_ == null) {
-          return columnValues_.get(index);
-        } else {
+          return columnValues_.get(index);  } else {
           return columnValuesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public java.util.List<? extends ColumnValueOrBuilder>
-      getColumnValuesOrBuilderList() {
+      public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+           getColumnValuesOrBuilderList() {
         if (columnValuesBuilder_ != null) {
           return columnValuesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(columnValues_);
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder() {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder() {
         return getColumnValuesFieldBuilder().addBuilder(
-                ColumnValue.getDefaultInstance());
+            org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().addBuilder(
-                index, ColumnValue.getDefaultInstance());
+            index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
        */
-      public java.util.List<ColumnValue.Builder>
-      getColumnValuesBuilderList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder> 
+           getColumnValuesBuilderList() {
         return getColumnValuesFieldBuilder().getBuilderList();
       }
-
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>
-      getColumnValuesFieldBuilder() {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+          getColumnValuesFieldBuilder() {
         if (columnValuesBuilder_ == null) {
           columnValuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>(
+              org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder>(
                   columnValues_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  ((bitField0_ & 0x00000020) == 0x00000020),
                   getParentForChildren(),
                   isClean());
           columnValues_ = null;
         }
         return columnValuesBuilder_;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -5994,24 +4894,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.CheckAndPutRequest)
-    private static final CheckAndPutRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new CheckAndPutRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest();
     }
 
-    public static CheckAndPutRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<CheckAndPutRequest>
-            PARSER = new com.google.protobuf.AbstractParser<CheckAndPutRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CheckAndPutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CheckAndPutRequest>() {
       public CheckAndPutRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CheckAndPutRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CheckAndPutRequest(input, extensionRegistry);
       }
     };
 
@@ -6019,62 +4917,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<CheckAndPutRequest> getParserForType() {
       return PARSER;
     }
 
-    public CheckAndPutRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface CheckAndPutResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CheckAndPutResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CheckAndPutResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.CheckAndPutResponse}
    */
-  public static final class CheckAndPutResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CheckAndPutResponse)
-          CheckAndPutResponseOrBuilder {
+  public  static final class CheckAndPutResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CheckAndPutResponse)
+      CheckAndPutResponseOrBuilder {
     // Use CheckAndPutResponse.newBuilder() to construct.
     private CheckAndPutResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private CheckAndPutResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private CheckAndPutResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -6085,14 +4979,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -6101,51 +4995,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      CheckAndPutResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6154,9 +5044,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -6168,7 +5058,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6176,153 +5066,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof CheckAndPutResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse)) {
         return super.equals(obj);
       }
-      CheckAndPutResponse other = (CheckAndPutResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static CheckAndPutResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CheckAndPutResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CheckAndPutResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CheckAndPutResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CheckAndPutResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CheckAndPutResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CheckAndPutResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static CheckAndPutResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CheckAndPutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CheckAndPutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(CheckAndPutResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.CheckAndPutResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CheckAndPutResponse)
-            CheckAndPutResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CheckAndPutResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        CheckAndPutResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse.newBuilder()
@@ -6331,49 +5204,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
       }
 
-      public CheckAndPutResponse getDefaultInstanceForType() {
-        return CheckAndPutResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse.getDefaultInstance();
       }
 
-      public CheckAndPutResponse build() {
-        CheckAndPutResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public CheckAndPutResponse buildPartial() {
-        CheckAndPutResponse result = new CheckAndPutResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6382,48 +5253,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof CheckAndPutResponse) {
-          return mergeFrom((CheckAndPutResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(CheckAndPutResponse other) {
-        if (other == CheckAndPutResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6431,21 +5296,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        CheckAndPutResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (CheckAndPutResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -6454,52 +5319,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -6508,24 +5367,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.CheckAndPutResponse)
-    private static final CheckAndPutResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new CheckAndPutResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse();
     }
 
-    public static CheckAndPutResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<CheckAndPutResponse>
-            PARSER = new com.google.protobuf.AbstractParser<CheckAndPutResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CheckAndPutResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CheckAndPutResponse>() {
       public CheckAndPutResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CheckAndPutResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CheckAndPutResponse(input, extensionRegistry);
       }
     };
 
@@ -6533,108 +5390,82 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<CheckAndPutResponse> getParserForType() {
       return PARSER;
     }
 
-    public CheckAndPutResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface DeleteRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.DeleteRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.DeleteRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 1;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
-    String getTable();
+    com.google.protobuf.ByteString getTable();
 
     /**
-     * <code>required string table = 2;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    com.google.protobuf.ByteString
-    getTableBytes();
-
+    java.util.List<com.google.protobuf.ByteString> getColumnsList();
     /**
-     * <code>repeated string columns = 3;</code>
-     */
-    java.util.List<String>
-    getColumnsList();
-
-    /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
     int getColumnsCount();
-
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    String getColumns(int index);
-
-    /**
-     * <code>repeated string columns = 3;</code>
-     */
-    com.google.protobuf.ByteString
-    getColumnsBytes(int index);
+    com.google.protobuf.ByteString getColumns(int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.DeleteRequest}
    */
-  public static final class DeleteRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.DeleteRequest)
-          DeleteRequestOrBuilder {
+  public  static final class DeleteRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.DeleteRequest)
+      DeleteRequestOrBuilder {
     // Use DeleteRequest.newBuilder() to construct.
     private DeleteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private DeleteRequest() {
-      key_ = "";
-      table_ = "";
-      columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
+      columns_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private DeleteRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -6645,30 +5476,27 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              key_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              table_ = bs;
+              table_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                columns_ = new com.google.protobuf.LazyStringArrayList();
+                columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              columns_.add(bs);
+              columns_.add(input.readBytes());
               break;
             }
           }
@@ -6677,154 +5505,81 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      DeleteRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int KEY_FIELD_NUMBER = 1;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string key = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
     public static final int TABLE_FIELD_NUMBER = 2;
-    private volatile Object table_;
-
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
     public boolean hasTable() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string table = 2;</code>
+     * <code>required bytes table = 2;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string table = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
     public static final int COLUMNS_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList columns_;
-
+    private java.util.List<com.google.protobuf.ByteString> columns_;
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    public com.google.protobuf.ProtocolStringList
-    getColumnsList() {
+    public java.util.List<com.google.protobuf.ByteString>
+        getColumnsList() {
       return columns_;
     }
-
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
     public int getColumnsCount() {
       return columns_.size();
     }
-
     /**
-     * <code>repeated string columns = 3;</code>
+     * <code>repeated bytes columns = 3;</code>
      */
-    public String getColumns(int index) {
+    public com.google.protobuf.ByteString getColumns(int index) {
       return columns_.get(index);
     }
 
-    /**
-     * <code>repeated string columns = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-    getColumnsBytes(int index) {
-      return columns_.getByteString(index);
-    }
-
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6843,15 +5598,15 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
+        output.writeBytes(1, key_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, table_);
+        output.writeBytes(2, table_);
       }
       for (int i = 0; i < columns_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, columns_.getRaw(i));
+        output.writeBytes(3, columns_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -6862,15 +5617,18 @@ public final class ClientProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, key_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, table_);
       }
       {
         int dataSize = 0;
         for (int i = 0; i < columns_.size(); i++) {
-          dataSize += computeStringSizeNoTag(columns_.getRaw(i));
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(columns_.get(i));
         }
         size += dataSize;
         size += 1 * getColumnsList().size();
@@ -6881,35 +5639,34 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof DeleteRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest)) {
         return super.equals(obj);
       }
-      DeleteRequest other = (DeleteRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest) obj;
 
       boolean result = true;
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnsList()
-              .equals(other.getColumnsList());
+          .equals(other.getColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -6933,115 +5690,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static DeleteRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static DeleteRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static DeleteRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static DeleteRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static DeleteRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static DeleteRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static DeleteRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static DeleteRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static DeleteRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static DeleteRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(DeleteRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.DeleteRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.DeleteRequest)
-            DeleteRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.DeleteRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        DeleteRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.newBuilder()
@@ -7050,47 +5792,45 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
-        table_ = "";
+        table_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
       }
 
-      public DeleteRequest getDefaultInstanceForType() {
-        return DeleteRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.getDefaultInstance();
       }
 
-      public DeleteRequest build() {
-        DeleteRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public DeleteRequest buildPartial() {
-        DeleteRequest result = new DeleteRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -7102,7 +5842,7 @@ public final class ClientProto {
         }
         result.table_ = table_;
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.columns_ = columns_;
@@ -7114,55 +5854,45 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof DeleteRequest) {
-          return mergeFrom((DeleteRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(DeleteRequest other) {
-        if (other == DeleteRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.getDefaultInstance()) return this;
         if (other.hasKey()) {
-          bitField0_ |= 0x00000001;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000002;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (!other.columns_.isEmpty()) {
           if (columns_.isEmpty()) {
@@ -7190,14 +5920,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        DeleteRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (DeleteRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -7206,69 +5936,35 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -7277,80 +5973,33 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
       public boolean hasTable() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 2;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 2;</code>
+       * <code>required bytes table = 2;</code>
        */
       public Builder clearTable() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -7359,130 +6008,84 @@ public final class ClientProto {
         return this;
       }
 
-      /**
-       * <code>required string table = 2;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringList columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-
+      private java.util.List<com.google.protobuf.ByteString> columns_ = java.util.Collections.emptyList();
       private void ensureColumnsIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          columns_ = new com.google.protobuf.LazyStringArrayList(columns_);
+          columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>(columns_);
           bitField0_ |= 0x00000004;
-        }
+         }
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
-      public com.google.protobuf.ProtocolStringList
-      getColumnsList() {
-        return columns_.getUnmodifiableView();
+      public java.util.List<com.google.protobuf.ByteString>
+          getColumnsList() {
+        return java.util.Collections.unmodifiableList(columns_);
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public int getColumnsCount() {
         return columns_.size();
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
-      public String getColumns(int index) {
+      public com.google.protobuf.ByteString getColumns(int index) {
         return columns_.get(index);
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-      getColumnsBytes(int index) {
-        return columns_.getByteString(index);
-      }
-
-      /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public Builder setColumns(
-              int index, String value) {
+          int index, com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.set(index, value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
-      public Builder addColumns(
-              String value) {
+      public Builder addColumns(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.add(value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public Builder addAllColumns(
-              Iterable<String> values) {
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureColumnsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, columns_);
+            values, columns_);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 3;</code>
+       * <code>repeated bytes columns = 3;</code>
        */
       public Builder clearColumns() {
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
-
-      /**
-       * <code>repeated string columns = 3;</code>
-       */
-      public Builder addColumnsBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
-        columns_.add(value);
-        onChanged();
-        return this;
-      }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -7491,24 +6094,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.DeleteRequest)
-    private static final DeleteRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new DeleteRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest();
     }
 
-    public static DeleteRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<DeleteRequest>
-            PARSER = new com.google.protobuf.AbstractParser<DeleteRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<DeleteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteRequest>() {
       public DeleteRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new DeleteRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DeleteRequest(input, extensionRegistry);
       }
     };
 
@@ -7516,62 +6117,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<DeleteRequest> getParserForType() {
       return PARSER;
     }
 
-    public DeleteRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface DeleteResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.DeleteResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.DeleteResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.DeleteResponse}
    */
-  public static final class DeleteResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.DeleteResponse)
-          DeleteResponseOrBuilder {
+  public  static final class DeleteResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.DeleteResponse)
+      DeleteResponseOrBuilder {
     // Use DeleteResponse.newBuilder() to construct.
     private DeleteResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private DeleteResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private DeleteResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -7582,14 +6179,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -7598,51 +6195,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      DeleteResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -7651,9 +6244,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -7665,7 +6258,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7673,153 +6266,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof DeleteResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse)) {
         return super.equals(obj);
       }
-      DeleteResponse other = (DeleteResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static DeleteResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static DeleteResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static DeleteResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static DeleteResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static DeleteResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static DeleteResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static DeleteResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static DeleteResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static DeleteResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static DeleteResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(DeleteResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.DeleteResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.DeleteResponse)
-            DeleteResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.DeleteResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        DeleteResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.newBuilder()
@@ -7828,49 +6404,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
       }
 
-      public DeleteResponse getDefaultInstanceForType() {
-        return DeleteResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.getDefaultInstance();
       }
 
-      public DeleteResponse build() {
-        DeleteResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public DeleteResponse buildPartial() {
-        DeleteResponse result = new DeleteResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7879,48 +6453,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof DeleteResponse) {
-          return mergeFrom((DeleteResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(DeleteResponse other) {
-        if (other == DeleteResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7928,21 +6496,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        DeleteResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (DeleteResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -7951,52 +6519,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -8005,24 +6567,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.DeleteResponse)
-    private static final DeleteResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new DeleteResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse();
     }
 
-    public static DeleteResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<DeleteResponse>
-            PARSER = new com.google.protobuf.AbstractParser<DeleteResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<DeleteResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteResponse>() {
       public DeleteResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new DeleteResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DeleteResponse(input, extensionRegistry);
       }
     };
 
@@ -8030,50 +6590,47 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<DeleteResponse> getParserForType() {
       return PARSER;
     }
 
-    public DeleteResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface BeginTransactionRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.BeginTransactionRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.BeginTransactionRequest)
+      com.google.protobuf.MessageOrBuilder {
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.BeginTransactionRequest}
    */
-  public static final class BeginTransactionRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.BeginTransactionRequest)
-          BeginTransactionRequestOrBuilder {
+  public  static final class BeginTransactionRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.BeginTransactionRequest)
+      BeginTransactionRequestOrBuilder {
     // Use BeginTransactionRequest.newBuilder() to construct.
     private BeginTransactionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private BeginTransactionRequest() {
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private BeginTransactionRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -8084,7 +6641,7 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -8095,27 +6652,25 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      BeginTransactionRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8126,7 +6681,7 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
@@ -8141,23 +6696,22 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof BeginTransactionRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest)) {
         return super.equals(obj);
       }
-      BeginTransactionRequest other = (BeginTransactionRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest) obj;
 
       boolean result = true;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -8169,115 +6723,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static BeginTransactionRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static BeginTransactionRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static BeginTransactionRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static BeginTransactionRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static BeginTransactionRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static BeginTransactionRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static BeginTransactionRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static BeginTransactionRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static BeginTransactionRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static BeginTransactionRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(BeginTransactionRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.BeginTransactionRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.BeginTransactionRequest)
-            BeginTransactionRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.BeginTransactionRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        BeginTransactionRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest.newBuilder()
@@ -8286,41 +6825,39 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
       }
 
-      public BeginTransactionRequest getDefaultInstanceForType() {
-        return BeginTransactionRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest.getDefaultInstance();
       }
 
-      public BeginTransactionRequest build() {
-        BeginTransactionRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public BeginTransactionRequest buildPartial() {
-        BeginTransactionRequest result = new BeginTransactionRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest(this);
         onBuilt();
         return result;
       }
@@ -8328,46 +6865,40 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof BeginTransactionRequest) {
-          return mergeFrom((BeginTransactionRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(BeginTransactionRequest other) {
-        if (other == BeginTransactionRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -8378,14 +6909,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        BeginTransactionRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (BeginTransactionRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -8394,14 +6925,13 @@ public final class ClientProto {
         }
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -8410,24 +6940,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.BeginTransactionRequest)
-    private static final BeginTransactionRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new BeginTransactionRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest();
     }
 
-    public static BeginTransactionRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<BeginTransactionRequest>
-            PARSER = new com.google.protobuf.AbstractParser<BeginTransactionRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BeginTransactionRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BeginTransactionRequest>() {
       public BeginTransactionRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BeginTransactionRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new BeginTransactionRequest(input, extensionRegistry);
       }
     };
 
@@ -8435,73 +6963,68 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<BeginTransactionRequest> getParserForType() {
       return PARSER;
     }
 
-    public BeginTransactionRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface BeginTransactionResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.BeginTransactionResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.BeginTransactionResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
 
     /**
      * <code>required int64 txid = 2;</code>
      */
     boolean hasTxid();
-
     /**
      * <code>required int64 txid = 2;</code>
      */
     long getTxid();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.BeginTransactionResponse}
    */
-  public static final class BeginTransactionResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.BeginTransactionResponse)
-          BeginTransactionResponseOrBuilder {
+  public  static final class BeginTransactionResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.BeginTransactionResponse)
+      BeginTransactionResponseOrBuilder {
     // Use BeginTransactionResponse.newBuilder() to construct.
     private BeginTransactionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private BeginTransactionResponse() {
-      success_ = false;
+      statusCode_ = 0;
       txid_ = 0L;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private BeginTransactionResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -8512,14 +7035,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
             case 16: {
@@ -8533,53 +7056,48 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      BeginTransactionResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     public static final int TXID_FIELD_NUMBER = 2;
     private long txid_;
-
     /**
      * <code>required int64 txid = 2;</code>
      */
     public boolean hasTxid() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
      * <code>required int64 txid = 2;</code>
      */
@@ -8588,13 +7106,12 @@ public final class ClientProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -8607,9 +7124,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt64(2, txid_);
@@ -8624,11 +7141,11 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeInt64Size(2, txid_);
+          .computeInt64Size(2, txid_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -8636,163 +7153,146 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof BeginTransactionResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse)) {
         return super.equals(obj);
       }
-      BeginTransactionResponse other = (BeginTransactionResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && (hasTxid() == other.hasTxid());
       if (hasTxid()) {
         result = result && (getTxid()
-                == other.getTxid());
+            == other.getTxid());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       if (hasTxid()) {
         hash = (37 * hash) + TXID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                getTxid());
+            getTxid());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static BeginTransactionResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static BeginTransactionResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static BeginTransactionResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static BeginTransactionResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static BeginTransactionResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static BeginTransactionResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static BeginTransactionResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static BeginTransactionResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static BeginTransactionResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static BeginTransactionResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(BeginTransactionResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.BeginTransactionResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.BeginTransactionResponse)
-            BeginTransactionResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.BeginTransactionResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        BeginTransactionResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse.newBuilder()
@@ -8801,20 +7301,18 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         txid_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -8822,30 +7320,30 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
       }
 
-      public BeginTransactionResponse getDefaultInstanceForType() {
-        return BeginTransactionResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse.getDefaultInstance();
       }
 
-      public BeginTransactionResponse build() {
-        BeginTransactionResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public BeginTransactionResponse buildPartial() {
-        BeginTransactionResponse result = new BeginTransactionResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -8858,48 +7356,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof BeginTransactionResponse) {
-          return mergeFrom((BeginTransactionResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(BeginTransactionResponse other) {
-        if (other == BeginTransactionResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         if (other.hasTxid()) {
           setTxid(other.getTxid());
@@ -8910,7 +7402,7 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         if (!hasTxid()) {
@@ -8920,14 +7412,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        BeginTransactionResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (BeginTransactionResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -8936,61 +7428,53 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
 
-      private long txid_;
-
+      private long txid_ ;
       /**
        * <code>required int64 txid = 2;</code>
        */
       public boolean hasTxid() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
        * <code>required int64 txid = 2;</code>
        */
       public long getTxid() {
         return txid_;
       }
-
       /**
        * <code>required int64 txid = 2;</code>
        */
@@ -9000,7 +7484,6 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>required int64 txid = 2;</code>
        */
@@ -9010,14 +7493,13 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -9026,24 +7508,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.BeginTransactionResponse)
-    private static final BeginTransactionResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new BeginTransactionResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse();
     }
 
-    public static BeginTransactionResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<BeginTransactionResponse>
-            PARSER = new com.google.protobuf.AbstractParser<BeginTransactionResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BeginTransactionResponse>
+        PARSER = new com.google.protobuf.AbstractParser<BeginTransactionResponse>() {
       public BeginTransactionResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BeginTransactionResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new BeginTransactionResponse(input, extensionRegistry);
       }
     };
 
@@ -9051,62 +7531,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<BeginTransactionResponse> getParserForType() {
       return PARSER;
     }
 
-    public BeginTransactionResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface RollBackRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.RollBackRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.RollBackRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>required int64 txid = 1;</code>
      */
     boolean hasTxid();
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     long getTxid();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.RollBackRequest}
    */
-  public static final class RollBackRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.RollBackRequest)
-          RollBackRequestOrBuilder {
+  public  static final class RollBackRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.RollBackRequest)
+      RollBackRequestOrBuilder {
     // Use RollBackRequest.newBuilder() to construct.
     private RollBackRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private RollBackRequest() {
       txid_ = 0L;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private RollBackRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -9117,7 +7593,7 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -9133,36 +7609,33 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      RollBackRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int TXID_FIELD_NUMBER = 1;
     private long txid_;
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     public boolean hasTxid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
      * <code>required int64 txid = 1;</code>
      */
@@ -9171,7 +7644,6 @@ public final class ClientProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9186,7 +7658,7 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, txid_);
       }
@@ -9200,7 +7672,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeInt64Size(1, txid_);
+          .computeInt64Size(1, txid_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9208,28 +7680,27 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof RollBackRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest)) {
         return super.equals(obj);
       }
-      RollBackRequest other = (RollBackRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest) obj;
 
       boolean result = true;
       result = result && (hasTxid() == other.hasTxid());
       if (hasTxid()) {
         result = result && (getTxid()
-                == other.getTxid());
+            == other.getTxid());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -9239,122 +7710,107 @@ public final class ClientProto {
       if (hasTxid()) {
         hash = (37 * hash) + TXID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                getTxid());
+            getTxid());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static RollBackRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static RollBackRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static RollBackRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static RollBackRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static RollBackRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static RollBackRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static RollBackRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static RollBackRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static RollBackRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static RollBackRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(RollBackRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.RollBackRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.RollBackRequest)
-            RollBackRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.RollBackRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        RollBackRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest.newBuilder()
@@ -9363,17 +7819,15 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
         txid_ = 0L;
@@ -9382,24 +7836,24 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
       }
 
-      public RollBackRequest getDefaultInstanceForType() {
-        return RollBackRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest.getDefaultInstance();
       }
 
-      public RollBackRequest build() {
-        RollBackRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public RollBackRequest buildPartial() {
-        RollBackRequest result = new RollBackRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -9414,46 +7868,40 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof RollBackRequest) {
-          return mergeFrom((RollBackRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(RollBackRequest other) {
-        if (other == RollBackRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest.getDefaultInstance()) return this;
         if (other.hasTxid()) {
           setTxid(other.getTxid());
         }
@@ -9470,14 +7918,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        RollBackRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (RollBackRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -9486,25 +7934,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private long txid_;
-
+      private long txid_ ;
       /**
        * <code>required int64 txid = 1;</code>
        */
       public boolean hasTxid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
       public long getTxid() {
         return txid_;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -9514,7 +7958,6 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -9524,14 +7967,13 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -9540,24 +7982,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.RollBackRequest)
-    private static final RollBackRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new RollBackRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest();
     }
 
-    public static RollBackRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<RollBackRequest>
-            PARSER = new com.google.protobuf.AbstractParser<RollBackRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<RollBackRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RollBackRequest>() {
       public RollBackRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RollBackRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RollBackRequest(input, extensionRegistry);
       }
     };
 
@@ -9565,62 +8005,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<RollBackRequest> getParserForType() {
       return PARSER;
     }
 
-    public RollBackRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.RollBackRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface RollBackResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.RollBackResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.RollBackResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.RollBackResponse}
    */
-  public static final class RollBackResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.RollBackResponse)
-          RollBackResponseOrBuilder {
+  public  static final class RollBackResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.RollBackResponse)
+      RollBackResponseOrBuilder {
     // Use RollBackResponse.newBuilder() to construct.
     private RollBackResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private RollBackResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private RollBackResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -9631,14 +8067,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -9647,51 +8083,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      RollBackResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9700,9 +8132,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -9714,7 +8146,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9722,153 +8154,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof RollBackResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse)) {
         return super.equals(obj);
       }
-      RollBackResponse other = (RollBackResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static RollBackResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static RollBackResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static RollBackResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static RollBackResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static RollBackResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static RollBackResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static RollBackResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static RollBackResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static RollBackResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static RollBackResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(RollBackResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.RollBackResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.RollBackResponse)
-            RollBackResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.RollBackResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        RollBackResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse.newBuilder()
@@ -9877,49 +8292,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
       }
 
-      public RollBackResponse getDefaultInstanceForType() {
-        return RollBackResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse.getDefaultInstance();
       }
 
-      public RollBackResponse build() {
-        RollBackResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public RollBackResponse buildPartial() {
-        RollBackResponse result = new RollBackResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9928,48 +8341,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof RollBackResponse) {
-          return mergeFrom((RollBackResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(RollBackResponse other) {
-        if (other == RollBackResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -9977,21 +8384,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        RollBackResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (RollBackResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -10000,52 +8407,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -10054,24 +8455,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.RollBackResponse)
-    private static final RollBackResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new RollBackResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse();
     }
 
-    public static RollBackResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<RollBackResponse>
-            PARSER = new com.google.protobuf.AbstractParser<RollBackResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<RollBackResponse>
+        PARSER = new com.google.protobuf.AbstractParser<RollBackResponse>() {
       public RollBackResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RollBackResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RollBackResponse(input, extensionRegistry);
       }
     };
 
@@ -10079,62 +8478,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<RollBackResponse> getParserForType() {
       return PARSER;
     }
 
-    public RollBackResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.RollBackResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface CommitRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CommitRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CommitRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>required int64 txid = 1;</code>
      */
     boolean hasTxid();
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     long getTxid();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.CommitRequest}
    */
-  public static final class CommitRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CommitRequest)
-          CommitRequestOrBuilder {
+  public  static final class CommitRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CommitRequest)
+      CommitRequestOrBuilder {
     // Use CommitRequest.newBuilder() to construct.
     private CommitRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private CommitRequest() {
       txid_ = 0L;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private CommitRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -10145,7 +8540,7 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -10161,36 +8556,33 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      CommitRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int TXID_FIELD_NUMBER = 1;
     private long txid_;
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     public boolean hasTxid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
      * <code>required int64 txid = 1;</code>
      */
@@ -10199,7 +8591,6 @@ public final class ClientProto {
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10214,7 +8605,7 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, txid_);
       }
@@ -10228,7 +8619,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeInt64Size(1, txid_);
+          .computeInt64Size(1, txid_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10236,28 +8627,27 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof CommitRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest)) {
         return super.equals(obj);
       }
-      CommitRequest other = (CommitRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest) obj;
 
       boolean result = true;
       result = result && (hasTxid() == other.hasTxid());
       if (hasTxid()) {
         result = result && (getTxid()
-                == other.getTxid());
+            == other.getTxid());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -10267,122 +8657,107 @@ public final class ClientProto {
       if (hasTxid()) {
         hash = (37 * hash) + TXID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                getTxid());
+            getTxid());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static CommitRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CommitRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CommitRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CommitRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CommitRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CommitRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CommitRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static CommitRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CommitRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CommitRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(CommitRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.CommitRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CommitRequest)
-            CommitRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CommitRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        CommitRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest.newBuilder()
@@ -10391,17 +8766,15 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
         txid_ = 0L;
@@ -10410,24 +8783,24 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
       }
 
-      public CommitRequest getDefaultInstanceForType() {
-        return CommitRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest.getDefaultInstance();
       }
 
-      public CommitRequest build() {
-        CommitRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public CommitRequest buildPartial() {
-        CommitRequest result = new CommitRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -10442,46 +8815,40 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof CommitRequest) {
-          return mergeFrom((CommitRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(CommitRequest other) {
-        if (other == CommitRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest.getDefaultInstance()) return this;
         if (other.hasTxid()) {
           setTxid(other.getTxid());
         }
@@ -10498,14 +8865,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        CommitRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (CommitRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -10514,25 +8881,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private long txid_;
-
+      private long txid_ ;
       /**
        * <code>required int64 txid = 1;</code>
        */
       public boolean hasTxid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
       public long getTxid() {
         return txid_;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -10542,7 +8905,6 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -10552,14 +8914,13 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -10568,24 +8929,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.CommitRequest)
-    private static final CommitRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new CommitRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest();
     }
 
-    public static CommitRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<CommitRequest>
-            PARSER = new com.google.protobuf.AbstractParser<CommitRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CommitRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CommitRequest>() {
       public CommitRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CommitRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CommitRequest(input, extensionRegistry);
       }
     };
 
@@ -10593,62 +8952,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<CommitRequest> getParserForType() {
       return PARSER;
     }
 
-    public CommitRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.CommitRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface CommitResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CommitResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.CommitResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.CommitResponse}
    */
-  public static final class CommitResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CommitResponse)
-          CommitResponseOrBuilder {
+  public  static final class CommitResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.CommitResponse)
+      CommitResponseOrBuilder {
     // Use CommitResponse.newBuilder() to construct.
     private CommitResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private CommitResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private CommitResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -10659,14 +9014,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -10675,51 +9030,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      CommitResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10728,9 +9079,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -10742,7 +9093,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10750,153 +9101,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof CommitResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse)) {
         return super.equals(obj);
       }
-      CommitResponse other = (CommitResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static CommitResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CommitResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CommitResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static CommitResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static CommitResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CommitResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CommitResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static CommitResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static CommitResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static CommitResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(CommitResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.CommitResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CommitResponse)
-            CommitResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.CommitResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        CommitResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse.newBuilder()
@@ -10905,49 +9239,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
       }
 
-      public CommitResponse getDefaultInstanceForType() {
-        return CommitResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse.getDefaultInstance();
       }
 
-      public CommitResponse build() {
-        CommitResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public CommitResponse buildPartial() {
-        CommitResponse result = new CommitResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10956,48 +9288,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof CommitResponse) {
-          return mergeFrom((CommitResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(CommitResponse other) {
-        if (other == CommitResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -11005,21 +9331,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        CommitResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (CommitResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -11028,52 +9354,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -11082,24 +9402,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.CommitResponse)
-    private static final CommitResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new CommitResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse();
     }
 
-    public static CommitResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<CommitResponse>
-            PARSER = new com.google.protobuf.AbstractParser<CommitResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CommitResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CommitResponse>() {
       public CommitResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CommitResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CommitResponse(input, extensionRegistry);
       }
     };
 
@@ -11107,119 +9425,92 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<CommitResponse> getParserForType() {
       return PARSER;
     }
 
-    public CommitResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.CommitResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxGetRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxGetRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxGetRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>required int64 txid = 1;</code>
      */
     boolean hasTxid();
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     long getTxid();
 
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 2;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
-    String getTable();
+    com.google.protobuf.ByteString getTable();
 
     /**
-     * <code>required string table = 3;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    com.google.protobuf.ByteString
-    getTableBytes();
-
+    java.util.List<com.google.protobuf.ByteString> getColumnsList();
     /**
-     * <code>repeated string columns = 4;</code>
-     */
-    java.util.List<String>
-    getColumnsList();
-
-    /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
     int getColumnsCount();
-
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    String getColumns(int index);
-
-    /**
-     * <code>repeated string columns = 4;</code>
-     */
-    com.google.protobuf.ByteString
-    getColumnsBytes(int index);
+    com.google.protobuf.ByteString getColumns(int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxGetRequest}
    */
-  public static final class TxGetRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxGetRequest)
-          TxGetRequestOrBuilder {
+  public  static final class TxGetRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxGetRequest)
+      TxGetRequestOrBuilder {
     // Use TxGetRequest.newBuilder() to construct.
     private TxGetRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxGetRequest() {
       txid_ = 0L;
-      key_ = "";
-      table_ = "";
-      columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
+      columns_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxGetRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -11230,7 +9521,7 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -11241,24 +9532,21 @@ public final class ClientProto {
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              key_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              table_ = bs;
+              table_ = input.readBytes();
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                columns_ = new com.google.protobuf.LazyStringArrayList();
+                columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000008;
               }
-              columns_.add(bs);
+              columns_.add(input.readBytes());
               break;
             }
           }
@@ -11267,39 +9555,36 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxGetRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int TXID_FIELD_NUMBER = 1;
     private long txid_;
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     public boolean hasTxid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
      * <code>required int64 txid = 1;</code>
      */
@@ -11308,130 +9593,58 @@ public final class ClientProto {
     }
 
     public static final int KEY_FIELD_NUMBER = 2;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string key = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
     public static final int TABLE_FIELD_NUMBER = 3;
-    private volatile Object table_;
-
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
     public boolean hasTable() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
-
     /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string table = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
     public static final int COLUMNS_FIELD_NUMBER = 4;
-    private com.google.protobuf.LazyStringList columns_;
-
+    private java.util.List<com.google.protobuf.ByteString> columns_;
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    public com.google.protobuf.ProtocolStringList
-    getColumnsList() {
+    public java.util.List<com.google.protobuf.ByteString>
+        getColumnsList() {
       return columns_;
     }
-
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
     public int getColumnsCount() {
       return columns_.size();
     }
-
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    public String getColumns(int index) {
+    public com.google.protobuf.ByteString getColumns(int index) {
       return columns_.get(index);
     }
 
-    /**
-     * <code>repeated string columns = 4;</code>
-     */
-    public com.google.protobuf.ByteString
-    getColumnsBytes(int index) {
-      return columns_.getByteString(index);
-    }
-
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11454,18 +9667,18 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, key_);
+        output.writeBytes(2, key_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, table_);
+        output.writeBytes(3, table_);
       }
       for (int i = 0; i < columns_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, columns_.getRaw(i));
+        output.writeBytes(4, columns_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -11477,18 +9690,21 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeInt64Size(1, txid_);
+          .computeInt64Size(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, key_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, table_);
       }
       {
         int dataSize = 0;
         for (int i = 0; i < columns_.size(); i++) {
-          dataSize += computeStringSizeNoTag(columns_.getRaw(i));
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(columns_.get(i));
         }
         size += dataSize;
         size += 1 * getColumnsList().size();
@@ -11499,40 +9715,39 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxGetRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest)) {
         return super.equals(obj);
       }
-      TxGetRequest other = (TxGetRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest) obj;
 
       boolean result = true;
       result = result && (hasTxid() == other.hasTxid());
       if (hasTxid()) {
         result = result && (getTxid()
-                == other.getTxid());
+            == other.getTxid());
       }
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnsList()
-              .equals(other.getColumnsList());
+          .equals(other.getColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -11542,7 +9757,7 @@ public final class ClientProto {
       if (hasTxid()) {
         hash = (37 * hash) + TXID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                getTxid());
+            getTxid());
       }
       if (hasKey()) {
         hash = (37 * hash) + KEY_FIELD_NUMBER;
@@ -11561,115 +9776,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static TxGetRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxGetRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxGetRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxGetRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxGetRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxGetRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxGetRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxGetRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxGetRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxGetRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxGetRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxGetRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxGetRequest)
-            TxGetRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxGetRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxGetRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest.newBuilder()
@@ -11678,49 +9878,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
         txid_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        table_ = "";
+        table_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
       }
 
-      public TxGetRequest getDefaultInstanceForType() {
-        return TxGetRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest.getDefaultInstance();
       }
 
-      public TxGetRequest build() {
-        TxGetRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxGetRequest buildPartial() {
-        TxGetRequest result = new TxGetRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -11736,7 +9934,7 @@ public final class ClientProto {
         }
         result.table_ = table_;
         if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
           bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.columns_ = columns_;
@@ -11748,58 +9946,48 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxGetRequest) {
-          return mergeFrom((TxGetRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxGetRequest other) {
-        if (other == TxGetRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest.getDefaultInstance()) return this;
         if (other.hasTxid()) {
           setTxid(other.getTxid());
         }
         if (other.hasKey()) {
-          bitField0_ |= 0x00000002;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000004;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (!other.columns_.isEmpty()) {
           if (columns_.isEmpty()) {
@@ -11830,14 +10018,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxGetRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxGetRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -11846,25 +10034,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private long txid_;
-
+      private long txid_ ;
       /**
        * <code>required int64 txid = 1;</code>
        */
       public boolean hasTxid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
       public long getTxid() {
         return txid_;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -11874,7 +10058,6 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -11885,66 +10068,33 @@ public final class ClientProto {
         return this;
       }
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 2;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -11953,80 +10103,33 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 2;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
       public boolean hasTable() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
-
       /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 3;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
       public Builder clearTable() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -12035,130 +10138,84 @@ public final class ClientProto {
         return this;
       }
 
-      /**
-       * <code>required string table = 3;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringList columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-
+      private java.util.List<com.google.protobuf.ByteString> columns_ = java.util.Collections.emptyList();
       private void ensureColumnsIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          columns_ = new com.google.protobuf.LazyStringArrayList(columns_);
+          columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>(columns_);
           bitField0_ |= 0x00000008;
-        }
+         }
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
-      public com.google.protobuf.ProtocolStringList
-      getColumnsList() {
-        return columns_.getUnmodifiableView();
+      public java.util.List<com.google.protobuf.ByteString>
+          getColumnsList() {
+        return java.util.Collections.unmodifiableList(columns_);
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public int getColumnsCount() {
         return columns_.size();
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
-      public String getColumns(int index) {
+      public com.google.protobuf.ByteString getColumns(int index) {
         return columns_.get(index);
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
-       */
-      public com.google.protobuf.ByteString
-      getColumnsBytes(int index) {
-        return columns_.getByteString(index);
-      }
-
-      /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public Builder setColumns(
-              int index, String value) {
+          int index, com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.set(index, value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
-      public Builder addColumns(
-              String value) {
+      public Builder addColumns(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.add(value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public Builder addAllColumns(
-              Iterable<String> values) {
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureColumnsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, columns_);
+            values, columns_);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public Builder clearColumns() {
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
-
-      /**
-       * <code>repeated string columns = 4;</code>
-       */
-      public Builder addColumnsBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
-        columns_.add(value);
-        onChanged();
-        return this;
-      }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -12167,24 +10224,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxGetRequest)
-    private static final TxGetRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxGetRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest();
     }
 
-    public static TxGetRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxGetRequest>
-            PARSER = new com.google.protobuf.AbstractParser<TxGetRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxGetRequest>
+        PARSER = new com.google.protobuf.AbstractParser<TxGetRequest>() {
       public TxGetRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxGetRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxGetRequest(input, extensionRegistry);
       }
     };
 
@@ -12192,97 +10247,93 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxGetRequest> getParserForType() {
       return PARSER;
     }
 
-    public TxGetRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxGetRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxGetResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxGetResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxGetResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     boolean hasKey();
+    /**
+     * <code>required bytes key = 1;</code>
+     */
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 1;</code>
+     * <code>required int32 statusCode = 2;</code>
      */
-    String getKey();
-
+    boolean hasStatusCode();
     /**
-     * <code>required string key = 1;</code>
+     * <code>required int32 statusCode = 2;</code>
      */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
-     */
-    java.util.List<ColumnValue>
-    getColumnValuesList();
+    int getStatusCode();
 
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    ColumnValue getColumnValues(int index);
-
+    java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> 
+        getColumnValuesList();
+    /**
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
+     */
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index);
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
     int getColumnValuesCount();
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList();
-
+    java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList();
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index);
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxGetResponse}
    */
-  public static final class TxGetResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxGetResponse)
-          TxGetResponseOrBuilder {
+  public  static final class TxGetResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxGetResponse)
+      TxGetResponseOrBuilder {
     // Use TxGetResponse.newBuilder() to construct.
     private TxGetResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxGetResponse() {
-      key_ = "";
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      statusCode_ = 0;
       columnValues_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxGetResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -12293,24 +10344,28 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              key_ = bs;
+              key_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              statusCode_ = input.readInt32();
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                columnValues_ = new java.util.ArrayList<ColumnValue>();
-                mutable_bitField0_ |= 0x00000002;
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>();
+                mutable_bitField0_ |= 0x00000004;
               }
               columnValues_.add(
-                      input.readMessage(ColumnValue.PARSER, extensionRegistry));
+                  input.readMessage(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.PARSER, extensionRegistry));
               break;
             }
           }
@@ -12319,122 +10374,104 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxGetResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse.Builder.class);
     }
 
     private int bitField0_;
     public static final int KEY_FIELD_NUMBER = 1;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required string key = 1;</code>
+     * <code>required bytes key = 1;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
+    public static final int STATUSCODE_FIELD_NUMBER = 2;
+    private int statusCode_;
     /**
-     * <code>required string key = 1;</code>
+     * <code>required int32 statusCode = 2;</code>
      */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public boolean hasStatusCode() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 statusCode = 2;</code>
+     */
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     public static final int COLUMNVALUES_FIELD_NUMBER = 3;
-    private java.util.List<ColumnValue> columnValues_;
-
+    private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_;
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public java.util.List<ColumnValue> getColumnValuesList() {
+    public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList() {
+    public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
     public int getColumnValuesCount() {
       return columnValues_.size();
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public ColumnValue getColumnValues(int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
       return columnValues_.get(index);
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
      */
-    public ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index) {
       return columnValues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
       if (!hasKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -12449,9 +10486,12 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
+        output.writeBytes(1, key_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, statusCode_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         output.writeMessage(3, columnValues_.get(i));
@@ -12465,11 +10505,16 @@ public final class ClientProto {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, key_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, statusCode_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(3, columnValues_.get(i));
+          .computeMessageSize(3, columnValues_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -12477,30 +10522,34 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxGetResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse)) {
         return super.equals(obj);
       }
-      TxGetResponse other = (TxGetResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse) obj;
 
       boolean result = true;
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
+      }
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && getColumnValuesList()
-              .equals(other.getColumnValuesList());
+          .equals(other.getColumnValuesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -12511,6 +10560,10 @@ public final class ClientProto {
         hash = (37 * hash) + KEY_FIELD_NUMBER;
         hash = (53 * hash) + getKey().hashCode();
       }
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
+      }
       if (getColumnValuesCount() > 0) {
         hash = (37 * hash) + COLUMNVALUES_FIELD_NUMBER;
         hash = (53 * hash) + getColumnValuesList().hashCode();
@@ -12520,115 +10573,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static TxGetResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxGetResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxGetResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxGetResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxGetResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxGetResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxGetResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxGetResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxGetResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxGetResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxGetResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxGetResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxGetResponse)
-            TxGetResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxGetResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxGetResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse.newBuilder()
@@ -12637,25 +10675,25 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getColumnValuesFieldBuilder();
         }
       }
-
       public Builder clear() {
         super.clear();
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        statusCode_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           columnValuesBuilder_.clear();
         }
@@ -12663,34 +10701,38 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
       }
 
-      public TxGetResponse getDefaultInstanceForType() {
-        return TxGetResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse.getDefaultInstance();
       }
 
-      public TxGetResponse build() {
-        TxGetResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxGetResponse buildPartial() {
-        TxGetResponse result = new TxGetResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
         result.key_ = key_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.statusCode_ = statusCode_;
         if (columnValuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.columnValues_ = columnValues_;
         } else {
@@ -12704,56 +10746,51 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxGetResponse) {
-          return mergeFrom((TxGetResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxGetResponse other) {
-        if (other == TxGetResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse.getDefaultInstance()) return this;
         if (other.hasKey()) {
-          bitField0_ |= 0x00000001;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
+        }
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         if (columnValuesBuilder_ == null) {
           if (!other.columnValues_.isEmpty()) {
             if (columnValues_.isEmpty()) {
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureColumnValuesIsMutable();
               columnValues_.addAll(other.columnValues_);
@@ -12766,10 +10803,10 @@ public final class ClientProto {
               columnValuesBuilder_.dispose();
               columnValuesBuilder_ = null;
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              columnValuesBuilder_ =
-                      com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                              getColumnValuesFieldBuilder() : null;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              columnValuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnValuesFieldBuilder() : null;
             } else {
               columnValuesBuilder_.addAllMessages(other.columnValues_);
             }
@@ -12784,6 +10821,9 @@ public final class ClientProto {
         if (!hasKey()) {
           return false;
         }
+        if (!hasStatusCode()) {
+          return false;
+        }
         for (int i = 0; i < getColumnValuesCount(); i++) {
           if (!getColumnValues(i).isInitialized()) {
             return false;
@@ -12793,14 +10833,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxGetResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxGetResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -12809,69 +10849,35 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 1;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 1;</code>
+       * <code>required bytes key = 1;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -12880,44 +10886,60 @@ public final class ClientProto {
         return this;
       }
 
+      private int statusCode_ ;
       /**
-       * <code>required string key = 1;</code>
+       * <code>required int32 statusCode = 2;</code>
        */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        key_ = value;
+      public boolean hasStatusCode() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 statusCode = 2;</code>
+       */
+      public int getStatusCode() {
+        return statusCode_;
+      }
+      /**
+       * <code>required int32 statusCode = 2;</code>
+       */
+      public Builder setStatusCode(int value) {
+        bitField0_ |= 0x00000002;
+        statusCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 statusCode = 2;</code>
+       */
+      public Builder clearStatusCode() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        statusCode_ = 0;
         onChanged();
         return this;
       }
 
-      private java.util.List<ColumnValue> columnValues_ =
-              java.util.Collections.emptyList();
-
+      private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_ =
+        java.util.Collections.emptyList();
       private void ensureColumnValuesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          columnValues_ = new java.util.ArrayList<ColumnValue>(columnValues_);
-          bitField0_ |= 0x00000002;
-        }
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>(columnValues_);
+          bitField0_ |= 0x00000004;
+         }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder> columnValuesBuilder_;
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> columnValuesBuilder_;
 
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<ColumnValue> getColumnValuesList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
         if (columnValuesBuilder_ == null) {
           return java.util.Collections.unmodifiableList(columnValues_);
         } else {
           return columnValuesBuilder_.getMessageList();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
@@ -12928,23 +10950,21 @@ public final class ClientProto {
           return columnValuesBuilder_.getCount();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue getColumnValues(int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
           return columnValues_.get(index);
         } else {
           return columnValuesBuilder_.getMessage(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -12957,12 +10977,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.set(index, builderForValue.build());
@@ -12972,11 +10991,10 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public Builder addColumnValues(ColumnValue value) {
+      public Builder addColumnValues(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -12989,12 +11007,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -13007,12 +11024,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              ColumnValue.Builder builderForValue) {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(builderForValue.build());
@@ -13022,12 +11038,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(index, builderForValue.build());
@@ -13037,37 +11052,34 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder addAllColumnValues(
-              Iterable<? extends ColumnValue> values) {
+          java.lang.Iterable<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> values) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, columnValues_);
+              values, columnValues_);
           onChanged();
         } else {
           columnValuesBuilder_.addAllMessages(values);
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
       public Builder clearColumnValues() {
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           columnValuesBuilder_.clear();
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
@@ -13081,86 +11093,77 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder getColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder getColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().getBuilder(index);
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValueOrBuilder getColumnValuesOrBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+          int index) {
         if (columnValuesBuilder_ == null) {
-          return columnValues_.get(index);
-        } else {
+          return columnValues_.get(index);  } else {
           return columnValuesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<? extends ColumnValueOrBuilder>
-      getColumnValuesOrBuilderList() {
+      public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+           getColumnValuesOrBuilderList() {
         if (columnValuesBuilder_ != null) {
           return columnValuesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(columnValues_);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder() {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder() {
         return getColumnValuesFieldBuilder().addBuilder(
-                ColumnValue.getDefaultInstance());
+            org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().addBuilder(
-                index, ColumnValue.getDefaultInstance());
+            index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 3;</code>
        */
-      public java.util.List<ColumnValue.Builder>
-      getColumnValuesBuilderList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder> 
+           getColumnValuesBuilderList() {
         return getColumnValuesFieldBuilder().getBuilderList();
       }
-
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>
-      getColumnValuesFieldBuilder() {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+          getColumnValuesFieldBuilder() {
         if (columnValuesBuilder_ == null) {
           columnValuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>(
+              org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder>(
                   columnValues_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           columnValues_ = null;
         }
         return columnValuesBuilder_;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -13169,24 +11172,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxGetResponse)
-    private static final TxGetResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxGetResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse();
     }
 
-    public static TxGetResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxGetResponse>
-            PARSER = new com.google.protobuf.AbstractParser<TxGetResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxGetResponse>
+        PARSER = new com.google.protobuf.AbstractParser<TxGetResponse>() {
       public TxGetResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxGetResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxGetResponse(input, extensionRegistry);
       }
     };
 
@@ -13194,125 +11195,103 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxGetResponse> getParserForType() {
       return PARSER;
     }
 
-    public TxGetResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxGetResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxPutRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxPutRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxPutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>required int64 txid = 1;</code>
      */
     boolean hasTxid();
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     long getTxid();
 
     /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes key = 3;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes key = 3;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 3;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes table = 4;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes table = 4;</code>
      */
-    String getTable();
-
-    /**
-     * <code>required string table = 4;</code>
-     */
-    com.google.protobuf.ByteString
-    getTableBytes();
+    com.google.protobuf.ByteString getTable();
 
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    java.util.List<ColumnValue>
-    getColumnValuesList();
-
+    java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> 
+        getColumnValuesList();
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    ColumnValue getColumnValues(int index);
-
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index);
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
     int getColumnValuesCount();
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList();
-
+    java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList();
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index);
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxPutRequest}
    */
-  public static final class TxPutRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxPutRequest)
-          TxPutRequestOrBuilder {
+  public  static final class TxPutRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxPutRequest)
+      TxPutRequestOrBuilder {
     // Use TxPutRequest.newBuilder() to construct.
     private TxPutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxPutRequest() {
       txid_ = 0L;
-      key_ = "";
-      table_ = "";
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
       columnValues_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxPutRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -13323,7 +11302,7 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -13334,24 +11313,22 @@ public final class ClientProto {
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              key_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              table_ = bs;
+              table_ = input.readBytes();
               break;
             }
             case 42: {
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                columnValues_ = new java.util.ArrayList<ColumnValue>();
+                columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>();
                 mutable_bitField0_ |= 0x00000008;
               }
               columnValues_.add(
-                      input.readMessage(ColumnValue.PARSER, extensionRegistry));
+                  input.readMessage(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.PARSER, extensionRegistry));
               break;
             }
           }
@@ -13360,7 +11337,7 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
@@ -13369,30 +11346,27 @@ public final class ClientProto {
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxPutRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int TXID_FIELD_NUMBER = 1;
     private long txid_;
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     public boolean hasTxid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
      * <code>required int64 txid = 1;</code>
      */
@@ -13401,137 +11375,71 @@ public final class ClientProto {
     }
 
     public static final int KEY_FIELD_NUMBER = 3;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes key = 3;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string key = 3;</code>
+     * <code>required bytes key = 3;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string key = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
     public static final int TABLE_FIELD_NUMBER = 4;
-    private volatile Object table_;
-
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes table = 4;</code>
      */
     public boolean hasTable() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
-
     /**
-     * <code>required string table = 4;</code>
+     * <code>required bytes table = 4;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string table = 4;</code>
-     */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
     public static final int COLUMNVALUES_FIELD_NUMBER = 5;
-    private java.util.List<ColumnValue> columnValues_;
-
+    private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_;
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    public java.util.List<ColumnValue> getColumnValuesList() {
+    public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    public java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList() {
+    public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList() {
       return columnValues_;
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
     public int getColumnValuesCount() {
       return columnValues_.size();
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    public ColumnValue getColumnValues(int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
       return columnValues_.get(index);
     }
-
     /**
      * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
      */
-    public ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index) {
       return columnValues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13560,15 +11468,15 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, key_);
+        output.writeBytes(3, key_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, table_);
+        output.writeBytes(4, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         output.writeMessage(5, columnValues_.get(i));
@@ -13583,17 +11491,19 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeInt64Size(1, txid_);
+          .computeInt64Size(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, key_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(5, columnValues_.get(i));
+          .computeMessageSize(5, columnValues_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -13601,40 +11511,39 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxPutRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest)) {
         return super.equals(obj);
       }
-      TxPutRequest other = (TxPutRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest) obj;
 
       boolean result = true;
       result = result && (hasTxid() == other.hasTxid());
       if (hasTxid()) {
         result = result && (getTxid()
-                == other.getTxid());
+            == other.getTxid());
       }
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnValuesList()
-              .equals(other.getColumnValuesList());
+          .equals(other.getColumnValuesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -13644,7 +11553,7 @@ public final class ClientProto {
       if (hasTxid()) {
         hash = (37 * hash) + TXID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                getTxid());
+            getTxid());
       }
       if (hasKey()) {
         hash = (37 * hash) + KEY_FIELD_NUMBER;
@@ -13663,115 +11572,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static TxPutRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxPutRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxPutRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxPutRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxPutRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxPutRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxPutRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxPutRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxPutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxPutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxPutRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxPutRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxPutRequest)
-            TxPutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxPutRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxPutRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest.newBuilder()
@@ -13780,25 +11674,23 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getColumnValuesFieldBuilder();
         }
       }
-
       public Builder clear() {
         super.clear();
         txid_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        table_ = "";
+        table_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
@@ -13810,24 +11702,24 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
       }
 
-      public TxPutRequest getDefaultInstanceForType() {
-        return TxPutRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest.getDefaultInstance();
       }
 
-      public TxPutRequest build() {
-        TxPutRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxPutRequest buildPartial() {
-        TxPutRequest result = new TxPutRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -13859,58 +11751,48 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxPutRequest) {
-          return mergeFrom((TxPutRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxPutRequest other) {
-        if (other == TxPutRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest.getDefaultInstance()) return this;
         if (other.hasTxid()) {
           setTxid(other.getTxid());
         }
         if (other.hasKey()) {
-          bitField0_ |= 0x00000002;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000004;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (columnValuesBuilder_ == null) {
           if (!other.columnValues_.isEmpty()) {
@@ -13930,9 +11812,9 @@ public final class ClientProto {
               columnValuesBuilder_ = null;
               columnValues_ = other.columnValues_;
               bitField0_ = (bitField0_ & ~0x00000008);
-              columnValuesBuilder_ =
-                      com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                              getColumnValuesFieldBuilder() : null;
+              columnValuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnValuesFieldBuilder() : null;
             } else {
               columnValuesBuilder_.addAllMessages(other.columnValues_);
             }
@@ -13962,14 +11844,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxPutRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxPutRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -13978,25 +11860,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private long txid_;
-
+      private long txid_ ;
       /**
        * <code>required int64 txid = 1;</code>
        */
       public boolean hasTxid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
       public long getTxid() {
         return txid_;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -14006,7 +11884,6 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -14017,66 +11894,33 @@ public final class ClientProto {
         return this;
       }
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 3;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 3;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 3;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 3;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 3;</code>
+       * <code>required bytes key = 3;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -14085,80 +11929,33 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 3;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 4;</code>
        */
       public boolean hasTable() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
-
       /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 4;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 4;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 4;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 4;</code>
+       * <code>required bytes table = 4;</code>
        */
       public Builder clearTable() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -14167,44 +11964,28 @@ public final class ClientProto {
         return this;
       }
 
-      /**
-       * <code>required string table = 4;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<ColumnValue> columnValues_ =
-              java.util.Collections.emptyList();
-
+      private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_ =
+        java.util.Collections.emptyList();
       private void ensureColumnValuesIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          columnValues_ = new java.util.ArrayList<ColumnValue>(columnValues_);
+          columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>(columnValues_);
           bitField0_ |= 0x00000008;
-        }
+         }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder> columnValuesBuilder_;
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> columnValuesBuilder_;
 
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public java.util.List<ColumnValue> getColumnValuesList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
         if (columnValuesBuilder_ == null) {
           return java.util.Collections.unmodifiableList(columnValues_);
         } else {
           return columnValuesBuilder_.getMessageList();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
@@ -14215,23 +11996,21 @@ public final class ClientProto {
           return columnValuesBuilder_.getCount();
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public ColumnValue getColumnValues(int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
           return columnValues_.get(index);
         } else {
           return columnValuesBuilder_.getMessage(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -14244,12 +12023,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.set(index, builderForValue.build());
@@ -14259,11 +12037,10 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public Builder addColumnValues(ColumnValue value) {
+      public Builder addColumnValues(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -14276,12 +12053,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -14294,12 +12070,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
       public Builder addColumnValues(
-              ColumnValue.Builder builderForValue) {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(builderForValue.build());
@@ -14309,12 +12084,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(index, builderForValue.build());
@@ -14324,23 +12098,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
       public Builder addAllColumnValues(
-              Iterable<? extends ColumnValue> values) {
+          java.lang.Iterable<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> values) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, columnValues_);
+              values, columnValues_);
           onChanged();
         } else {
           columnValuesBuilder_.addAllMessages(values);
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
@@ -14354,7 +12126,6 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
@@ -14368,70 +12139,62 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public ColumnValue.Builder getColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder getColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().getBuilder(index);
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public ColumnValueOrBuilder getColumnValuesOrBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+          int index) {
         if (columnValuesBuilder_ == null) {
-          return columnValues_.get(index);
-        } else {
+          return columnValues_.get(index);  } else {
           return columnValuesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public java.util.List<? extends ColumnValueOrBuilder>
-      getColumnValuesOrBuilderList() {
+      public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+           getColumnValuesOrBuilderList() {
         if (columnValuesBuilder_ != null) {
           return columnValuesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(columnValues_);
         }
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder() {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder() {
         return getColumnValuesFieldBuilder().addBuilder(
-                ColumnValue.getDefaultInstance());
+            org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().addBuilder(
-                index, ColumnValue.getDefaultInstance());
+            index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
        * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 5;</code>
        */
-      public java.util.List<ColumnValue.Builder>
-      getColumnValuesBuilderList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder> 
+           getColumnValuesBuilderList() {
         return getColumnValuesFieldBuilder().getBuilderList();
       }
-
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>
-      getColumnValuesFieldBuilder() {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+          getColumnValuesFieldBuilder() {
         if (columnValuesBuilder_ == null) {
           columnValuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>(
+              org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder>(
                   columnValues_,
                   ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
@@ -14440,14 +12203,13 @@ public final class ClientProto {
         }
         return columnValuesBuilder_;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -14456,24 +12218,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxPutRequest)
-    private static final TxPutRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxPutRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest();
     }
 
-    public static TxPutRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxPutRequest>
-            PARSER = new com.google.protobuf.AbstractParser<TxPutRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxPutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<TxPutRequest>() {
       public TxPutRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxPutRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxPutRequest(input, extensionRegistry);
       }
     };
 
@@ -14481,62 +12241,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxPutRequest> getParserForType() {
       return PARSER;
     }
 
-    public TxPutRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxPutRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxPutResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxPutResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxPutResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxPutResponse}
    */
-  public static final class TxPutResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxPutResponse)
-          TxPutResponseOrBuilder {
+  public  static final class TxPutResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxPutResponse)
+      TxPutResponseOrBuilder {
     // Use TxPutResponse.newBuilder() to construct.
     private TxPutResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxPutResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxPutResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -14547,14 +12303,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -14563,51 +12319,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxPutResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -14616,9 +12368,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -14630,7 +12382,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -14638,153 +12390,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxPutResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse)) {
         return super.equals(obj);
       }
-      TxPutResponse other = (TxPutResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static TxPutResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxPutResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxPutResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxPutResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxPutResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxPutResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxPutResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxPutResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxPutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxPutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxPutResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxPutResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxPutResponse)
-            TxPutResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxPutResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxPutResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse.newBuilder()
@@ -14793,49 +12528,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
       }
 
-      public TxPutResponse getDefaultInstanceForType() {
-        return TxPutResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse.getDefaultInstance();
       }
 
-      public TxPutResponse build() {
-        TxPutResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxPutResponse buildPartial() {
-        TxPutResponse result = new TxPutResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -14844,48 +12577,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxPutResponse) {
-          return mergeFrom((TxPutResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxPutResponse other) {
-        if (other == TxPutResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -14893,21 +12620,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxPutResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxPutResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -14916,52 +12643,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -14970,24 +12691,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxPutResponse)
-    private static final TxPutResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxPutResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse();
     }
 
-    public static TxPutResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxPutResponse>
-            PARSER = new com.google.protobuf.AbstractParser<TxPutResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxPutResponse>
+        PARSER = new com.google.protobuf.AbstractParser<TxPutResponse>() {
       public TxPutResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxPutResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxPutResponse(input, extensionRegistry);
       }
     };
 
@@ -14995,159 +12714,133 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxPutResponse> getParserForType() {
       return PARSER;
     }
 
-    public TxPutResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxPutResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxCheckAndPutRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>required int64 txid = 1;</code>
      */
     boolean hasTxid();
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     long getTxid();
 
     /**
-     * <code>required string checkKey = 2;</code>
+     * <code>required bytes checkKey = 2;</code>
      */
     boolean hasCheckKey();
-
     /**
-     * <code>required string checkKey = 2;</code>
+     * <code>required bytes checkKey = 2;</code>
      */
-    String getCheckKey();
+    com.google.protobuf.ByteString getCheckKey();
 
     /**
-     * <code>required string checkKey = 2;</code>
+     * <code>required bytes checkColumn = 3;</code>
      */
-    com.google.protobuf.ByteString
-    getCheckKeyBytes();
+    boolean hasCheckColumn();
+    /**
+     * <code>required bytes checkColumn = 3;</code>
+     */
+    com.google.protobuf.ByteString getCheckColumn();
 
     /**
-     * <code>required string checkValue = 3;</code>
+     * <code>required bytes checkValue = 4;</code>
      */
     boolean hasCheckValue();
-
     /**
-     * <code>required string checkValue = 3;</code>
+     * <code>required bytes checkValue = 4;</code>
      */
-    String getCheckValue();
+    com.google.protobuf.ByteString getCheckValue();
 
     /**
-     * <code>required string checkValue = 3;</code>
-     */
-    com.google.protobuf.ByteString
-    getCheckValueBytes();
-
-    /**
-     * <code>required string key = 4;</code>
+     * <code>required bytes key = 5;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 4;</code>
+     * <code>required bytes key = 5;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 4;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 5;</code>
+     * <code>required bytes table = 6;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 5;</code>
+     * <code>required bytes table = 6;</code>
      */
-    String getTable();
+    com.google.protobuf.ByteString getTable();
 
     /**
-     * <code>required string table = 5;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    com.google.protobuf.ByteString
-    getTableBytes();
-
+    java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> 
+        getColumnValuesList();
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    java.util.List<ColumnValue>
-    getColumnValuesList();
-
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index);
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
-     */
-    ColumnValue getColumnValues(int index);
-
-    /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
     int getColumnValuesCount();
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList();
-
+    java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList();
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index);
+    org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest}
    */
-  public static final class TxCheckAndPutRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest)
-          TxCheckAndPutRequestOrBuilder {
+  public  static final class TxCheckAndPutRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest)
+      TxCheckAndPutRequestOrBuilder {
     // Use TxCheckAndPutRequest.newBuilder() to construct.
     private TxCheckAndPutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxCheckAndPutRequest() {
       txid_ = 0L;
-      checkKey_ = "";
-      checkValue_ = "";
-      key_ = "";
-      table_ = "";
+      checkKey_ = com.google.protobuf.ByteString.EMPTY;
+      checkColumn_ = com.google.protobuf.ByteString.EMPTY;
+      checkValue_ = com.google.protobuf.ByteString.EMPTY;
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
       columnValues_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxCheckAndPutRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -15158,7 +12851,7 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -15169,36 +12862,37 @@ public final class ClientProto {
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              checkKey_ = bs;
+              checkKey_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              checkValue_ = bs;
+              checkColumn_ = input.readBytes();
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
-              key_ = bs;
+              checkValue_ = input.readBytes();
               break;
             }
             case 42: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000010;
-              table_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-                columnValues_ = new java.util.ArrayList<ColumnValue>();
-                mutable_bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000020;
+              table_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>();
+                mutable_bitField0_ |= 0x00000040;
               }
               columnValues_.add(
-                      input.readMessage(ColumnValue.PARSER, extensionRegistry));
+                  input.readMessage(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.PARSER, extensionRegistry));
               break;
             }
           }
@@ -15207,39 +12901,36 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxCheckAndPutRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int TXID_FIELD_NUMBER = 1;
     private long txid_;
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     public boolean hasTxid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
      * <code>required int64 txid = 1;</code>
      */
@@ -15248,227 +12939,116 @@ public final class ClientProto {
     }
 
     public static final int CHECKKEY_FIELD_NUMBER = 2;
-    private volatile Object checkKey_;
-
+    private com.google.protobuf.ByteString checkKey_;
     /**
-     * <code>required string checkKey = 2;</code>
+     * <code>required bytes checkKey = 2;</code>
      */
     public boolean hasCheckKey() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string checkKey = 2;</code>
+     * <code>required bytes checkKey = 2;</code>
      */
-    public String getCheckKey() {
-      Object ref = checkKey_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          checkKey_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getCheckKey() {
+      return checkKey_;
     }
 
+    public static final int CHECKCOLUMN_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString checkColumn_;
     /**
-     * <code>required string checkKey = 2;</code>
+     * <code>required bytes checkColumn = 3;</code>
      */
-    public com.google.protobuf.ByteString
-    getCheckKeyBytes() {
-      Object ref = checkKey_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        checkKey_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int CHECKVALUE_FIELD_NUMBER = 3;
-    private volatile Object checkValue_;
-
-    /**
-     * <code>required string checkValue = 3;</code>
-     */
-    public boolean hasCheckValue() {
+    public boolean hasCheckColumn() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
-
     /**
-     * <code>required string checkValue = 3;</code>
+     * <code>required bytes checkColumn = 3;</code>
      */
-    public String getCheckValue() {
-      Object ref = checkValue_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          checkValue_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getCheckColumn() {
+      return checkColumn_;
     }
 
+    public static final int CHECKVALUE_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString checkValue_;
     /**
-     * <code>required string checkValue = 3;</code>
+     * <code>required bytes checkValue = 4;</code>
      */
-    public com.google.protobuf.ByteString
-    getCheckValueBytes() {
-      Object ref = checkValue_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        checkValue_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int KEY_FIELD_NUMBER = 4;
-    private volatile Object key_;
-
-    /**
-     * <code>required string key = 4;</code>
-     */
-    public boolean hasKey() {
+    public boolean hasCheckValue() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
-
     /**
-     * <code>required string key = 4;</code>
+     * <code>required bytes checkValue = 4;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getCheckValue() {
+      return checkValue_;
     }
 
+    public static final int KEY_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 4;</code>
+     * <code>required bytes key = 5;</code>
      */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int TABLE_FIELD_NUMBER = 5;
-    private volatile Object table_;
-
-    /**
-     * <code>required string table = 5;</code>
-     */
-    public boolean hasTable() {
+    public boolean hasKey() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
-
     /**
-     * <code>required string table = 5;</code>
+     * <code>required bytes key = 5;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
+    public static final int TABLE_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 5;</code>
+     * <code>required bytes table = 6;</code>
      */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public boolean hasTable() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required bytes table = 6;</code>
+     */
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
-    public static final int COLUMNVALUES_FIELD_NUMBER = 6;
-    private java.util.List<ColumnValue> columnValues_;
-
+    public static final int COLUMNVALUES_FIELD_NUMBER = 7;
+    private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_;
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    public java.util.List<ColumnValue> getColumnValuesList() {
+    public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
       return columnValues_;
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    public java.util.List<? extends ColumnValueOrBuilder>
-    getColumnValuesOrBuilderList() {
+    public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+        getColumnValuesOrBuilderList() {
       return columnValues_;
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
     public int getColumnValuesCount() {
       return columnValues_.size();
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    public ColumnValue getColumnValues(int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
       return columnValues_.get(index);
     }
-
     /**
-     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+     * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
      */
-    public ColumnValueOrBuilder getColumnValuesOrBuilder(
-            int index) {
+    public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+        int index) {
       return columnValues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -15479,6 +13059,10 @@ public final class ClientProto {
         return false;
       }
       if (!hasCheckKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCheckColumn()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -15505,24 +13089,27 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, checkKey_);
+        output.writeBytes(2, checkKey_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, checkValue_);
+        output.writeBytes(3, checkColumn_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, key_);
+        output.writeBytes(4, checkValue_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, table_);
+        output.writeBytes(5, key_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
-        output.writeMessage(6, columnValues_.get(i));
+        output.writeMessage(7, columnValues_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -15534,23 +13121,31 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeInt64Size(1, txid_);
+          .computeInt64Size(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, checkKey_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, checkKey_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, checkValue_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, checkColumn_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, checkValue_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, key_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, table_);
       }
       for (int i = 0; i < columnValues_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(6, columnValues_.get(i));
+          .computeMessageSize(7, columnValues_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -15558,50 +13153,54 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxCheckAndPutRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest)) {
         return super.equals(obj);
       }
-      TxCheckAndPutRequest other = (TxCheckAndPutRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest) obj;
 
       boolean result = true;
       result = result && (hasTxid() == other.hasTxid());
       if (hasTxid()) {
         result = result && (getTxid()
-                == other.getTxid());
+            == other.getTxid());
       }
       result = result && (hasCheckKey() == other.hasCheckKey());
       if (hasCheckKey()) {
         result = result && getCheckKey()
-                .equals(other.getCheckKey());
+            .equals(other.getCheckKey());
+      }
+      result = result && (hasCheckColumn() == other.hasCheckColumn());
+      if (hasCheckColumn()) {
+        result = result && getCheckColumn()
+            .equals(other.getCheckColumn());
       }
       result = result && (hasCheckValue() == other.hasCheckValue());
       if (hasCheckValue()) {
         result = result && getCheckValue()
-                .equals(other.getCheckValue());
+            .equals(other.getCheckValue());
       }
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnValuesList()
-              .equals(other.getColumnValuesList());
+          .equals(other.getColumnValuesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -15611,11 +13210,15 @@ public final class ClientProto {
       if (hasTxid()) {
         hash = (37 * hash) + TXID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                getTxid());
+            getTxid());
       }
       if (hasCheckKey()) {
         hash = (37 * hash) + CHECKKEY_FIELD_NUMBER;
         hash = (53 * hash) + getCheckKey().hashCode();
+      }
+      if (hasCheckColumn()) {
+        hash = (37 * hash) + CHECKCOLUMN_FIELD_NUMBER;
+        hash = (53 * hash) + getCheckColumn().hashCode();
       }
       if (hasCheckValue()) {
         hash = (37 * hash) + CHECKVALUE_FIELD_NUMBER;
@@ -15638,115 +13241,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static TxCheckAndPutRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxCheckAndPutRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxCheckAndPutRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxCheckAndPutRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxCheckAndPutRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxCheckAndPutRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxCheckAndPutRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxCheckAndPutRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxCheckAndPutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxCheckAndPutRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxCheckAndPutRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest)
-            TxCheckAndPutRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxCheckAndPutRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest.newBuilder()
@@ -15755,33 +13343,33 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getColumnValuesFieldBuilder();
         }
       }
-
       public Builder clear() {
         super.clear();
         txid_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        checkKey_ = "";
+        checkKey_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        checkValue_ = "";
+        checkColumn_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        key_ = "";
+        checkValue_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
-        table_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
+        table_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           columnValuesBuilder_.clear();
         }
@@ -15789,24 +13377,24 @@ public final class ClientProto {
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
       }
 
-      public TxCheckAndPutRequest getDefaultInstanceForType() {
-        return TxCheckAndPutRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest.getDefaultInstance();
       }
 
-      public TxCheckAndPutRequest build() {
-        TxCheckAndPutRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxCheckAndPutRequest buildPartial() {
-        TxCheckAndPutRequest result = new TxCheckAndPutRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -15820,19 +13408,23 @@ public final class ClientProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.checkValue_ = checkValue_;
+        result.checkColumn_ = checkColumn_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.key_ = key_;
+        result.checkValue_ = checkValue_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
+        result.key_ = key_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
         result.table_ = table_;
         if (columnValuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             columnValues_ = java.util.Collections.unmodifiableList(columnValues_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.columnValues_ = columnValues_;
         } else {
@@ -15846,74 +13438,63 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxCheckAndPutRequest) {
-          return mergeFrom((TxCheckAndPutRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxCheckAndPutRequest other) {
-        if (other == TxCheckAndPutRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest.getDefaultInstance()) return this;
         if (other.hasTxid()) {
           setTxid(other.getTxid());
         }
         if (other.hasCheckKey()) {
-          bitField0_ |= 0x00000002;
-          checkKey_ = other.checkKey_;
-          onChanged();
+          setCheckKey(other.getCheckKey());
+        }
+        if (other.hasCheckColumn()) {
+          setCheckColumn(other.getCheckColumn());
         }
         if (other.hasCheckValue()) {
-          bitField0_ |= 0x00000004;
-          checkValue_ = other.checkValue_;
-          onChanged();
+          setCheckValue(other.getCheckValue());
         }
         if (other.hasKey()) {
-          bitField0_ |= 0x00000008;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000010;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (columnValuesBuilder_ == null) {
           if (!other.columnValues_.isEmpty()) {
             if (columnValues_.isEmpty()) {
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureColumnValuesIsMutable();
               columnValues_.addAll(other.columnValues_);
@@ -15926,10 +13507,10 @@ public final class ClientProto {
               columnValuesBuilder_.dispose();
               columnValuesBuilder_ = null;
               columnValues_ = other.columnValues_;
-              bitField0_ = (bitField0_ & ~0x00000020);
-              columnValuesBuilder_ =
-                      com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                              getColumnValuesFieldBuilder() : null;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              columnValuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnValuesFieldBuilder() : null;
             } else {
               columnValuesBuilder_.addAllMessages(other.columnValues_);
             }
@@ -15945,6 +13526,9 @@ public final class ClientProto {
           return false;
         }
         if (!hasCheckKey()) {
+          return false;
+        }
+        if (!hasCheckColumn()) {
           return false;
         }
         if (!hasCheckValue()) {
@@ -15965,14 +13549,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxCheckAndPutRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxCheckAndPutRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -15981,25 +13565,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private long txid_;
-
+      private long txid_ ;
       /**
        * <code>required int64 txid = 1;</code>
        */
       public boolean hasTxid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
       public long getTxid() {
         return txid_;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -16009,7 +13589,6 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -16020,66 +13599,33 @@ public final class ClientProto {
         return this;
       }
 
-      private Object checkKey_ = "";
-
+      private com.google.protobuf.ByteString checkKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkKey = 2;</code>
+       * <code>required bytes checkKey = 2;</code>
        */
       public boolean hasCheckKey() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string checkKey = 2;</code>
+       * <code>required bytes checkKey = 2;</code>
        */
-      public String getCheckKey() {
-        Object ref = checkKey_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            checkKey_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getCheckKey() {
+        return checkKey_;
       }
-
       /**
-       * <code>required string checkKey = 2;</code>
+       * <code>required bytes checkKey = 2;</code>
        */
-      public com.google.protobuf.ByteString
-      getCheckKeyBytes() {
-        Object ref = checkKey_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          checkKey_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string checkKey = 2;</code>
-       */
-      public Builder setCheckKey(
-              String value) {
+      public Builder setCheckKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         checkKey_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string checkKey = 2;</code>
+       * <code>required bytes checkKey = 2;</code>
        */
       public Builder clearCheckKey() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -16088,292 +13634,170 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString checkColumn_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkKey = 2;</code>
+       * <code>required bytes checkColumn = 3;</code>
        */
-      public Builder setCheckKeyBytes(
-              com.google.protobuf.ByteString value) {
+      public boolean hasCheckColumn() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bytes checkColumn = 3;</code>
+       */
+      public com.google.protobuf.ByteString getCheckColumn() {
+        return checkColumn_;
+      }
+      /**
+       * <code>required bytes checkColumn = 3;</code>
+       */
+      public Builder setCheckColumn(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        checkKey_ = value;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        checkColumn_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes checkColumn = 3;</code>
+       */
+      public Builder clearCheckColumn() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        checkColumn_ = getDefaultInstance().getCheckColumn();
         onChanged();
         return this;
       }
 
-      private Object checkValue_ = "";
-
+      private com.google.protobuf.ByteString checkValue_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkValue = 3;</code>
+       * <code>required bytes checkValue = 4;</code>
        */
       public boolean hasCheckValue() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
-
       /**
-       * <code>required string checkValue = 3;</code>
+       * <code>required bytes checkValue = 4;</code>
        */
-      public String getCheckValue() {
-        Object ref = checkValue_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            checkValue_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getCheckValue() {
+        return checkValue_;
       }
-
       /**
-       * <code>required string checkValue = 3;</code>
+       * <code>required bytes checkValue = 4;</code>
        */
-      public com.google.protobuf.ByteString
-      getCheckValueBytes() {
-        Object ref = checkValue_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          checkValue_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string checkValue = 3;</code>
-       */
-      public Builder setCheckValue(
-              String value) {
+      public Builder setCheckValue(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
         checkValue_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string checkValue = 3;</code>
+       * <code>required bytes checkValue = 4;</code>
        */
       public Builder clearCheckValue() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         checkValue_ = getDefaultInstance().getCheckValue();
         onChanged();
         return this;
       }
 
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string checkValue = 3;</code>
-       */
-      public Builder setCheckValueBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
-        checkValue_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object key_ = "";
-
-      /**
-       * <code>required string key = 4;</code>
+       * <code>required bytes key = 5;</code>
        */
       public boolean hasKey() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
-
       /**
-       * <code>required string key = 4;</code>
+       * <code>required bytes key = 5;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 4;</code>
+       * <code>required bytes key = 5;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 4;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000008;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 4;</code>
+       * <code>required bytes key = 5;</code>
        */
       public Builder clearKey() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         key_ = getDefaultInstance().getKey();
         onChanged();
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 4;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000008;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 5;</code>
+       * <code>required bytes table = 6;</code>
        */
       public boolean hasTable() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
-
       /**
-       * <code>required string table = 5;</code>
+       * <code>required bytes table = 6;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 5;</code>
+       * <code>required bytes table = 6;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 5;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000010;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 5;</code>
+       * <code>required bytes table = 6;</code>
        */
       public Builder clearTable() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         table_ = getDefaultInstance().getTable();
         onChanged();
         return this;
       }
 
-      /**
-       * <code>required string table = 5;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000010;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<ColumnValue> columnValues_ =
-              java.util.Collections.emptyList();
-
+      private java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> columnValues_ =
+        java.util.Collections.emptyList();
       private void ensureColumnValuesIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
-          columnValues_ = new java.util.ArrayList<ColumnValue>(columnValues_);
-          bitField0_ |= 0x00000020;
-        }
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          columnValues_ = new java.util.ArrayList<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue>(columnValues_);
+          bitField0_ |= 0x00000040;
+         }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder> columnValuesBuilder_;
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> columnValuesBuilder_;
 
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public java.util.List<ColumnValue> getColumnValuesList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> getColumnValuesList() {
         if (columnValuesBuilder_ == null) {
           return java.util.Collections.unmodifiableList(columnValues_);
         } else {
           return columnValuesBuilder_.getMessageList();
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public int getColumnValuesCount() {
         if (columnValuesBuilder_ == null) {
@@ -16382,23 +13806,21 @@ public final class ClientProto {
           return columnValuesBuilder_.getCount();
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public ColumnValue getColumnValues(int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue getColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
           return columnValues_.get(index);
         } else {
           return columnValuesBuilder_.getMessage(index);
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -16411,12 +13833,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder setColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.set(index, builderForValue.build());
@@ -16426,11 +13847,10 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public Builder addColumnValues(ColumnValue value) {
+      public Builder addColumnValues(org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -16443,12 +13863,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue value) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue value) {
         if (columnValuesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -16461,12 +13880,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder addColumnValues(
-              ColumnValue.Builder builderForValue) {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(builderForValue.build());
@@ -16476,12 +13894,11 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder addColumnValues(
-              int index, ColumnValue.Builder builderForValue) {
+          int index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder builderForValue) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           columnValues_.add(index, builderForValue.build());
@@ -16491,39 +13908,36 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder addAllColumnValues(
-              Iterable<? extends ColumnValue> values) {
+          java.lang.Iterable<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue> values) {
         if (columnValuesBuilder_ == null) {
           ensureColumnValuesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, columnValues_);
+              values, columnValues_);
           onChanged();
         } else {
           columnValuesBuilder_.addAllMessages(values);
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder clearColumnValues() {
         if (columnValuesBuilder_ == null) {
           columnValues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           columnValuesBuilder_.clear();
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
       public Builder removeColumnValues(int index) {
         if (columnValuesBuilder_ == null) {
@@ -16535,86 +13949,77 @@ public final class ClientProto {
         }
         return this;
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public ColumnValue.Builder getColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder getColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().getBuilder(index);
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public ColumnValueOrBuilder getColumnValuesOrBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder getColumnValuesOrBuilder(
+          int index) {
         if (columnValuesBuilder_ == null) {
-          return columnValues_.get(index);
-        } else {
+          return columnValues_.get(index);  } else {
           return columnValuesBuilder_.getMessageOrBuilder(index);
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public java.util.List<? extends ColumnValueOrBuilder>
-      getColumnValuesOrBuilderList() {
+      public java.util.List<? extends org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+           getColumnValuesOrBuilderList() {
         if (columnValuesBuilder_ != null) {
           return columnValuesBuilder_.getMessageOrBuilderList();
         } else {
           return java.util.Collections.unmodifiableList(columnValues_);
         }
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder() {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder() {
         return getColumnValuesFieldBuilder().addBuilder(
-                ColumnValue.getDefaultInstance());
+            org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public ColumnValue.Builder addColumnValuesBuilder(
-              int index) {
+      public org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder addColumnValuesBuilder(
+          int index) {
         return getColumnValuesFieldBuilder().addBuilder(
-                index, ColumnValue.getDefaultInstance());
+            index, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.getDefaultInstance());
       }
-
       /**
-       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 6;</code>
+       * <code>repeated .org.minbase.common.rpc.proto.generated.ColumnValue columnValues = 7;</code>
        */
-      public java.util.List<ColumnValue.Builder>
-      getColumnValuesBuilderList() {
+      public java.util.List<org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder> 
+           getColumnValuesBuilderList() {
         return getColumnValuesFieldBuilder().getBuilderList();
       }
-
       private com.google.protobuf.RepeatedFieldBuilderV3<
-              ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>
-      getColumnValuesFieldBuilder() {
+          org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder> 
+          getColumnValuesFieldBuilder() {
         if (columnValuesBuilder_ == null) {
           columnValuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  ColumnValue, ColumnValue.Builder, ColumnValueOrBuilder>(
+              org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValue.Builder, org.minbase.common.rpc.proto.generated.ClientProto.ColumnValueOrBuilder>(
                   columnValues_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           columnValues_ = null;
         }
         return columnValuesBuilder_;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -16623,24 +14028,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxCheckAndPutRequest)
-    private static final TxCheckAndPutRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxCheckAndPutRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest();
     }
 
-    public static TxCheckAndPutRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxCheckAndPutRequest>
-            PARSER = new com.google.protobuf.AbstractParser<TxCheckAndPutRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxCheckAndPutRequest>
+        PARSER = new com.google.protobuf.AbstractParser<TxCheckAndPutRequest>() {
       public TxCheckAndPutRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxCheckAndPutRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxCheckAndPutRequest(input, extensionRegistry);
       }
     };
 
@@ -16648,62 +14051,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxCheckAndPutRequest> getParserForType() {
       return PARSER;
     }
 
-    public TxCheckAndPutRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxCheckAndPutResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse}
    */
-  public static final class TxCheckAndPutResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse)
-          TxCheckAndPutResponseOrBuilder {
+  public  static final class TxCheckAndPutResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse)
+      TxCheckAndPutResponseOrBuilder {
     // Use TxCheckAndPutResponse.newBuilder() to construct.
     private TxCheckAndPutResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxCheckAndPutResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxCheckAndPutResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -16714,14 +14113,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -16730,51 +14129,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxCheckAndPutResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -16783,9 +14178,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -16797,7 +14192,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -16805,153 +14200,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxCheckAndPutResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse)) {
         return super.equals(obj);
       }
-      TxCheckAndPutResponse other = (TxCheckAndPutResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static TxCheckAndPutResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxCheckAndPutResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxCheckAndPutResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxCheckAndPutResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxCheckAndPutResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxCheckAndPutResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxCheckAndPutResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxCheckAndPutResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxCheckAndPutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxCheckAndPutResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxCheckAndPutResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse)
-            TxCheckAndPutResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxCheckAndPutResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse.newBuilder()
@@ -16960,49 +14338,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
       }
 
-      public TxCheckAndPutResponse getDefaultInstanceForType() {
-        return TxCheckAndPutResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse.getDefaultInstance();
       }
 
-      public TxCheckAndPutResponse build() {
-        TxCheckAndPutResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxCheckAndPutResponse buildPartial() {
-        TxCheckAndPutResponse result = new TxCheckAndPutResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -17011,48 +14387,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxCheckAndPutResponse) {
-          return mergeFrom((TxCheckAndPutResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxCheckAndPutResponse other) {
-        if (other == TxCheckAndPutResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -17060,21 +14430,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxCheckAndPutResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxCheckAndPutResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -17083,52 +14453,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -17137,24 +14501,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxCheckAndPutResponse)
-    private static final TxCheckAndPutResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxCheckAndPutResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse();
     }
 
-    public static TxCheckAndPutResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxCheckAndPutResponse>
-            PARSER = new com.google.protobuf.AbstractParser<TxCheckAndPutResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxCheckAndPutResponse>
+        PARSER = new com.google.protobuf.AbstractParser<TxCheckAndPutResponse>() {
       public TxCheckAndPutResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxCheckAndPutResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxCheckAndPutResponse(input, extensionRegistry);
       }
     };
 
@@ -17162,119 +14524,92 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxCheckAndPutResponse> getParserForType() {
       return PARSER;
     }
 
-    public TxCheckAndPutResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxCheckAndPutResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxDeleteRequestOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxDeleteRequest)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxDeleteRequest)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>required int64 txid = 1;</code>
      */
     boolean hasTxid();
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     long getTxid();
 
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
     boolean hasKey();
-
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
-    String getKey();
+    com.google.protobuf.ByteString getKey();
 
     /**
-     * <code>required string key = 2;</code>
-     */
-    com.google.protobuf.ByteString
-    getKeyBytes();
-
-    /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
     boolean hasTable();
-
     /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
-    String getTable();
+    com.google.protobuf.ByteString getTable();
 
     /**
-     * <code>required string table = 3;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    com.google.protobuf.ByteString
-    getTableBytes();
-
+    java.util.List<com.google.protobuf.ByteString> getColumnsList();
     /**
-     * <code>repeated string columns = 4;</code>
-     */
-    java.util.List<String>
-    getColumnsList();
-
-    /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
     int getColumnsCount();
-
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    String getColumns(int index);
-
-    /**
-     * <code>repeated string columns = 4;</code>
-     */
-    com.google.protobuf.ByteString
-    getColumnsBytes(int index);
+    com.google.protobuf.ByteString getColumns(int index);
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxDeleteRequest}
    */
-  public static final class TxDeleteRequest extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxDeleteRequest)
-          TxDeleteRequestOrBuilder {
+  public  static final class TxDeleteRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxDeleteRequest)
+      TxDeleteRequestOrBuilder {
     // Use TxDeleteRequest.newBuilder() to construct.
     private TxDeleteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxDeleteRequest() {
       txid_ = 0L;
-      key_ = "";
-      table_ = "";
-      columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      table_ = com.google.protobuf.ByteString.EMPTY;
+      columns_ = java.util.Collections.emptyList();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxDeleteRequest(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -17285,7 +14620,7 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -17296,24 +14631,21 @@ public final class ClientProto {
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              key_ = bs;
+              key_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              table_ = bs;
+              table_ = input.readBytes();
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                columns_ = new com.google.protobuf.LazyStringArrayList();
+                columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000008;
               }
-              columns_.add(bs);
+              columns_.add(input.readBytes());
               break;
             }
           }
@@ -17322,39 +14654,36 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxDeleteRequest.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest.Builder.class);
     }
 
     private int bitField0_;
     public static final int TXID_FIELD_NUMBER = 1;
     private long txid_;
-
     /**
      * <code>required int64 txid = 1;</code>
      */
     public boolean hasTxid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
      * <code>required int64 txid = 1;</code>
      */
@@ -17363,130 +14692,58 @@ public final class ClientProto {
     }
 
     public static final int KEY_FIELD_NUMBER = 2;
-    private volatile Object key_;
-
+    private com.google.protobuf.ByteString key_;
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
     public boolean hasKey() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-
     /**
-     * <code>required string key = 2;</code>
+     * <code>required bytes key = 2;</code>
      */
-    public String getKey() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          key_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string key = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-    getKeyBytes() {
-      Object ref = key_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        key_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
     }
 
     public static final int TABLE_FIELD_NUMBER = 3;
-    private volatile Object table_;
-
+    private com.google.protobuf.ByteString table_;
     /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
     public boolean hasTable() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
-
     /**
-     * <code>required string table = 3;</code>
+     * <code>required bytes table = 3;</code>
      */
-    public String getTable() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          table_ = s;
-        }
-        return s;
-      }
-    }
-
-    /**
-     * <code>required string table = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-    getTableBytes() {
-      Object ref = table_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-                com.google.protobuf.ByteString.copyFromUtf8(
-                        (String) ref);
-        table_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getTable() {
+      return table_;
     }
 
     public static final int COLUMNS_FIELD_NUMBER = 4;
-    private com.google.protobuf.LazyStringList columns_;
-
+    private java.util.List<com.google.protobuf.ByteString> columns_;
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    public com.google.protobuf.ProtocolStringList
-    getColumnsList() {
+    public java.util.List<com.google.protobuf.ByteString>
+        getColumnsList() {
       return columns_;
     }
-
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
     public int getColumnsCount() {
       return columns_.size();
     }
-
     /**
-     * <code>repeated string columns = 4;</code>
+     * <code>repeated bytes columns = 4;</code>
      */
-    public String getColumns(int index) {
+    public com.google.protobuf.ByteString getColumns(int index) {
       return columns_.get(index);
     }
 
-    /**
-     * <code>repeated string columns = 4;</code>
-     */
-    public com.google.protobuf.ByteString
-    getColumnsBytes(int index) {
-      return columns_.getByteString(index);
-    }
-
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -17509,18 +14766,18 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, key_);
+        output.writeBytes(2, key_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, table_);
+        output.writeBytes(3, table_);
       }
       for (int i = 0; i < columns_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, columns_.getRaw(i));
+        output.writeBytes(4, columns_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -17532,18 +14789,21 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeInt64Size(1, txid_);
+          .computeInt64Size(1, txid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, key_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, key_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, table_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, table_);
       }
       {
         int dataSize = 0;
         for (int i = 0; i < columns_.size(); i++) {
-          dataSize += computeStringSizeNoTag(columns_.getRaw(i));
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(columns_.get(i));
         }
         size += dataSize;
         size += 1 * getColumnsList().size();
@@ -17554,40 +14814,39 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxDeleteRequest)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest)) {
         return super.equals(obj);
       }
-      TxDeleteRequest other = (TxDeleteRequest) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest other = (org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest) obj;
 
       boolean result = true;
       result = result && (hasTxid() == other.hasTxid());
       if (hasTxid()) {
         result = result && (getTxid()
-                == other.getTxid());
+            == other.getTxid());
       }
       result = result && (hasKey() == other.hasKey());
       if (hasKey()) {
         result = result && getKey()
-                .equals(other.getKey());
+            .equals(other.getKey());
       }
       result = result && (hasTable() == other.hasTable());
       if (hasTable()) {
         result = result && getTable()
-                .equals(other.getTable());
+            .equals(other.getTable());
       }
       result = result && getColumnsList()
-              .equals(other.getColumnsList());
+          .equals(other.getColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -17597,7 +14856,7 @@ public final class ClientProto {
       if (hasTxid()) {
         hash = (37 * hash) + TXID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                getTxid());
+            getTxid());
       }
       if (hasKey()) {
         hash = (37 * hash) + KEY_FIELD_NUMBER;
@@ -17616,115 +14875,100 @@ public final class ClientProto {
       return hash;
     }
 
-    public static TxDeleteRequest parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxDeleteRequest parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxDeleteRequest parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxDeleteRequest parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxDeleteRequest parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxDeleteRequest parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxDeleteRequest parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxDeleteRequest parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxDeleteRequest parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxDeleteRequest parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxDeleteRequest prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxDeleteRequest}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxDeleteRequest)
-            TxDeleteRequestOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxDeleteRequest)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxDeleteRequest.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest.class, org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest.newBuilder()
@@ -17733,49 +14977,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
         txid_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        key_ = "";
+        key_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        table_ = "";
+        table_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
       }
 
-      public TxDeleteRequest getDefaultInstanceForType() {
-        return TxDeleteRequest.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest.getDefaultInstance();
       }
 
-      public TxDeleteRequest build() {
-        TxDeleteRequest result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxDeleteRequest buildPartial() {
-        TxDeleteRequest result = new TxDeleteRequest(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest result = new org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -17791,7 +15033,7 @@ public final class ClientProto {
         }
         result.table_ = table_;
         if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          columns_ = columns_.getUnmodifiableView();
+          columns_ = java.util.Collections.unmodifiableList(columns_);
           bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.columns_ = columns_;
@@ -17803,58 +15045,48 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxDeleteRequest) {
-          return mergeFrom((TxDeleteRequest) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxDeleteRequest other) {
-        if (other == TxDeleteRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest.getDefaultInstance()) return this;
         if (other.hasTxid()) {
           setTxid(other.getTxid());
         }
         if (other.hasKey()) {
-          bitField0_ |= 0x00000002;
-          key_ = other.key_;
-          onChanged();
+          setKey(other.getKey());
         }
         if (other.hasTable()) {
-          bitField0_ |= 0x00000004;
-          table_ = other.table_;
-          onChanged();
+          setTable(other.getTable());
         }
         if (!other.columns_.isEmpty()) {
           if (columns_.isEmpty()) {
@@ -17885,14 +15117,14 @@ public final class ClientProto {
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxDeleteRequest parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxDeleteRequest) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -17901,25 +15133,21 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private long txid_;
-
+      private long txid_ ;
       /**
        * <code>required int64 txid = 1;</code>
        */
       public boolean hasTxid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
       public long getTxid() {
         return txid_;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -17929,7 +15157,6 @@ public final class ClientProto {
         onChanged();
         return this;
       }
-
       /**
        * <code>required int64 txid = 1;</code>
        */
@@ -17940,66 +15167,33 @@ public final class ClientProto {
         return this;
       }
 
-      private Object key_ = "";
-
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
       public boolean hasKey() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
-      public String getKey() {
-        Object ref = key_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            key_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
       }
-
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
-      public com.google.protobuf.ByteString
-      getKeyBytes() {
-        Object ref = key_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          key_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string key = 2;</code>
-       */
-      public Builder setKey(
-              String value) {
+      public Builder setKey(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         key_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string key = 2;</code>
+       * <code>required bytes key = 2;</code>
        */
       public Builder clearKey() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -18008,80 +15202,33 @@ public final class ClientProto {
         return this;
       }
 
+      private com.google.protobuf.ByteString table_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string key = 2;</code>
-       */
-      public Builder setKeyBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        key_ = value;
-        onChanged();
-        return this;
-      }
-
-      private Object table_ = "";
-
-      /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
       public boolean hasTable() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
-
       /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
-      public String getTable() {
-        Object ref = table_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            table_ = s;
-          }
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public com.google.protobuf.ByteString getTable() {
+        return table_;
       }
-
       /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
-      public com.google.protobuf.ByteString
-      getTableBytes() {
-        Object ref = table_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                          (String) ref);
-          table_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      /**
-       * <code>required string table = 3;</code>
-       */
-      public Builder setTable(
-              String value) {
+      public Builder setTable(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
         table_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required string table = 3;</code>
+       * <code>required bytes table = 3;</code>
        */
       public Builder clearTable() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -18090,130 +15237,84 @@ public final class ClientProto {
         return this;
       }
 
-      /**
-       * <code>required string table = 3;</code>
-       */
-      public Builder setTableBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000004;
-        table_ = value;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringList columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-
+      private java.util.List<com.google.protobuf.ByteString> columns_ = java.util.Collections.emptyList();
       private void ensureColumnsIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          columns_ = new com.google.protobuf.LazyStringArrayList(columns_);
+          columns_ = new java.util.ArrayList<com.google.protobuf.ByteString>(columns_);
           bitField0_ |= 0x00000008;
-        }
+         }
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
-      public com.google.protobuf.ProtocolStringList
-      getColumnsList() {
-        return columns_.getUnmodifiableView();
+      public java.util.List<com.google.protobuf.ByteString>
+          getColumnsList() {
+        return java.util.Collections.unmodifiableList(columns_);
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public int getColumnsCount() {
         return columns_.size();
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
-      public String getColumns(int index) {
+      public com.google.protobuf.ByteString getColumns(int index) {
         return columns_.get(index);
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
-       */
-      public com.google.protobuf.ByteString
-      getColumnsBytes(int index) {
-        return columns_.getByteString(index);
-      }
-
-      /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public Builder setColumns(
-              int index, String value) {
+          int index, com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.set(index, value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
-      public Builder addColumns(
-              String value) {
+      public Builder addColumns(com.google.protobuf.ByteString value) {
         if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
         columns_.add(value);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public Builder addAllColumns(
-              Iterable<String> values) {
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureColumnsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, columns_);
+            values, columns_);
         onChanged();
         return this;
       }
-
       /**
-       * <code>repeated string columns = 4;</code>
+       * <code>repeated bytes columns = 4;</code>
        */
       public Builder clearColumns() {
-        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        columns_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
-
-      /**
-       * <code>repeated string columns = 4;</code>
-       */
-      public Builder addColumnsBytes(
-              com.google.protobuf.ByteString value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureColumnsIsMutable();
-        columns_.add(value);
-        onChanged();
-        return this;
-      }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -18222,24 +15323,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxDeleteRequest)
-    private static final TxDeleteRequest DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxDeleteRequest();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest();
     }
 
-    public static TxDeleteRequest getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxDeleteRequest>
-            PARSER = new com.google.protobuf.AbstractParser<TxDeleteRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxDeleteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<TxDeleteRequest>() {
       public TxDeleteRequest parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxDeleteRequest(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxDeleteRequest(input, extensionRegistry);
       }
     };
 
@@ -18247,62 +15346,58 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxDeleteRequest> getParserForType() {
       return PARSER;
     }
 
-    public TxDeleteRequest getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   public interface TxDeleteResponseOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxDeleteResponse)
-          com.google.protobuf.MessageOrBuilder {
+      // @@protoc_insertion_point(interface_extends:org.minbase.common.rpc.proto.generated.TxDeleteResponse)
+      com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean hasSuccess();
-
+    boolean hasStatusCode();
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    boolean getSuccess();
+    int getStatusCode();
   }
-
   /**
    * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxDeleteResponse}
    */
-  public static final class TxDeleteResponse extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxDeleteResponse)
-          TxDeleteResponseOrBuilder {
+  public  static final class TxDeleteResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:org.minbase.common.rpc.proto.generated.TxDeleteResponse)
+      TxDeleteResponseOrBuilder {
     // Use TxDeleteResponse.newBuilder() to construct.
     private TxDeleteResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-
     private TxDeleteResponse() {
-      success_ = false;
+      statusCode_ = 0;
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
-
     private TxDeleteResponse(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -18313,14 +15408,14 @@ public final class ClientProto {
               break;
             default: {
               if (!parseUnknownField(input, unknownFields,
-                      extensionRegistry, tag)) {
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              success_ = input.readBool();
+              statusCode_ = input.readInt32();
               break;
             }
           }
@@ -18329,51 +15424,47 @@ public final class ClientProto {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
         throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
-
     public static final com.google.protobuf.Descriptors.Descriptor
-    getDescriptor() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
+        getDescriptor() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
     }
 
-    protected FieldAccessorTable
-    internalGetFieldAccessorTable() {
-      return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                      TxDeleteResponse.class, Builder.class);
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse.Builder.class);
     }
 
     private int bitField0_;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private boolean success_;
-
+    public static final int STATUSCODE_FIELD_NUMBER = 1;
+    private int statusCode_;
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean hasSuccess() {
+    public boolean hasStatusCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
-
     /**
-     * <code>required bool success = 1;</code>
+     * <code>required int32 statusCode = 1;</code>
      */
-    public boolean getSuccess() {
-      return success_;
+    public int getStatusCode() {
+      return statusCode_;
     }
 
     private byte memoizedIsInitialized = -1;
-
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSuccess()) {
+      if (!hasStatusCode()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -18382,9 +15473,9 @@ public final class ClientProto {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
+                        throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, success_);
+        output.writeInt32(1, statusCode_);
       }
       unknownFields.writeTo(output);
     }
@@ -18396,7 +15487,7 @@ public final class ClientProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-                .computeBoolSize(1, success_);
+          .computeInt32Size(1, statusCode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -18404,153 +15495,136 @@ public final class ClientProto {
     }
 
     private static final long serialVersionUID = 0L;
-
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-        return true;
+       return true;
       }
-      if (!(obj instanceof TxDeleteResponse)) {
+      if (!(obj instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse)) {
         return super.equals(obj);
       }
-      TxDeleteResponse other = (TxDeleteResponse) obj;
+      org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse other = (org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse) obj;
 
       boolean result = true;
-      result = result && (hasSuccess() == other.hasSuccess());
-      if (hasSuccess()) {
-        result = result && (getSuccess()
-                == other.getSuccess());
+      result = result && (hasStatusCode() == other.hasStatusCode());
+      if (hasStatusCode()) {
+        result = result && (getStatusCode()
+            == other.getStatusCode());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSuccess()) {
-        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                getSuccess());
+      if (hasStatusCode()) {
+        hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+        hash = (53 * hash) + getStatusCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static TxDeleteResponse parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxDeleteResponse parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxDeleteResponse parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-
-    public static TxDeleteResponse parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-
-    public static TxDeleteResponse parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxDeleteResponse parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxDeleteResponse parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
+          .parseDelimitedWithIOException(PARSER, input);
     }
-
-    public static TxDeleteResponse parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-
-    public static TxDeleteResponse parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
+          .parseWithIOException(PARSER, input);
     }
-
-    public static TxDeleteResponse parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public Builder newBuilderForType() {
-      return newBuilder();
-    }
-
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-
-    public static Builder newBuilder(TxDeleteResponse prototype) {
+    public static Builder newBuilder(org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-            BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      * Protobuf type {@code org.minbase.common.rpc.proto.generated.TxDeleteResponse}
      */
     public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxDeleteResponse)
-            TxDeleteResponseOrBuilder {
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:org.minbase.common.rpc.proto.generated.TxDeleteResponse)
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
+          getDescriptor() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
       }
 
-      protected FieldAccessorTable
-      internalGetFieldAccessorTable() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                        TxDeleteResponse.class, Builder.class);
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse.class, org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse.Builder.class);
       }
 
       // Construct using org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse.newBuilder()
@@ -18559,49 +15633,47 @@ public final class ClientProto {
       }
 
       private Builder(
-              BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
-
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
         }
       }
-
       public Builder clear() {
         super.clear();
-        success_ = false;
+        statusCode_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
-      getDescriptorForType() {
-        return ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
+          getDescriptorForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
       }
 
-      public TxDeleteResponse getDefaultInstanceForType() {
-        return TxDeleteResponse.getDefaultInstance();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse getDefaultInstanceForType() {
+        return org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse.getDefaultInstance();
       }
 
-      public TxDeleteResponse build() {
-        TxDeleteResponse result = buildPartial();
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse build() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public TxDeleteResponse buildPartial() {
-        TxDeleteResponse result = new TxDeleteResponse(this);
+      public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse buildPartial() {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse result = new org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.success_ = success_;
+        result.statusCode_ = statusCode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -18610,48 +15682,42 @@ public final class ClientProto {
       public Builder clone() {
         return (Builder) super.clone();
       }
-
       public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-
       public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-
       public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-
       public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-
       public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              Object value) {
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TxDeleteResponse) {
-          return mergeFrom((TxDeleteResponse) other);
+        if (other instanceof org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse) {
+          return mergeFrom((org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TxDeleteResponse other) {
-        if (other == TxDeleteResponse.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
+      public Builder mergeFrom(org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse other) {
+        if (other == org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse.getDefaultInstance()) return this;
+        if (other.hasStatusCode()) {
+          setStatusCode(other.getStatusCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -18659,21 +15725,21 @@ public final class ClientProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasSuccess()) {
+        if (!hasStatusCode()) {
           return false;
         }
         return true;
       }
 
       public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-        TxDeleteResponse parsedMessage = null;
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TxDeleteResponse) e.getUnfinishedMessage();
+          parsedMessage = (org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -18682,52 +15748,46 @@ public final class ClientProto {
         }
         return this;
       }
-
       private int bitField0_;
 
-      private boolean success_;
-
+      private int statusCode_ ;
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean hasSuccess() {
+      public boolean hasStatusCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public boolean getSuccess() {
-        return success_;
+      public int getStatusCode() {
+        return statusCode_;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder setSuccess(boolean value) {
+      public Builder setStatusCode(int value) {
         bitField0_ |= 0x00000001;
-        success_ = value;
+        statusCode_ = value;
         onChanged();
         return this;
       }
-
       /**
-       * <code>required bool success = 1;</code>
+       * <code>required int32 statusCode = 1;</code>
        */
-      public Builder clearSuccess() {
+      public Builder clearStatusCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = false;
+        statusCode_ = 0;
         onChanged();
         return this;
       }
-
       public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -18736,24 +15796,22 @@ public final class ClientProto {
     }
 
     // @@protoc_insertion_point(class_scope:org.minbase.common.rpc.proto.generated.TxDeleteResponse)
-    private static final TxDeleteResponse DEFAULT_INSTANCE;
-
+    private static final org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TxDeleteResponse();
+      DEFAULT_INSTANCE = new org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse();
     }
 
-    public static TxDeleteResponse getDefaultInstance() {
+    public static org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated
-    public static final com.google.protobuf.Parser<TxDeleteResponse>
-            PARSER = new com.google.protobuf.AbstractParser<TxDeleteResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TxDeleteResponse>
+        PARSER = new com.google.protobuf.AbstractParser<TxDeleteResponse>() {
       public TxDeleteResponse parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TxDeleteResponse(input, extensionRegistry);
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TxDeleteResponse(input, extensionRegistry);
       }
     };
 
@@ -18761,371 +15819,371 @@ public final class ClientProto {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<TxDeleteResponse> getParserForType() {
       return PARSER;
     }
 
-    public TxDeleteResponse getDefaultInstanceForType() {
+    public org.minbase.common.rpc.proto.generated.ClientProto.TxDeleteResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_GetRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_GetRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_GetResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_GetResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_PutRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_PutRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_PutResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_PutResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-          internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
-  private static final
-  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_fieldAccessorTable;
+    internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
-  getDescriptor() {
+      getDescriptor() {
     return descriptor;
   }
-
-  private static com.google.protobuf.Descriptors.FileDescriptor
-          descriptor;
-
+  private static  com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
   static {
-    String[] descriptorData = {
-            "\n\021ClientProto.proto\022&org.minbase.common." +
-                    "rpc.proto.generated\",\n\013ColumnValue\022\016\n\006co" +
-                    "lumn\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\"9\n\nGetRequest\022" +
-                    "\013\n\003key\030\001 \002(\t\022\r\n\005table\030\002 \002(\t\022\017\n\007columns\030\003" +
-                    " \003(\t\"e\n\013GetResponse\022\013\n\003key\030\001 \002(\t\022I\n\014colu" +
-                    "mnValues\030\003 \003(\01323.org.minbase.common.rpc." +
-                    "proto.generated.ColumnValue\"s\n\nPutReques" +
-                    "t\022\013\n\003key\030\001 \002(\t\022\r\n\005table\030\002 \002(\t\022I\n\014columnV" +
-                    "alues\030\003 \003(\01323.org.minbase.common.rpc.pro" +
-                    "to.generated.ColumnValue\"\036\n\013PutResponse\022",
-            "\017\n\007success\030\001 \002(\010\"\241\001\n\022CheckAndPutRequest\022" +
-                    "\020\n\010checkKey\030\001 \002(\t\022\022\n\ncheckValue\030\002 \002(\t\022\013\n" +
-                    "\003key\030\003 \002(\t\022\r\n\005table\030\004 \002(\t\022I\n\014columnValue" +
-                    "s\030\005 \003(\01323.org.minbase.common.rpc.proto.g" +
-                    "enerated.ColumnValue\"&\n\023CheckAndPutRespo" +
-                    "nse\022\017\n\007success\030\001 \002(\010\"<\n\rDeleteRequest\022\013\n" +
-                    "\003key\030\001 \002(\t\022\r\n\005table\030\002 \002(\t\022\017\n\007columns\030\003 \003" +
-                    "(\t\"!\n\016DeleteResponse\022\017\n\007success\030\001 \002(\010\"\031\n" +
-                    "\027BeginTransactionRequest\"9\n\030BeginTransac" +
-                    "tionResponse\022\017\n\007success\030\001 \002(\010\022\014\n\004txid\030\002 ",
-            "\002(\003\"\037\n\017RollBackRequest\022\014\n\004txid\030\001 \002(\003\"#\n\020" +
-                    "RollBackResponse\022\017\n\007success\030\001 \002(\010\"\035\n\rCom" +
-                    "mitRequest\022\014\n\004txid\030\001 \002(\003\"!\n\016CommitRespon" +
-                    "se\022\017\n\007success\030\001 \002(\010\"I\n\014TxGetRequest\022\014\n\004t" +
-                    "xid\030\001 \002(\003\022\013\n\003key\030\002 \002(\t\022\r\n\005table\030\003 \002(\t\022\017\n" +
-                    "\007columns\030\004 \003(\t\"g\n\rTxGetResponse\022\013\n\003key\030\001" +
-                    " \002(\t\022I\n\014columnValues\030\003 \003(\01323.org.minbase" +
-                    ".common.rpc.proto.generated.ColumnValue\"" +
-                    "\203\001\n\014TxPutRequest\022\014\n\004txid\030\001 \002(\003\022\013\n\003key\030\003 " +
-                    "\002(\t\022\r\n\005table\030\004 \002(\t\022I\n\014columnValues\030\005 \003(\013",
-            "23.org.minbase.common.rpc.proto.generate" +
-                    "d.ColumnValue\" \n\rTxPutResponse\022\017\n\007succes" +
-                    "s\030\001 \002(\010\"\261\001\n\024TxCheckAndPutRequest\022\014\n\004txid" +
-                    "\030\001 \002(\003\022\020\n\010checkKey\030\002 \002(\t\022\022\n\ncheckValue\030\003" +
-                    " \002(\t\022\013\n\003key\030\004 \002(\t\022\r\n\005table\030\005 \002(\t\022I\n\014colu" +
-                    "mnValues\030\006 \003(\01323.org.minbase.common.rpc." +
-                    "proto.generated.ColumnValue\"(\n\025TxCheckAn" +
-                    "dPutResponse\022\017\n\007success\030\001 \002(\010\"L\n\017TxDelet" +
-                    "eRequest\022\014\n\004txid\030\001 \002(\003\022\013\n\003key\030\002 \002(\t\022\r\n\005t" +
-                    "able\030\003 \002(\t\022\017\n\007columns\030\004 \003(\t\"#\n\020TxDeleteR",
-            "esponse\022\017\n\007success\030\001 \002(\0102\201\007\n\rClientServi" +
-                    "ce\022n\n\003get\0222.org.minbase.common.rpc.proto" +
-                    ".generated.GetRequest\0323.org.minbase.comm" +
-                    "on.rpc.proto.generated.GetResponse\022n\n\003pu" +
-                    "t\0222.org.minbase.common.rpc.proto.generat" +
-                    "ed.PutRequest\0323.org.minbase.common.rpc.p" +
-                    "roto.generated.PutResponse\022\206\001\n\013checkAndP" +
-                    "ut\022:.org.minbase.common.rpc.proto.genera" +
-                    "ted.CheckAndPutRequest\032;.org.minbase.com" +
-                    "mon.rpc.proto.generated.CheckAndPutRespo",
-            "nse\022w\n\006delete\0225.org.minbase.common.rpc.p" +
-                    "roto.generated.DeleteRequest\0326.org.minba" +
-                    "se.common.rpc.proto.generated.DeleteResp" +
-                    "onse\022\225\001\n\020beginTransaction\022?.org.minbase." +
-                    "common.rpc.proto.generated.BeginTransact" +
-                    "ionRequest\032@.org.minbase.common.rpc.prot" +
-                    "o.generated.BeginTransactionResponse\022}\n\010" +
-                    "rollBack\0227.org.minbase.common.rpc.proto." +
-                    "generated.RollBackRequest\0328.org.minbase." +
-                    "common.rpc.proto.generated.RollBackRespo",
-            "nse\022w\n\006commit\0225.org.minbase.common.rpc.p" +
-                    "roto.generated.CommitRequest\0326.org.minba" +
-                    "se.common.rpc.proto.generated.CommitResp" +
-                    "onse2\206\004\n\022TransactionService\022r\n\003get\0224.org" +
-                    ".minbase.common.rpc.proto.generated.TxGe" +
-                    "tRequest\0325.org.minbase.common.rpc.proto." +
-                    "generated.TxGetResponse\022r\n\003put\0224.org.min" +
-                    "base.common.rpc.proto.generated.TxPutReq" +
-                    "uest\0325.org.minbase.common.rpc.proto.gene" +
-                    "rated.TxPutResponse\022\212\001\n\013checkAndPut\022<.or",
-            "g.minbase.common.rpc.proto.generated.TxC" +
-                    "heckAndPutRequest\032=.org.minbase.common.r" +
-                    "pc.proto.generated.TxCheckAndPutResponse" +
-                    "\022{\n\006delete\0227.org.minbase.common.rpc.prot" +
-                    "o.generated.TxDeleteRequest\0328.org.minbas" +
-                    "e.common.rpc.proto.generated.TxDeleteRes" +
-                    "ponse"
+    java.lang.String[] descriptorData = {
+      "\n\021ClientProto.proto\022&org.minbase.common." +
+      "rpc.proto.generated\"1\n\013ColumnValue\022\016\n\006co" +
+      "lumn\030\001 \002(\014\022\022\n\ntableValue\030\002 \002(\014\"9\n\nGetReq" +
+      "uest\022\013\n\003key\030\001 \002(\014\022\r\n\005table\030\002 \002(\014\022\017\n\007colu" +
+      "mns\030\003 \003(\014\"y\n\013GetResponse\022\013\n\003key\030\001 \002(\014\022\022\n" +
+      "\nstatusCode\030\002 \002(\005\022I\n\014columnValues\030\003 \003(\0132" +
+      "3.org.minbase.common.rpc.proto.generated" +
+      ".ColumnValue\"s\n\nPutRequest\022\013\n\003key\030\001 \002(\014\022" +
+      "\r\n\005table\030\002 \002(\014\022I\n\014columnValues\030\003 \003(\01323.o" +
+      "rg.minbase.common.rpc.proto.generated.Co",
+      "lumnValue\"!\n\013PutResponse\022\022\n\nstatusCode\030\001" +
+      " \002(\005\"\266\001\n\022CheckAndPutRequest\022\020\n\010checkKey\030" +
+      "\001 \002(\014\022\023\n\013checkColumn\030\002 \002(\014\022\022\n\ncheckValue" +
+      "\030\003 \002(\014\022\013\n\003key\030\004 \002(\014\022\r\n\005table\030\005 \002(\014\022I\n\014co" +
+      "lumnValues\030\006 \003(\01323.org.minbase.common.rp" +
+      "c.proto.generated.ColumnValue\")\n\023CheckAn" +
+      "dPutResponse\022\022\n\nstatusCode\030\001 \002(\005\"<\n\rDele" +
+      "teRequest\022\013\n\003key\030\001 \002(\014\022\r\n\005table\030\002 \002(\014\022\017\n" +
+      "\007columns\030\003 \003(\014\"$\n\016DeleteResponse\022\022\n\nstat" +
+      "usCode\030\001 \002(\005\"\031\n\027BeginTransactionRequest\"",
+      "<\n\030BeginTransactionResponse\022\022\n\nstatusCod" +
+      "e\030\001 \002(\005\022\014\n\004txid\030\002 \002(\003\"\037\n\017RollBackRequest" +
+      "\022\014\n\004txid\030\001 \002(\003\"&\n\020RollBackResponse\022\022\n\nst" +
+      "atusCode\030\001 \002(\005\"\035\n\rCommitRequest\022\014\n\004txid\030" +
+      "\001 \002(\003\"$\n\016CommitResponse\022\022\n\nstatusCode\030\001 " +
+      "\002(\005\"I\n\014TxGetRequest\022\014\n\004txid\030\001 \002(\003\022\013\n\003key" +
+      "\030\002 \002(\014\022\r\n\005table\030\003 \002(\014\022\017\n\007columns\030\004 \003(\014\"{" +
+      "\n\rTxGetResponse\022\013\n\003key\030\001 \002(\014\022\022\n\nstatusCo" +
+      "de\030\002 \002(\005\022I\n\014columnValues\030\003 \003(\01323.org.min" +
+      "base.common.rpc.proto.generated.ColumnVa",
+      "lue\"\203\001\n\014TxPutRequest\022\014\n\004txid\030\001 \002(\003\022\013\n\003ke" +
+      "y\030\003 \002(\014\022\r\n\005table\030\004 \002(\014\022I\n\014columnValues\030\005" +
+      " \003(\01323.org.minbase.common.rpc.proto.gene" +
+      "rated.ColumnValue\"#\n\rTxPutResponse\022\022\n\nst" +
+      "atusCode\030\001 \002(\005\"\306\001\n\024TxCheckAndPutRequest\022" +
+      "\014\n\004txid\030\001 \002(\003\022\020\n\010checkKey\030\002 \002(\014\022\023\n\013check" +
+      "Column\030\003 \002(\014\022\022\n\ncheckValue\030\004 \002(\014\022\013\n\003key\030" +
+      "\005 \002(\014\022\r\n\005table\030\006 \002(\014\022I\n\014columnValues\030\007 \003" +
+      "(\01323.org.minbase.common.rpc.proto.genera" +
+      "ted.ColumnValue\"+\n\025TxCheckAndPutResponse",
+      "\022\022\n\nstatusCode\030\001 \002(\005\"L\n\017TxDeleteRequest\022" +
+      "\014\n\004txid\030\001 \002(\003\022\013\n\003key\030\002 \002(\014\022\r\n\005table\030\003 \002(" +
+      "\014\022\017\n\007columns\030\004 \003(\014\"&\n\020TxDeleteResponse\022\022" +
+      "\n\nstatusCode\030\001 \002(\0052\201\007\n\rClientService\022n\n\003" +
+      "get\0222.org.minbase.common.rpc.proto.gener" +
+      "ated.GetRequest\0323.org.minbase.common.rpc" +
+      ".proto.generated.GetResponse\022n\n\003put\0222.or" +
+      "g.minbase.common.rpc.proto.generated.Put" +
+      "Request\0323.org.minbase.common.rpc.proto.g" +
+      "enerated.PutResponse\022\206\001\n\013checkAndPut\022:.o",
+      "rg.minbase.common.rpc.proto.generated.Ch" +
+      "eckAndPutRequest\032;.org.minbase.common.rp" +
+      "c.proto.generated.CheckAndPutResponse\022w\n" +
+      "\006delete\0225.org.minbase.common.rpc.proto.g" +
+      "enerated.DeleteRequest\0326.org.minbase.com" +
+      "mon.rpc.proto.generated.DeleteResponse\022\225" +
+      "\001\n\020beginTransaction\022?.org.minbase.common" +
+      ".rpc.proto.generated.BeginTransactionReq" +
+      "uest\032@.org.minbase.common.rpc.proto.gene" +
+      "rated.BeginTransactionResponse\022}\n\010rollBa",
+      "ck\0227.org.minbase.common.rpc.proto.genera" +
+      "ted.RollBackRequest\0328.org.minbase.common" +
+      ".rpc.proto.generated.RollBackResponse\022w\n" +
+      "\006commit\0225.org.minbase.common.rpc.proto.g" +
+      "enerated.CommitRequest\0326.org.minbase.com" +
+      "mon.rpc.proto.generated.CommitResponse2\206" +
+      "\004\n\022TransactionService\022r\n\003get\0224.org.minba" +
+      "se.common.rpc.proto.generated.TxGetReque" +
+      "st\0325.org.minbase.common.rpc.proto.genera" +
+      "ted.TxGetResponse\022r\n\003put\0224.org.minbase.c",
+      "ommon.rpc.proto.generated.TxPutRequest\0325" +
+      ".org.minbase.common.rpc.proto.generated." +
+      "TxPutResponse\022\212\001\n\013checkAndPut\022<.org.minb" +
+      "ase.common.rpc.proto.generated.TxCheckAn" +
+      "dPutRequest\032=.org.minbase.common.rpc.pro" +
+      "to.generated.TxCheckAndPutResponse\022{\n\006de" +
+      "lete\0227.org.minbase.common.rpc.proto.gene" +
+      "rated.TxDeleteRequest\0328.org.minbase.comm" +
+      "on.rpc.proto.generated.TxDeleteResponse"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-            new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-              public com.google.protobuf.ExtensionRegistry assignDescriptors(
-                      com.google.protobuf.Descriptors.FileDescriptor root) {
-                descriptor = root;
-                return null;
-              }
-            };
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
     com.google.protobuf.Descriptors.FileDescriptor
-            .internalBuildGeneratedFileFrom(descriptorData,
-                    new com.google.protobuf.Descriptors.FileDescriptor[]{
-                    }, assigner);
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        }, assigner);
     internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor =
-            getDescriptor().getMessageTypes().get(0);
+      getDescriptor().getMessageTypes().get(0);
     internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor,
-            new String[]{"Column", "Value",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_ColumnValue_descriptor,
+        new java.lang.String[] { "Column", "TableValue", });
     internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_org_minbase_common_rpc_proto_generated_GetRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor,
-            new String[]{"Key", "Table", "Columns",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_GetRequest_descriptor,
+        new java.lang.String[] { "Key", "Table", "Columns", });
     internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_org_minbase_common_rpc_proto_generated_GetResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor,
-            new String[]{"Key", "ColumnValues",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_GetResponse_descriptor,
+        new java.lang.String[] { "Key", "StatusCode", "ColumnValues", });
     internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_org_minbase_common_rpc_proto_generated_PutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor,
-            new String[]{"Key", "Table", "ColumnValues",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_PutRequest_descriptor,
+        new java.lang.String[] { "Key", "Table", "ColumnValues", });
     internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_org_minbase_common_rpc_proto_generated_PutResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_PutResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
     internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor,
-            new String[]{"CheckKey", "CheckValue", "Key", "Table", "ColumnValues",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutRequest_descriptor,
+        new java.lang.String[] { "CheckKey", "CheckColumn", "CheckValue", "Key", "Table", "ColumnValues", });
     internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_CheckAndPutResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
     internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor,
-            new String[]{"Key", "Table", "Columns",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_DeleteRequest_descriptor,
+        new java.lang.String[] { "Key", "Table", "Columns", });
     internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_DeleteResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
     internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor,
-            new String[]{});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionRequest_descriptor,
+        new java.lang.String[] { });
     internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor,
-            new String[]{"Success", "Txid",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_BeginTransactionResponse_descriptor,
+        new java.lang.String[] { "StatusCode", "Txid", });
     internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor,
-            new String[]{"Txid",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_RollBackRequest_descriptor,
+        new java.lang.String[] { "Txid", });
     internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_RollBackResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
     internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor =
-            getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor,
-            new String[]{"Txid",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_CommitRequest_descriptor,
+        new java.lang.String[] { "Txid", });
     internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor =
-            getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_CommitResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
     internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor =
-            getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor,
-            new String[]{"Txid", "Key", "Table", "Columns",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxGetRequest_descriptor,
+        new java.lang.String[] { "Txid", "Key", "Table", "Columns", });
     internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor =
-            getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor,
-            new String[]{"Key", "ColumnValues",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxGetResponse_descriptor,
+        new java.lang.String[] { "Key", "StatusCode", "ColumnValues", });
     internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor,
-            new String[]{"Txid", "Key", "Table", "ColumnValues",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxPutRequest_descriptor,
+        new java.lang.String[] { "Txid", "Key", "Table", "ColumnValues", });
     internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor =
-            getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxPutResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
     internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor =
-            getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor,
-            new String[]{"Txid", "CheckKey", "CheckValue", "Key", "Table", "ColumnValues",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutRequest_descriptor,
+        new java.lang.String[] { "Txid", "CheckKey", "CheckColumn", "CheckValue", "Key", "Table", "ColumnValues", });
     internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor =
-            getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxCheckAndPutResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
     internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor =
-            getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor,
-            new String[]{"Txid", "Key", "Table", "Columns",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxDeleteRequest_descriptor,
+        new java.lang.String[] { "Txid", "Key", "Table", "Columns", });
     internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor =
-            getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-            internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor,
-            new String[]{"Success",});
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_org_minbase_common_rpc_proto_generated_TxDeleteResponse_descriptor,
+        new java.lang.String[] { "StatusCode", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

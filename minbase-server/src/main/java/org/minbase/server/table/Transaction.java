@@ -3,8 +3,7 @@ package org.minbase.server.table;
 
 
 import org.minbase.common.exception.TransactionException;
-import org.minbase.common.table.Table;
-import org.minbase.server.kv.KeyValue;
+import org.minbase.common.table.ClientTable;
 import org.minbase.server.kv.WriteBatch;
 import org.minbase.server.kv.store.StoreManager;
 import org.minbase.server.statistics.PerformanceStatistics;
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class Transaction implements org.minbase.common.table.transaction.Transaction {
+public class Transaction {
     private static final Logger LOG = LoggerFactory.getLogger(Transaction.class);
     protected long txId;
     private long commitId;
@@ -40,12 +39,12 @@ public class Transaction implements org.minbase.common.table.transaction.Transac
         this.readPoint = storeManager.getReadPoint();
     }
 
-    @Override
+
     public long txId() {
         return txId;
     }
 
-    @Override
+
     public Table getTable(String tableName) {
         TransactionTable transactionTable = txTables.get(tableName);
         if (transactionTable == null) {

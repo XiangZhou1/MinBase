@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class RpcResponseDecoder extends ByteToMessageDecoder {
-    private static final Logger logger = LoggerFactory.getLogger(RpcResponseDecoder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RpcResponseDecoder.class);
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        long len = byteBuf.getLong(0);
+        long len = byteBuf.readableBytes();
+        LOG.info("Decode rpcResponse, length:{}", len);
         byte[] bytes = new byte[(int) len];
         byteBuf.readBytes(bytes);
         final RpcProto.RpcResponse rpcResponse = RpcProto.RpcResponse.parseFrom(bytes);
         list.add(rpcResponse);
-        logger.info("Decode rpcResponse:" + rpcResponse);
     }
 }

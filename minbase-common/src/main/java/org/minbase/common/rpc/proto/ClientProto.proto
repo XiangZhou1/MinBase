@@ -2,51 +2,53 @@ syntax = "proto2";
 package org.minbase.common.rpc.proto.generated;
 
 message ColumnValue {
-  required string column = 1;
-  required string tableValue = 2;
+  required bytes column = 1;
+  required bytes tableValue = 2;
 }
 
 message GetRequest {
-  required string key = 1;
-  required string table = 2;
-  repeated string columns = 3;
+  required bytes key = 1;
+  required bytes table = 2;
+  repeated bytes columns = 3;
 }
 
 message GetResponse {
-  required string key = 1;
+  required bytes key = 1;
+  required int32 statusCode = 2;
   repeated ColumnValue columnValues = 3;
 }
 
 message PutRequest {
-  required string key = 1;
-  required string table = 2;
+  required bytes key = 1;
+  required bytes table = 2;
   repeated ColumnValue columnValues = 3;
 }
 
 message PutResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message CheckAndPutRequest {
-  required string checkKey = 1;
-  required string checkValue = 2;
-  required string key = 3;
-  required string table = 4;
-  repeated ColumnValue columnValues = 5;
+  required bytes checkKey = 1;
+  required bytes checkColumn = 2;
+  required bytes checkValue = 3;
+  required bytes key = 4;
+  required bytes table = 5;
+  repeated ColumnValue columnValues = 6;
 }
 
 message CheckAndPutResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message DeleteRequest {
-  required string key = 1;
-  required string table = 2;
-  repeated string columns = 3;
+  required bytes key = 1;
+  required bytes table = 2;
+  repeated bytes columns = 3;
 }
 
 message DeleteResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message BeginTransactionRequest {
@@ -54,7 +56,7 @@ message BeginTransactionRequest {
 }
 
 message BeginTransactionResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
   required int64 txid = 2;
 }
 
@@ -63,7 +65,7 @@ message RollBackRequest {
 }
 
 message RollBackResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message CommitRequest {
@@ -71,7 +73,7 @@ message CommitRequest {
 }
 
 message CommitResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 service ClientService {
@@ -87,49 +89,51 @@ service ClientService {
 
 message TxGetRequest {
   required int64 txid = 1;
-  required string key = 2;
-  required string table = 3;
-  repeated string columns = 4;
+  required bytes key = 2;
+  required bytes table = 3;
+  repeated bytes columns = 4;
 }
 
 message TxGetResponse {
-  required string key = 1;
+  required bytes key = 1;
+  required int32 statusCode = 2;
   repeated ColumnValue columnValues = 3;
 }
 
 message TxPutRequest {
   required int64 txid = 1;
-  required string key = 3;
-  required string table = 4;
+  required bytes key = 3;
+  required bytes table = 4;
   repeated ColumnValue columnValues = 5;
 }
 
 message TxPutResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message TxCheckAndPutRequest {
   required int64 txid = 1;
-  required string checkKey = 2;
-  required string checkValue = 3;
-  required string key = 4;
-  required string table = 5;
-  repeated ColumnValue columnValues = 6;
+  required bytes checkKey = 2;
+  required bytes checkColumn = 3;
+  required bytes checkValue = 4;
+  required bytes key = 5;
+  required bytes table = 6;
+  repeated ColumnValue columnValues = 7;
 }
 
 message TxCheckAndPutResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message TxDeleteRequest {
   required int64 txid = 1;
-  required string key = 2;
-  required string table = 3;
-  repeated string columns = 4;
+  required bytes key = 2;
+  required bytes table = 3;
+  repeated bytes columns = 4;
 }
 
 message TxDeleteResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 service TransactionService {

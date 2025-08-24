@@ -1,6 +1,7 @@
 package org.minbase.client;
 
 
+import com.google.protobuf.ByteString;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -13,16 +14,19 @@ import org.minbase.client.handler.MinClientHandler;
 import org.minbase.client.service.AdminService;
 import org.minbase.client.service.ClientService;
 import org.minbase.client.service.TxService;
-import org.minbase.client.table.ClientTable;
+import org.minbase.client.table.ClientTableImpl;
 import org.minbase.client.transaction.ClientTransaction;
+import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.rpc.codec.RpcFrameDecoder;
 import org.minbase.common.rpc.codec.RpcRequestEncoder;
 import org.minbase.common.rpc.codec.RpcResponseDecoder;
 import org.minbase.common.rpc.proto.generated.AdminProto;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
-import org.minbase.common.table.Table;
+import org.minbase.common.rpc.service.StatusCode;
+import org.minbase.common.table.ClientTable;
 import org.minbase.common.table.transaction.Transaction;
+import org.minbase.common.utils.ByteUtil;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -82,23 +86,36 @@ public class MinClient {
     }
 
 
-    public Table getTable(String tableName) {
-        return new ClientTable(tableName, clientService);
+    public ClientTable getTable(String tableName) {
+        return new ClientTableImpl(tableName, clientService);
     }
 
-    public Transaction beginTransaction() {
+    public Transaction beginTransaction() throws TransactionNotExistException {
         ClientProto.BeginTransactionRequest.Builder builder = ClientProto.BeginTransactionRequest.newBuilder();
         ClientProto.BeginTransactionResponse beginTransactionResponse = clientService.beginTransaction(builder.build());
-        if (!beginTransactionResponse.getSuccess()) {
-            return null;
+        if (beginTransactionResponse.getStatusCode() != StatusCode.SUCCESS.getCode()) {
+            throw new TransactionNotExistException();
         }
         return new ClientTransaction(beginTransactionResponse.getTxid(), clientService, txService);
     }
 
     public boolean createTable(String tableName) {
         AdminProto.CreateTableRequest.Builder builder = AdminProto.CreateTableRequest.newBuilder();
-        AdminProto.CreateTableRequest createTableRequest = builder.setTableName(tableName).build();
+        AdminProto.CreateTableRequest createTableRequest = builder.setTableName(ByteString.copyFromUtf8(tableName)).build();
         AdminProto.CreateTableResponse createTableResponse = adminService.createTable(createTableRequest);
-        return createTableResponse.getSuccess();
+        return createTableResponse.getStatusCode() == StatusCode.SUCCESS.getCode();
+    }
+
+    public boolean dropTable(String tableName) {
+        AdminProto.DropTableRequest.Builder builder = AdminProto.DropTableRequest.newBuilder();
+        AdminProto.DropTableRequest dropTableRequest = builder.setTableName(ByteString.copyFromUtf8(tableName)).build();
+        AdminProto.DropTableResponse dropTableResponse = adminService.dropTable(dropTableRequest);
+        return dropTableResponse.getStatusCode() == StatusCode.SUCCESS.getCode();
+    }
+    public boolean truncateTable(String tableName) {
+        AdminProto.TruncateTableRequest.Builder builder = AdminProto.TruncateTableRequest.newBuilder();
+        AdminProto.TruncateTableRequest truncateTableRequest = builder.setTableName(ByteString.copyFromUtf8(tableName)).build();
+        AdminProto.TruncateTableResponse truncateTableResponse = adminService.truncateTable(truncateTableRequest);
+        return truncateTableResponse.getStatusCode() == StatusCode.SUCCESS.getCode();
     }
 }

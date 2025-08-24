@@ -2,27 +2,27 @@ syntax = "proto2";
 package org.minbase.common.rpc.proto.generated;
 
 message CreateTableRequest {
-  required string tableName = 1;
+  required bytes tableName = 1;
 }
 
 message CreateTableResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message DropTableRequest {
-  required string tableName = 1;
+  required bytes tableName = 1;
 }
 
 message DropTableResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 message TruncateTableRequest {
-  required string tableName = 1;
+  required bytes tableName = 1;
 }
 
 message TruncateTableResponse {
-  required bool success = 1;
+  required int32 statusCode = 1;
 }
 
 service AdminService {

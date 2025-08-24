@@ -1,17 +1,16 @@
 package org.minbase.server.table;
 
-import org.minbase.common.exception.TransactionException;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
-import org.minbase.common.table.Table;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.store.StoreManager;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TableImpl implements Table {
@@ -67,7 +66,7 @@ public class TableImpl implements Table {
     }
 
     @Override
-    public void put(Put put) {
+    public void put(Put put) throws IOException {
         Transaction transaction = transactionManager.newTransaction();
         Table table = transaction.getTable(tableName);
         table.put(put);
@@ -86,14 +85,14 @@ public class TableImpl implements Table {
                 transaction.rollback();
                 return false;
             }
-        } catch (TransactionException e) {
+        } catch (IOException e) {
             transaction.rollback();
             return false;
         }
     }
 
     @Override
-    public void delete(Delete delete) {
+    public void delete(Delete delete) throws IOException {
         Transaction transaction = transactionManager.newTransaction();
         Table table = transaction.getTable(tableName);
         table.delete(delete);

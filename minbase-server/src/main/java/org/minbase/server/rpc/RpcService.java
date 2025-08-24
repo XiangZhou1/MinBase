@@ -1,23 +1,28 @@
 package org.minbase.server.rpc;
 
+import org.minbase.common.exception.TransactionException;
+import org.minbase.common.exception.TransactionNotExistException;
+import org.minbase.common.rpc.service.StatusCode;
 import org.minbase.common.table.op.*;
 import org.minbase.common.rpc.proto.generated.*;
-import org.minbase.common.table.Table;
 import org.minbase.common.utils.ProtobufUtil;
-import org.minbase.server.MinBaseServer;
+import org.minbase.common.exception.TableNotExistException;
 import org.minbase.server.table.TableManager;
 import org.minbase.server.table.Transaction;
-import org.minbase.server.table.TransactionManager;
-import org.minbase.server.table.TransactionState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient, TransactionServiceGrpc.TransactionServiceBlockingClient, AdminServiceGrpc.AdminServiceBlockingClient {
+public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient,
+        TransactionServiceGrpc.TransactionServiceBlockingClient, AdminServiceGrpc.AdminServiceBlockingClient {
+    private static final Logger LOG = LoggerFactory.getLogger(RpcService.class);
     private TableManager tableManager;
-    private List<Long> transactions = new ArrayList<>();
+    private List<Long> sessionTransactions = new ArrayList<>();
 
-    public RpcService(MinBaseServer server) {
+    public RpcService(TableManager tableManager) {
         this.tableManager = tableManager;
     }
 
@@ -25,47 +30,87 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
     public AdminProto.CreateTableResponse createTable(AdminProto.CreateTableRequest request) {
         AdminProto.CreateTableResponse.Builder builder = AdminProto.CreateTableResponse.newBuilder();
         try {
-            boolean success = tableManager.createTable(request.getTableName());
-            builder.setSuccess(success);
+            boolean success = tableManager.createTable(request.getTableName().toStringUtf8());
+            if (success) {
+                builder.setStatusCode(StatusCode.SUCCESS.getCode());
+            } else {
+                builder.setStatusCode(StatusCode.FAIL.getCode());
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-            builder.setSuccess(false);
+            LOG.error("Call createTable error, tableName:" + request.getTableName(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
         }
         return builder.build();
     }
 
     @Override
     public AdminProto.DropTableResponse dropTable(AdminProto.DropTableRequest request) {
-        return null;
+        AdminProto.DropTableResponse.Builder builder = AdminProto.DropTableResponse.newBuilder();
+        try {
+            boolean success = tableManager.dropTable(request.getTableName().toStringUtf8());
+            if (success) {
+                builder.setStatusCode(StatusCode.SUCCESS.getCode());
+            } else {
+                builder.setStatusCode(StatusCode.FAIL.getCode());
+            }
+        } catch (Exception e) {
+            LOG.error("Call dropTable error, tableName:" + request.getTableName(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+        }
+        return builder.build();
     }
 
     @Override
     public AdminProto.TruncateTableResponse truncateTable(AdminProto.TruncateTableRequest request) {
-        return null;
+        AdminProto.TruncateTableResponse.Builder builder = AdminProto.TruncateTableResponse.newBuilder();
+        try {
+            boolean success = tableManager.dropTable(request.getTableName().toStringUtf8());
+            if (success) {
+                builder.setStatusCode(StatusCode.SUCCESS.getCode());
+            } else {
+                builder.setStatusCode(StatusCode.FAIL.getCode());
+            }
+        } catch (Exception e) {
+            LOG.error("Call truncateTable error, tableName:" + request.getTableName(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+        }
+        return builder.build();
     }
 
     @Override
     public ClientProto.GetResponse get(ClientProto.GetRequest request) {
-        Get get = ProtobufUtil.toGet(request);
-        ColumnValues columnValues = tableManager.get(request.getTable(), get);
-        return ProtobufUtil.toGetResponse(request.getKey(), columnValues);
+        ClientProto.GetResponse.Builder builder = ClientProto.GetResponse.newBuilder();
+        try {
+            Get get = ProtobufUtil.toGet(request);
+            ColumnValues columnValues = tableManager.get(request.getTable().toStringUtf8(), get);
+            ProtobufUtil.toGetResponse(builder, request.getKey().toStringUtf8(), columnValues);
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
+        } catch (TableNotExistException e) {
+            LOG.error("Call get error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
+        } catch (IOException e) {
+            LOG.error("Call get error, tableName:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_IO_ERRER.getCode());
+        } catch (Exception e) {
+            LOG.error("Call get error, tableName:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+        }
+        return builder.build();
     }
 
     @Override
     public ClientProto.PutResponse put(ClientProto.PutRequest request) {
         ClientProto.PutResponse.Builder builder = ClientProto.PutResponse.newBuilder();
-        Put put = ProtobufUtil.toPut(request);
-        boolean tableExist = tableManager.containTable(request.getTable());
-        if (!tableExist) {
-            builder.setSuccess(false);
-            //throw new RuntimeException("Table not exist, table=" + request.getTable());
-        }
         try {
-            tableManager.put(request.getTable(), put);
-            builder.setSuccess(true);
+            Put put = ProtobufUtil.toPut(request);
+            tableManager.put(request.getTable().toStringUtf8(), put);
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
+        } catch (TableNotExistException e) {
+            LOG.error("Call put error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            builder.setSuccess(false);
+            LOG.error("Call put error, tableName:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
         }
         return builder.build();
     }
@@ -75,11 +120,21 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
         ClientProto.CheckAndPutResponse.Builder builder = ClientProto.CheckAndPutResponse.newBuilder();
         CheckAndPut checkAndPut = ProtobufUtil.toChecAndPut(request);
         try {
-            tableManager.checkAndPut(request.getTable(), checkAndPut);
-            builder.setSuccess(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            builder.setSuccess(false);
+            boolean success = tableManager.checkAndPut(request.getTable().toStringUtf8(), checkAndPut);
+            if (success) {
+                builder.setStatusCode(StatusCode.SUCCESS.getCode());
+            } else {
+                builder.setStatusCode(StatusCode.FAIL.getCode());
+            }
+        } catch (TableNotExistException e) {
+            LOG.error("Call checkAndPut error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
+        } catch (IOException e) {
+            LOG.error("Call checkAndPut error, tableName:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_IO_ERRER.getCode());
+        }  catch (Exception e) {
+            LOG.error("Call checkAndPut error, tableName:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
         }
         return builder.build();
     }
@@ -89,35 +144,55 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
         ClientProto.DeleteResponse.Builder builder = ClientProto.DeleteResponse.newBuilder();
         Delete delete = ProtobufUtil.toDelete(request);
         try {
-            tableManager.delete(request.getTable(), delete);
-            builder.setSuccess(true);
+            tableManager.delete(request.getTable().toStringUtf8(), delete);
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            builder.setSuccess(false);
+            LOG.error("Call delete error, tableName:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
         }
         return builder.build();
     }
 
     @Override
     public ClientProto.BeginTransactionResponse beginTransaction(ClientProto.BeginTransactionRequest request) {
-        Transaction transaction = tableManager.newTransaction();
         ClientProto.BeginTransactionResponse.Builder builder = ClientProto.BeginTransactionResponse.newBuilder();
+        Transaction transaction = tableManager.newTransaction();
         if (transaction != null) {
-            builder.setSuccess(true).setTxid(transaction.getTxId());
+            builder.setStatusCode(StatusCode.SUCCESS.getCode()).setTxid(transaction.getTxId());
+            sessionTransactions.add(transaction.getTxId());
         } else {
-            builder.setSuccess(false).setTxid(0);
+            builder.setStatusCode(StatusCode.FAIL.getCode()).setTxid(0);
         }
         return builder.build();
     }
 
     @Override
     public ClientProto.RollBackResponse rollBack(ClientProto.RollBackRequest request) {
-        return null;
+        ClientProto.RollBackResponse.Builder builder = ClientProto.RollBackResponse.newBuilder();
+        tableManager.rollBackTransaction(request.getTxid());
+        builder.setStatusCode(StatusCode.SUCCESS.getCode());
+        sessionTransactions.remove(request.getTxid());
+        return builder.build();
     }
 
     @Override
     public ClientProto.CommitResponse commit(ClientProto.CommitRequest request) {
-        return null;
+        ClientProto.CommitResponse.Builder builder = ClientProto.CommitResponse.newBuilder();
+        try {
+            tableManager.commitTransaction(request.getTxid());
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
+            sessionTransactions.remove(request.getTxid());
+        } catch (TransactionException e) {
+            LOG.error("Call commit error, txid:" + request.getTxid(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
+        } catch (TransactionNotExistException e) {
+            LOG.error("Call commit error, txid:" + request.getTxid(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
+        } catch (Exception e) {
+            LOG.error("Call delete error, txid:" + request.getTxid(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+        }
+        return builder.build();
     }
 
     @Override
@@ -125,11 +200,18 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
         ClientProto.TxGetResponse.Builder builder = ClientProto.TxGetResponse.newBuilder();
         Get get = ProtobufUtil.toGet(request);
         try {
-            ColumnValues columnValues = tableManager.txGet(request.getTxid(), request.getTable(), get);
-            return ProtobufUtil.toTxGetResponse(request.getKey(), columnValues);
+            ColumnValues columnValues = tableManager.txGet(request.getTxid(), request.getTable().toStringUtf8(), get);
+            ProtobufUtil.toTxGetResponse(builder, request.getKey().toStringUtf8(), columnValues);
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
+        } catch (TransactionException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
+        } catch (TransactionNotExistException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            //builder.setSuccess(false);
+            LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
         }
         return builder.build();
     }
@@ -139,31 +221,67 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
         ClientProto.TxPutResponse.Builder builder = ClientProto.TxPutResponse.newBuilder();
         Put put = ProtobufUtil.toPut(request);
         try {
-            tableManager.txPut(request.getTxid(), request.getTable(), put);
-            builder.setSuccess(true);
+            tableManager.txPut(request.getTxid(), request.getTable().toStringUtf8(), put);
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
+        } catch (TransactionException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
+        } catch (TransactionNotExistException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            builder.setSuccess(false);
+            LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
         }
         return builder.build();
     }
 
     @Override
     public ClientProto.TxCheckAndPutResponse checkAndPut(ClientProto.TxCheckAndPutRequest request) {
-        return null;
+        ClientProto.TxCheckAndPutResponse.Builder builder = ClientProto.TxCheckAndPutResponse.newBuilder();
+        CheckAndPut checkAndPut = ProtobufUtil.toTxCheckAndPut(request);
+        try {
+            boolean success = tableManager.txCheckAndPut(request.getTxid(), request.getTable().toStringUtf8(), checkAndPut);
+            if (success) {
+                builder.setStatusCode(StatusCode.SUCCESS.getCode());
+            } else {
+                builder.setStatusCode(StatusCode.FAIL.getCode());
+            }
+        } catch (TransactionException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
+        } catch (TransactionNotExistException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
+        } catch (Exception e) {
+            LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+        }
+        return builder.build();
     }
 
     @Override
     public ClientProto.TxDeleteResponse delete(ClientProto.TxDeleteRequest request) {
-        return null;
+        ClientProto.TxDeleteResponse.Builder builder = ClientProto.TxDeleteResponse.newBuilder();
+        Delete delete = ProtobufUtil.toDelete(request);
+        try {
+            tableManager.txDelete(request.getTxid(), request.getTable().toStringUtf8(), delete);
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
+        } catch (TransactionException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
+        } catch (TransactionNotExistException e) {
+            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
+        } catch (Exception e) {
+            LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+        }
+        return builder.build();
     }
 
 
     public void rollBackTransactions() {
-//        tableManager.rollBackTransactions();
-//        for (long txId : transactions) {
-//            Transaction activeTransaction = TransactionManager.getActiveTransaction(txId);
-//            activeTransaction.rollback();
-//        }
+        tableManager.rollBackTransactions(sessionTransactions);
     }
 }

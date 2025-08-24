@@ -1,11 +1,14 @@
 package org.minbase.client.transaction;
 
-import org.minbase.client.table.TxTable;
+import org.minbase.client.table.TxTableImpl;
+import org.minbase.common.exception.ServerException;
 import org.minbase.common.exception.TransactionException;
+import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.rpc.proto.generated.TransactionServiceGrpc;
-import org.minbase.common.table.Table;
+import org.minbase.common.rpc.service.StatusCode;
+import org.minbase.common.table.TxTable;
 import org.minbase.common.table.transaction.Transaction;
 
 public class ClientTransaction implements Transaction {
@@ -25,27 +28,39 @@ public class ClientTransaction implements Transaction {
     }
 
     @Override
-    public void commit() throws TransactionException {
+    public void commit() throws TransactionException, ServerException, TransactionNotExistException {
         ClientProto.CommitRequest.Builder builder = ClientProto.CommitRequest.newBuilder();
         ClientProto.CommitRequest commitRequest = builder.setTxid(txId).build();
         ClientProto.CommitResponse commitResponse = rpcClient.commit(commitRequest);
-        if(!commitResponse.getSuccess()){
+        if (commitResponse.getStatusCode() == StatusCode.ERROR_TRANSACTION_CONFLICT.getCode()) {
             throw new TransactionException();
+        }
+        if (commitResponse.getStatusCode() == StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode()) {
+            throw new TransactionNotExistException();
+        }
+        if (commitResponse.getStatusCode() != StatusCode.SUCCESS.getCode()) {
+            throw new ServerException("commit fail, txid:" + txClient);
         }
     }
 
     @Override
-    public void rollback() {
+    public void rollback() throws TransactionException, ServerException, TransactionNotExistException {
         ClientProto.RollBackRequest.Builder builder = ClientProto.RollBackRequest.newBuilder();
         ClientProto.RollBackRequest rollBackRequest = builder.setTxid(txId).build();
         ClientProto.RollBackResponse rollBackResponse = rpcClient.rollBack(rollBackRequest);
-        if(!rollBackResponse.getSuccess()){
+        if (rollBackResponse.getStatusCode() == StatusCode.ERROR_TRANSACTION_CONFLICT.getCode()) {
             throw new TransactionException();
+        }
+        if (rollBackResponse.getStatusCode() == StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode()) {
+            throw new TransactionNotExistException();
+        }
+        if (rollBackResponse.getStatusCode() != StatusCode.SUCCESS.getCode()) {
+            throw new ServerException("commit fail, txid:" + txClient);
         }
     }
 
     @Override
-    public Table getTable(String tableName) {
-        return new TxTable(tableName, txClient);
+    public TxTable getTable(String tableName) {
+        return new TxTableImpl(tableName, this, txClient);
     }
 }

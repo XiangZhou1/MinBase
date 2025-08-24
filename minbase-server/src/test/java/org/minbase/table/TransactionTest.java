@@ -2,12 +2,12 @@ package org.minbase.table;
 
 import org.junit.Test;
 import org.minbase.common.exception.TransactionException;
-import org.minbase.common.table.Table;
+import org.minbase.server.table.Table;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
 import org.minbase.server.table.TableManager;
 import org.minbase.server.table.Transaction;
 import org.minbase.server.table.TransactionManager;
@@ -187,9 +187,17 @@ public class TransactionTest {
                 public void run() {
                     Transaction transaction = transactionManager.newTransaction();
                     Table table1 = transaction.getTable("table1");
-                    table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    try {
+                        table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Table table2 = transaction.getTable("table2");
-                    table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    try {
+                        table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     transaction.commit();
                 }
             });
@@ -198,9 +206,17 @@ public class TransactionTest {
                 public void run() {
                     Transaction transaction = transactionManager.newTransaction();
                     Table table1 = transaction.getTable("table1");
-                    table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    try {
+                        table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Table table2 = transaction.getTable("table2");
-                    table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    try {
+                        table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     transaction.commit();
                 }
             });
@@ -226,9 +242,17 @@ public class TransactionTest {
                 public void run() {
                     Transaction transaction = transactionManager.newTransaction();
                     Table table1 = transaction.getTable("table1");
-                    table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    try {
+                        table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Table table2 = transaction.getTable("table2");
-                    table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    try {
+                        table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v1")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     transaction.commit();
                 }
             });
@@ -237,9 +261,17 @@ public class TransactionTest {
                 public void run() {
                     Transaction transaction = transactionManager.newTransaction();
                     Table table1 = transaction.getTable("table1");
-                    table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    try {
+                        table1.put(new Put(ByteUtil.toBytes("k1"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Table table2 = transaction.getTable("table2");
-                    table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    try {
+                        table2.put(new Put(ByteUtil.toBytes("k2"), ByteUtil.toBytes("c1"), ByteUtil.toBytes("v2")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     transaction.commit();
                 }
             });
@@ -249,9 +281,19 @@ public class TransactionTest {
                 public void run() {
                     Transaction transaction = transactionManager.newTransaction();
                     Table table1 = transaction.getTable("table1");
-                    ColumnValues columnValues = table1.get(new Get(ByteUtil.toBytes("k1")));
+                    ColumnValues columnValues = null;
+                    try {
+                        columnValues = table1.get(new Get(ByteUtil.toBytes("k1")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     Table table2 = transaction.getTable("table2");
-                    ColumnValues columnValues2 = table2.get(new Get(ByteUtil.toBytes("k2")));
+                    ColumnValues columnValues2 = null;
+                    try {
+                        columnValues2 = table2.get(new Get(ByteUtil.toBytes("k2")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     assert ByteUtil.byteEqual(columnValues.get(ByteUtil.toBytes("c1")), columnValues2.get(ByteUtil.toBytes("c1")));
                     transaction.rollback();
                 }

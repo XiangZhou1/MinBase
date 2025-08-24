@@ -1,16 +1,18 @@
 package org.minbase.table;
 
 import org.junit.Test;
-import org.minbase.common.table.Table;
+import org.minbase.common.table.ClientTable;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
 import org.minbase.common.utils.ByteUtil;
-import org.minbase.server.conf.Configuration;
+import org.minbase.common.conf.Configuration;
+import org.minbase.server.table.Table;
 import org.minbase.server.table.TableManager;
 import org.minbase.server.table.Transaction;
 import org.minbase.server.table.TransactionManager;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class TableManagerTest {
@@ -152,7 +154,12 @@ public class TableManagerTest {
                         System.out.println(e);
                     }
 
-                    ColumnValues columnValues = tableManager.get("table", new Get(ByteUtil.toBytes("key1")));
+                    ColumnValues columnValues = null;
+                    try {
+                        columnValues = tableManager.get("table", new Get(ByteUtil.toBytes("key1")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     int size = columnValues.size();
                     for (int i = 0; i < size; i++) {
                         byte[] bytes = columnValues.get(ByteUtil.toBytes("c" + i));

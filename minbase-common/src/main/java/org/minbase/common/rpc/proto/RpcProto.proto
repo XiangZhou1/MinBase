@@ -2,15 +2,13 @@ syntax = "proto2";
 package org.minbase.common.rpc.proto.generated;
 
 message RpcRequest {
-  required int64 length = 1;
-  required int64 id = 2;
-  required int32 callType = 3;
-  required string data = 4;
+  required int64 id = 1;
+  required int32 callType = 2;
+  required bytes data = 3;
 }
 
 message RpcResponse {
-  required int64 length = 1;
-  required int64 id = 2;
-  required int32 code = 3;
-  required string tableValue = 4;
+  required int64 id = 1;
+  required int32 code = 2;
+  required bytes data = 3;
 }

@@ -1,4 +1,4 @@
-package org.minbase.server.conf;
+package org.minbase.common.conf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,8 +8,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import static org.minbase.server.constant.Constants.MINBASE_CONF;
 
 
 public class Configuration {

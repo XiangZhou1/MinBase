@@ -8,6 +8,6 @@ public class RpcFrameDecoder extends LengthFieldBasedFrameDecoder {
     }
 
     public RpcFrameDecoder() {
-        super(10000000, 0, 4);
+        super(Integer.MAX_VALUE, 0, 4, 0, 4);
     }
 }

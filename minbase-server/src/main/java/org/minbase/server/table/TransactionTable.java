@@ -4,7 +4,7 @@ import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
-import org.minbase.common.table.Table;
+import org.minbase.common.table.ClientTable;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.iterator.KeyValueIterator;
@@ -12,11 +12,9 @@ import org.minbase.server.kv.iterator.MergeIterator;
 import org.minbase.server.kv.store.Scanner;
 import org.minbase.server.kv.KeyValue;
 import org.minbase.server.kv.store.StoreManager;
-import org.minbase.server.table.wal.Wal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 public class TransactionTable implements Table {
@@ -91,7 +89,9 @@ public class TransactionTable implements Table {
         get.addColumn(column);
         ColumnValues columnValues = get(get);
         byte[] value = columnValues.get(column);
-        if (value == checkValue) {
+        boolean equal = (value == null && checkValue == null) ||
+                (value != null && checkValue != null && ByteUtil.byteEqual(value, checkValue));
+        if (equal) {
             put(put);
             return true;
         } else {

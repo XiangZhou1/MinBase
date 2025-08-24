@@ -8,12 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RpcRequestEncoder extends MessageToByteEncoder<RpcProto.RpcRequest> {
-    private static final Logger logger = LoggerFactory.getLogger(RpcRequestEncoder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RpcRequestEncoder.class);
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, RpcProto.RpcRequest rpcRequest, ByteBuf byteBuf) throws Exception {
         byte[] bytes = rpcRequest.toByteArray();
+        LOG.info("Encode rpcRequest, callId:{}, length:{}", rpcRequest.getId(), bytes.length);
+        byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
-        logger.info("Encode rpcRequest:" + rpcRequest);
     }
 }

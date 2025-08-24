@@ -4,16 +4,20 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.util.concurrent.Promise;
+import org.minbase.common.exception.ServerException;
 import org.minbase.common.rpc.proto.generated.AdminProto;
 import org.minbase.common.rpc.proto.generated.AdminServiceGrpc;
 import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.RpcProto;
 import org.minbase.common.rpc.service.CallType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AdminService extends Service implements AdminServiceGrpc.AdminServiceBlockingClient {
+    private static final Logger LOG = LoggerFactory.getLogger(AdminService.class);
     public AdminService(Channel channel, AtomicLong requestId, ConcurrentHashMap<Long, Promise<RpcProto.RpcResponse>> waitingResponses, EventLoopGroup group) {
         super(channel, requestId, waitingResponses, group);
     }
@@ -21,36 +25,37 @@ public class AdminService extends Service implements AdminServiceGrpc.AdminServi
     @Override
     public AdminProto.CreateTableResponse createTable(AdminProto.CreateTableRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_CREATE_TABLE.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_CREATE_TABLE.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
-            return AdminProto.CreateTableResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+            return AdminProto.CreateTableResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public AdminProto.DropTableResponse dropTable(AdminProto.DropTableRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_DROP_TABLE.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
-            return AdminProto.DropTableResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+            return AdminProto.DropTableResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public AdminProto.TruncateTableResponse truncateTable(AdminProto.TruncateTableRequest request) {
         try {
-            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_GET.getType(), request.toByteString().toStringUtf8());
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.ADMIN_TRUNCATE_TABLE.getType(), request.toByteString());
             RpcProto.RpcResponse rpcResponse = call(rpcRequest);
-            return AdminProto.TruncateTableResponse.parseFrom(rpcResponse.getValueBytes().toByteArray());
+            return AdminProto.TruncateTableResponse.parseFrom(rpcResponse.getData());
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
+
 }
