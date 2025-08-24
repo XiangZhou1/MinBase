@@ -90,14 +90,17 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             ProtobufUtil.toGetResponse(builder, request.getKey().toStringUtf8(), columnValues);
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
         } catch (TableNotExistException e) {
-            LOG.error("Call get error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            LOG.warn("Call get error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
             builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
+            builder.setKey(ByteString.EMPTY);
         } catch (IOException e) {
             LOG.error("Call get error, tableName:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_IO_ERRER.getCode());
+            builder.setKey(ByteString.EMPTY);
         } catch (Exception e) {
             LOG.error("Call get error, tableName:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+            builder.setKey(ByteString.EMPTY);
         }
         return builder.build();
     }
@@ -110,7 +113,7 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             tableManager.put(request.getTable().toStringUtf8(), put);
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
         } catch (TableNotExistException e) {
-            LOG.error("Call put error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            LOG.warn("Call put error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
             builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
         } catch (Exception e) {
             LOG.error("Call put error, tableName:" + request.getTable(), e);
@@ -131,7 +134,7 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
                 builder.setStatusCode(StatusCode.FAIL.getCode());
             }
         } catch (TableNotExistException e) {
-            LOG.error("Call checkAndPut error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            LOG.warn("Call checkAndPut error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
             builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
         } catch (IOException e) {
             LOG.error("Call checkAndPut error, tableName:" + request.getTable(), e);
@@ -150,7 +153,10 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
         try {
             tableManager.delete(request.getTable().toStringUtf8(), delete);
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
-        } catch (Exception e) {
+        } catch (TableNotExistException e) {
+            LOG.warn("Call delete error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
+        }  catch (Exception e) {
             LOG.error("Call delete error, tableName:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
         }
@@ -187,10 +193,10 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
             sessionTransactions.remove(request.getTxid());
         } catch (TransactionException e) {
-            LOG.error("Call commit error, txid:" + request.getTxid(), e);
+            LOG.warn("Call commit error, txid:" + request.getTxid(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
         } catch (TransactionNotExistException e) {
-            LOG.error("Call commit error, txid:" + request.getTxid(), e);
+            LOG.warn("Call commit error, txid:" + request.getTxid(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
         } catch (Exception e) {
             LOG.error("Call delete error, txid:" + request.getTxid(), e);
@@ -208,14 +214,17 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             ProtobufUtil.toTxGetResponse(builder, request.getKey().toStringUtf8(), columnValues);
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
         } catch (TransactionException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
+            builder.setKey(ByteString.EMPTY);
         } catch (TransactionNotExistException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
+            builder.setKey(ByteString.EMPTY);
         } catch (Exception e) {
             LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+            builder.setKey(ByteString.EMPTY);
         }
         return builder.build();
     }
@@ -228,10 +237,10 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             tableManager.txPut(request.getTxid(), request.getTable().toStringUtf8(), put);
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
         } catch (TransactionException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
         } catch (TransactionNotExistException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
         } catch (Exception e) {
             LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
@@ -252,10 +261,10 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
                 builder.setStatusCode(StatusCode.FAIL.getCode());
             }
         } catch (TransactionException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
         } catch (TransactionNotExistException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
         } catch (Exception e) {
             LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
@@ -272,10 +281,10 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             tableManager.txDelete(request.getTxid(), request.getTable().toStringUtf8(), delete);
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
         } catch (TransactionException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_CONFLICT.getCode());
         } catch (TransactionNotExistException e) {
-            LOG.error("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
+            LOG.warn("Call txGet error, txid:" + request.getTxid() + ", table:" + request.getTable(), e);
             builder.setStatusCode(StatusCode.ERROR_TRANSACTION_NOT_EXIST.getCode());
         } catch (Exception e) {
             LOG.error("Call txGet error, tableName:" + request.getTxid() + ", table:" + request.getTable(), e);
