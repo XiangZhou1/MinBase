@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString;
 import org.minbase.common.exception.TransactionException;
 import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.rpc.service.StatusCode;
+import org.minbase.common.table.Row;
 import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.*;
 import org.minbase.common.rpc.proto.generated.*;
@@ -114,6 +115,25 @@ public class RpcService implements ClientServiceGrpc.ClientServiceBlockingClient
             builder.setStatusCode(StatusCode.SUCCESS.getCode());
         } catch (TableNotExistException e) {
             LOG.warn("Call put error, tableName:" + request.getTable() +", key:" + request.getKey(), e);
+            builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
+        } catch (Exception e) {
+            LOG.error("Call put error, tableName:" + request.getTable(), e);
+            builder.setStatusCode(StatusCode.ERROR_DEFAULT.getCode());
+        }
+        return builder.build();
+    }
+
+    @Override
+    public ClientProto.ScanResponse scan(ClientProto.ScanRequest request) {
+        ClientProto.ScanResponse.Builder builder = ClientProto.ScanResponse.newBuilder();
+        try {
+            List<Row> rows = tableManager.scan(request.getTable().toStringUtf8(), request.getStartKey().toStringUtf8(),
+                    request.getEndKey().toStringUtf8(), request.getRowCountLimit());
+            ProtobufUtil.toScanResponse(builder, rows);
+            builder.setStatusCode(StatusCode.SUCCESS.getCode());
+        } catch (TableNotExistException e) {
+            LOG.warn("Call put error, tableName:" + request.getTable() +", startKey:" +
+                    request.getStartKey().toStringUtf8() + ", endKey:" + request.getEndKey().toStringUtf8(), e);
             builder.setStatusCode(StatusCode.ERROR_TABLE_NOT_EXIST.getCode());
         } catch (Exception e) {
             LOG.error("Call put error, tableName:" + request.getTable(), e);

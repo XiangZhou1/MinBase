@@ -9,11 +9,13 @@ import org.minbase.common.rpc.proto.generated.ClientProto;
 import org.minbase.common.rpc.proto.generated.ClientServiceGrpc;
 import org.minbase.common.rpc.service.StatusCode;
 import org.minbase.common.table.ClientTable;
+import org.minbase.common.table.Row;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
 import org.minbase.common.utils.ByteUtil;
+import org.minbase.common.utils.ProtobufUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +47,7 @@ public class ClientTableImpl implements ClientTable {
         final ClientProto.GetRequest getRequest = builder.build();
         final ClientProto.GetResponse getResponse = rpcClient.get(getRequest);
         if (getResponse.getStatusCode() == StatusCode.ERROR_TABLE_NOT_EXIST.getCode()) {
-            throw new TableNotExistException(tableName + "not exist");
+            throw new TableNotExistException(tableName + " not exist");
         }
         if (getResponse.getStatusCode() != StatusCode.SUCCESS.getCode()) {
             throw new ServerException("get " + new String(get.getKey()) + " fail");
@@ -71,7 +73,7 @@ public class ClientTableImpl implements ClientTable {
         final ClientProto.PutRequest putRequest = builder.build();
         final ClientProto.PutResponse putResponse = rpcClient.put(putRequest);
         if (putResponse.getStatusCode() == StatusCode.ERROR_TABLE_NOT_EXIST.getCode()) {
-            throw new TableNotExistException(tableName + "not exist");
+            throw new TableNotExistException(tableName + " not exist");
         }
         if (putResponse.getStatusCode() != StatusCode.SUCCESS.getCode()) {
             throw new ServerException("put " + new String(put.getKey()) + " fail");
@@ -99,7 +101,7 @@ public class ClientTableImpl implements ClientTable {
                 return statusCode == StatusCode.SUCCESS.getCode();
             }
             if (statusCode == StatusCode.ERROR_TABLE_NOT_EXIST.getCode()) {
-                throw new TableNotExistException(tableName + "not exist");
+                throw new TableNotExistException(tableName + " not exist");
             }
             throw new ServerException("checkAndPut " + new String(checkKey) + " fail");
 
@@ -118,10 +120,31 @@ public class ClientTableImpl implements ClientTable {
         ClientProto.DeleteResponse deleteResponse = rpcClient.delete(deleteRequest);
         int statusCode = deleteResponse.getStatusCode();
         if (statusCode == StatusCode.ERROR_TABLE_NOT_EXIST.getCode()) {
-            throw new TableNotExistException(tableName + "not exist");
+            throw new TableNotExistException(tableName + " not exist");
         }
         if (deleteResponse.getStatusCode() != StatusCode.SUCCESS.getCode()) {
             throw new ServerException("get " + new String(delete.getKey()) + " fail");
         }
+    }
+
+    @Override
+    public List<Row> scan(String startKey, String endKey, int rawCountLimit) throws ServerException, TableNotExistException {
+        ClientProto.ScanRequest.Builder builder = ClientProto.ScanRequest.newBuilder();
+        builder.setTable(ByteString.copyFromUtf8(tableName))
+                .setStartKey(startKey == null ? ByteString.EMPTY: ByteString.copyFromUtf8(startKey))
+                .setEndKey(endKey == null ? ByteString.EMPTY: ByteString.copyFromUtf8(endKey))
+                .setRowCountLimit(rawCountLimit);
+
+        ClientProto.ScanRequest scanRequest = builder.build();
+        ClientProto.ScanResponse scanResponse = rpcClient.scan(scanRequest);
+        int statusCode = scanResponse.getStatusCode();
+        if (statusCode == StatusCode.ERROR_TABLE_NOT_EXIST.getCode()) {
+            throw new TableNotExistException(tableName + " not exist");
+        }
+        if (statusCode != StatusCode.SUCCESS.getCode()) {
+            throw new ServerException("scan table:" + tableName + ", startKey:"  + startKey + ", endKey:"+ endKey + " fail");
+        }
+        return ProtobufUtil.toScan(scanResponse);
+
     }
 }

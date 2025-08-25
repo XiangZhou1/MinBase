@@ -3,6 +3,7 @@ package org.minbase.server.table;
 import org.minbase.common.exception.TransactionException;
 import org.minbase.common.exception.TransactionNotExistException;
 import org.minbase.common.table.ClientTable;
+import org.minbase.common.table.Row;
 import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.*;
 import org.minbase.common.table.op.ColumnValues;
@@ -142,7 +143,7 @@ public class TableManager {
     public ColumnValues get(String table, Get get) throws IOException {
         TableImpl table1 = tableMap.get(table);
         if (table1 == null) {
-            throw new TableNotExistException(table + "noe exist");
+            throw new TableNotExistException(table + " not exist");
         }
         return table1.get(get);
     }
@@ -150,7 +151,7 @@ public class TableManager {
     public void put(String table, Put put) throws IOException {
         TableImpl table1 = tableMap.get(table);
         if (table1 == null) {
-            throw new TableNotExistException(table + "noe exist");
+            throw new TableNotExistException(table + " not exist");
         }
         checkTableColumn(table1.getTableInfo(), put.getColumnValues().keySet());
         table1.put(put);
@@ -178,7 +179,7 @@ public class TableManager {
     public boolean checkAndPut(String table, CheckAndPut checkAndPut) throws IOException {
         TableImpl table1 = tableMap.get(table);
         if (table1 == null) {
-            throw new TableNotExistException(table + "noe exist");
+            throw new TableNotExistException(table + " not exist");
         }
         return table1.checkAndPut(checkAndPut.getKey(),
                 checkAndPut.getColumn(), checkAndPut.getValue(), checkAndPut.getPut());
@@ -187,7 +188,7 @@ public class TableManager {
     public void delete(String table, Delete delete) throws IOException {
         TableImpl table1 = tableMap.get(table);
         if (table1 == null) {
-            throw new TableNotExistException(table + "noe exist");
+            throw new TableNotExistException(table + " not exist");
         }
         table1.delete(delete);
     }
@@ -361,4 +362,11 @@ public class TableManager {
     }
 
 
+    public List<Row> scan(String table, String startKey, String endKey, int rowCountLimit) throws TableNotExistException {
+        TableImpl table1 = tableMap.get(table);
+        if (table1 == null) {
+            throw new TableNotExistException(table + " not exist");
+        }
+        return table1.scan(startKey, endKey, rowCountLimit);
+    }
 }

@@ -1,5 +1,6 @@
 package org.minbase.server.table;
 
+import org.minbase.common.table.Row;
 import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
@@ -12,6 +13,7 @@ import org.minbase.server.kv.store.Store;
 import org.minbase.server.kv.store.StoreManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -67,8 +69,13 @@ public class TableImpl implements Table {
         Key startKey = new Key(tableKeyFirst.encode(), Long.MAX_VALUE);
         Key endKey = new Key(tableKeyLast.encode(), 0);
         Scanner scan = storeManager.scan(tableName, startKey, endKey);
-        RawTracker rawTracker = new RawTracker(columns);
-        return rawTracker.tracker(scan);
+        try {
+            RowTracker rowTracker = new RowTracker(columns);
+            List<Row> rows = rowTracker.tracker(scan, 1);
+            return rows.isEmpty() ? new ColumnValues() : rows.get(0).getColumnValues();
+        } finally {
+            scan.close();
+        }
     }
 
     @Override
@@ -114,5 +121,27 @@ public class TableImpl implements Table {
 
     public TableInfo getTableInfo() {
         return tableInfo;
+    }
+
+    public List<Row> scan(String startKey, String endKey, int rowCountLimit) {
+        Key innerStartKey = null;
+        Key innerEndKey = null;
+
+        if (startKey != null && !startKey.isEmpty()) {
+            TableKey tableKeyFirst = new TableKey(ByteUtil.toBytes(startKey), new byte[]{Byte.MIN_VALUE});
+            innerStartKey = new Key(tableKeyFirst.encode(), Long.MAX_VALUE);
+        }
+        if (endKey != null && !endKey.isEmpty()) {
+            TableKey tableKeyLast = new TableKey(ByteUtil.toBytes(endKey), new byte[]{Byte.MAX_VALUE});
+            innerEndKey = new Key(tableKeyLast.encode(), 0);
+        }
+        Scanner scan = storeManager.scan(tableName, innerStartKey, innerEndKey);
+        try {
+            RowTracker rowTracker = new RowTracker(null);
+            return rowTracker.tracker(scan, rowCountLimit);
+        } finally {
+            scan.close();
+        }
+
     }
 }

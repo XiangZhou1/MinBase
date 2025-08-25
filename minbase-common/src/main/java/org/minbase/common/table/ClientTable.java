@@ -11,6 +11,7 @@ import org.minbase.common.utils.ByteUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.List;
 
 public interface ClientTable {
     String name();
@@ -55,5 +56,13 @@ public interface ClientTable {
         }
         delete(key1);
     }
+
+    default List<Row> scan(String startKey, String endKey) throws ServerException, TableNotExistException{
+        return scan(startKey, endKey, 10000);
+    }
+    default List<Row> scan() throws ServerException, TableNotExistException {
+        return scan(null, null, 10000);
+    }
+    List<Row> scan(String startKey, String endKey, int rowCountLimit) throws ServerException, TableNotExistException;
 
 }

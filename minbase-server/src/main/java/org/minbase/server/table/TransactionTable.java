@@ -1,11 +1,11 @@
 package org.minbase.server.table;
 
+import org.minbase.common.table.Row;
 import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.ColumnValues;
 import org.minbase.common.table.op.Delete;
 import org.minbase.common.table.op.Get;
 import org.minbase.common.table.op.Put;
-import org.minbase.common.table.ClientTable;
 import org.minbase.common.utils.ByteUtil;
 import org.minbase.server.kv.Key;
 import org.minbase.server.kv.iterator.KeyValueIterator;
@@ -16,7 +16,6 @@ import org.minbase.server.kv.store.StoreManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -70,10 +69,13 @@ public class TransactionTable implements Table {
         iterators.add(scan);
         iterators.add(localScanner);
         Scanner scanner = new Scanner(new MergeIterator(iterators), Long.MAX_VALUE);
-
-        RawTracker rawTracker = new RawTracker(columns);
-        ColumnValues result = rawTracker.tracker(scanner);
-        return result;
+        try {
+            RowTracker rowTracker = new RowTracker(columns);
+            List<Row> rows = rowTracker.tracker(scanner, 1);
+            return rows.isEmpty() ? new ColumnValues() : rows.get(0).getColumnValues();
+        } finally {
+            scan.close();
+        }
     }
 
     @Override

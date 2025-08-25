@@ -54,4 +54,8 @@ public class TableKey implements Length, Codec {
     public byte[] getColumn() {
         return column;
     }
+
+    public byte[] getKey() {
+        return key;
+    }
 }

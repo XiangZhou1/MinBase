@@ -43,7 +43,11 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest>
                 ClientProto.DeleteRequest deleteRequest = ClientProto.DeleteRequest.parseFrom(rpcRequest.getData());
                 ClientProto.DeleteResponse deleteResponse = service.delete(deleteRequest);
                 rpcResponse = buildRpcResponse(ResponseCode.SUCCESS.getCode(), rpcRequest.getId(), deleteResponse.toByteString());
-            } else if (callType == CallType.CLIENT_BEGIN_TRANSACTION.getType()) {
+            } else if (callType == CallType.CLIENT_SCAN.getType()) {
+                ClientProto.ScanRequest scanRequest = ClientProto.ScanRequest.parseFrom(rpcRequest.getData());
+                ClientProto.ScanResponse scanResponse = service.scan(scanRequest);
+                rpcResponse = buildRpcResponse(ResponseCode.SUCCESS.getCode(), rpcRequest.getId(), scanResponse.toByteString());
+            }  else if (callType == CallType.CLIENT_BEGIN_TRANSACTION.getType()) {
                 ClientProto.BeginTransactionRequest beginTransactionRequest = ClientProto.BeginTransactionRequest.parseFrom(rpcRequest.getData());
                 ClientProto.BeginTransactionResponse beginTransactionResponse = service.beginTransaction(beginTransactionRequest);
                 rpcResponse = buildRpcResponse(ResponseCode.SUCCESS.getCode(), rpcRequest.getId(), beginTransactionResponse.toByteString());

@@ -11,6 +11,7 @@ import org.minbase.common.conf.Configuration;
 import org.minbase.common.exception.ServerException;
 import org.minbase.common.exception.TableNotExistException;
 import org.minbase.common.exception.TransactionNotExistException;
+import org.minbase.common.table.Row;
 import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.TxTable;
 import org.minbase.common.table.op.ColumnValues;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class MinBaseShell {
@@ -120,6 +122,9 @@ public class MinBaseShell {
             case "delete":
                 delete(parts);
                 break;
+            case "scan":
+                scan(parts);
+                break;
 
             case "checkandput":
                 chechAndPut(parts);
@@ -154,6 +159,55 @@ public class MinBaseShell {
                 System.err.println("Unknown command: '" + command + "'. Type 'help' for assistance.");
                 break;
         }
+    }
+
+    private static void scan(String[] parts) throws ServerException, TableNotExistException {
+        if (transaction != null) {
+            System.err.println("Can not scan in transaction");
+            return;
+        }
+
+        if (parts.length < 2) {
+            System.err.println("Usage: scan <tableName> [<startKey>] [<endKey>] [<rowCountLimit>]");
+            return;
+        }
+
+        String tableName = parts[1];
+        String startKey = null;
+        String endKey = null;
+        int rowCountLitmi = 10000;
+        if (parts.length >= 3) {
+            startKey = parts[2];
+        }
+        if (parts.length >= 4) {
+            endKey = parts[3];
+        }
+        if (parts.length >= 5) {
+            rowCountLitmi = Integer.parseInt(parts[4]);
+        }
+        List<Row> scanResult = client.getTable(tableName).scan(startKey, endKey, rowCountLitmi);
+
+
+        // 定义表头
+        List<String> headers = Arrays.asList("KEY", "COLUMN:VALUE");
+
+        // 将 Map 转换为 List<List<String>> 以便打印
+        List<List<String>> printRows = new ArrayList<>();
+        for (Row row : scanResult) {
+            Set<Map.Entry<byte[], byte[]>> entries = row.getColumnValues().getColumnValues().entrySet();
+            StringBuilder columnValues = null;
+            for (Map.Entry<byte[], byte[]> entry : entries) {
+                String columnValue = new String(entry.getKey()) + ":" + new String(entry.getValue());
+                if (columnValues == null) {
+                    columnValues = new StringBuilder(columnValue);
+                } else {
+                    columnValues.append(",").append(columnValue);
+                }
+            }
+            printRows.add(Arrays.asList(row.getRowKey(), columnValues == null ? "null" : columnValues.toString()));
+        }
+
+        CliTablePrinter.printTable(headers, printRows);
     }
 
     private static void exit() {
@@ -375,6 +429,7 @@ public class MinBaseShell {
         System.out.println("    get <tableName> <key> <column>...");
         System.out.println("    delete <tableName> <key>");
         System.out.println("    delete <tableName> <key> <column>...");
+        System.out.println("    scan <tableName> [<startKey>] [<endKey>] [<rowCountLimit>]");
         System.out.println("    checkAndPut <tableName> <checkKey> <checkCol> <checkVal> <putKey> <putCol> <putVal>");
         System.out.println("\n  Transaction Operations:");
         System.out.println("    beginTransaction");

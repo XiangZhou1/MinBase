@@ -105,4 +105,16 @@ public class ClientService extends Service implements ClientServiceGrpc.ClientSe
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public ClientProto.ScanResponse scan(ClientProto.ScanRequest request) {
+        try {
+            RpcProto.RpcRequest rpcRequest = buildRpcRequest(CallType.CLIENT_SCAN.getType(), request.toByteString());
+            final RpcProto.RpcResponse rpcResponse = call(rpcRequest);
+            return ClientProto.ScanResponse.parseFrom(rpcResponse.getData());
+        } catch (InvalidProtocolBufferException e) {
+            LOG.error("InvalidProtocolBufferException", e);
+            throw new RuntimeException(e);
+        }
+    }
 }

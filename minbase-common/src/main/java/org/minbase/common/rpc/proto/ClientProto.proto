@@ -76,11 +76,29 @@ message CommitResponse {
   required int32 statusCode = 1;
 }
 
+message ScanRequest {
+  required bytes table = 1;
+  required bytes startKey = 2;
+  required bytes endKey = 3;
+  required int32 rowCountLimit = 4;
+}
+
+message Row {
+  required bytes rowKey = 1;
+  repeated ColumnValue columnValues = 2;
+}
+
+message ScanResponse {
+  required int32 statusCode = 1;
+  repeated Row rows = 2;
+}
+
 service ClientService {
   rpc get(GetRequest) returns (GetResponse);
   rpc put(PutRequest) returns (PutResponse);
   rpc checkAndPut(CheckAndPutRequest) returns (CheckAndPutResponse);
   rpc delete(DeleteRequest) returns (DeleteResponse);
+  rpc scan(ScanRequest) returns (ScanResponse);
   rpc beginTransaction(BeginTransactionRequest) returns (BeginTransactionResponse);
   rpc rollBack(RollBackRequest) returns (RollBackResponse);
   rpc commit(CommitRequest) returns (CommitResponse);

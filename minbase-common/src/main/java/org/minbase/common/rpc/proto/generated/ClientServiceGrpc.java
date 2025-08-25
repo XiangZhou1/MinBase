@@ -58,6 +58,15 @@ public class ClientServiceGrpc {
           io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi
+  public static final io.grpc.MethodDescriptor<org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest,
+      org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse> METHOD_SCAN =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "org.minbase.common.rpc.proto.generated.ClientService", "scan"),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi
   public static final io.grpc.MethodDescriptor<org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest,
       org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse> METHOD_BEGIN_TRANSACTION =
       io.grpc.MethodDescriptor.create(
@@ -113,6 +122,9 @@ public class ClientServiceGrpc {
     public void delete(org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest request,
         io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse> responseObserver);
 
+    public void scan(org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest request,
+        io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse> responseObserver);
+
     public void beginTransaction(org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest request,
         io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse> responseObserver);
 
@@ -132,6 +144,8 @@ public class ClientServiceGrpc {
     public org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutResponse checkAndPut(org.minbase.common.rpc.proto.generated.ClientProto.CheckAndPutRequest request);
 
     public org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse delete(org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest request);
+
+    public org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse scan(org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest request);
 
     public org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse beginTransaction(org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest request);
 
@@ -153,6 +167,9 @@ public class ClientServiceGrpc {
 
     public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse> delete(
         org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest request);
+
+    public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse> scan(
+        org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest request);
 
     public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse> beginTransaction(
         org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest request);
@@ -207,6 +224,13 @@ public class ClientServiceGrpc {
         io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_DELETE, getCallOptions()), request, responseObserver);
+    }
+
+    @java.lang.Override
+    public void scan(org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest request,
+        io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_SCAN, getCallOptions()), request, responseObserver);
     }
 
     @java.lang.Override
@@ -270,6 +294,12 @@ public class ClientServiceGrpc {
     public org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse delete(org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_DELETE, getCallOptions(), request);
+    }
+
+    @java.lang.Override
+    public org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse scan(org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_SCAN, getCallOptions(), request);
     }
 
     @java.lang.Override
@@ -337,6 +367,13 @@ public class ClientServiceGrpc {
     }
 
     @java.lang.Override
+    public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse> scan(
+        org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_SCAN, getCallOptions()), request);
+    }
+
+    @java.lang.Override
     public com.google.common.util.concurrent.ListenableFuture<org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionResponse> beginTransaction(
         org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest request) {
       return futureUnaryCall(
@@ -362,9 +399,10 @@ public class ClientServiceGrpc {
   private static final int METHODID_PUT = 1;
   private static final int METHODID_CHECK_AND_PUT = 2;
   private static final int METHODID_DELETE = 3;
-  private static final int METHODID_BEGIN_TRANSACTION = 4;
-  private static final int METHODID_ROLL_BACK = 5;
-  private static final int METHODID_COMMIT = 6;
+  private static final int METHODID_SCAN = 4;
+  private static final int METHODID_BEGIN_TRANSACTION = 5;
+  private static final int METHODID_ROLL_BACK = 6;
+  private static final int METHODID_COMMIT = 7;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -397,6 +435,10 @@ public class ClientServiceGrpc {
         case METHODID_DELETE:
           serviceImpl.delete((org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest) request,
               (io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse>) responseObserver);
+          break;
+        case METHODID_SCAN:
+          serviceImpl.scan((org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest) request,
+              (io.grpc.stub.StreamObserver<org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse>) responseObserver);
           break;
         case METHODID_BEGIN_TRANSACTION:
           serviceImpl.beginTransaction((org.minbase.common.rpc.proto.generated.ClientProto.BeginTransactionRequest) request,
@@ -456,6 +498,13 @@ public class ClientServiceGrpc {
               org.minbase.common.rpc.proto.generated.ClientProto.DeleteRequest,
               org.minbase.common.rpc.proto.generated.ClientProto.DeleteResponse>(
                 serviceImpl, METHODID_DELETE)))
+        .addMethod(
+          METHOD_SCAN,
+          asyncUnaryCall(
+            new MethodHandlers<
+              org.minbase.common.rpc.proto.generated.ClientProto.ScanRequest,
+              org.minbase.common.rpc.proto.generated.ClientProto.ScanResponse>(
+                serviceImpl, METHODID_SCAN)))
         .addMethod(
           METHOD_BEGIN_TRANSACTION,
           asyncUnaryCall(

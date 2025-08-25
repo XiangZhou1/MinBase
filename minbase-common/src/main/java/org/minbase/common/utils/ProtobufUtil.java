@@ -2,6 +2,7 @@ package org.minbase.common.utils;
 
 import com.google.protobuf.ByteString;
 import org.minbase.common.rpc.proto.generated.AdminProto;
+import org.minbase.common.table.Row;
 import org.minbase.common.table.TableInfo;
 import org.minbase.common.table.op.*;
 import org.minbase.common.rpc.proto.generated.ClientProto;
@@ -122,5 +123,31 @@ public class ProtobufUtil {
             tableInfos.add(tableInfo);
         }
         return tableInfos;
+    }
+
+    public static List<Row> toScan(ClientProto.ScanResponse scanResponse) {
+        List<Row> rows = new ArrayList<>();
+        for (ClientProto.Row row : scanResponse.getRowsList()) {
+            Row row1 = new Row(row.getRowKey().toStringUtf8());
+            for (ClientProto.ColumnValue columnValue : row.getColumnValuesList()) {
+                row1.add(columnValue.getColumn().toStringUtf8(), columnValue.getTableValue().toStringUtf8());
+            }
+            rows.add(row1);
+        }
+        return rows;
+    }
+
+    public static void toScanResponse(ClientProto.ScanResponse.Builder builder, List<Row> rows) {
+        for (Row row : rows) {
+            ClientProto.Row.Builder rowBuilder = ClientProto.Row.newBuilder();
+            rowBuilder.setRowKey(ByteString.copyFromUtf8(row.getRowKey()));
+            ClientProto.ColumnValue.Builder columnValueBuilder = ClientProto.ColumnValue.newBuilder();
+            for (Map.Entry<byte[], byte[]> entry : row.getColumnValues().getColumnValues().entrySet()) {
+                columnValueBuilder.setColumn(ByteString.copyFrom(entry.getKey()))
+                        .setTableValue(ByteString.copyFrom(entry.getValue()));
+                rowBuilder.addColumnValues(columnValueBuilder.build());
+            }
+            builder.addRows(rowBuilder.build());
+        }
     }
 }

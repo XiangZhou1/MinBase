@@ -9,6 +9,7 @@ public enum CallType {
     CLIENT_COMMIT(6),
     CLIENT_ROLLBACK(7),
 
+
     TX_GET(8),
     TX_PUT(9),
     TX_CHECK_AND_PUT(10),
@@ -17,7 +18,9 @@ public enum CallType {
     ADMIN_CREATE_TABLE(12),
     ADMIN_DROP_TABLE(13),
     ADMIN_TRUNCATE_TABLE(14),
-    ADMIN_LIST_TABLES(15);
+    ADMIN_LIST_TABLES(15),
+
+    CLIENT_SCAN(16);
 
     private final int type;
 
