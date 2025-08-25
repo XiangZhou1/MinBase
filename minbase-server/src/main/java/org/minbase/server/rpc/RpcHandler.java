@@ -23,7 +23,7 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcProto.RpcRequest>
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, RpcProto.RpcRequest rpcRequest) throws Exception {
-        LOG.info("RpcCall, callId:{}, callType:{}", rpcRequest.getId(), rpcRequest.getCallType());
+        LOG.debug("RpcCall, callId:{}, callType:{}", rpcRequest.getId(), rpcRequest.getCallType());
         RpcProto.RpcResponse rpcResponse;
         try {
             int callType = rpcRequest.getCallType();
